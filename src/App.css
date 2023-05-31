@@ -47,6 +47,25 @@
   animation: growSmall 4s infinite;
 }
 
+.viewBtn {
+  background-color: gainsboro;
+  color:white;
+  width:145px;
+  height:25px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 0;
+  transition: transform .4s;
+  
+}
+
+.viewBtn:hover {
+  transform:scale(1.2);
+}
+
 
 .pushableGetCodeButton {
   width: 50px; /* Set the width to 100 pixels */
@@ -105,11 +124,26 @@
 }
 
 
-.codeBtn {
+.getCodeBtn {
   background-color:#10d254;
   color:white;
-  width:70px;
-  height:21px;
+  width:67px;
+  height:25px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 0;
+  transition: transform .4s;
+}
+
+
+.downloadCodeBtn {
+  background-color:#10d254;
+  color:white;
+  width:150px;
+  height:25px;
   cursor: pointer;
   font-size: 14px;
   border-radius: 20px;
@@ -122,11 +156,14 @@
 .submitBtn {
   background-color:#1e90ff;
   color:white;
-  width:70px;
-  height:21px;
+  /* width:80px;
+  height:30px; */
   cursor: pointer;
+  /* font-size: 20px; */
+  width:60px;
+  height:25px;
   font-size: 14px;
-  border-radius: 20px;
+  border-radius: 50px;
   font-weight: bold;
   border: none;
   padding: 0;
@@ -136,6 +173,9 @@
 .submitBtn:disabled {
   background-color:gainsboro;
   cursor:default;
+  /* width:50px;
+  height:21px;
+  font-size: 12px; */
 }
 
 .submitBtn:disabled:hover {
@@ -143,9 +183,13 @@
 }
 
 
-.codeBtn:hover {
+.getCodeBtn:hover, .downloadCodeBtn:hover{
   transform:scale(1.2);
 }
+
+/* .downloadCodeBtn:hover {
+  transform:scale(1.2);
+} */
 
 .submitBtn:hover {
   transform:scale(1.2);

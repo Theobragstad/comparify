@@ -38,3 +38,12 @@ file upload and reading
 comparing 2 codes:
 check format correct. if not, error message
 otherwise compare
+
+
+
+
+
+
+request sizing
+
+restricted routing

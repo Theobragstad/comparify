@@ -7,8 +7,8 @@ import Home from './Home';
 import Dashboard from './Dashboard';
 import Text from './Text';
 import Getcode from './Getcode';
-
-
+import Footer from './Footer';
+import Data from './Data';
 
 
 
@@ -21,6 +21,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/text" element={<Text/>} />
         <Route path="/getcode" element={<Getcode/>} />
+        <Route path="/footer" element={<Footer/>} />
+        <Route path="/data" element={<Data/>} />
       </Routes>
     </div>
   );

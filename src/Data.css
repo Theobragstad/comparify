@@ -1,0 +1,154 @@
+.nav {
+    border-radius: 25px;
+    background-color: #f3f3f3;
+    font-weight: bold;
+    width: 70%;
+    max-width: 1000px; /* Set a maximum width if needed */
+    height: 20px;
+    margin: 0 auto; /* Center the div horizontally */
+  }
+
+
+  .navBtnContainer {
+    position: relative;
+    width: 70%;
+    max-width: 1000px; /* Set a maximum width if needed */
+    height: 30px;
+    margin: 0 auto; /* Center the div horizontally */
+    /* width: 300px; /* Adjust width as needed */
+    /* height: 200px; Adjust height as needed  */
+    background-color: #f3f3f3;
+    
+    border-radius: 25px;
+  }
+  
+  .navBtnOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navBtn {
+    /* background-color: #fff; */
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding:4px 5px;
+    margin: 5px;
+    cursor: pointer;
+    height:20px;
+    vertical-align: middle;
+    transition: background-color 0.6s ease;
+    z-index: 2;
+  }
+ 
+
+  
+  
+  
+  
+  
+  
+  .selected {
+    background-color: #fff !important; /* Background color for the selected button */
+  }
+  
+  /* .slide-1 {
+    transform: translateX(0%);
+  }
+  
+  .slide-2 {
+    transform: translateX(100%);
+  }
+  
+  .slide-3 {
+    transform: translateX(200%);
+  }
+   */
+
+
+   .songCard {
+    height: 200px; /* Set the desired height */
+    overflow: auto; /* Enable scrolling when content exceeds the height */
+    background-color: #f3f3f3;
+    width:25%;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+  .songContainer {
+    display: flex;
+    /* justify-content: flex-start; */
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top:30px;
+    /* margin-right:20px;
+    margin-bottom:5px; */
+
+    flex-direction: column;
+  }
+
+
+  
+  
+  .songTitle {
+   
+    background-color: #1c8af4;
+    color:white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+
+
+
+    margin-bottom: -58px;
+    margin-left:5px;
+    z-index: 1;
+  }
+  
+
+  .songContent {
+    margin-top: 40px; /* Adjust the margin-top value as needed */
+    text-align: left;
+    margin-left:10px;
+    /* margin-right:-30px; */
+    /* margin-bottom:5px; */
+    padding: 10px; 
+    font-weight:500;
+
+    display: flex;
+  flex-direction: column;
+  }
+
+  .songItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .songImage {
+    width: 30px;
+    border-radius: 5px;
+  }
+  
+  .songText {
+    margin-left: 10px;
+  }
+  
+  .songName {
+    font-weight: bold;
+  }
+  
+  .songArtists {
+    color: gray;
+  }
+  

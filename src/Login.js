@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from './Footer';
 
 import {useEffect, useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
@@ -129,7 +130,7 @@ function Login() {
                 <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}`}>
                 <div style={{"paddingTop":300}}>
 
-                <button className="codeBtn">
+                <button className="getCodeBtn">
                     get code
                 </button>
                 </div>
@@ -143,11 +144,12 @@ function Login() {
                 </button>
             </Link> */}
   
-            <h4 className="">or</h4>
+            <h4 className="" style={{color:'#aaaaaa'}}>or</h4>
+            <h2>compare</h2>
             <div>
       <input type="file" onChange={handleUpload}/>
       <input type="file" onChange={handleUpload} />
-      <button className="submitBtn" disabled={files.length !== 2}>compare</button>
+      <button className="submitBtn" disabled={files.length !== 2}>submit</button>
     </div>
             {/* <div>
                 <input type="file" onChange={handleChange} />
@@ -224,7 +226,9 @@ function Login() {
                 <button type={"submit"}>Search</button>
             </form>
             {renderArtists()} */}
+            <Footer />
         </div>
+        
     )
 }
 
