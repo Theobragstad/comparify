@@ -3,20 +3,19 @@
     background-color: #f3f3f3;
     font-weight: bold;
     width: 70%;
-    max-width: 1000px; /* Set a maximum width if needed */
+    max-width: 1000px; 
     height: 20px;
-    margin: 0 auto; /* Center the div horizontally */
+    margin: 0 auto; 
   }
 
 
   .navBtnContainer {
     position: relative;
     width: 70%;
-    max-width: 1000px; /* Set a maximum width if needed */
+    max-width: 1000px; 
     height: 30px;
-    margin: 0 auto; /* Center the div horizontally */
-    /* width: 300px; /* Adjust width as needed */
-    /* height: 200px; Adjust height as needed  */
+    margin: 0 auto; 
+   
     background-color: #f3f3f3;
     
     border-radius: 25px;
@@ -55,26 +54,14 @@
   
   
   .selected {
-    background-color: #fff !important; /* Background color for the selected button */
+    background-color: #fff !important; 
   }
-  
-  /* .slide-1 {
-    transform: translateX(0%);
-  }
-  
-  .slide-2 {
-    transform: translateX(100%);
-  }
-  
-  .slide-3 {
-    transform: translateX(200%);
-  }
-   */
+
 
 
    .songCard {
-    height: 200px; /* Set the desired height */
-    overflow: auto; /* Enable scrolling when content exceeds the height */
+    height: 200px; 
+    overflow: auto; 
     background-color: #f3f3f3;
     width:25%;
     border-radius: 25px;
@@ -84,24 +71,49 @@
   }
 
 
+  .songCard1 {
+    height: 90px; 
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:auto;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+  .songCard2 {
+    height: 200px; 
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:auto;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+
+  
+
   .songContainer {
     display: flex;
-    /* justify-content: flex-start; */
     align-items: flex-start;
     margin-left: 20px;
     margin-top:30px;
-    /* margin-right:20px;
-    margin-bottom:5px; */
+  
 
     flex-direction: column;
   }
 
+  
 
   
   
   .songTitle {
    
-    background-color: #1c8af4;
+    background-color: #a9a9a9;
     color:white;
     font-weight: bold;
     padding: 10px;
@@ -117,11 +129,9 @@
   
 
   .songContent {
-    margin-top: 40px; /* Adjust the margin-top value as needed */
+    margin-top: 40px; 
     text-align: left;
-    margin-left:10px;
-    /* margin-right:-30px; */
-    /* margin-bottom:5px; */
+   
     padding: 10px; 
     font-weight:500;
 
@@ -138,11 +148,9 @@
   .songImage {
     width: 30px;
     border-radius: 5px;
+    margin-right: 10px;
   }
   
-  .songText {
-    margin-left: 10px;
-  }
   
   .songName {
     font-weight: bold;
@@ -151,4 +159,360 @@
   .songArtists {
     color: gray;
   }
+  
+
+
+
+
+  .statContainer1 {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top:30px;
+   
+    flex-direction: column;
+  }
+
+
+  .statTitle1 {
+   
+    background-color: #a9a9a9;
+    color:white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+
+
+
+    margin-bottom: -58px;
+    margin-left:5px;
+    z-index: 1;
+  }
+
+
+
+  .statCard1 {
+    height: 42px; 
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:18%;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+  .statContent1 {
+    text-align: left;
+    margin-left:195px;
+    margin-top: 11px;
+  
+    font-weight:bold;
+
+    display: flex;
+  flex-direction: column;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .statContainer2 {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top:30px;
+  
+
+    flex-direction: column;
+  }
+
+
+  .statTitle2 {
+   
+    background-color: #a9a9a9;
+    color:white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+
+
+
+    margin-bottom: -58px;
+    margin-left:5px;
+    z-index: 1;
+  }
+
+
+
+  .statCard2 {
+    height: 42px; 
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:18%;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+  .statContent2 {
+    text-align: left;
+    margin-left:160px;
+    margin-top: 4px;
+  
+    font-weight:bold;
+    font-size: 14px;
+    display: flex;
+  flex-direction: column;
+  }
+
+
+
+
+
+
+  .statContainer3 {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top:30px;
+  
+
+    flex-direction: column;
+  }
+
+
+  .statTitle3 {
+   
+    background-color: #a9a9a9;
+    color:white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+
+
+
+    margin-bottom: -58px;
+    margin-left:5px;
+    z-index: 1;
+  }
+
+
+
+  .statCard3 {
+    height: 42px;
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:17%;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+  .statContent3 {
+    text-align: left;
+    margin-left:180px;
+    margin-top: 11px;
+  
+    font-weight:bold;
+    display: flex;
+  flex-direction: column;
+  }
+
+
+
+
+
+
+
+
+
+
+  .statContainer4 {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top:30px;
+  
+
+    flex-direction: column;
+  }
+
+
+  .statTitle4 {
+   
+    background-color: #a9a9a9;
+    color:white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+
+
+
+    margin-bottom: -58px;
+    margin-left:5px;
+    z-index: 1;
+  }
+
+
+
+  .statCard4 {
+    height: 42px; 
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:18%;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+  .statContent4 {
+    text-align: left;
+    margin-left:185px;
+    margin-top: 11px;
+   
+    font-weight:bold;
+    display: flex;
+  flex-direction: column;
+  }
+
+
+
+
+
+
+  .statContainer5 {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-top:30px;
+  
+
+    flex-direction: column;
+  }
+
+
+  .statTitle5 {
+   
+    background-color: #a9a9a9;
+    color:white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 12px;
+
+
+
+    margin-bottom: -58px;
+    margin-left:5px;
+    z-index: 1;
+  }
+
+
+
+  .statCard5 {
+    height: 42px;
+    overflow: auto; 
+    background-color: #f3f3f3;
+    width:22%;
+    border-radius: 25px;
+
+    margin-top: 20px; 
+    position: relative;
+  }
+
+
+  .statContent5 {
+    text-align: left;
+    margin-left:220px;
+    margin-top: 12px;
+   
+    font-weight:bold;
+    font-size: 14px;
+    display: flex;
+  flex-direction: column;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  .stat1 {
+    background-color: #a9a9a9;
+    color:white;
+    border-radius: 25px;
+    display: inline-block;
+    padding: 1px 15px;
+   font-weight: bold;
+   margin-right: 50px; 
+   
+
+  }
+
+  td.stat1{
+    vertical-align: middle;
+    margin-top: 7px;
+  }
+  .stat2 {
+    background-color: #a9a9a9;
+
+    color:white;
+    border-radius: 25px;
+    padding: 1px 10px;
+   font-weight: bold;
+  }
+
+  .dataPt {
+    background-color: #f3f3f3;
+    border-radius: 20px;
+   font-weight: bold;
+   padding:10px;
+  }
+
+  table {
+    border-spacing: 20px; 
+    width: 70%; 
+    font-size: 12px; 
+  }
+
+
+
+  .songText2 {
+    display: flex;
+    align-items: center;
+  }
+
+
+
+
+
+
+
+
+
   

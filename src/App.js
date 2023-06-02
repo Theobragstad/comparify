@@ -2,13 +2,12 @@ import React from 'react';
 import './App.css';
 
 import {Routes, Route} from 'react-router-dom';
-import Login from './Login';
+
 import Home from './Home';
-import Dashboard from './Dashboard';
-import Text from './Text';
-import Getcode from './Getcode';
-import Footer from './Footer';
+import Login from './Login';
+import Code from './Code';
 import Data from './Data';
+import Footer from './Footer';
 
 
 
@@ -16,13 +15,11 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route exact path="/" element={<Home/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/text" element={<Text/>} />
-        <Route path="/getcode" element={<Getcode/>} />
-        <Route path="/footer" element={<Footer/>} />
-        <Route path="/data" element={<Data/>} />
+        <Route exact path="/" element={<Home/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/code" element={<Code/>}/>
+        <Route path="/footer" element={<Footer/>}/>
+        <Route path="/data" element={<Data/>}/>
       </Routes>
     </div>
   );
