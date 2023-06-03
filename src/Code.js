@@ -234,8 +234,12 @@ function Code() {
         const averageSquaredDifferenceSongAges = squaredDifferencesSongAges.reduce((sum, difference) => sum + difference, 0) / songIdsAndReleaseDates.length;
         
         const songAgeStdDev = Math.sqrt(averageSquaredDifferenceSongAges);
+        const songAgeStdDevAsDate = new Date(songAgeStdDev);
+        const songAgeStdDevYr = songAgeStdDevAsDate.getUTCFullYear() - 1970;
+        const songAgeStdDevMo = songAgeStdDevAsDate.getUTCMonth();
 
-        songCode.push('avgSongAgeYrMo[2]', songAgeYr, songAgeMo, 'songAgeStdDev[1]', songAgeStdDev);
+
+        songCode.push('avgSongAgeYrMo[2]', songAgeYr, songAgeMo, 'songAgeStdDev[1]', songAgeStdDevYr, songAgeStdDevMo);
 
 
 
@@ -463,7 +467,7 @@ function Code() {
         link.click();
     };
 
-    const toDataPage= async () => {
+    const toDataPage = async () => {
         let code = await me();
 
         const timeRanges = ['short_term', 'medium_term', 'long_term'];
@@ -472,20 +476,47 @@ function Code() {
             let artists = await meArtists(timeRange);
             code.push(timeRange, songs, artists);
         };
-        navigate('/data', {state: {data: code.join(',')}});
+        navigate('/data', {state: {data: code.join(','), token: token}});
+    };
+
+    const toComparePage = async () => {
+        let code = await me();
+
+        const timeRanges = ['short_term', 'medium_term', 'long_term'];
+        for (const timeRange of timeRanges) {
+            let songs = await meSongs(timeRange);
+            let artists = await meArtists(timeRange);
+            code.push(timeRange, songs, artists);
+        };
+        navigate('/compare', {state: {file1: code.join(','), file2: file2}});
+    };
+
+    const [file2, setFile2] = useState("");
+    
+
+    const addFile2 = event => {
+        const fileReader = new FileReader();
+        const {files} = event.target;
+
+        fileReader.readAsText(files[0], "UTF-8");
+        fileReader.onload = e => {
+            const content = e.target.result;
+            // console.log(content);
+            setFile2(content);
+        };
     };
 
     return (
         <div>
-            <button onClick={downloadCode} className="basicBtn" style={{marginTop:'10%'}}>Download your code</button>
+            <button onClick={downloadCode} className="basicBtn" style={{marginTop:'10%'}}>download your code</button>
             <div> 
-                <a onClick={()=>{toDataPage()}}><button className='basicBtn'>View your data</button></a>
+                <a onClick={()=>{toDataPage()}}><button className='basicBtn'>view your data</button></a>
             </div>
             <div>
                 <h4 style={{color:'#aaaaaa'}}>or</h4>
                 <h2>compare</h2>
-                <input type="file" onChange={handleUpload}/>
-                <button className="submitBtn" disabled={files.length !== 1}>submit</button>
+                <input type="file"accept=".txt"  onChange={addFile2}/>
+                <a onClick={()=>{toComparePage()}}><button className="submitBtn" disabled={!file2}>submit</button></a>
             </div>
             <Footer/>
         </div>

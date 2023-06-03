@@ -7,6 +7,7 @@ import Home from './Home';
 import Login from './Login';
 import Code from './Code';
 import Data from './Data';
+import Compare from './Compare';
 import Footer from './Footer';
 
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/code" element={<Code/>}/>
         <Route path="/footer" element={<Footer/>}/>
         <Route path="/data" element={<Data/>}/>
+        <Route path="/compare" element={<Compare/>}/>
       </Routes>
     </div>
   );
