@@ -6,139 +6,10 @@ import Footer from './Footer';
 import axios from 'axios';
 
 
-
-/*
-userNameAndId[2]:
-
-ST
-songIds[<= 50]:
-mostLeastPopSongIds[<= 2]:
-oldestNewestSongIds[<= 2]:
-highestAudioFeatureSongIds[<= 11]:
-lowestAudioFeatureSongIds[<= 11]:
-
-artistIds[<= 50]:
-mostLeastPopArtistIds[<= 2]:
-
-albumIds[<= 10]:
-mostLeastPopAlbumIds[<= 2]:
-
-genres[<= 20]:
-labels[<= 5]:
-
-audioFeatureMeans[11]:
-audioFeatureStdDevs[11]:
-
-avgSongPop[1]
-avgSongAgeYrMo[1]
-songAgeStdDev[1]
-pctSongsExpl[1]
-
-avgArtistPop[1]
-avgArtistFolls[1]
-
-avgAlbumPop[1]
-
-
-
-MT
-songIds[<= 50]:
-mostLeastPopSongIds[<= 2]:
-oldestNewestSongIds[<= 2]:
-highestAudioFeatureSongIds[<= 11]:
-lowestAudioFeatureSongIds[<= 11]:
-
-artistIds[<= 50]:
-mostLeastPopArtistIds[<= 2]:
-
-albumIds[<= 10]:
-mostLeastPopAlbumIds[<= 2]:
-
-genres[<= 20]:
-labels[<= 5]:
-
-audioFeatureMeans[11]:
-audioFeatureStdDevs[11]:
-
-avgSongPop[1]
-avgSongAge[1]
-songAgeStdDev[1]
-pctSongsExpl[1]
-
-avgArtistPop[1]
-avgArtistFolls[1]
-
-avgAlbumPop[1]
-
-LT
-songIds[<= 50]:
-mostLeastPopSongIds[<= 2]:
-oldestNewestSongIds[<= 2]:
-highestAudioFeatureSongIds[<= 11]:
-lowestAudioFeatureSongIds[<= 11]:
-
-artistIds[<= 50]:
-mostLeastPopArtistIds[<= 2]:
-
-albumIds[<= 10]:
-mostLeastPopAlbumIds[<= 2]:
-
-genres[<= 20]:
-labels[<= 5]:
-
-audioFeatureMeans[11]:
-audioFeatureStdDevs[11]:
-
-avgSongPop[1]
-avgSongAge[1]
-songAgeStdDev[1]
-pctSongsExpl[1]
-
-avgArtistPop[1]
-avgArtistFolls[1]
-
-avgAlbumPop[1]
-*/
-
-
 function Code() {
-    const [audioFeatureMeans, setAudioFeatureMeans] = useState([]);
-    const [audioFeatureStdDevs, setAudioFeatureStdDevs] = useState([]);
-    const [highestAudioFeatureSongIds, setHighestAudioFeatureSongIds] = useState([]);
-    const [lowestAudioFeatureSongIds, setLowestAudioFeatureSongIds] = useState([]);
-    
-  
-    
-
-    
-
-    
-
-    
-
-    
-
-
-    
     const [files, setFiles] = useState([]);
 
     const navigate = useNavigate();
-    
-
-    // let songFeatures = {
-    //     acousticness: [],
-    //     danceability: [],
-    //     duration_ms: [],
-    //     energy: [],
-    //     instrumentalness: [],
-    //     key: [],
-    //     liveness: [],
-    //     loudness: [],
-    //     speechiness: [],
-    //     tempo: [],
-    //     valence: []
-    // };
-
 
     const [token, setToken] = useState('');
     useEffect(() => {
@@ -159,54 +30,6 @@ function Code() {
       setFiles([...files, e.target.files]);
     };
 
-
-    // const arrayStatsCalculator = {
-    //     mean: function(array) {
-    //         return arrayStatsCalculator.sum(array) / array.length;
-    //     },
-       
-    //     standardDeviation: function(array) {
-	// 	    return Math.sqrt(arrayStatsCalculator.variance(array));
-	//     },
-    //     variance: function(array) {
-    //         var mean = arrayStatsCalculator.mean(array);
-    //         return arrayStatsCalculator.mean(array.map(function(num) {
-    //             return Math.pow(num - mean, 2);
-    //         }));
-    //     },
-    //     sum: function(array) {
-    //         var num = 0;
-    //         for (var i = 0, l = array.length; i < l; i++) num += array[i];
-    //         return num;
-    //     }
-    // };
-
-    // const msToMinSec = (ms) => {
-    //     const durationMinutes = Math.floor(ms / 60000);
-    //     const durationSeconds = ((ms % 60000) / 1000).toFixed(0);
-    //     return`${durationMinutes}:${durationSeconds.padStart(2, '0')}`;
-    // };
-
-    // const calculateArrayStats = (start, end) => {
-    //     let stats = [];
-    //     for(let array in songFeatures) {
-    //         const arrayData = songFeatures[array].slice(start, end + 1); 
-    //         if(array == 'duration_ms') {
-    //             stats.push([msToMinSec(arrayStatsCalculator.mean(arrayData)), msToMinSec(arrayStatsCalculator.standardDeviation(arrayData))]);
-    //         }
-    //         else {
-    //         stats.push([arrayStatsCalculator.mean(arrayData), arrayStatsCalculator.standardDeviation(arrayData)]);
-    //         }
-    //     }
-    //     return stats;
-    // };
-
-    // const msToYears = (ms) => {
-    //     const msInYear = 365.25 * 24 * 60 * 60 * 1000; 
-    //     const years = ms / msInYear;
-    //     const roundedYears = Math.round(years * 100) / 100;
-    //     return roundedYears;
-    // };
 
     function simplifyNumber(number) {
         const abbreviations = {
@@ -247,10 +70,80 @@ function Code() {
         return ['userNameAndId[2]', data.display_name, data.id];
     };
 
-    const getSongAudioFeatureData = async (timeRange) => {
+    const getSongAudioFeatureData = async (songIds) => {
+        const {data} = await axios.get("https://api.spotify.com/v1/audio-features", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: {
+                ids: songIds.join(",")
+            }
+        });
 
-        return ['audioFeatureMeans[11]', 'audioFeatureStdDevs[11]', 'highestAudioFeatureSongIds[<= 11]', 'lowestAudioFeatureSongIds[<= 11]'];
+        const audioFeatures = data.audio_features.map(item => ({
+            id: item.id,
+            acousticness: item.acousticness,
+            danceability: item.danceability, 
+            duration_ms: item.duration_ms,
+            energy: item.energy,
+            instrumentalness: item.instrumentalness,
+            liveness: item.liveness,
+            loudness: item.loudness,
+            speechiness: item.speechiness,
+            tempo: item.tempo,
+            valence: item.valence
+        }));
 
+        const fields = Object.keys(audioFeatures[0]).filter(field => field !== 'id');
+
+        const means = {};
+        const stdDevs = {};
+
+        fields.forEach(field => {
+            const values = audioFeatures.map(item => item[field]);
+            const mean = values.reduce((acc, val) => acc + val, 0) / values.length;
+            const roundedMean = field !== 'duration_ms' ? Number(mean.toFixed(2)) : mean;
+            const stdDev = Math.sqrt(values.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / values.length);
+            const roundedStdDev = field !== 'duration_ms' ? Number(stdDev.toFixed(2)) : stdDev;
+            means[field] = roundedMean;
+            stdDevs[field] = roundedStdDev;
+        });
+
+        if ('duration_ms' in means) {
+            const durationMean = means['duration_ms'];
+            const minutes = Math.floor(durationMean / 60000); 
+            const seconds = Math.floor((durationMean % 60000) / 1000);
+            means['duration_ms'] = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        if ('duration_ms' in stdDevs) {
+            const durationStdDev = stdDevs['duration_ms'];
+            const minutes = Math.floor(durationStdDev / 60000); 
+            const seconds = Math.floor((durationStdDev % 60000) / 1000);
+            stdDevs['duration_ms'] = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        const maxAudioFeatureSongIds = {};
+        const minAudioFeatureSongIds = {};
+
+        audioFeatures.forEach(item => {
+        Object.keys(item).forEach(field => {
+            if (field === 'id') return;
+
+            if (!maxAudioFeatureSongIds[field] || item[field] > audioFeatures.find(song => song.id === maxAudioFeatureSongIds[field])[field] || (item[field] === audioFeatures.find(song => song.id === maxAudioFeatureSongIds[field])[field] && item.id < maxAudioFeatureSongIds[field])) {
+            maxAudioFeatureSongIds[field] = item.id;
+            }
+
+            if (!minAudioFeatureSongIds[field] || item[field] < audioFeatures.find(song => song.id === minAudioFeatureSongIds[field])[field] || (item[field] === audioFeatures.find(song => song.id === minAudioFeatureSongIds[field])[field] && item.id < minAudioFeatureSongIds[field])) {
+            minAudioFeatureSongIds[field] = item.id;
+            }
+        });
+        });
+
+        const highestAudioFeatureSongIdsValues = Object.values(maxAudioFeatureSongIds);
+        const lowestAudioFeatureSongIdsValues = Object.values(minAudioFeatureSongIds);
+
+        return ['audioFeatureMeans[11]', Object.values(means), 'audioFeatureStdDevs[11]', Object.values(stdDevs), 'highestAudioFeatureSongIds[<=11]', highestAudioFeatureSongIdsValues, 'lowestAudioFeatureSongIds[<=11]', lowestAudioFeatureSongIdsValues];
     };
 
     const meSongs = async (timeRange) => {
@@ -265,7 +158,8 @@ function Code() {
             }
         });
 
-        songCode.push('songIds[<= 50]', data.items.map(item => item.id));
+        const songIds = data.items.map(item => item.id);
+        songCode.push('songIds[<=50]', songIds);
 
         const songIdsAndPops = data.items.map(item => ({
             id: item.id,
@@ -286,9 +180,7 @@ function Code() {
             return currentPopularSongId;
         }, null);
 
-        songCode.push('mostLeastPopSongIds[<= 2]', mostPopSongId, leastPopSongId);
-
-
+        songCode.push('mostLeastPopSongIds[<=2]', mostPopSongId, leastPopSongId);
 
 
         const songIdsAndReleaseDates = data.items.map(item => ({
@@ -306,8 +198,7 @@ function Code() {
         const oldestSongId = sortedSongIdsAndReleaseDates[0].id;
         const newestSongId = sortedSongIdsAndReleaseDates[sortedSongIdsAndReleaseDates.length - 1].id;
           
-        songCode.push('oldestNewestSongIds[<= 2]', oldestSongId, newestSongId);
-
+        songCode.push('oldestNewestSongIds[<=2]', oldestSongId, newestSongId);
 
 
         const songPops = songIdsAndPops.map(item => item.pop);
@@ -354,18 +245,9 @@ function Code() {
         songCode.push('pctSongsExpl[1]', pctSongsExpl);
         
 
-        // songCode.push(getSongAudioFeatureData(timeRange));
-
-
-       
+        songCode.push((await getSongAudioFeatureData(songIds)).concat());
 
         songCode.push(await albums(data.items.map(item => item.album.id)));
-
-       
-      
-
-        
-
 
         return songCode;
     };
@@ -383,7 +265,7 @@ function Code() {
         });
 
         const artistIds = data.items.map(item => item.id);
-        artistCode.push('artistIds[<= 50]', artistIds);
+        artistCode.push('artistIds[<=50]', artistIds);
 
 
         const artistIdsAndPops = data.items.map(item => ({
@@ -405,7 +287,7 @@ function Code() {
             return currentPopularArtistId;
         }, null);
 
-        artistCode.push('mostLeastPopArtistIds[<= 2]', mostPopArtistId, leastPopArtistId);
+        artistCode.push('mostLeastPopArtistIds[<=2]', mostPopArtistId, leastPopArtistId);
 
         
         const artistPops = artistIdsAndPops.map(item => item.pop);
@@ -420,9 +302,6 @@ function Code() {
         artistCode.push((await artists(artistIds)).concat());
 
 
-
-
-
         const genresAssocWithArtists = data.items.map(item => item.genres);
         const genresAssocWithArtistsFlat = genresAssocWithArtists.flat();
         const genreCounts = {};
@@ -433,7 +312,7 @@ function Code() {
             return genreCounts[b] - genreCounts[a];
         });
         const topGenres = sortedGenres.slice(0, 20);
-        artistCode.push('topGenresByArtist[<= 20]', topGenres);
+        artistCode.push('topGenresByArtist[<=20]', topGenres);
 
 
 
@@ -512,7 +391,7 @@ function Code() {
             }
         });
 
-        albumCode.push('albumIds[<= 10]', sortedAlbumIds.slice(0, 10));
+        albumCode.push('albumIds[<=10]', sortedAlbumIds.slice(0, 10));
 
 
 
@@ -526,7 +405,7 @@ function Code() {
           
         
 
-        albumCode.push('mostLeastPopAlbumIds[<= 2]', mostPopAlbumId, leastPopAlbumId);
+        albumCode.push('mostLeastPopAlbumIds[<=2]', mostPopAlbumId, leastPopAlbumId);
 
 
         const uniqueAlbumIds = [...new Set(albumIdsAndPopsLabels.map(album => album.id))];
@@ -557,33 +436,17 @@ function Code() {
         const sortedLabels = Object.keys(labelCounts).sort((a, b) => {
             return labelCounts[b] - labelCounts[a];
         });
-        albumCode.push('topLabelsByAlbums[<= 5]', sortedLabels.slice(0, 5));
+        albumCode.push('topLabelsByAlbums[<=5]', sortedLabels.slice(0, 5));
 
 
         return albumCode;
     };
 
-//cases when there is no data
-
-
-
-  
-
-    
-
-
-    
-
-
-
-  
-    
 
     const generateCode = async () => {
         let code = await me();
 
         const timeRanges = ['short_term', 'medium_term', 'long_term'];
-        // const timeRanges = ['short_term'];
         for (const timeRange of timeRanges) {
             let songs = await meSongs(timeRange);
             let artists = await meArtists(timeRange);
@@ -601,8 +464,14 @@ function Code() {
     };
 
     const toDataPage= async () => {
+        let code = await me();
+
         const timeRanges = ['short_term', 'medium_term', 'long_term'];
-        let code = await generateCode();
+        for (const timeRange of timeRanges) {
+            let songs = await meSongs(timeRange);
+            let artists = await meArtists(timeRange);
+            code.push(timeRange, songs, artists);
+        };
         navigate('/data', {state: {data: code.join(',')}});
     };
 
