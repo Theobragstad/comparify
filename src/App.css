@@ -38,9 +38,9 @@
   
 }
 
-.getCodeButton {
+/* .getCodeButton {
   animation: growSmall 4s infinite;
-}
+} */
 
 .viewBtn {
   background-color: #1e90ff;
@@ -65,7 +65,7 @@
 .getCodeBtn {
   background-color:#1e90ff;
   color:white;
-  margin-top: 10%;
+  margin-top: 20%;
   cursor: pointer;
   font-size: 20px;
   border-radius: 30px;
@@ -162,3 +162,21 @@
 .basicBtn:hover {
   transform:scale(1.2);
 }
+
+
+
+
+/* .loader-container {
+  width: 50%;
+  height: 50vh;
+  position: fixed;
+  background: white url('/src/img/loading.gif') center no-repeat;
+  background-size: 100px;
+  z-index: 1;
+  opacity: 0.5;
+} */
+
+
+
+/*  */
+

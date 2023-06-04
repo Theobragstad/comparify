@@ -4,9 +4,12 @@ import {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Footer from './Footer';
 import axios from 'axios';
+import './Data.css';
 
 
 function Code() {
+    const [loading, setLoading] = useState(false);
+
     const [files, setFiles] = useState([]);
 
     const navigate = useNavigate();
@@ -239,7 +242,7 @@ function Code() {
         const songAgeStdDevMo = songAgeStdDevAsDate.getUTCMonth();
 
 
-        songCode.push('avgSongAgeYrMo[2]', songAgeYr, songAgeMo, 'songAgeStdDev[1]', songAgeStdDevYr, songAgeStdDevMo);
+        songCode.push('avgSongAgeYrMo[2]', songAgeYr, songAgeMo, 'songAgeStdDevYrMo[2]', songAgeStdDevYr, songAgeStdDevMo);
 
 
 
@@ -448,6 +451,8 @@ function Code() {
 
 
     const generateCode = async () => {
+        setLoading(true);
+
         let code = await me();
 
         const timeRanges = ['short_term', 'medium_term', 'long_term'];
@@ -457,10 +462,13 @@ function Code() {
             code.push(timeRange, songs, artists);
         };
         return code;
+
     };
 
     const downloadCode = async () => {
         const blob = new Blob([await generateCode()], {type: 'text/plain'});
+        setLoading(false);
+
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = 'code.txt';
@@ -468,6 +476,8 @@ function Code() {
     };
 
     const toDataPage = async () => {
+        setLoading(true);
+
         let code = await me();
 
         const timeRanges = ['short_term', 'medium_term', 'long_term'];
@@ -476,10 +486,14 @@ function Code() {
             let artists = await meArtists(timeRange);
             code.push(timeRange, songs, artists);
         };
+        setLoading(false);
+
         navigate('/data', {state: {data: code.join(','), token: token}});
     };
 
     const toComparePage = async () => {
+        setLoading(true);
+
         let code = await me();
 
         const timeRanges = ['short_term', 'medium_term', 'long_term'];
@@ -488,7 +502,9 @@ function Code() {
             let artists = await meArtists(timeRange);
             code.push(timeRange, songs, artists);
         };
-        navigate('/compare', {state: {file1: code.join(','), file2: file2}});
+        setLoading(false);
+
+        navigate('/compare', {state: {file1: code.join(','), file2: file2, token: token}});
     };
 
     const [file2, setFile2] = useState("");
@@ -508,6 +524,12 @@ function Code() {
 
     return (
         <div>
+            {loading ? (
+        <div className="loader-container">
+            <img src={loading} style={{width:'100px', opacity:'0.5', zIndex:'2'}}></img>
+        </div>
+      ) : (
+        <>
             <button onClick={downloadCode} className="basicBtn" style={{marginTop:'10%'}}>download your code</button>
             <div> 
                 <a onClick={()=>{toDataPage()}}><button className='basicBtn'>view your data</button></a>
@@ -515,9 +537,11 @@ function Code() {
             <div>
                 <h4 style={{color:'#aaaaaa'}}>or</h4>
                 <h2>compare</h2>
-                <input type="file"accept=".txt"  onChange={addFile2}/>
+                <input type="file" accept=".txt" onChange={addFile2}/>
                 <a onClick={()=>{toComparePage()}}><button className="submitBtn" disabled={!file2}>submit</button></a>
             </div>
+            </>
+      )}
             <Footer/>
         </div>
     )

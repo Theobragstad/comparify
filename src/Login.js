@@ -35,7 +35,7 @@ function Login() {
 
     const navigate = useNavigate();
     const toComparePage = async () => {
-        navigate('/compare', {state: {file1: file1, file2: file2}});
+        navigate('/compare', {state: {file1: file1, file2: file2, token: ''}});
     };
 
     const [file1, setFile1] = useState("");
@@ -77,14 +77,14 @@ function Login() {
             <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}`}>
                 <button className="getCodeBtn">get your code</button>
             </a>
-            <h4 style={{color:'#aaaaaa'}}>or</h4>
-            <h2>compare</h2>
-            <div>
+            {/* <h4 style={{color:'#aaaaaa'}}>or</h4>
+            <h2>compare</h2> */}
+            {/* <div>
                 <input type="file" accept=".txt" onChange={addFile1}/>
                 <input type="file" accept=".txt" onChange={addFile2}/>
                 <a onClick={()=>{toComparePage()}}><button className="submitBtn" disabled={!file1  || !file2}>submit</button></a>
 
-            </div>
+            </div> */}
             
             <Footer/>
         </div>

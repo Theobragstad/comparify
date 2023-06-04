@@ -19,6 +19,8 @@
     background-color: #f3f3f3;
     
     border-radius: 25px;
+
+    display: flex;
   }
   
   .navBtnOverlay {
@@ -30,6 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
   }
   
   .navBtn {
@@ -47,6 +50,39 @@
   }
  
 
+  .navBtnContainer {
+    position: relative;
+    width: 70%;
+    max-width: 1000px;
+    height: 30px;
+    margin: 0 auto;
+    background-color: #f3f3f3;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .leftNavBtnContainer {
+    margin-right: auto;
+    z-index: 3;
+  }
+  
+  .leftNavBtn {
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 5px;
+    margin: 5px;
+    height: 20px;
+    vertical-align: middle;
+    transition: background-color 0.6s ease;
+    z-index: 3;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 20px;
+    color:white;
+  }
   
   
   
@@ -516,3 +552,26 @@
 
 
   
+
+
+
+
+  .saveImg {
+    border-radius: 25px;
+    color:white;
+    background-color: #f3f3f3;
+    font-weight:bold ;
+    border:none;
+    cursor: pointer;
+  }
+
+
+  .timeRange {
+    border-radius: 25px;
+    color:#a9a9a9;
+    background-color: #f3f3f3;
+    font-weight:bold ;
+    border:none;
+    cursor: pointer;
+    padding: 4px 8px;
+  }

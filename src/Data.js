@@ -29,7 +29,7 @@ function Data() {
 
   const labels = ['songIds[<=50]', 'mostLeastPopSongIds[<=2]', 'oldestNewestSongIds[<=2]',
                   'avgSongPop[1]', 'songPopStdDev[1]', 'avgSongAgeYrMo[2]',
-                  'songAgeStdDev[1]', 'pctSongsExpl[1]', 'audioFeatureMeans[11]',
+                  'songAgeStdDevYrMo[2]', 'pctSongsExpl[1]', 'audioFeatureMeans[11]',
                   'audioFeatureStdDevs[11]', 'highestAudioFeatureSongIds[<=11]',
                   'lowestAudioFeatureSongIds[<=11]', 'albumIds[<=10]', 'mostLeastPopAlbumIds[<=2]',
                   'avgAlbumPop[1]', 'albumPopsStdDev[1]', 'topLabelsByAlbums[<=5]',
@@ -43,7 +43,7 @@ function Data() {
     avgSongPop: [],
     songPopStdDev: [],
     avgSongAgeYrMo: [],
-    songAgeStdDev: [],
+    songAgeStdDevYrMo: [],
     pctSongsExpl: [],
     audioFeatureMeans: [],
     audioFeatureStdDevs: [],
@@ -346,7 +346,7 @@ function Data() {
             <div className="songContent">
               {topSongs.map((song, index) => (
                 <div key={index} className="songItem">
-                  <img src={song.img} className="songImage" />
+                  <img src={song.img} className="songImage"/>
                   <div className="songText">
                     <span className="songName">{song.name}</span>
                     <span className="songArtists">&emsp;{song.artists.join(', ')}</span>
