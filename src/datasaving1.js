@@ -328,7 +328,7 @@ function Data() {
 
   return (
     <div>
-      <img className='dataPageLogo' src={logo}></img>
+      <img src={logo} style={{width:80,paddingTop:'20px'}}></img>
       <h4>comparify Data for {userNameAndId[0]}</h4>
       <div className="navBtnContainer">
         <div className="navBtnOverlay">
@@ -339,40 +339,99 @@ function Data() {
       </div>
 
 
+      <div className="primaryRow">
+
+        <div className="primaryContainer">
+          <div className="primaryTitle">top songs</div>
+            <div className="primaryCard">
+              <div className="primaryContent">
+                {topSongs.map((song, index) => (
+                  <div key={index} className="primaryItem">
+                    <img src={song.img} className="primaryImage"/>
+                    <div className="primaryText">
+                      <span className="primaryName">{song.name}</span>
+                      <span className="primaryArtists">&emsp;{song.artists.join(', ')}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="primaryContainer">
+          <div className="primaryTitle">top artists</div>
+            <div className="primaryCard">
+              <div className="primaryContent">
+                {topArtists.map((artist, index) => (
+                  <div key={index} className="primaryItem">
+                    <img src={artist.img} className="primaryImage" />
+                    <div className="primaryText">
+                      <span className="primaryName">{artist.name}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="primaryContainer">
+          <div className="primaryTitle">top albums</div>
+            <div className="primaryCard">
+              <div className="primaryContent">
+                {topAlbums.map((album, index) => (
+                  <div key={index} className="primaryItem">
+                    <img src={album.img} className="primaryImage" />
+                    <div className="primaryText">
+                      <span className="primaryName">{album.name}</span>
+                      <span className="primaryArtists">&emsp;{album.artists.join(', ')}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="primaryContainer">
+          <div className="primaryTitle">top genres</div>
+          <div className="primaryCard2">
+            <div className="primaryContent">
+              {arrays.topGenresByArtist.map((genre, index) => (
+                <div key={index} className="primaryItem">
+                  <div className="primaryText">
+                    <span className="primaryName">{genre}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="primaryContainer">
+          <div className="primaryTitle">top labels</div>
+          <div className="primaryCard2">
+            <div className="primaryContent">
+              {arrays.topLabelsByAlbums.map((label, index) => (
+                <div key={index} className="primaryItem">
+                  <div className="primaryText">
+                    <span className="primaryName">{label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
 
-      <div class="card-row">
-  <div class="card">
-    <h3>Card 1</h3>
-    <p>This is the content for Card 1.</p>
-  </div>
-  <div class="card">
-    <h3>Card 2</h3>
-    <p>This is a longer content for Card 2.</p>
-  </div>
-  <div class="card">
-    <h3>Card 3</h3>
-    <p>This is the content for Card 3.</p>
-  </div>
-  <div class="card">
-    <h3>Card 4</h3>
-    <p>This is the content for Card 4.</p>
-  </div>
-  <div class="card">
-    <h3>Card 5</h3>
-    <p>This is the content for Card 5.</p>
-  </div>
-</div>
-
-     
-       
-
-
-       
+        {/* <div className="singleStatButtons">
+          <button className="button">Button 1</button>
+          <button className="button">Button 2</button>
+          <button className="button">Button 3</button>
+        </div> */}
       </div>
 
       
 
+    </div>
   )
 }
 
