@@ -575,3 +575,80 @@
     cursor: pointer;
     padding: 4px 8px;
   }
+
+
+
+
+
+
+  .loadingDots {
+    
+   margin-top: 2vh;
+   text-align: center;
+
+ display: flex;
+ justify-content: center;
+ align-items: center;
+
+  }
+  
+  .loadingDots--dot {
+    animation: dot-keyframes 1.5s infinite ease-in-out;
+    background-color: #1e90ff;
+    border-radius: 10px;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+  }
+  
+  .loadingDots--dot:nth-child(2) {
+    animation-delay: .5s;
+    background-color: #18d860;
+    margin-left:3px;
+  }
+  
+  .loadingDots--dot:nth-child(3) {
+    animation-delay: 1s;
+    background-color: #FFDF00;
+    margin-left:3px;
+  }
+  
+  @keyframes dot-keyframes {
+    0% {
+      opacity: .4;
+      transform: scale(1, 1);
+    }
+  
+    50% {
+      opacity: 1;
+      transform: scale(1.2, 1.2);
+    }
+  
+    100% {
+      opacity: .4;
+      transform: scale(1, 1);
+    }
+  }
+  
+
+
+
+
+  
+
+
+  .gradient {
+
+    /* -webkit-background-clip: text; */
+    /* background-clip: text; */
+
+    /* -webkit-text-fill-color: transparent; */
+        background: linear-gradient(to right, #1e90ff 0%, #1e90ff 40%, #18d860 40%, #18d860 60%, #FFDF00 60%, #FFDF00 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+
+        width:9vw;
+        min-width:9vw;
+        margin: 0 auto 3vh;
+  }    

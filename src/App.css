@@ -44,8 +44,6 @@
 
 .viewBtn {
   background-color: #1e90ff;
-  margin-top: 1%;
-  margin-bottom: 5%;
   color:white;
   width:145px;
   height:25px;
@@ -76,7 +74,7 @@
   transition: transform .4s;
 }
 
-.downloadCodeBtn {
+/* .downloadCodeBtn {
   background-color:#a2a2a2;
   margin-top: 10%;
   color:white;
@@ -89,7 +87,7 @@
   border: none;
   padding: 0;
   transition: transform .4s;
-}
+} */
 
 .submitBtn {
   background-color:#1e90ff;
@@ -103,6 +101,7 @@
   border: none;
   padding: 0;
   transition: transform .4s;
+  
 }
 
 .submitBtn:disabled {
@@ -114,7 +113,11 @@
   transform:scale(1);
 }
 
-.getCodeBtn:hover, .downloadCodeBtn:hover{
+/* .getCodeBtn:hover, .downloadCodeBtn:hover{
+  transform:scale(1.2);
+} */
+
+.getCodeBtn:hover {
   transform:scale(1.2);
 }
 
@@ -128,12 +131,16 @@
   width: 150px;
   font-weight: bold;
   font-size: 12px;
-  position: fixed;
-  bottom: 20px;
+
   left: 0;
   right: 0;
   margin: 0 auto;
+  z-index:3;
+  margin-top: 70px;
+  margin-bottom: 5px;
 }
+
+
 
 
 
@@ -155,7 +162,6 @@
   border: none;
   padding: 0;
   transition: transform .4s;
-  margin-bottom: 4%;
 }
 
 
@@ -166,17 +172,108 @@
 
 
 
-/* .loader-container {
-  width: 50%;
-  height: 50vh;
-  position: fixed;
-  background: white url('/src/img/loading.gif') center no-repeat;
-  background-size: 100px;
-  z-index: 1;
-  opacity: 0.5;
-} */
 
 
 
-/*  */
+.downloadCodeBtn {
+  background-color:#1e90ff;
+  color:white;
+  width:150px;
+  height:25px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 0;
+  transition: transform .4s;
+  /* margin-bottom: 10%; */
+  margin-top:10%;
 
+
+}
+
+
+.downloadBtn:hover {
+  transform:scale(1.2);
+}
+
+
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.codeDiv {
+  margin-bottom:10vh;
+}
+
+
+
+
+
+
+.gradientWrapper {
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  width:150px;
+}
+
+
+
+.btnGradient {
+  background: linear-gradient(to right, #1e90ff 0%, #1e90ff 33%, #18d860 33%, #18d860 66%, #FFDF00 66%, #FFDF00 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  width:150px;
+  height:25px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 0;
+  transition: transform .4s;
+ 
+}
+
+
+.btnGradient:hover {
+  transform:scale(1.2);
+}
+
+
+
+
+.cardOverlay {
+  background-color: #fbfbfb;
+  border-radius: 10px;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  padding: 20px;
+  margin-top: 50px; /* Adjust the value as needed */
+  /* z-index: -1; */
+  min-height: 50vh;
+}
+
+
+
+.submitBtnWhite {
+  background-color:transparent;
+  /* color:white; */
+  /* cursor: pointer; */
+  width:60px;
+  height:25px;
+  font-size: 14px;
+  border-radius: 50px;
+  font-weight: bold;
+  border: none;
+  padding: 0;
+  transition: transform .4s;
+  
+}

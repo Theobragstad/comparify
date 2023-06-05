@@ -766,7 +766,7 @@ useEffect(() => {
     <span
       style={{
         background:
-          'linear-gradient(to right, #1e90ff 0%, #1e90ff 33%, #18d860 33%, #18d860 66%, #FFDF00 66%, #FFDF00 100%)',
+          'linear-gradient(to right, #1e90ff 0%, #1e90ff 40%, #18d860 40%, #18d860 60%, #FFDF00 60%, #FFDF00 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
       }}
@@ -805,7 +805,9 @@ useEffect(() => {
 
           <div className="navBtnContainer">
           <div className="leftNavBtnContainer">
+            <Link to='/code' title="Back">
     <button className="leftNavBtn"><img src={back} style={{width:'13px'}}></img></button>
+    </Link>
   </div>
             <div className="navBtnOverlay">
               <button className={`navBtn ${selectedButton === 1 ? 'selected' : ''}`} onClick={() => selectButton(1)}>last month</button>
