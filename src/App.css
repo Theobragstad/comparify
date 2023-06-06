@@ -104,9 +104,10 @@
   
 }
 
-.submitBtn:disabled {
+.submitBtn:disabled, .basicBtn:disabled {
   background-color:gainsboro;
   cursor:default;
+  transition: none;
 }
 
 .submitBtn:disabled:hover {
@@ -137,7 +138,7 @@
   margin: 0 auto;
   z-index:3;
   margin-top: 70px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 
 

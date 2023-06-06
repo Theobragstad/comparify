@@ -317,12 +317,16 @@ function Code() {
             return currentPopularArtistId;
         }, null);
 
-        const leastPopArtistId = artistIdsAndPops.reduce((currentPopularArtistId, currentArtist) => {
-            if (!currentPopularArtistId || currentArtist.pop < artistIdsAndPops.find(album => album.id === currentPopularArtistId).pop) {
-                return currentArtist.id;
-            }
-            return currentPopularArtistId;
-        }, null);
+        // const leastPopArtistId = artistIdsAndPops.reduce((currentPopularArtistId, currentArtist) => {
+        //     if (!currentPopularArtistId || currentArtist.pop < artistIdsAndPops.find(album => album.id === currentPopularArtistId).pop) {
+        //         return currentArtist.id;
+        //     }
+        //     return currentPopularArtistId;
+        // }, null);
+
+        const {id: leastPopArtistId} = artistIdsAndPops.reduce((acc, curr) => {
+            return curr.pop < acc.pop ? curr : acc;
+        });
 
         artistCode.push('mostLeastPopArtistIds[<=2]', mostPopArtistId, leastPopArtistId);
 
@@ -637,7 +641,7 @@ function Code() {
         <div className='cardOverlay'>
            
             <div className='codeDiv'>
-                <button onClick={downloadCode} className="basicBtn" title="Download your code" style={{marginTop:'10vh'}}>download your code</button>
+                <button onClick={downloadCode} className="basicBtn" title="Download your code" style={{marginTop:'10vh'}} disabled={loadingDownload}>download your code</button>
                 {loadingDownload &&
                     <div className="loadingDots">
                         <div className="loadingDots--dot"></div>
@@ -652,7 +656,7 @@ function Code() {
 
             <div className='codeDiv '>
                 {/* <div className='gradientWrapper'> */}
-            <a onClick={()=>{toDataPage()}}><button className='basicBtn' title="View your data">view your data</button></a>
+            <a onClick={()=>{toDataPage()}}><button className='basicBtn' title="View your data" disabled={loadingView} >view your data</button></a>
             {/* </div> */}
                 {loadingView &&
                     <div className="loadingDots">
@@ -674,13 +678,19 @@ function Code() {
                
                 <input id="uploadOneTooltip" type="file" accept=".txt" onChange={addFile2}/>
                 <span className='codeDiv'>
+                {/* <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtn" disabled={!file2}>submit</button></a> */}
+                {!loadingCompare1 &&
                 <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtn" disabled={!file2}>submit</button></a>
+                    
+                }
                 {loadingCompare1 &&
-                    <div className="loadingDots">
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                    </div>
+                <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtnWhite" disabled={!file2}>
+                <div className="loadingDots">
+                <div className="loadingDots--dot"></div>
+                <div className="loadingDots--dot"></div>
+                <div className="loadingDots--dot"></div>
+            </div></button></a>
+                
                 }
             </span>
             </div>

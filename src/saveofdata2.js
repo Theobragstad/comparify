@@ -274,21 +274,21 @@ const { data } = await axios.get("https://api.spotify.com/v1/albums", {
 
 
 
-            <div className="songContainer">
-  <div className="songTitle">top songs</div>
-  <div className="songCard">
-  <div className="songContent">
-      {songs.map((song, index) => (
-        <div key={index} className="songItem">
-          <img src={song.img} className="songImage" />
-          <div className="songText">
-            <span className="songName">{song.name}</span>
-            <span className="songArtists">&emsp;{song.artists.join(', ')}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
+<div className="songContainer">
+<div className="songTitle">top songs</div>
+<div className="songCard">
+<div className="songContent">
+{songs.map((song, index) => (
+<div key={index} className="songItem">
+<img src={song.img} className="songImage" />
+<div className="songText">
+<span className="songName">{song.name}</span>
+<span className="songArtists">&emsp;{song.artists.join(', ')}</span>
+</div>
+</div>
+))}
+</div>
+</div>
 </div>
 
 

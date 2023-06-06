@@ -8,6 +8,7 @@ import './Data.css';
 import Big from 'big.js'
 import back from './img/back.png';
 import download from './img/download.png';
+import Footer from './Footer'
 
 import html2canvas from 'html2canvas';
 
@@ -556,6 +557,7 @@ const getMostLeastPopSongs = async (songIds) => {
 
     const mostLeastPopSongsData = data.tracks.map(track => ({
       name: track.name,
+      pop: track.popularity,
       artists: track.artists.map(artist => artist.name),
       img: track.album.images[0]?.url || missingImage
     }));
@@ -580,6 +582,7 @@ const getOldestNewestSongs = async (songIds) => {
 
     const oldestNewestSongsData = data.tracks.map(track => ({
       name: track.name,
+      date: track.album.release_date,
       artists: track.artists.map(artist => artist.name),
       img: track.album.images[0]?.url || missingImage
     }));
@@ -641,6 +644,7 @@ const getMostLeastPopAlbums = async (albumIds) => {
 
     const mostLeastPopAlbumsData = data.albums.map(album => ({
       name: album.name,
+      pop: album.popularity,
       artists: album.artists.map(artist => artist.name),
       img: album.images[0]?.url || missingImage
     }));
@@ -689,6 +693,7 @@ const getMostLeastPopArtists = async (artistIds) => {
 
     const mostLeastPopArtistsData = data.artists.map(artist => ({
       name: artist.name,
+      pop: artist.popularity,
       img: artist.images[0]?.url || missingImage
     }));
     
@@ -748,10 +753,11 @@ useEffect(() => {
   getTopAlbums(overlappingData.albumIds);
   getMostLeastPopAlbums(overlappingData.mostLeastPopAlbumIds);
   getTopArtists(overlappingData.artistIds);
-  getMostLeastPopArtists(overlappingData.artistIds);
+  getMostLeastPopArtists(overlappingData.mostLeastPopArtistIds);
 }, [selectedTimeRange]);
 
   
+const features = ['acousticness','danceability','duration','energy','instrumentalness','liveness','loudness','speechiness','tempo','valence'];
 
 
     return (
@@ -815,7 +821,7 @@ useEffect(() => {
               <button className={`navBtn ${selectedButton === 3 ? 'selected' : ''}`} onClick={() => selectButton(3)}>all time</button>
             </div>
           </div>
-
+{/* 
         <div className="songContainer">
           <div className="songTitle">top songs</div>
             <div className="songCard">
@@ -835,8 +841,464 @@ useEffect(() => {
                 )}
             </div>
           </div>
+        </div> */}
+
+
+    <div className="card-row">
+        <div className="primaryCard1">
+            <div className='primaryTitle'>shared top songs</div>
+              {topSongs.map((song, index) => (
+                <div key={index} className="item">
+                  <img src={song.img} className="primaryImage" />
+                  <div className="primaryText">
+                    <span className="primaryName">{song.name}</span>
+                    <span className="primaryArtists">{song.artists.join(', ')}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+
+            <div className="primaryCard2">
+        <div className='primaryTitle'>shared top artists</div>
+          {topArtists.map((artist, index) => (
+            <div key={index} className="item">
+              <img src={artist.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{artist.name}</span>
+              </div>
+            </div>
+          ))}
         </div>
 
+
+
+        <div className="primaryCard1" id='topAlbums'>
+        <div className='primaryTitle'>shared top albums</div>
+          {topAlbums.map((album, index) => (
+            <div key={index} className="item">
+              <img src={album.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{album.name}</span>
+                <span className="primaryArtists">{album.artists.join(', ')}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+
+        <div className="primaryCard2" id='topGenres'>
+        <div className='primaryTitle'>shared top genres</div>
+          {overlappingData.topGenresByArtist.map((genre, index) => (
+            <div key={index} className="item">
+              <div className="primaryText">
+                <span className="primaryName">{genre}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+
+        <div className="primaryCard3" id='topLabels'>
+        <div className='primaryTitle'>shared top labels</div>
+          {overlappingData.topLabelsByAlbums.map((label, index) => (
+            <div key={index} className="item">
+              <div className="primaryText">
+                <span className="primaryName">{label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      
+    </div>
+
+
+    <div className="card-row" style={{paddingTop:'30px'}}>
+              <div className="primaryCard4">
+              <div className='primaryTitle'>same most popular song?</div>
+              {mostLeastPopSongs && mostLeastPopSongs[0] && (
+                <div className="item">
+                  <img src={mostLeastPopSongs[0]?.img} className="primaryImage" />
+                  <div className="primaryText">
+                    <span className="primaryName">{mostLeastPopSongs[0]?.name}</span>
+                    <span className="primaryArtists">
+                      {mostLeastPopSongs[0]?.artists.join(', ')}
+                    </span>
+                    <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopSongs[0]?.pop}</span>
+                  </div>
+                </div>
+              )}
+              
+            </div>
+
+
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>same least popular song?</div>
+    {mostLeastPopSongs && mostLeastPopSongs[1] && (
+      <div className="item">
+        <img src={mostLeastPopSongs[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopSongs[1]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopSongs[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopSongs[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>same oldest song?</div>
+    {oldestNewestSongs && oldestNewestSongs[0] && (
+      <div className="item">
+        <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{oldestNewestSongs[0]?.name}</span>
+          <span className="primaryArtists">
+            {oldestNewestSongs[0]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date.substr(0,4)}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+  <div className="primaryCard5">
+    <div className='primaryTitle'>same newest song?</div>
+    {oldestNewestSongs && oldestNewestSongs[1] && (
+      <div className="item">
+        <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{oldestNewestSongs[1]?.name}</span>
+          <span className="primaryArtists">
+            {oldestNewestSongs[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[1]?.date.substr(0,4)}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>same most popular artist?</div>
+    {mostLeastPopArtists && mostLeastPopArtists[0] && (
+      <div className="item">
+        <img src={mostLeastPopArtists[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopArtists[0]?.name}</span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[0]?.pop}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>same least popular artist?</div>
+    {mostLeastPopArtists && mostLeastPopArtists[1] && (
+      <div className="item">
+        <img src={mostLeastPopArtists[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopArtists[1]?.name}</span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>same most popular album?</div>
+    {mostLeastPopAlbums && mostLeastPopAlbums[0] && (
+      <div className="item">
+        <img src={mostLeastPopAlbums[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopAlbums[0]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopAlbums[0]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[0]?.pop}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>same least popular album?</div>
+    {mostLeastPopAlbums && mostLeastPopAlbums[1] && (
+      <div className="item">
+        <img src={mostLeastPopAlbums[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopAlbums[1]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopAlbums[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>difference in average song popularity</div>
+    {/* {overlappingData.avgSongPop && ( */}
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" >{overlappingData.avgSongPop}</span>
+          <div>
+          <span style={{color:'#1e90ff'}}>{arrays1.avgSongPop}</span><span style={{color:'#18d860'}}> vs. </span><span style={{color:'#ffdf00'}}>{arrays2.avgSongPop}</span>
+
+          </div>
+        </div>
+      </div>
+    {/* )} */}
+    
+  </div>
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>difference in song popularity standard deviation</div>
+    {overlappingData.songPopStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.songPopStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+  <div className="primaryCard4">
+  <div className='primaryTitle'>difference in average song age</div>
+  {overlappingData.avgSongAgeYrMo && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {`${overlappingData.avgSongAgeYrMo[0] === 1 ? '1 year' : `${overlappingData.avgSongAgeYrMo[0]} years`}, ${overlappingData.avgSongAgeYrMo[1] === 1 ? '1 month' : `${overlappingData.avgSongAgeYrMo[1]} months`}`}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+<div className="primaryCard4">
+  <div className='primaryTitle'>difference in song age standard deviation</div>
+  {overlappingData.songAgeStdDevYrMo && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2" id='stdDev'>
+          {`${overlappingData.songAgeStdDevYrMo[0] === 1 ? '1 year' : `${overlappingData.songAgeStdDevYrMo[0]} years`}, ${overlappingData.songAgeStdDevYrMo[1] === 1 ? '1 month' : `${overlappingData.songAgeStdDevYrMo[1]} months`}`}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+<div className="primaryCard6">
+  <div className='primaryTitle'>difference in percent songs explicit</div>
+  {overlappingData.pctSongsExpl && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {overlappingData.pctSongsExpl}%
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+<div className="primaryCard4">
+    <div className='primaryTitle'>difference in average album popularity</div>
+    {overlappingData.avgAlbumPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2">{overlappingData.avgAlbumPop}</span>
+         
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>difference in album popularity standard deviation</div>
+    {overlappingData.albumPopsStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.albumPopsStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>difference in average artist popularity</div>
+    {overlappingData.avgArtistPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2">{overlappingData.avgArtistPop}</span>
+         
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+  <div className="primaryCard4">
+    <div className='primaryTitle'>difference in artist popularity standard deviation</div>
+    {overlappingData.artistPopStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.artistPopStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+    
+  </div>
+
+
+
+
+  <div className="primaryCard6">
+  <div className='primaryTitle'>difference in average artist followers</div>
+  {overlappingData.avgArtistFolls && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {overlappingData.avgArtistFolls}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+<div className="primaryCard6">
+  <div className='primaryTitle'>difference in artist followers standard deviation</div>
+  {overlappingData.artistFollsStdDev && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2" id='stdDev'>
+          {overlappingData.artistFollsStdDev}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>  
+
+
+
+
+
+
+
+
+    <div className="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th className='gradient'>difference in averages</th>
+                    <th className='gradient' id='stdDev'>difference in standard deviations</th>
+                    <th className='gradient'>shared song with highest value</th>
+                    <th className='gradient'>shared song with lowest value</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+    
+{features.map((feature, index) => {
+            const highestSong = highestAudioFeatureSongs[index];
+            const lowestSong = lowestAudioFeatureSongs[index];
+
+            return (
+              <tr key={feature}>
+                <td className='gradient' id={feature}>{feature}</td>
+                <td><div className='cellOutline'>{overlappingData.audioFeatureMeans[index]}</div></td>
+                <td><div className='cellOutline'>{overlappingData.audioFeatureStdDevs[index]}</div></td>
+                <td>
+                  {highestSong && highestSong.name && highestSong.img && highestSong.artists && (
+                    <div className='cellOutline'>
+                      <img className='primaryImage' src={highestSong.img} alt={highestSong.name} />
+                      <p className='primaryName'> {highestSong.name}</p>&emsp;
+                      <p className='primaryArtists'>{highestSong.artists.join(', ')}</p>
+                    </div>
+                  )}
+                </td>
+                <td>
+                  {lowestSong && lowestSong.name && lowestSong.img && lowestSong.artists && (
+                    <div className='cellOutline'>
+                      <img className='primaryImage' src={lowestSong.img} alt={lowestSong.name} />
+                      <p className='primaryName'>{lowestSong.name}</p>&emsp;
+                      <p className='primaryArtists'>{lowestSong.artists.join(', ')}</p>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+                
+            </tbody>
+        </table>
+        </div>
+
+
+       <Footer/>
 
 
             
