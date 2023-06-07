@@ -26,6 +26,7 @@ function Data() {
 
 
   const configuration = new Configuration({
+    organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   });
 
@@ -36,21 +37,33 @@ function Data() {
   const [apiResponse, setApiResponse] = useState("");
 
 
+  const [gptLoading, setGptLoading] = useState(false);
+
+
   const handleGptSumbit = async () => {
-    console.log(process.env.REACT_APP_OPENAI_API_KEY);
+    setGptLoading(true);
+    let gptPrompt = gatherGptPromptData();
+
+    if(!gptPrompt) {
+      gptPrompt = "Display the following statement (without quotes around it): Prompt error. Try again.";
+    }
+    console.log(gptPrompt);
+    
     try {
       const result = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: 'Hello, how are you today?',
-        temperature: 0.5,
-        max_tokens: 4000,
+        prompt: gptPrompt,
+        temperature: 0.9,
+        max_tokens: 700,
       });
-      // console.log("response", result.data.choices[0].text);
+      console.log("response", result.data.choices[0].text);
       setApiResponse(result.data.choices[0].text);
     } catch(error) {
       console.log(error);
-      setApiResponse("Something is going wrong, Please try again.");
+      setApiResponse("ChatGPT error. This is likely a rate limit. Try again in a minute or so.");
+      setGptLoading(false);
     }
+    setGptLoading(false);
   };
 
 
@@ -87,9 +100,9 @@ function Data() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const openModal = () => {
-    handleGptSumbit();
+  const openModal = async () => {
     setIsOpen(true);
+    await handleGptSumbit();
   };
 
   const closeModal = () => {
@@ -101,7 +114,9 @@ function Data() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      
+      
     },
     content: {
       zIndex: 9999,
@@ -110,7 +125,10 @@ function Data() {
       margin: 'auto',
       borderRadius: '10px',
       outline: 'none',
-      padding: '20px'
+      padding: '20px',
+
+      maxHeight: '400px',
+      overflowY: 'auto'
     }
   };
 
@@ -134,6 +152,10 @@ function Data() {
     setSelectedTimeRange(timeRanges[index - 1]);
 
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
+
+    setApiResponse("");
+
+    
   };
 
   const location = useLocation();
@@ -438,6 +460,112 @@ function Data() {
   const [mostLeastPopAlbums, setMostLeastPopAlbums] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
   const [mostLeastPopArtists, setMostLeastPopArtists] = useState([]);
+
+
+
+
+  function formatGptPrompt(topSong, topSongArtist, topArtist, topAlbum, topAlbumArtist, topGenre, topLabel, oldestSong, oldestSongArtist, oldestSongYear, newestSong, newestSongArtist, newestSongYear, avgSongPop, songPopStdDev, avgSongAgeYrMo, songAgeStdDevYrMo, avgArtistPop, artistPopStdDev, pctSongsExpl, highAudioFeatureAvgs, highAudioFeatureStdDevs, lowAudioFeatureAvgs, lowAudioFeatureStdDevs) {
+  
+    // return "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste. Try to incorporate most of the provided data into the poem. The data is: Their top song is " + topSong.toString() + " by " + topSongArtist.toString() + ". Their top artist is " + topArtist.toString() + ". Their top album is " + topAlbum.toString() + " by " + topAlbumArtist.toString() + ". Their top genre is " + topGenre.toString() + ". Theyve listened to music from both " + oldestSongYear.toString() + " and " + newestSongYear.toString() + ". The average popularity (0-100) of their songs is " + avgSongPop.toString() + ". The standard deviation of the popularities of their top songs is " + songPopStdDev.toString() + ". The average age of their top songs is " + avgSongAgeYrMo.toString() + ". The standard deviation of the ages of their top songs is " + songAgeStdDevYrMo.toString() + ". The average popularity of their top artists is " + avgArtistPop.toString() + ". The standard deviation of the popularity of their top artists is " + artistPopStdDev.toString() + ". The percent of their top songs that are explicit is " + pctSongsExpl.toString() + ".";
+    return "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! The data is: Their top song is " + topSong.toString() + " by " + topSongArtist.toString() + ". Their top artist is " + topArtist.toString() + ". Their top album is " + topAlbum.toString() + " by " + topAlbumArtist.toString() + ". Their top genre is " + topGenre.toString() + ". Theyve listened to music from both " + oldestSongYear.toString() + " and " + newestSongYear.toString() + ". The average popularity (0-100) of their songs is " + avgSongPop.toString() + ". The standard deviation of the popularities of their top songs is " + songPopStdDev.toString() + ". The average age of their top songs is " + avgSongAgeYrMo.toString() + ". The standard deviation of the ages of their top songs is " + songAgeStdDevYrMo.toString() + ". The average popularity of their top artists is " + avgArtistPop.toString() + ". The standard deviation of the popularity of their top artists is " + artistPopStdDev.toString() + ". The percent of their top songs that are explicit is " + pctSongsExpl.toString() + ". They like songs that have high values for " + highAudioFeatureAvgs[0].toString() + " and " + highAudioFeatureAvgs[1].toString() + ", and low values for " + lowAudioFeatureAvgs[0].toString() + " and " + lowAudioFeatureAvgs[1].toString()  + ".";
+  
+  
+  
+  }
+
+
+
+
+ 
+
+  function gatherGptPromptData() {
+
+
+
+
+
+    const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
+      if(![2,6,8].includes(index))
+      map[current] = parseFloat(arrays.audioFeatureMeans[index]);
+      return map;
+    }, {});
+    
+    
+    const audioFeaturesToAvgsMapSorted = new Map(
+      Object.entries(audioFeaturesToAvgsMap)
+        .sort(([, value1], [, value2]) => value1 - value2)
+    );
+    
+    const keysOfAudioFeaturesToAvgsMapSorted = Array.from(audioFeaturesToAvgsMapSorted.keys());
+    const twoAudioFeaturesLowestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(0,2);
+    const twoAudioFeaturesHighestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
+    
+    
+    
+    
+    
+    
+    
+    const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
+      if(![2,6,8].includes(index))
+      map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
+      return map;
+    }, {});
+    
+    
+    const audioFeaturesToStdDevsMapSorted = new Map(
+      Object.entries(audioFeaturesToStdDevsMap)
+        .sort(([, value1], [, value2]) => value1 - value2)
+    );
+    
+    const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(audioFeaturesToStdDevsMapSorted.keys());
+    const twoAudioFeaturesLowestStdDevs = keysOfAudioFeaturesToStdDevsMapSorted.slice(0,2);
+    const twoAudioFeaturesHighestStdDevs = keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      let prompt = 'Prompt error. Try again.';
+
+
+    if(topSongs && topSongs.length > 0 && topArtists && topArtists.length > 0 && topAlbums && topAlbums.length > 0) {
+      prompt = formatGptPrompt(topSongs[0]?.name, topSongs[0]?.artists[0], 
+      topArtists[0]?.name, topAlbums[0]?.name, topAlbums[0]?.artists[0],
+      arrays.topGenresByArtist[0], arrays.topLabelsByAlbums[0], 
+      oldestNewestSongs[0]?.name, oldestNewestSongs[0]?.artists[0],
+      oldestNewestSongs[0]?.date.substr(0,4), oldestNewestSongs[1]?.name, 
+      oldestNewestSongs[1]?.artists[0], oldestNewestSongs[1]?.date.substr(0,4),
+      arrays.avgSongPop, arrays.songPopStdDev, arrays.avgSongAgeYrMo[0] + ' year(s) and ' + arrays.avgSongAgeYrMo[1] + ' month(s)',  
+      arrays.songAgeStdDevYrMo[0] + ' year(s) and ' + arrays.songAgeStdDevYrMo[1] + ' month(s)', 
+      arrays.avgArtistPop, arrays.artistPopStdDev, 
+      arrays.pctSongsExpl, twoAudioFeaturesHighestAvgs, twoAudioFeaturesHighestStdDevs, twoAudioFeaturesLowestAvgs, twoAudioFeaturesLowestStdDevs);
+    }
+
+    return prompt;
+  }
+
+  
+
+  
  
   useEffect(() => {
     if (isTokenExpired()) {
@@ -453,7 +581,11 @@ function Data() {
     getTopArtists(arrays.artistIds);
     getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
 
+
+
+
    
+  
   }, [selectedTimeRange]);
 
 
@@ -487,6 +619,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
   return (
     <div>
+      {/* {gptPrompt} */}
       <img className='dataPageLogo' src={logo}></img>
       <h4>comparify Data for <span style={{color:'#1e90ff'}}>{userNameAndId[0]}</span><span>&emsp;<img id='gptTooltip' onClick={openModal} src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span></h4>
       <div className="navBtnContainer">
@@ -990,7 +1123,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
       <ReactTooltip
         anchorSelect="#popularity"
-        html={"0-100. assigned by Spotify."}
+        html={"0-100. assigned by Spotify and updated based on current data."}
         style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
@@ -1073,7 +1206,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
       <ReactTooltip
         anchorSelect="#gptTooltip"
-        html={"See what ChatGPT thinks of your music taste"}
+        html={"ChatGPT Result"}
         style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'100px'}}
         clickable={'true'}>
       </ReactTooltip>
@@ -1091,25 +1224,23 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         style={customStyles} 
         id="imgDiv"
       >
-        <h2 className='gptModalTitle'>ChatGPT creative analysis of <span style={{color:'#1e90ff'}}>{userNameAndId[0]}</span>'s music preferences</h2>
+        <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT-generated poem for <span style={{color:'#1e90ff'}}>{userNameAndId[0]}</span>'s music preferences</h2>
         <span className="timeRange">{selectedTimeRangeClean}</span>
           <div className='gptHaikusDiv'>
-                           
-            <h4>Three Haikus</h4>
-            {apiResponse && (
-                          <div className='gptContent'>
-                          {apiResponse}
-                            </div>
+              {gptLoading && <div className="loadingDots">
+                        <div className="loadingDots--dot"></div>
+                        <div className="loadingDots--dot"></div>
+                        <div className="loadingDots--dot"></div>
+                    </div>}
+                          {/* {gptLoading && <h4>Generating response...</h4>} */}
+                        {apiResponse && (
+                        <div className='gptContent'>
+                          
+                        {/* {apiResponse.replace(/\//g, '<br></br>')} */}
+                        <div dangerouslySetInnerHTML={{ __html: apiResponse.replace(/\//g, '<br></br>') }}/>
+                        </div>
                         )}
             
-          </div>
-          <div className='gptWordsDiv'>
-            <h4>Words</h4>
-            {apiResponse && (
-                          <div className='gptContent'>
-                          {apiResponse}
-                            </div>
-                        )}
           </div>
         <button className='closeBtn' onClick={closeModal}>Close</button>
         <button className="saveImg2" onClick={handleConvertToImage} title='Download image'><img src={download} style={{width:'10px'}}></img></button>

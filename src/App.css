@@ -107,10 +107,10 @@
 .submitBtn:disabled, .basicBtn:disabled {
   background-color:gainsboro;
   cursor:default;
-  transition: none;
+  /* transition: none; */
 }
 
-.submitBtn:disabled:hover {
+.submitBtn:disabled:hover,  .basicBtn:disabled:hover {
   transform:scale(1);
 }
 

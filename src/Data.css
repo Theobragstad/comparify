@@ -197,7 +197,6 @@ width: fit-content;
    .primaryCard1 {
     height: 180px; 
     overflow: auto; 
-    /* background-color: #f3f3f3; */
     width:23%;
     flex-basis: auto;
   background-color: #f8f8ff;
@@ -209,6 +208,7 @@ width: fit-content;
   margin-right: 10px;
   font-weight: bold;
   text-align: left;
+
 
   align-items: center;
   /* padding-top: 50px; */
@@ -551,6 +551,8 @@ width: fit-content;
   font-weight: bold;
   font-style: italic;
   font-family: 'Courier New', Courier, monospace;
+  font-size:16px;
+
  }
 
  .gptWordsDiv {
@@ -559,7 +561,7 @@ width: fit-content;
 
 
  .gptHaikusDiv {
-  margin-top:30px;
+  margin-top:20px;
  }
 
 
@@ -783,6 +785,7 @@ tr:last-child td:last-child {
   margin: 0 auto;
 
   max-width: 350px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -815,4 +818,14 @@ tr:last-child td:last-child {
   cursor:pointer;
   font-weight: bold;
   padding:4px 3px;
+}
+
+
+
+
+
+
+
+.img {
+  pointer-events: none;
 }
