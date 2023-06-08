@@ -6,6 +6,7 @@
     max-width: 1000px; 
     height: 20px;
     margin: 0 auto; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
 
@@ -17,6 +18,7 @@
     margin: 0 auto; 
    
     background-color: #f3f3f3;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     
     border-radius: 25px;
 
@@ -433,6 +435,8 @@ width: fit-content;
     border:none;
     cursor: pointer;
     margin-left: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
   }
 
 
@@ -450,6 +454,8 @@ width: fit-content;
     font-weight:bold ;
     border:none;
     cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
   }
 
 
@@ -701,6 +707,7 @@ width: fit-content;
   left: 50%;
   transform: translateX(-50%);
   margin-top: 70px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -818,6 +825,8 @@ tr:last-child td:last-child {
   cursor:pointer;
   font-weight: bold;
   padding:4px 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
 }
 
 
@@ -828,4 +837,17 @@ tr:last-child td:last-child {
 
 .img {
   pointer-events: none;
+}
+
+
+
+.helpModalText {
+  font-size:16px;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  background-color: #f8f8ff;
+  border-radius: 20px;
+  padding:10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
 }
