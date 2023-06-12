@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useLocation} from 'react-router';
+import {useLocation} from 'react-router';
 import logo from './img/logo.png';
 import missingImage from './img/missingImage.png';
-import './Data.css';
+import './App.css';
 import back from './img/back.png';
 import gptBtn from './img/gptBtn.png';
 import html2canvas from 'html2canvas';
-
 import Footer from './Footer'
-import { Tooltip as ReactTooltip } from 'react-tooltip'
+import {Tooltip as ReactTooltip} from 'react-tooltip'
 import download from './img/download.png';
-
 import Modal from 'react-modal';
-
-
-const { Configuration, OpenAIApi } = require("openai");
-
-
-
+const {Configuration, OpenAIApi} = require("openai");
 
 function Data() {
   Modal.setAppElement('#root')
-
 
   const configuration = new Configuration({
     organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
@@ -33,7 +25,6 @@ function Data() {
   delete configuration.baseOptions.headers['User-Agent'];
 
   const openai = new OpenAIApi(configuration);
-  // const [prompt, setPrompt] = useState("");
   const [apiResponse, setApiResponse] = useState("");
 
 
@@ -74,7 +65,6 @@ function Data() {
       html2canvas(div, {}).then((canvas) => {
         
         const image = canvas.toDataURL("image/png");
-        // console.log(image, "image");
   
         var fileName = 'Your ChatGPT creative music analysis.png';
         downloadPNG(image, fileName);
@@ -94,7 +84,6 @@ function Data() {
     anchorElement.href = url;
     anchorElement.download = filename;
     
-    // Trigger a click event on the anchor element
     anchorElement.click();
   }
 
@@ -161,7 +150,7 @@ function Data() {
   const location = useLocation();
   const token = location.state.token;
   const allData = location.state.data.split(',');
-  const userNameAndId = allData.slice(1, 3);
+  const nameIdImgurlGenerationdate = allData.slice(1,5);
 
   const dataStartIndex = allData.indexOf(selectedTimeRange) + 1;
   const dataEndIndex = (selectedTimeRange === 'long_term') ? allData.length - 1 : allData.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) - 1;
@@ -465,12 +454,7 @@ function Data() {
 
 
   function formatGptPrompt(topSong, topSongArtist, topArtist, topAlbum, topAlbumArtist, topGenre, topLabel, oldestSong, oldestSongArtist, oldestSongYear, newestSong, newestSongArtist, newestSongYear, avgSongPop, songPopStdDev, avgSongAgeYrMo, songAgeStdDevYrMo, avgArtistPop, artistPopStdDev, pctSongsExpl, highAudioFeatureAvgs, highAudioFeatureStdDevs, lowAudioFeatureAvgs, lowAudioFeatureStdDevs) {
-  
-    // return "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste. Try to incorporate most of the provided data into the poem. The data is: Their top song is " + topSong.toString() + " by " + topSongArtist.toString() + ". Their top artist is " + topArtist.toString() + ". Their top album is " + topAlbum.toString() + " by " + topAlbumArtist.toString() + ". Their top genre is " + topGenre.toString() + ". Theyve listened to music from both " + oldestSongYear.toString() + " and " + newestSongYear.toString() + ". The average popularity (0-100) of their songs is " + avgSongPop.toString() + ". The standard deviation of the popularities of their top songs is " + songPopStdDev.toString() + ". The average age of their top songs is " + avgSongAgeYrMo.toString() + ". The standard deviation of the ages of their top songs is " + songAgeStdDevYrMo.toString() + ". The average popularity of their top artists is " + avgArtistPop.toString() + ". The standard deviation of the popularity of their top artists is " + artistPopStdDev.toString() + ". The percent of their top songs that are explicit is " + pctSongsExpl.toString() + ".";
     return "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! The data is: Their top song is " + topSong.toString() + " by " + topSongArtist.toString() + ". Their top artist is " + topArtist.toString() + ". Their top album is " + topAlbum.toString() + " by " + topAlbumArtist.toString() + ". Their top genre is " + topGenre.toString() + ". Theyve listened to music from both " + oldestSongYear.toString() + " and " + newestSongYear.toString() + ". The average popularity (0-100) of their songs is " + avgSongPop.toString() + ". The standard deviation of the popularities of their top songs is " + songPopStdDev.toString() + ". The average age of their top songs is " + avgSongAgeYrMo.toString() + ". The standard deviation of the ages of their top songs is " + songAgeStdDevYrMo.toString() + ". The average popularity of their top artists is " + avgArtistPop.toString() + ". The standard deviation of the popularity of their top artists is " + artistPopStdDev.toString() + ". The percent of their top songs that are explicit is " + pctSongsExpl.toString() + ". They like songs that have high values for " + highAudioFeatureAvgs[0].toString() + " and " + highAudioFeatureAvgs[1].toString() + ", and low values for " + lowAudioFeatureAvgs[0].toString() + " and " + lowAudioFeatureAvgs[1].toString()  + ".";
-  
-  
-  
   }
 
 
@@ -479,11 +463,6 @@ function Data() {
  
 
   function gatherGptPromptData() {
-
-
-
-
-
     const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
       if(![2,6,8].includes(index))
       map[current] = parseFloat(arrays.audioFeatureMeans[index]);
@@ -590,7 +569,6 @@ function Data() {
 
 
   const navigate = useNavigate();
-  // const [token, setToken] = useState('');
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem("expirationTime");
@@ -602,7 +580,6 @@ function Data() {
 
   const logout = () => {
 
-    // setToken("");
     setExpirationTime("");
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("expirationTime");
@@ -619,9 +596,19 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
   return (
     <div>
-      {/* {gptPrompt} */}
       <img className='dataPageLogo' src={logo}></img>
-      <h4>comparify Data for <span style={{color:'#1e90ff'}}>{userNameAndId[0]}</span><span>&emsp;<img id='gptTooltip' onClick={openModal} src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span></h4>
+
+      <div class="container">
+        <span><h4>comparify data for&nbsp;</h4></span>
+        <div class="image">
+            <img src={nameIdImgurlGenerationdate[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img>
+            <div class="text" style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate[0]}</div>
+        </div>
+        <span>&emsp;<img id='gptTooltip' onClick={openModal} className='zoom' src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span>
+
+        </div>
+
+        
       <div className="navBtnContainer">
       <div className="leftNavBtnContainer">
             <Link to='/code' title="Back">
@@ -670,8 +657,8 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
 
 
-        <div className="primaryCard1" id='topAlbums'>
-        <div className='primaryTitle'>top albums</div>
+        <div className="primaryCard1" >
+        <div className='primaryTitle' id='topAlbums'>top albums</div>
           {topAlbums.map((album, index) => (
             <div key={index} className="item">
               <img src={album.img} className="primaryImage" />
@@ -684,8 +671,8 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
 
 
-        <div className="primaryCard2" id='topGenres'>
-        <div className='primaryTitle'>top genres</div>
+        <div className="primaryCard2" >
+        <div className='primaryTitle' id='topGenres'>top genres</div>
           {arrays.topGenresByArtist.map((genre, index) => (
             <div key={index} className="item">
               <div className="primaryText">
@@ -696,8 +683,8 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
 
 
-        <div className="primaryCard3" id='topLabels'>
-        <div className='primaryTitle'>top labels</div>
+        <div className="primaryCard3" >
+        <div className='primaryTitle' id='topLabels'>top labels</div>
           {arrays.topLabelsByAlbums.map((label, index) => (
             <div key={index} className="item">
               <div className="primaryText">
@@ -1206,8 +1193,8 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
       <ReactTooltip
         anchorSelect="#gptTooltip"
-        html={"ChatGPT Result"}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'100px'}}
+        html={"ChatGPT"}
+        style={{backgroundColor:'#f3f3f3',color:'black',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'fit-content'}}
         clickable={'true'}>
       </ReactTooltip>
     </div>
@@ -1224,7 +1211,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         style={customStyles} 
         id="imgDiv"
       >
-        <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT-generated poem for <span style={{color:'#1e90ff'}}>{userNameAndId[0]}</span>'s music preferences</h2>
+        <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT-generated poem for <span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate[0]}</span>'s music preferences</h2>
         <span className="timeRange">{selectedTimeRangeClean}</span>
           <div className='gptHaikusDiv'>
               {gptLoading && <div className="loadingDots">

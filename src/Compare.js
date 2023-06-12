@@ -1,79 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useLocation } from 'react-router';
+import {useLocation} from 'react-router';
 import logo from './img/logo.png';
 import missingImage from './img/missingImage.png';
-import './Data.css';
+import './App.css';
 import Big from 'big.js'
 import back from './img/back.png';
 import download from './img/download.png';
 import Footer from './Footer'
-
 import html2canvas from 'html2canvas';
+import gptBtn from './img/gptBtn.png';
+import Modal from 'react-modal';
+
+const {Configuration, OpenAIApi} = require("openai");
 
 
 
 
 function Compare() {
+
+  const location = useLocation();
+
+
+  let file1 = location.state.file1.split(',');
+  let file2 = location.state.file2.split(',');
  
-
-
-  const [loading, setLoading] = useState(false);
-
-
-
-    const location = useLocation();
-    const file1 = location.state.file1.split(',');
-    const file2 = location.state.file2.split(',');
-    const token = location.state.token;
-
-    const [selectedButton, setSelectedButton] = useState(1);
-    const [selectedTimeRange, setSelectedTimeRange] = useState('short_term');
-    const timeRanges = ['short_term', 'medium_term', 'long_term'];
-
-    const [selectedTimeRangeClean, setSelectedTimeRangeClean] = useState('last month');
-    const timeRangesClean = ['last month', 'last 6 months', 'all time'];
   
-    const selectButton = (index) => {
-      setSelectedButton(index);
-      setSelectedTimeRange(timeRanges[index - 1]);
+  const token = location.state.token;
 
-      setSelectedTimeRangeClean(timeRangesClean[index - 1]);
-    };
+  const [selectedButton, setSelectedButton] = useState(1);
+  const [selectedTimeRange, setSelectedTimeRange] = useState('short_term');
+  const timeRanges = ['short_term', 'medium_term', 'long_term'];
+
+  const [selectedTimeRangeClean, setSelectedTimeRangeClean] = useState('last month');
+  const timeRangesClean = ['last month', 'last 6 months', 'all time'];
+  
+  const selectButton = (index) => {
+    setSelectedButton(index);
+    setSelectedTimeRange(timeRanges[index - 1]);
+
+    setSelectedTimeRangeClean(timeRangesClean[index - 1]);
+  };
 
 
-    
-
-    const userNameAndId1 = file1.slice(1, 3);
-    const userNameAndId2 = file2.slice(1, 3);
-
-    
+  const navigate = useNavigate();
 
 
-    const file1StartIndex = file1.indexOf(selectedTimeRange) + 1;
-    const file1EndIndex = (selectedTimeRange === 'long_term') ? file1.length - 1 : file1.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) - 1;
-    
+  const nameIdImgurlGenerationdate1 = file1.slice(1, 5);
+  const nameIdImgurlGenerationdate2 = file2.slice(1, 5);
+  if(file1.indexOf('nameIdImgurlGenerationdate[4]') === -1 || file2.indexOf('nameIdImgurlGenerationdate[4]') === -1 || nameIdImgurlGenerationdate1.length !== 4 || nameIdImgurlGenerationdate2.length !== 4 || nameIdImgurlGenerationdate1[2].substring(0,8) !== 'https://' || nameIdImgurlGenerationdate2[2].substring(0,8) !== 'https://') {
+    navigate('/code', {state: {error: 400}});
+  }
+  
 
-    const file2StartIndex = file2.indexOf(selectedTimeRange) + 1;
-    const file2EndIndex = (selectedTimeRange === 'long_term') ? file2.length - 1 : file2.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) - 1;
+  const file1StartIndex = file1.indexOf(selectedTimeRange) + 1;
+  const file1EndIndex = (selectedTimeRange === 'long_term') ? file1.length - 1 : file1.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) - 1;
+  
 
-    const data1 = file1.slice(file1StartIndex, file1EndIndex + 1);
-    const data2 = file2.slice(file2StartIndex, file2EndIndex + 1);
+  const file2StartIndex = file2.indexOf(selectedTimeRange) + 1;
+  const file2EndIndex = (selectedTimeRange === 'long_term') ? file2.length - 1 : file2.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) - 1;
 
-   
-    const labels = ['songIds[<=50]', 'mostLeastPopSongIds[<=2]', 'oldestNewestSongIds[<=2]',
-                  'avgSongPop[1]', 'songPopStdDev[1]', 'avgSongAgeYrMo[2]',
-                  'songAgeStdDevYrMo[2]', 'pctSongsExpl[1]', 'audioFeatureMeans[11]',
-                  'audioFeatureStdDevs[11]', 'highestAudioFeatureSongIds[<=11]',
-                  'lowestAudioFeatureSongIds[<=11]', 'albumIds[<=10]', 'mostLeastPopAlbumIds[<=2]',
-                  'avgAlbumPop[1]', 'albumPopsStdDev[1]', 'topLabelsByAlbums[<=5]',
-                  'artistIds[<=50]', 'mostLeastPopArtistIds[<=2]', 'avgArtistPop[1]',
-                  'artistPopStdDev[1]', 'avgArtistFolls[1]', 'artistFollsStdDev[1]', 'topGenresByArtist[<=20]'];
-
+  const data1 = file1.slice(file1StartIndex, file1EndIndex + 1);
+  const data2 = file2.slice(file2StartIndex, file2EndIndex + 1);
 
   
-  
+  const labels = ['songIds[<=50]', 'mostLeastPopSongIds[<=2]', 'oldestNewestSongIds[<=2]',
+                'avgSongPop[1]', 'songPopStdDev[1]', 'avgSongAgeYrMo[2]',
+                'songAgeStdDevYrMo[2]', 'pctSongsExpl[1]', 'audioFeatureMeans[11]',
+                'audioFeatureStdDevs[11]', 'highestAudioFeatureSongIds[<=11]',
+                'lowestAudioFeatureSongIds[<=11]', 'albumIds[<=10]', 'mostLeastPopAlbumIds[<=2]',
+                'avgAlbumPop[1]', 'albumPopsStdDev[1]', 'topLabelsByAlbums[<=5]',
+                'artistIds[<=50]', 'mostLeastPopArtistIds[<=2]', 'avgArtistPop[1]',
+                'artistPopStdDev[1]', 'avgArtistFolls[1]', 'artistFollsStdDev[1]', 'topGenresByArtist[<=20]'];
+
   const arrays1 = {
     songIds: [],
     mostLeastPopSongIds: [],
@@ -128,6 +128,28 @@ function Compare() {
     topGenresByArtist: []
   };
 
+  function countOccurrences(arr, searchString) {
+    return arr.reduce(function (count, element) {
+      if (typeof element === 'string' && element.includes(searchString)) {
+        count++;
+      }
+      return count;
+    }, 0);
+  }
+
+  
+  for(let i = 0; i < labels.length; i++) {
+    if(countOccurrences(data1, labels[i]) !== 1 || countOccurrences(data2, labels[i]) !== 1) {
+      navigate('/code', {state: {error: 400}});
+    }
+  }
+
+
+
+
+
+
+
   for(let i = 0; i < labels.length - 1; i++) {
     const startIndex = data1.indexOf(labels[i]) + 1;
     const endIndex = data1.indexOf(labels[i + 1]);
@@ -149,14 +171,14 @@ function Compare() {
 
   arrays2.topGenresByArtist = data2.slice(data2.indexOf('topGenresByArtist[<=20]') + 1);
 
-  
+ 
 
   
   let entryCount1 = 0;
   let entryCount2 = 0;
 
   for (const key in arrays1) {
-    if (Array.isArray(arrays1[key])) {
+    if (Array.isArray(arrays1[key]) && key !== 'avgSongAgeYrMo' && key !==  'songAgeStdDevYrMo') {
       entryCount1 += arrays1[key].length;
     } else {
       entryCount1++;
@@ -164,17 +186,14 @@ function Compare() {
   }
 
   for (const key in arrays2) {
-    if (Array.isArray(arrays2[key])) {
+    if (Array.isArray(arrays2[key]) && key !== 'avgSongAgeYrMo' && key !==  'songAgeStdDevYrMo') {
       entryCount2 += arrays2[key].length;
     } else {
       entryCount2++;
     }
   }
 
-  const minCount = Math.min(entryCount1, entryCount2);
 
-console.log(arrays1);
-console.log(arrays2);
 
 
 
@@ -263,9 +282,8 @@ for (const field in arrays1) {
       field === 'avgArtistPop' ||
       field === 'artistPopStdDev'
     ) {
-      overlappingData[field] = Math.abs(arrays1[field] - arrays2[field]);
+      overlappingData[field] = Math.abs(arrays1[field] - arrays2[field]).toFixed(2);
     } else if (field === 'avgSongAgeYrMo' || field === 'songAgeStdDevYrMo') {
-      
       overlappingData[field] = getMonthDifference(arrays1[field], arrays2[field]);
     } else if (field === 'avgArtistFolls' || field === 'artistFollsStdDev') {
       overlappingData[field] = simplifyNumber(Math.abs(expandNumber(arrays1[field]) - expandNumber(arrays2[field])))
@@ -276,47 +294,70 @@ for (const field in arrays1) {
       const overlappingArray = [];
       for (let i = 0; i < array1.length; i++) {
         if (i !== 2) { 
-          overlappingArray.push(Math.abs(parseFloat(array1[i]) - parseFloat(array2[i])));
+          overlappingArray.push(Math.abs(parseFloat(array1[i]) - parseFloat(array2[i])).toFixed(2));
         } else {
           overlappingArray.push(getAbsDiffMinSec(array1[i], array2[i]));
         }
       }
       overlappingData[field] = overlappingArray;
+    } else if (field === 'mostLeastPopSongIds') {
+      const overlappingArray = [];
+      if(arrays1.mostLeastPopSongIds[0] === arrays2.mostLeastPopSongIds[0]) {
+        overlappingArray.push(arrays1.mostLeastPopSongIds[0]);
+      }
+      else {
+        overlappingArray.push('');
+      }
+
+      if(arrays1.mostLeastPopSongIds[1] === arrays2.mostLeastPopSongIds[1]) {
+        overlappingArray.push(arrays1.mostLeastPopSongIds[1]);
+      }
+      else {
+        overlappingArray.push('');
+      }
+
+      overlappingData[field] = overlappingArray;
+      // console.log([arrays1.mostLeastPopSongIds[0], arrays1.mostLeastPopSongIds[1]]);
+      // console.log([arrays2.mostLeastPopSongIds[0], arrays2.mostLeastPopSongIds[1]]);
+      // console.log(overlappingData[field]);
     } else {
       overlappingData[field] = arrays1[field].filter((value) => arrays2[field].includes(value));
     }
   }
 }
 
-console.log(overlappingData);
 
 
-function calculateSimilarity(number1, number2) {
-  if (number1 === number2) {
-    return 1; 
-  }
 
-  var absoluteDifference = Math.abs(number1 - number2);
-  var maxValue = Math.max(number1, number2);
-  var minValue = Math.min(number1, number2);
-  var normalizedDifference = absoluteDifference / (maxValue - minValue);
-  var similarity = 1 - normalizedDifference;
+
+
+
+
+
+function calculateDurationSimilarity(duration1, duration2) {
+  const [min1, sec1] = duration1.split(":").map(Number);
+  const [min2, sec2] = duration2.split(":").map(Number);
+
+  const durationInSeconds1 = min1 * 60 + sec1;
+  const durationInSeconds2 = min2 * 60 + sec2;
+
+  const differenceInSeconds = Math.abs(durationInSeconds1 - durationInSeconds2);
+
+  const similarity = 1 - differenceInSeconds / Math.max(durationInSeconds1, durationInSeconds2);
+
   return similarity;
 }
 
-function quantifyDateSimilarity(date1, date2) {
-  const yearDifference = Math.abs(parseInt(date1[0]) - parseInt(date2[0]));
-  const monthDifference = Math.abs(parseInt(date1[1]) - parseInt(date2[1]));
+
+
+function calculateDateSimilarity(date1, date2) {
+  var months1 = date1[0] * 12 + date1[1];
+  var months2 = date2[0] * 12 + date2[1];
   
-  const maxYears = 5;
-  const maxMonths = 0;
+  var difference = Math.abs(months1 - months2);
+  var maxDifference = Math.max(months1, months2);
   
-  if (yearDifference > maxYears || (yearDifference === maxYears && monthDifference > maxMonths)) {
-    return 0;
-  }
-  
-  const similarity = 1 - (yearDifference + monthDifference) / (maxYears * 12 + maxMonths);
-  
+  var similarity = 1 - (difference / maxDifference);
   return similarity;
 }
 
@@ -366,21 +407,49 @@ function sumObjectElements(obj) {
   return sum;
 }
 
-const upperThresholds = {
-  avgSongPop: 15,
-  songPopStdDev: 10,
-  pctSongsExpl: 25,
-  avgAlbumPop: 10,
-  albumPopsStdDev: 10,
-  avgArtistPop: 15,
-  artistPopStdDev: 10,
-  avgArtistFolls: 100000,
-  artistFollsStdDev: 100000
-};
 
 
-const audioFeatureMeansThresholds = [0.25, 0.25, -1, 0.25, .25, 0.25, -1, 0.25, 25, 0.25];
-const audioFeatureStdDevsThresholds = [0.1, 0.1, -1, 0.1, 0.1, 0.1, -1, 0.1, 10, 0.1];
+function compareFollowerCounts(number1, number2) {
+  const abbreviations = {
+    K: 1000,
+    M: 1000000,
+    B: 1000000000,
+  };
+
+  const [value1, abbreviation1] = extractFollowerCountValueAndAbbreviation(number1);
+  const [value2, abbreviation2] = extractFollowerCountValueAndAbbreviation(number2);
+
+  if (abbreviation1 !== abbreviation2) {
+    return 0; 
+  }
+
+  const fullValue1 = value1 * abbreviations[abbreviation1];
+  const fullValue2 = value2 * abbreviations[abbreviation2];
+
+  const similarity = 1 - Math.abs(fullValue1 - fullValue2) / Math.max(fullValue1, fullValue2);
+  return similarity;
+}
+
+function extractFollowerCountValueAndAbbreviation(number) {
+  const value = parseFloat(number);
+  const abbreviation = number.slice(-1);
+  return [value, abbreviation];
+}
+
+
+
+
+function calculateSimilarity(number1, number2) {
+  var difference = Math.abs(number1 - number2);
+  var maxDifference = Math.max(number1, number2);
+  var similarity = 1 - (difference / maxDifference);
+  return similarity;
+}
+
+
+
+
+
 
 const similarities = {};
 
@@ -395,23 +464,21 @@ for (const field in arrays1) {
       field === 'avgArtistPop' ||
       field === 'artistPopStdDev'
     ) {
-      similarities[field] = calculateSimilarity(parseFloat(arrays1[field]), parseFloat(arrays2[field]), parseFloat(upperThresholds[field]));
+      similarities[field] = calculateSimilarity(parseFloat(arrays1[field]), parseFloat(arrays2[field]));
     } else if (field === 'avgSongAgeYrMo' || field === 'songAgeStdDevYrMo') {
-      similarities[field] = quantifyDateSimilarity(arrays1[field], arrays2[field]);
+      similarities[field] = calculateDateSimilarity(arrays1[field], arrays2[field]);
     } else if (field === 'avgArtistFolls' || field === 'artistFollsStdDev') {
-      ///
-      similarities[field] = '';
+      similarities[field] = compareFollowerCounts(arrays1[field].toString(), arrays2[field].toString());
     } else if (field === 'audioFeatureMeans') {
       const array1 = arrays1[field];
       const array2 = arrays2[field];
 
       const similarityArray = [];
       for (let i = 0; i < array1.length; i++) {
-        if (i !== 2 && i !== 6) { 
-          similarityArray.push(calculateSimilarity(parseFloat(array1[i]), parseFloat(array2[i]), parseFloat(audioFeatureMeansThresholds[i])));
+        if (i !== 2) { 
+          similarityArray.push(calculateSimilarity(parseFloat(array1[i]), parseFloat(array2[i])));
         } else {
-          // 
-          similarityArray.push("");
+          similarityArray.push(calculateDurationSimilarity(array1[i], array2[i]));
         }
       }
       similarities[field] = similarityArray;
@@ -421,11 +488,10 @@ for (const field in arrays1) {
 
       const similarityArray = [];
       for (let i = 0; i < array1.length; i++) {
-        if (i !== 2 && i !== 6) { 
-          similarityArray.push(calculateSimilarity(parseFloat(array1[i]), parseFloat(array2[i]), parseFloat(audioFeatureStdDevsThresholds[i])));
+        if (i !== 2) { 
+          similarityArray.push(calculateSimilarity(parseFloat(array1[i]), parseFloat(array2[i])));
         } else {
-          // 
-          similarityArray.push("");
+          similarityArray.push(calculateDurationSimilarity(array1[i], array2[i]));
         }
       }
       similarities[field] = similarityArray;
@@ -433,7 +499,6 @@ for (const field in arrays1) {
   }
 }
 
-console.log(similarities);
 
 
 
@@ -463,16 +528,18 @@ for (const key in overlappingData) {
   }
 }
 
-const similarityPct = similaritiesCount / minCount * 100;
-console.log(similaritiesCount);
-console.log(minCount);
-console.log(similarityPct);
 
 
 
 
 
-const getTopSongs = async (songIds) => {
+
+const similarityPct = similaritiesCount / (0.5 * (entryCount1 + entryCount2)) * 100;
+
+
+
+
+const getSongs = async (songIds, arrayToSet) => {
   if(songIds.length > 0) {
     const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
       headers: {
@@ -483,16 +550,16 @@ const getTopSongs = async (songIds) => {
       }
     });
 
-    const topSongsData = data.tracks.map(track => ({
+    const songsData = data.tracks.map(track => ({
       name: track.name,
       artists: track.artists.map(artist => artist.name),
       img: track.album.images[0]?.url || missingImage
     }));
     
-    setTopSongs(topSongsData);
+    arrayToSet(songsData);
   }
   else {
-    setTopSongs(['Not enough data to compute']);
+    arrayToSet([])
   }
 };
 
@@ -544,29 +611,54 @@ const getLowestAudioFeatureSongs = async (songIds) => {
   }
 };
 
-const getMostLeastPopSongs = async (songIds) => {
-  if(songIds.length > 0) {
+
+
+
+const getMostLeastPopSongs = async (songIds, arrayToSet) => {
+  if(songIds.length == 0 || (songIds[0] == '' && songIds[1] == '')) {
+    arrayToSet(['','']);
+    return;
+  }
+  
+  let ids = songIds.join(',');
+  let indices = '01';
+  if(songIds[0] == '') {
+    ids = songIds[1];
+    indices = '1'
+  }
+  else if(songIds[1] == '') {
+    ids = songIds[0];
+    indices = '0'
+  }
+  
+  
+  
+  
     const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
       headers: {
         Authorization: `Bearer ${token}`
       },
       params: {
-        ids: songIds.join(',')
+        ids: ids
       }
     });
 
-    const mostLeastPopSongsData = data.tracks.map(track => ({
+     const mostLeastPopSongsData = data.tracks.map(track => ({
       name: track.name,
       pop: track.popularity,
       artists: track.artists.map(artist => artist.name),
       img: track.album.images[0]?.url || missingImage
     }));
-
-    setMostLeastPopSongs(mostLeastPopSongsData);
-  }
-  else {
-    setMostLeastPopSongs(['Not enough data to compute']);
-  }
+  
+    if(indices == '01') {
+      arrayToSet(mostLeastPopSongsData);
+    }
+    else if(indices == '1') {
+      arrayToSet(['',mostLeastPopSongsData[0]]);
+    }
+    else if(indices == '0') {
+      arrayToSet([mostLeastPopSongsData[0],'']);
+    }
 };
 
 const getOldestNewestSongs = async (songIds) => {
@@ -594,7 +686,7 @@ const getOldestNewestSongs = async (songIds) => {
   }
 };
 
-const getTopAlbums = async (albumIds) => {
+const getAlbums = async (albumIds, arrayToSet) => {
   if(albumIds.length > 0) {
     const maxAlbumsPerRequest = 20;
     const albumChunks = [];
@@ -603,7 +695,7 @@ const getTopAlbums = async (albumIds) => {
       albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
     }
 
-    const topAlbumData = [];
+    const albumData = [];
 
     for(const albumChunk of albumChunks) {
       const {data} = await axios.get("https://api.spotify.com/v1/albums", {
@@ -621,13 +713,13 @@ const getTopAlbums = async (albumIds) => {
         img: album.images[0]?.url || missingImage
       }));
 
-      topAlbumData.push(...chunkAlbumsData);
+      albumData.push(...chunkAlbumsData);
     }
 
-    setTopAlbums(topAlbumData);
+    arrayToSet(albumData);
   } 
   else {
-    setTopAlbums(['Not enough data to compute']);
+    arrayToSet([]);
   }
 };
 
@@ -657,7 +749,7 @@ const getMostLeastPopAlbums = async (albumIds) => {
 };
 
 
-const getTopArtists = async (artistIds) => {
+const getArtists = async (artistIds, arrayToSet) => {
   if(artistIds.length > 0) {
     const {data} = await axios.get("https://api.spotify.com/v1/artists", {
       headers: {
@@ -668,15 +760,15 @@ const getTopArtists = async (artistIds) => {
       }
     });
 
-    const topArtistsData = data.artists.map(artist => ({
+    const artistData = data.artists.map(artist => ({
       name: artist.name,
       img: artist.images[0]?.url || missingImage
     }));
     
-    setTopArtists(topArtistsData);
+    arrayToSet(artistData);
   }
   else {
-    setTopArtists(['Not enough data to compute']);
+    arrayToSet([]);
   }
 };
 
@@ -712,7 +804,7 @@ function handleConvertToImage() {
       const image = canvas.toDataURL("image/png");
       console.log(image, "image");
 
-      var fileName = 'Your comparify Result with ' + userNameAndId2[0].replace(/\./g, '') + '.png';
+      var fileName = 'Your comparify score with ' + nameIdImgurlGenerationdate2[0].replace(/\./g, '') + '.png';
       downloadPNG(image, fileName);
     });
   }
@@ -734,40 +826,226 @@ function downloadPNG(url, filename) {
   anchorElement.click();
 }
 
-const [topSongs, setTopSongs] = useState([]);
+const [sharedTopSongs, setSharedTopSongs] = useState([]);
+const [user1TopSongs, setUser1TopSongs] = useState([]);
+const [user2TopSongs, setUser2TopSongs] = useState([]);
+
+
+const [sharedTopArtists, setSharedTopArtists] = useState([]);
+const [user1TopArtists, setUser1TopArtists] = useState([]);
+const [user2TopArtists, setUser2TopArtists] = useState([]);
+
+const [sharedTopAlbums, setSharedTopAlbums] = useState([]);
+const [user1TopAlbums, setUser1TopAlbums] = useState([]);
+const [user2TopAlbums, setUser2TopAlbums] = useState([]);
+
+
+const [sharedMostLeastPopSongs, setSharedMostLeastPopSongs] = useState([]);
+const [user1MostLeastPopSongs, setUser1MostLeastPopSongs] = useState([]);
+const [user2MostLeastPopSongs, setUser2MostLeastPopSongs] = useState([]);
+
+
+
 const [highestAudioFeatureSongs, setHighestAudioFeatureSongs] = useState([]);
 const [lowestAudioFeatureSongs, setLowestAudioFeatureSongs] = useState([]);
-const [mostLeastPopSongs, setMostLeastPopSongs] = useState([]);
 const [oldestNewestSongs, setOldestNewestSongs] = useState([]);
-const [topAlbums, setTopAlbums] = useState([]);
 const [mostLeastPopAlbums, setMostLeastPopAlbums] = useState([]);
-const [topArtists, setTopArtists] = useState([]);
+
+
+
+
 const [mostLeastPopArtists, setMostLeastPopArtists] = useState([]);
 
 useEffect(() => {
-  getTopSongs(overlappingData.songIds);
+  getSongs(overlappingData.songIds, setSharedTopSongs);
+  getSongs(arrays1.songIds.filter(item => !overlappingData.songIds.includes(item)), setUser1TopSongs);
+  getSongs(arrays2.songIds.filter(item => !overlappingData.songIds.includes(item)), setUser2TopSongs);
+
+
+
+
   getHighestAudioFeatureSongs(overlappingData.highestAudioFeatureSongIds);
   getLowestAudioFeatureSongs(overlappingData.lowestAudioFeatureSongIds);
-  getMostLeastPopSongs(overlappingData.mostLeastPopSongIds);
+
+
+
+  getMostLeastPopSongs(overlappingData.mostLeastPopSongIds, setSharedMostLeastPopSongs);
+  getMostLeastPopSongs(arrays1.mostLeastPopSongIds, setUser1MostLeastPopSongs);
+  getMostLeastPopSongs(arrays2.mostLeastPopSongIds, setUser2MostLeastPopSongs);
+  
+
+
+
+
+
   getOldestNewestSongs(overlappingData.oldestNewestSongIds);
-  getTopAlbums(overlappingData.albumIds);
+
+
+  getAlbums(overlappingData.albumIds, setSharedTopAlbums);
+  getAlbums(arrays1.albumIds.filter(item => !overlappingData.albumIds.includes(item)), setUser1TopAlbums);
+  getAlbums(arrays2.albumIds.filter(item => !overlappingData.albumIds.includes(item)), setUser2TopAlbums);
+
+
+
   getMostLeastPopAlbums(overlappingData.mostLeastPopAlbumIds);
-  getTopArtists(overlappingData.artistIds);
+
+  getArtists(overlappingData.artistIds, setSharedTopArtists);
+  getArtists(arrays1.artistIds.filter(item => !overlappingData.artistIds.includes(item)), setUser1TopArtists);
+  getArtists(arrays2.artistIds.filter(item => !overlappingData.artistIds.includes(item)), setUser2TopArtists);
+
   getMostLeastPopArtists(overlappingData.mostLeastPopArtistIds);
 }, [selectedTimeRange]);
-
   
+
 const features = ['acousticness','danceability','duration','energy','instrumentalness','liveness','loudness','speechiness','tempo','valence'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const openModal = async () => {
+  setIsOpen(true);
+  await handleGptSumbit();
+};
+
+const handleGptSumbit = async () => {
+  setGptLoading(true);
+  let gptPrompt = 'Compare and contrast ' + nameIdImgurlGenerationdate1[0] + ' and ' + nameIdImgurlGenerationdate2[0] + "'s music taste in the form of a short poem.";
+
+  if(!gptPrompt) {
+    gptPrompt = "Display the following statement (without quotes around it): Prompt error. Try again.";
+  }
+  console.log(gptPrompt);
+  
+  try {
+    const result = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: gptPrompt,
+      temperature: 1,
+      max_tokens: 700,
+    });
+    console.log("response", result.data.choices[0].text);
+    setApiResponse(result.data.choices[0].text);
+  } catch(error) {
+    console.log(error);
+    setApiResponse("ChatGPT error. This is likely a rate limit. Try again in a minute or so.");
+    setGptLoading(false);
+  }
+  setGptLoading(false);
+};
+
+
+const [isOpen, setIsOpen] = useState(false);
+
+ 
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const customStyles = {
+    overlay: {
+      zIndex: 9999,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      
+      
+    },
+    content: {
+      zIndex: 9999,
+      width: '400px',
+      height: 'fit-content',
+      margin: 'auto',
+      borderRadius: '10px',
+      outline: 'none',
+      padding: '20px',
+
+      maxHeight: '400px',
+      overflowY: 'auto'
+    }
+  };
+
+
+  Modal.setAppElement('#root')
+
+  const configuration = new Configuration({
+    organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  });
+
+  delete configuration.baseOptions.headers['User-Agent'];
+
+  const openai = new OpenAIApi(configuration);
+  const [apiResponse, setApiResponse] = useState("");
+
+
+  const [gptLoading, setGptLoading] = useState(false);
+
 
 
     return (
       
         <div>
 
+
+
+
+
           <img src={logo} style={{width:80,paddingTop:'20px'}}></img>
-          <h3>comparify Results</h3>
-          <h4><span style={{color:'#1e90ff'}}>{userNameAndId1[0]}</span> <span style={{color:'#18d860'}}>vs.</span> <span style={{color:'#FFDF00'}}>{userNameAndId2[0]}</span></h4>
-          {/* <h2>{similarityPct.toFixed(3)}% <span style={{fontSize:'16px'}}>similar</span></h2> */}
+          <h3>comparify results<span>&emsp;<img id='gptTooltip' className='zoom' onClick={openModal} src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span></h3>
+          <div className="container">
+        <div className="image">
+            <img src={nameIdImgurlGenerationdate1[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img>
+            <div className="text" style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate1[0]}</div>
+        </div>
+        <span style={{color:'#18d860', fontWeight:'bold'}}>vs.</span>
+        <div className="image">
+            <img src={nameIdImgurlGenerationdate2[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 2"></img>
+            <div className="text" style={{color:'#FFDF00', fontWeight:'bold'}}>{nameIdImgurlGenerationdate2[0]}</div>
+        </div>
+
+    </div>
           <h2>
     <span
       style={{
@@ -782,7 +1060,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
    
     <span style={{ fontSize: '16px' }}> similar&emsp;</span>
     
-    <button className="saveImg" onClick={handleConvertToImage} title='Download image'><img src={download} style={{width:'10px'}}></img></button>
+    <button className="saveImg" onClick={handleConvertToImage} title='Download score image'><img src={download} style={{width:'10px'}}></img></button>
   </h2>
 
   <div style={{width:'0',height:'0',overflow:'hidden'}}>
@@ -790,8 +1068,8 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
                         <div id="imgDiv" style={{width:200}}>
 
                                 <img src={logo} style={{width:80,paddingTop:'20px'}}></img>
-                                <h3>comparify Results</h3>
-                                <h4><span style={{color:'#1e90ff'}}>{userNameAndId1[0]}</span> <span style={{color:'#18d860'}}>vs.</span> <span style={{color:'#FFDF00'}}>{userNameAndId2[0]}</span></h4>
+                                <h3>comparify score</h3>
+                                <h4><span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate1[0]}</span> <span style={{color:'#18d860'}}>vs.</span> <span style={{color:'#FFDF00'}}>{nameIdImgurlGenerationdate2[0]}</span></h4>
                                 {/* <h2>{similarityPct.toFixed(3)}% <span style={{fontSize:'16px'}}>similar</span></h2> */}
                                 <span className="timeRange">{selectedTimeRangeClean}</span>
                                 
@@ -821,160 +1099,460 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
               <button className={`navBtn ${selectedButton === 3 ? 'selected' : ''}`} onClick={() => selectButton(3)}>all time</button>
             </div>
           </div>
-{/* 
-        <div className="songContainer">
-          <div className="songTitle">top songs</div>
-            <div className="songCard">
-              <div className="songContent">   
-                {topSongs.length > 0 ? (
-                  topSongs.map((song, index) => (
-                    <div key={index} className="songItem">
-                      <img src={song.img} className="songImage" />
-                      <div className="songText">
-                        <span className="songName">{song.name}</span>
-                        <span className="songArtists">&emsp;{song.artists.join(', ')}</span>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div>no similarities.</div>
-                )}
-            </div>
+
+
+
+  <table className='compareTable'>
+  <tbody>
+    <tr>
+      <th>
+        <div className="image">
+            <img src={nameIdImgurlGenerationdate1[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img>
+            <div className="text" style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate1[0]}</div>
+        </div>
+      </th>
+      <th>
+        <div className="container" style={{color:'#18d860', fontWeight:'bold'}}>
+          <div className="image">
+            <img src={nameIdImgurlGenerationdate1[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img>
+            <div className="text" style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate1[0]}</div>
           </div>
-        </div> */}
-
-
-    <div className="card-row">
-        <div className="primaryCard1">
-            <div className='primaryTitle'>shared top songs</div>
-              {topSongs.map((song, index) => (
-                <div key={index} className="item">
-                  <img src={song.img} className="primaryImage" />
-                  <div className="primaryText">
-                    <span className="primaryName">{song.name}</span>
-                    <span className="primaryArtists">{song.artists.join(', ')}</span>
-                  </div>
+          <span>+</span>
+          <div className="image">
+            <img src={nameIdImgurlGenerationdate2[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 2"></img>
+            <div className="text" style={{color:'#FFDF00', fontWeight:'bold'}}>{nameIdImgurlGenerationdate2[0]}</div>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div className="image">
+            <img src={nameIdImgurlGenerationdate2[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img>
+            <div className="text" style={{color:'#FFDF00', fontWeight:'bold'}}>{nameIdImgurlGenerationdate2[0]}</div>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCard1'>
+          <div className='primaryTitle'>top songs</div>
+          {user1TopSongs.length > 0 &&
+            user1TopSongs.map((song, index) => (
+              <div key={index} className="item">
+                <img src={song.img} className="primaryImage" />
+                <div className="primaryText">
+                  <span className="primaryName">{song.name}</span>
+                  <span className="primaryArtists">{song.artists.join(', ')}</span>
                 </div>
-              ))}
-            </div>
-
-
-            <div className="primaryCard2">
-        <div className='primaryTitle'>shared top artists</div>
-          {topArtists.map((artist, index) => (
+              </div>
+            ))
+            }
+        </div>
+      </td>
+      <td>
+        <div className='compareCard2'>
+          <div className='primaryTitle'>top songs</div>
+          {sharedTopSongs.length > 0 &&
+            sharedTopSongs.map((song, index) => (
             <div key={index} className="item">
-              <img src={artist.img} className="primaryImage" />
+              <img src={song.img} className="primaryImage" />
               <div className="primaryText">
-                <span className="primaryName">{artist.name}</span>
+                <span className="primaryName">{song.name}</span>
+                <span className="primaryArtists">{song.artists.join(', ')}</span>
               </div>
             </div>
           ))}
         </div>
-
-
-
-        <div className="primaryCard1" id='topAlbums'>
-        <div className='primaryTitle'>shared top albums</div>
-          {topAlbums.map((album, index) => (
-            <div key={index} className="item">
+      </td>
+      <td>
+        <div className='compareCard3'>
+          <div className='primaryTitle'>top songs</div>
+          {user2TopSongs.length > 0 &&
+            user2TopSongs.map((song, index) => (
+              <div key={index} className="item">
+                <img src={song.img} className="primaryImage" />
+                <div className="primaryText">
+                  <span className="primaryName">{song.name}</span>
+                  <span className="primaryArtists">{song.artists.join(', ')}</span>
+                </div>
+              </div>
+            ))
+            }
+        </div>
+        </td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCard1'>
+          <div className='primaryTitle'> top artists</div>
+          {user1TopArtists.length > 0 &&
+            user1TopArtists.map((artist, index) => (
+              <div key={index} className="item">
+                <img src={artist.img} className="primaryImage" />
+                <div className="primaryText">
+                  <span className="primaryName">{artist.name}</span>
+                </div>
+              </div>
+            ))
+            }
+        </div>
+      </td>
+      <td>
+        <div className='compareCard2'>
+          <div className='primaryTitle'> top artists</div>
+          {sharedTopArtists.length > 0 &&
+            sharedTopArtists.map((artist, index) => (
+              <div key={index} className="item">
+                <img src={artist.img} className="primaryImage" />
+                <div className="primaryText">
+                  <span className="primaryName">{artist.name}</span>
+                </div>
+              </div>
+            ))
+            }
+        </div>
+      </td>
+      <td>
+        <div className='compareCard3'>
+          <div className='primaryTitle'> top artists</div>
+          {user2TopArtists.length > 0 &&
+            user2TopArtists.map((artist, index) => (
+              <div key={index} className="item">
+                <img src={artist.img} className="primaryImage" />
+                <div className="primaryText">
+                  <span className="primaryName">{artist.name}</span>
+                </div>
+              </div>
+            ))
+            }
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCard1'>
+          <div className='primaryTitle'> top albums</div>
+          {user1TopAlbums.length > 0 &&
+            user1TopAlbums.map((album, index) => (
+              <div key={index} className="item">
               <img src={album.img} className="primaryImage" />
               <div className="primaryText">
                 <span className="primaryName">{album.name}</span>
                 <span className="primaryArtists">{album.artists.join(', ')}</span>
               </div>
             </div>
-          ))}
+            ))
+            }
         </div>
-
-
-        <div className="primaryCard2" id='topGenres'>
-        <div className='primaryTitle'>shared top genres</div>
-          {overlappingData.topGenresByArtist.map((genre, index) => (
-            <div key={index} className="item">
+      </td>
+      <td>
+        <div className='compareCard2'>
+          <div className='primaryTitle'> top albums</div>
+          {sharedTopAlbums.length > 0 &&
+            sharedTopAlbums.map((album, index) => (
+              <div key={index} className="item">
+              <img src={album.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{album.name}</span>
+                <span className="primaryArtists">{album.artists.join(', ')}</span>
+              </div>
+            </div>
+            ))
+            }
+        </div>
+      </td>
+      <td>
+        <div className='compareCard3'>
+          <div className='primaryTitle'> top albums</div>
+          {user2TopAlbums.length > 0 &&
+            user2TopAlbums.map((album, index) => (
+              <div key={index} className="item">
+              <img src={album.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{album.name}</span>
+                <span className="primaryArtists">{album.artists.join(', ')}</span>
+              </div>
+            </div>
+            ))
+            }
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCard1'>
+          <div className='primaryTitle'> top genres</div>
+          {arrays1.topGenresByArtist.filter(item => !overlappingData.topGenresByArtist.includes(item)).length > 0 &&
+            arrays1.topGenresByArtist.filter(item => !overlappingData.topGenresByArtist.includes(item)).map((genre, index) => (
+              <div key={index} className="item">
               <div className="primaryText">
                 <span className="primaryName">{genre}</span>
               </div>
             </div>
-          ))}
+            ))
+            }
+
+          
         </div>
-
-
-        <div className="primaryCard3" id='topLabels'>
-        <div className='primaryTitle'>shared top labels</div>
-          {overlappingData.topLabelsByAlbums.map((label, index) => (
-            <div key={index} className="item">
+      </td>
+      <td>
+        <div className='compareCard2'>
+          <div className='primaryTitle'> top genres</div>
+          {overlappingData.topGenresByArtist.length > 0 &&
+            overlappingData.topGenresByArtist.map((genre, index) => (
+              <div key={index} className="item">
+              <div className="primaryText">
+                <span className="primaryName">{genre}</span>
+              </div>
+            </div>
+            ))
+            }
+        </div>
+      </td>
+      <td>
+        <div className='compareCard3'>
+          <div className='primaryTitle'> top genres</div>
+          {arrays2.topGenresByArtist.filter(item => !overlappingData.topGenresByArtist.includes(item)).length > 0 &&
+            arrays2.topGenresByArtist.filter(item => !overlappingData.topGenresByArtist.includes(item)).map((genre, index) => (
+              <div key={index} className="item">
+              <div className="primaryText">
+                <span className="primaryName">{genre}</span>
+              </div>
+            </div>
+            ))
+            }
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCard1'>
+          <div className='primaryTitle'> top labels</div>
+          {arrays1.topLabelsByAlbums.filter(item => !overlappingData.topLabelsByAlbums.includes(item)).length > 0 &&
+            arrays1.topLabelsByAlbums.filter(item => !overlappingData.topLabelsByAlbums.includes(item)).map((label, index) => (
+              <div key={index} className="item">
               <div className="primaryText">
                 <span className="primaryName">{label}</span>
               </div>
             </div>
-          ))}
+            ))
+          }
+          
         </div>
-
-      
-    </div>
-
-
-    <div className="card-row" style={{paddingTop:'30px'}}>
-              <div className="primaryCard4">
-              <div className='primaryTitle'>same most popular song?</div>
-              {mostLeastPopSongs && mostLeastPopSongs[0] && (
-                <div className="item">
-                  <img src={mostLeastPopSongs[0]?.img} className="primaryImage" />
-                  <div className="primaryText">
-                    <span className="primaryName">{mostLeastPopSongs[0]?.name}</span>
-                    <span className="primaryArtists">
-                      {mostLeastPopSongs[0]?.artists.join(', ')}
-                    </span>
-                    <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopSongs[0]?.pop}</span>
-                  </div>
-                </div>
-              )}
-              
+      </td>
+      <td>
+        <div className='compareCard2'>
+          <div className='primaryTitle'> top labels</div>
+          {overlappingData.topLabelsByAlbums.length > 0 &&
+            overlappingData.topLabelsByAlbums.map((label, index) => (
+              <div key={index} className="item">
+              <div className="primaryText">
+                <span className="primaryName">{label}</span>
+              </div>
             </div>
-
-
-
-
-  <div className="primaryCard4">
-    <div className='primaryTitle'>same least popular song?</div>
-    {mostLeastPopSongs && mostLeastPopSongs[1] && (
-      <div className="item">
-        <img src={mostLeastPopSongs[1]?.img} className="primaryImage" />
-        <div className="primaryText">
-          <span className="primaryName">{mostLeastPopSongs[1]?.name}</span>
-          <span className="primaryArtists">
-            {mostLeastPopSongs[1]?.artists.join(', ')}
-          </span>
-          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopSongs[1]?.pop}</span>
+            ))
+          }
+          
         </div>
-      </div>
-    )}
-    
-  </div>
-
-
-
-  <div className="primaryCard4">
-    <div className='primaryTitle'>same oldest song?</div>
-    {oldestNewestSongs && oldestNewestSongs[0] && (
-      <div className="item">
-        <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
-        <div className="primaryText">
-          <span className="primaryName">{oldestNewestSongs[0]?.name}</span>
-          <span className="primaryArtists">
-            {oldestNewestSongs[0]?.artists.join(', ')}
-          </span>
-          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date.substr(0,4)}</span>
+      </td>
+      <td>
+        <div className='compareCard3'>
+          <div className='primaryTitle'> top labels</div>
+          {arrays2.topLabelsByAlbums.filter(item => !overlappingData.topLabelsByAlbums.includes(item)).length > 0 &&
+            arrays2.topLabelsByAlbums.filter(item => !overlappingData.topLabelsByAlbums.includes(item)).map((label, index) => (
+              <div key={index} className="item">
+              <div className="primaryText">
+                <span className="primaryName">{label}</span>
+              </div>
+            </div>
+            ))
+          }
         </div>
-      </div>
-    )}
-    
-  </div>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>most popular song</div>
+          {user1MostLeastPopSongs && user1MostLeastPopSongs[0] && arrays1.mostLeastPopSongIds[0] !== arrays2.mostLeastPopSongIds[0] && (
+            <div className="item">
+              <img src={user1MostLeastPopSongs[0]?.img} className="primaryImage"/>
+              <div className="primaryText">
+                <span className="primaryName">{user1MostLeastPopSongs[0]?.name}</span>
+                <span className="primaryArtists">
+                  {user1MostLeastPopSongs[0]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}} id='popularity'>{user1MostLeastPopSongs[0]?.pop}</span>
+              </div>
+            </div>
+            )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>most popular song</div>
+          {sharedMostLeastPopSongs && sharedMostLeastPopSongs[0] && (
+            <div className="item">
+              <img src={sharedMostLeastPopSongs[0]?.img} className="primaryImage"/>
+              <div className="primaryText">
+                <span className="primaryName">{sharedMostLeastPopSongs[0]?.name}</span>
+                <span className="primaryArtists">
+                  {sharedMostLeastPopSongs[0]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}} id='popularity'>{sharedMostLeastPopSongs[0]?.pop}</span>
+              </div>
+            </div>
+            )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>most popular song</div>
+          {user2MostLeastPopSongs && user2MostLeastPopSongs[0] && arrays1.mostLeastPopSongIds[0] !== arrays2.mostLeastPopSongIds[0] && (
+            <div className="item">
+              <img src={user2MostLeastPopSongs[0]?.img} className="primaryImage"/>
+              <div className="primaryText">
+                <span className="primaryName">{user2MostLeastPopSongs[0]?.name}</span>
+                <span className="primaryArtists">
+                  {user2MostLeastPopSongs[0]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}} id='popularity'>{user2MostLeastPopSongs[0]?.pop}</span>
+              </div>
+            </div>
+            )}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>least popular song</div>
+          {user1MostLeastPopSongs && user1MostLeastPopSongs[1] && arrays1.mostLeastPopSongIds[1] !== arrays2.mostLeastPopSongIds[1] && (
+            <div className="item">
+              <img src={user1MostLeastPopSongs[1]?.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{user1MostLeastPopSongs[1]?.name}</span>
+                <span className="primaryArtists">
+                  {user1MostLeastPopSongs[1]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}} id='popularity'>{user1MostLeastPopSongs[1]?.pop}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>least popular song</div>
+          {sharedMostLeastPopSongs && sharedMostLeastPopSongs[1] && (
+            <div className="item">
+              <img src={sharedMostLeastPopSongs[1]?.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{sharedMostLeastPopSongs[1]?.name}</span>
+                <span className="primaryArtists">
+                  {sharedMostLeastPopSongs[1]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}} id='popularity'>{sharedMostLeastPopSongs[1]?.pop}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>least popular song</div>
+          {user2MostLeastPopSongs && user2MostLeastPopSongs[1] && arrays1.mostLeastPopSongIds[1] !== arrays2.mostLeastPopSongIds[1] && (
+            <div className="item">
+              <img src={user2MostLeastPopSongs[1]?.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{user2MostLeastPopSongs[1]?.name}</span>
+                <span className="primaryArtists">
+                  {user2MostLeastPopSongs[1]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}} id='popularity'>{user2MostLeastPopSongs[1]?.pop}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>oldest song</div>
+          {oldestNewestSongs && oldestNewestSongs[0] && (
+            <div className="item">
+              <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{oldestNewestSongs[0]?.name}</span>
+                <span className="primaryArtists">
+                  {oldestNewestSongs[0]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date.substr(0,4)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>oldest song</div>
+          {oldestNewestSongs && oldestNewestSongs[0] && (
+            <div className="item">
+              <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{oldestNewestSongs[0]?.name}</span>
+                <span className="primaryArtists">
+                  {oldestNewestSongs[0]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date.substr(0,4)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>oldest song</div>
+          {oldestNewestSongs && oldestNewestSongs[0] && (
+            <div className="item">
+              <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
+              <div className="primaryText">
+                <span className="primaryName">{oldestNewestSongs[0]?.name}</span>
+                <span className="primaryArtists">
+                  {oldestNewestSongs[0]?.artists.join(', ')}
+                </span>
+                <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date.substr(0,4)}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </td>
+    </tr>
 
-
-
-  <div className="primaryCard5">
-    <div className='primaryTitle'>same newest song?</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>newest song</div>
     {oldestNewestSongs && oldestNewestSongs[1] && (
       <div className="item">
         <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
@@ -987,13 +1565,48 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>newest song</div>
+    {oldestNewestSongs && oldestNewestSongs[1] && (
+      <div className="item">
+        <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{oldestNewestSongs[1]?.name}</span>
+          <span className="primaryArtists">
+            {oldestNewestSongs[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[1]?.date.substr(0,4)}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>newest song</div>
+    {oldestNewestSongs && oldestNewestSongs[1] && (
+      <div className="item">
+        <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{oldestNewestSongs[1]?.name}</span>
+          <span className="primaryArtists">
+            {oldestNewestSongs[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[1]?.date.substr(0,4)}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
-
-
-  <div className="primaryCard4">
-    <div className='primaryTitle'>same most popular artist?</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>most popular artist</div>
     {mostLeastPopArtists && mostLeastPopArtists[0] && (
       <div className="item">
         <img src={mostLeastPopArtists[0]?.img} className="primaryImage" />
@@ -1003,11 +1616,42 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>most popular artist</div>
+    {mostLeastPopArtists && mostLeastPopArtists[0] && (
+      <div className="item">
+        <img src={mostLeastPopArtists[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopArtists[0]?.name}</span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[0]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>most popular artist</div>
+    {mostLeastPopArtists && mostLeastPopArtists[0] && (
+      <div className="item">
+        <img src={mostLeastPopArtists[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopArtists[0]?.name}</span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[0]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
-  <div className="primaryCard4">
-    <div className='primaryTitle'>same least popular artist?</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>least popular artist</div>
     {mostLeastPopArtists && mostLeastPopArtists[1] && (
       <div className="item">
         <img src={mostLeastPopArtists[1]?.img} className="primaryImage" />
@@ -1017,14 +1661,43 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>least popular artist</div>
+    {mostLeastPopArtists && mostLeastPopArtists[1] && (
+      <div className="item">
+        <img src={mostLeastPopArtists[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopArtists[1]?.name}</span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>least popular artist</div>
+    {mostLeastPopArtists && mostLeastPopArtists[1] && (
+      <div className="item">
+        <img src={mostLeastPopArtists[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopArtists[1]?.name}</span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-
-
-  <div className="primaryCard4">
-    <div className='primaryTitle'>same most popular album?</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+          <div className='primaryTitle'>most popular album</div>
     {mostLeastPopAlbums && mostLeastPopAlbums[0] && (
       <div className="item">
         <img src={mostLeastPopAlbums[0]?.img} className="primaryImage" />
@@ -1037,12 +1710,49 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+          <div className='primaryTitle'>most popular album</div>
+    {mostLeastPopAlbums && mostLeastPopAlbums[0] && (
+      <div className="item">
+        <img src={mostLeastPopAlbums[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopAlbums[0]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopAlbums[0]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[0]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+          <div className='primaryTitle'>most popular album</div>
+    {mostLeastPopAlbums && mostLeastPopAlbums[0] && (
+      <div className="item">
+        <img src={mostLeastPopAlbums[0]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopAlbums[0]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopAlbums[0]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[0]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-  <div className="primaryCard4">
-    <div className='primaryTitle'>same least popular album?</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>least popular album</div>
     {mostLeastPopAlbums && mostLeastPopAlbums[1] && (
       <div className="item">
         <img src={mostLeastPopAlbums[1]?.img} className="primaryImage" />
@@ -1055,29 +1765,94 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>least popular album</div>
+    {mostLeastPopAlbums && mostLeastPopAlbums[1] && (
+      <div className="item">
+        <img src={mostLeastPopAlbums[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopAlbums[1]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopAlbums[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>least popular album</div>
+    {mostLeastPopAlbums && mostLeastPopAlbums[1] && (
+      <div className="item">
+        <img src={mostLeastPopAlbums[1]?.img} className="primaryImage" />
+        <div className="primaryText">
+          <span className="primaryName">{mostLeastPopAlbums[1]?.name}</span>
+          <span className="primaryArtists">
+            {mostLeastPopAlbums[1]?.artists.join(', ')}
+          </span>
+          <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[1]?.pop}</span>
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-  <div className="primaryCard4">
-    <div className='primaryTitle'>difference in average song popularity</div>
-    {/* {overlappingData.avgSongPop && ( */}
+
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+        <div className='primaryTitle'>average song popularity [difference]</div>
+    {overlappingData.avgSongPop && (
       <div className="item">
         <div className="primaryText">
           <span className="primaryName2" >{overlappingData.avgSongPop}</span>
-          <div>
-          <span style={{color:'#1e90ff'}}>{arrays1.avgSongPop}</span><span style={{color:'#18d860'}}> vs. </span><span style={{color:'#ffdf00'}}>{arrays2.avgSongPop}</span>
-
-          </div>
+         
         </div>
       </div>
-    {/* )} */}
-    
-  </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+        <div className='primaryTitle'>average song popularity [difference]</div>
+    {overlappingData.avgSongPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" >{overlappingData.avgSongPop}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+        <div className='primaryTitle'>average song popularity [difference]</div>
+    {overlappingData.avgSongPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" >{overlappingData.avgSongPop}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-  <div className="primaryCard4">
-    <div className='primaryTitle'>difference in song popularity standard deviation</div>
+
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>song popularity standard deviation [difference]</div>
     {overlappingData.songPopStdDev && (
       <div className="item">
         <div className="primaryText">
@@ -1086,12 +1861,43 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>song popularity standard deviation [difference]</div>
+    {overlappingData.songPopStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.songPopStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>song popularity standard deviation [difference]</div>
+    {overlappingData.songPopStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.songPopStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-  <div className="primaryCard4">
-  <div className='primaryTitle'>difference in average song age</div>
+
+
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>average song age</div>
   {overlappingData.avgSongAgeYrMo && (
     <div className="item">
       <div className="primaryText">
@@ -1101,13 +1907,44 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
       </div>
     </div>
   )}
-</div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>average song age</div>
+  {overlappingData.avgSongAgeYrMo && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {`${overlappingData.avgSongAgeYrMo[0] === 1 ? '1 year' : `${overlappingData.avgSongAgeYrMo[0]} years`}, ${overlappingData.avgSongAgeYrMo[1] === 1 ? '1 month' : `${overlappingData.avgSongAgeYrMo[1]} months`}`}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>average song age</div>
+  {overlappingData.avgSongAgeYrMo && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {`${overlappingData.avgSongAgeYrMo[0] === 1 ? '1 year' : `${overlappingData.avgSongAgeYrMo[0]} years`}, ${overlappingData.avgSongAgeYrMo[1] === 1 ? '1 month' : `${overlappingData.avgSongAgeYrMo[1]} months`}`}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+    </tr>
 
 
 
-
-<div className="primaryCard4">
-  <div className='primaryTitle'>difference in song age standard deviation</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>song age standard deviation</div>
   {overlappingData.songAgeStdDevYrMo && (
     <div className="item">
       <div className="primaryText">
@@ -1117,13 +1954,44 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
       </div>
     </div>
   )}
-</div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>song age standard deviation</div>
+  {overlappingData.songAgeStdDevYrMo && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2" id='stdDev'>
+          {`${overlappingData.songAgeStdDevYrMo[0] === 1 ? '1 year' : `${overlappingData.songAgeStdDevYrMo[0]} years`}, ${overlappingData.songAgeStdDevYrMo[1] === 1 ? '1 month' : `${overlappingData.songAgeStdDevYrMo[1]} months`}`}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>song age standard deviation</div>
+  {overlappingData.songAgeStdDevYrMo && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2" id='stdDev'>
+          {`${overlappingData.songAgeStdDevYrMo[0] === 1 ? '1 year' : `${overlappingData.songAgeStdDevYrMo[0]} years`}, ${overlappingData.songAgeStdDevYrMo[1] === 1 ? '1 month' : `${overlappingData.songAgeStdDevYrMo[1]} months`}`}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+    </tr>
 
 
 
-
-<div className="primaryCard6">
-  <div className='primaryTitle'>difference in percent songs explicit</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>percent songs explicit</div>
   {overlappingData.pctSongsExpl && (
     <div className="item">
       <div className="primaryText">
@@ -1133,13 +2001,44 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
       </div>
     </div>
   )}
-</div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>percent songs explicit</div>
+  {overlappingData.pctSongsExpl && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {overlappingData.pctSongsExpl}%
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>percent songs explicit</div>
+  {overlappingData.pctSongsExpl && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {overlappingData.pctSongsExpl}%
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+    </tr>
 
 
 
-
-<div className="primaryCard4">
-    <div className='primaryTitle'>difference in average album popularity</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>average album popularity</div>
     {overlappingData.avgAlbumPop && (
       <div className="item">
         <div className="primaryText">
@@ -1148,13 +2047,42 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>average album popularity</div>
+    {overlappingData.avgAlbumPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2">{overlappingData.avgAlbumPop}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>average album popularity</div>
+    {overlappingData.avgAlbumPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2">{overlappingData.avgAlbumPop}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
 
-  <div className="primaryCard4">
-    <div className='primaryTitle'>difference in album popularity standard deviation</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>album popularity standard deviation</div>
     {overlappingData.albumPopsStdDev && (
       <div className="item">
         <div className="primaryText">
@@ -1163,14 +2091,42 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>album popularity standard deviation</div>
+    {overlappingData.albumPopsStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.albumPopsStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>album popularity standard deviation</div>
+    {overlappingData.albumPopsStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.albumPopsStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
 
-
-  <div className="primaryCard4">
-    <div className='primaryTitle'>difference in average artist popularity</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>average artist popularity</div>
     {overlappingData.avgArtistPop && (
       <div className="item">
         <div className="primaryText">
@@ -1179,12 +2135,42 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>average artist popularity</div>
+    {overlappingData.avgArtistPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2">{overlappingData.avgArtistPop}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>average artist popularity</div>
+    {overlappingData.avgArtistPop && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2">{overlappingData.avgArtistPop}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-  <div className="primaryCard4">
-    <div className='primaryTitle'>difference in artist popularity standard deviation</div>
+
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>artist popularity standard deviation</div>
     {overlappingData.artistPopStdDev && (
       <div className="item">
         <div className="primaryText">
@@ -1193,14 +2179,56 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         </div>
       </div>
     )}
-    
-  </div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>artist popularity standard deviation</div>
+    {overlappingData.artistPopStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.artistPopStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>artist popularity standard deviation</div>
+    {overlappingData.artistPopStdDev && (
+      <div className="item">
+        <div className="primaryText">
+          <span className="primaryName2" id='stdDev'>{overlappingData.artistPopStdDev}</span>
+         
+        </div>
+      </div>
+    )}
+        </div>
+      </td>
+    </tr>
 
 
-
-
-  <div className="primaryCard6">
-  <div className='primaryTitle'>difference in average artist followers</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>average artist followers</div>
+         
+  {overlappingData.avgArtistFolls && (
+    <div className="item" style={{fontSize:'20px'}}>
+      <div className="primaryText">
+        <span className="primaryName2">
+          {overlappingData.avgArtistFolls}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>average artist followers</div>
   {overlappingData.avgArtistFolls && (
     <div className="item">
       <div className="primaryText">
@@ -1210,12 +2238,30 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
       </div>
     </div>
   )}
-</div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>average artist followers</div>
+  {overlappingData.avgArtistFolls && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2">
+          {overlappingData.avgArtistFolls}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+    </tr>
 
 
 
-<div className="primaryCard6">
-  <div className='primaryTitle'>difference in artist followers standard deviation</div>
+    <tr>
+      <td>
+        <div className='compareCardSmall1'>
+         <div className='primaryTitle'>artist followers standard deviation</div>
   {overlappingData.artistFollsStdDev && (
     <div className="item">
       <div className="primaryText">
@@ -1225,7 +2271,39 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
       </div>
     </div>
   )}
-</div>
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall2'>
+         <div className='primaryTitle'>artist followers standard deviation</div>
+  {overlappingData.artistFollsStdDev && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2" id='stdDev'>
+          {overlappingData.artistFollsStdDev}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+      <td>
+        <div className='compareCardSmall3'>
+         <div className='primaryTitle'>artist followers standard deviation</div>
+  {overlappingData.artistFollsStdDev && (
+    <div className="item">
+      <div className="primaryText">
+        <span className="primaryName2" id='stdDev'>
+          {overlappingData.artistFollsStdDev}
+        </span>
+      </div>
+    </div>
+  )}
+        </div>
+      </td>
+    </tr>
+</tbody>
+  </table> 
 
 
 
@@ -1234,21 +2312,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
 
 
-
-
-
-
-
-    </div>  
-
-
-
-
-
-
-
-
-    <div className="table-container">
+    {/* <div className="table-container">
         <table>
             <thead>
                 <tr>
@@ -1295,9 +2359,38 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
                 
             </tbody>
         </table>
-        </div>
+        </div> */}
 
+<Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        contentLabel="Popup Window"
+        style={customStyles} 
+        id="imgDiv"
+      >
 
+        <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT-generated comparison for <span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate1[0]}</span><span style={{color:'#18d860', fontWeight:'bold'}}> vs. </span> <span style={{color:'#FFDF00', fontWeight:'bold'}}>{nameIdImgurlGenerationdate2[0]}</span>'s music preferences</h2>
+        <span className="timeRange">{selectedTimeRangeClean}</span>
+          <div className='gptHaikusDiv'>
+              {gptLoading && <div className="loadingDots">
+                        <div className="loadingDots--dot"></div>
+                        <div className="loadingDots--dot"></div>
+                        <div className="loadingDots--dot"></div>
+                    </div>}
+                          {/* {gptLoading && <h4>Generating response...</h4>} */}
+                        {apiResponse && (
+                        <div className='gptContent'>
+                          
+                        {/* {apiResponse.replace(/\//g, '<br></br>')} */}
+                        <div dangerouslySetInnerHTML={{ __html: apiResponse.replace(/\//g, '<br></br>') }}/>
+                        </div>
+                        )}
+            
+          </div>
+        <button className='closeBtn' onClick={closeModal}>Close</button>
+        <button className="saveImg2" onClick={handleConvertToImage} title='Download image'><img src={download} style={{width:'10px'}}></img></button>
+
+      </Modal>
        <Footer/>
 
 

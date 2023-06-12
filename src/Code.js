@@ -1,30 +1,24 @@
 import Big from 'big.js';
 import React from 'react';
 import {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router';
 import Footer from './Footer';
 import axios from 'axios';
-import './Data.css';
 import './App.css';
-import loading from './img/loading.gif'
 import { Tooltip as ReactTooltip } from 'react-tooltip'
-
+import back from './img/back.png'
 
 
 function Code() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const [loadingDownload, setLoadingDownload] = useState(false);
     const [loadingView, setLoadingView] = useState(false);
     const [loadingCompare1, setLoadingCompare1] = useState(false);
     const [loadingCompare2, setLoadingCompare2] = useState(false);
-
-
     const [files, setFiles] = useState([]);
-
-    const navigate = useNavigate();
-
-
-    ////////////
-
 
     const isTokenExpired = () => {
         const expirationTime = localStorage.getItem("expirationTime");
@@ -34,36 +28,17 @@ function Code() {
         return new Date().getTime() > parseInt(expirationTime);
       };
     
-      const logout = () => {
-    
+    const logout = () => {
         setToken("");
         setExpirationTime("");
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("expirationTime");
-        navigate('/');
-        
-      };
-
-    const [expirationTime, setExpirationTime] = useState("");///
-
-
-
-
-
-
-
-
-
-    /////////////
-
-    const [token, setToken] = useState('');
-   
-
-    const handleUpload = (e) => {
-      setFiles([...files, e.target.files]);
+        navigate('/'); 
     };
 
-
+    const [expirationTime, setExpirationTime] = useState("");
+    const [token, setToken] = useState('');
+   
     function simplifyNumber(number) {
         const abbreviations = {
           K: 1000,
@@ -88,8 +63,6 @@ function Code() {
         return simplifiedNumber;
     }
 
-
-
     const me = async () => {
         const {data} = await axios.get("https://api.spotify.com/v1/me", {
             headers: {
@@ -99,9 +72,7 @@ function Code() {
 
             }
         });
-        // return ['userNameAndId[2]', data.display_name, data.id];
-
-        return ['userNameAndId[2]', data.display_name, data.id, new Date()];
+        return ['nameIdImgurlGenerationdate[4]', data.display_name, data.id, data.images[0].url, new Date()];
     };
 
     const getSongAudioFeatureData = async (songIds) => {
@@ -317,13 +288,6 @@ function Code() {
             }
             return currentPopularArtistId;
         }, null);
-
-        // const leastPopArtistId = artistIdsAndPops.reduce((currentPopularArtistId, currentArtist) => {
-        //     if (!currentPopularArtistId || currentArtist.pop < artistIdsAndPops.find(album => album.id === currentPopularArtistId).pop) {
-        //         return currentArtist.id;
-        //     }
-        //     return currentPopularArtistId;
-        // }, null);
 
         const {id: leastPopArtistId} = artistIdsAndPops.reduce((acc, curr) => {
             return curr.pop < acc.pop ? curr : acc;
@@ -548,10 +512,6 @@ function Code() {
         navigate('/compare', {state: {file1: code.join(','), file2: file2, token: token}});
     };
 
-
-
-
-
     const toComparePage2 = async (number) => {
         setLoadingCompare2(true);
         
@@ -579,12 +539,9 @@ function Code() {
         fileReader.readAsText(files[0], "UTF-8");
         fileReader.onload = e => {
             const content = e.target.result;
-            // console.log(content);
             setFile2(content);
         };
     };
-
-
 
     const [file1TwoComp, setFile1TwoComp] = useState("");
     const [file2TwoComp, setFile2TwoComp] = useState("");
@@ -597,7 +554,6 @@ function Code() {
         fileReader.readAsText(files[0], "UTF-8");
         fileReader.onload = e => {
             const content = e.target.result;
-            // console.log(content);
             setFile1TwoComp(content);
         };
     };
@@ -609,7 +565,6 @@ function Code() {
         fileReader.readAsText(files[0], "UTF-8");
         fileReader.onload = e => {
             const content = e.target.result;
-            // console.log(content);
             setFile2TwoComp(content);
         };
     };
@@ -618,19 +573,21 @@ function Code() {
     useEffect(() => {
         const hash = window.location.hash;
         let token = window.localStorage.getItem('token');
-        let expirationTime = window.localStorage.getItem("expirationTime");//
+        let expirationTime = window.localStorage.getItem("expirationTime");
     
         if ((!token || !expirationTime) && hash) {
             token = hash.substring(1).split('&').find(elem => elem.startsWith('access_token')).split('=')[1];
-            let expiresIn = hash.substring(1).split("&").find(elem => elem.startsWith("expires_in")).split("=")[1];//
-            expirationTime = new Date().getTime() + parseInt(expiresIn) * 1000; // 
+            let expiresIn = hash.substring(1).split("&").find(elem => elem.startsWith("expires_in")).split("=")[1];
+            expirationTime = new Date().getTime() + parseInt(expiresIn) * 1000; 
+
+            window.history.replaceState(null, null, window.location.pathname + window.location.search); //idk
             window.location.hash = '';
             window.localStorage.setItem('token', token);
-            window.localStorage.setItem("expirationTime", expirationTime); //
+            window.localStorage.setItem("expirationTime", expirationTime);
         }
     
         setToken(token);
-        setExpirationTime(expirationTime); //  
+        setExpirationTime(expirationTime);  
 
         if (isTokenExpired()) {
             logout();
@@ -639,117 +596,102 @@ function Code() {
 
     return (
         <div>
-        <div className='cardOverlay'>
-           
-            <div className='codeDiv'>
-                <button onClick={downloadCode} className="basicBtn" title="Download your code" style={{marginTop:'10vh'}} disabled={loadingDownload}>download your code</button>
-                {loadingDownload &&
-                    <div className="loadingDots">
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                    </div>
-                }
-            </div>
-
-
-
-
-            <div className='codeDiv '>
-                {/* <div className='gradientWrapper'> */}
-            <a onClick={()=>{toDataPage()}}><button className='basicBtn' title="View your data" disabled={loadingView} >view your data</button></a>
-            {/* </div> */}
-                {loadingView &&
-                    <div className="loadingDots">
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                    </div>
-                }
-            </div>
-            <h4 style={{color:'#aaaaaa'}}>or</h4>
-            <div >
-               <h2 className="gradient" style={{paddingBottom:'5vh'}}>compare</h2>
-               </div>
-            <div style={{textAlign:'left',marginLeft:'6vw'}}>
-               
-
-            
-
-               
-                <input id="uploadOneTooltip" type="file" accept=".txt" onChange={addFile2}/>
-                <span className='codeDiv'>
-                {/* <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtn" disabled={!file2}>submit</button></a> */}
-                {!loadingCompare1 &&
-                <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtn" disabled={!file2}>submit</button></a>
-                    
-                }
-                {loadingCompare1 &&
-                <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtnWhite" disabled={!file2}>
-                <div className="loadingDots">
-                <div className="loadingDots--dot"></div>
-                <div className="loadingDots--dot"></div>
-                <div className="loadingDots--dot"></div>
-            </div></button></a>
-                
-                }
-            </span>
-            </div>
-            {/* <h4 style={{color:'#aaaaaa',paddingTop:'10vh'}}>or</h4> */}
-            <div style={{justifyContent: 'center', alignItems: 'center', textAlign: 'left', marginLeft: '6vw', paddingTop: '10vh'}}>
-            
-                <input type="file" id='uploadTwoTooltip1' accept=".txt" onChange={addFile1TwoComp}/>
-                <input type="file" id='uploadTwoTooltip2' accept=".txt" onChange={addFile2TwoComp}/>
-                {!loadingCompare2 &&
-                <a onClick={()=>{toComparePage2()}}><button className="submitBtn" disabled={!file1TwoComp  || !file2TwoComp}>submit</button></a>
-
-                }
-                {loadingCompare2 &&
-                <a onClick={()=>{toComparePage2()}}><button className="submitBtnWhite" disabled={!file1TwoComp  || !file2TwoComp}>
-                    <span className="loadingDots">
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
+            {location.state?.error && location.state.error === 400 &&
+                <div className='errorMessage'>
+                    code formatting error. make sure the file you uploaded is a valid comparify code.
+                </div>
+            }
+            <div className='cardOverlay'>
+                <div className='logout'>
+                    <img src={back} style={{width:'13px'}} title='Log out' onClick={logout}></img>
+                </div>
+                <div className='codeDiv'>
+                    <button onClick={downloadCode} className="basicBtn" title="Download your code" style={{marginTop:'10vh'}} disabled={loadingDownload}>download your code</button>
+                    {loadingDownload &&
+                        <div className="loadingDots">
+                            <div className="loadingDots--dot"></div>
+                            <div className="loadingDots--dot"></div>
+                            <div className="loadingDots--dot"></div>
+                        </div>
+                    }
+                </div>
+                <div className='codeDiv '>
+                    <a onClick={()=>{toDataPage()}}><button className='basicBtn' title="View your data" disabled={loadingView} >view your data</button></a>
+                    {loadingView &&
+                        <div className="loadingDots">
+                            <div className="loadingDots--dot"></div>
+                            <div className="loadingDots--dot"></div>
+                            <div className="loadingDots--dot"></div>
+                        </div>
+                    }
+                </div>
+                <h4 style={{color:'#aaaaaa'}}>or</h4>
+                <div>
+                    <h2 className="gradient" style={{paddingBottom:'5vh'}}>compare</h2>
+                </div>
+                <div style={{textAlign:'left',marginLeft:'6vw'}}>
+                    <input id="uploadOneTooltip" type="file" accept=".txt" onChange={addFile2}/>
+                    <span className='codeDiv'>
+                        {!loadingCompare1 &&
+                            <a onClick={()=>{toComparePage1()}}><button title="Submit" className="submitBtn" disabled={!file2}>submit</button></a>
+                        }
+                        {loadingCompare1 &&
+                            <a onClick={()=>{toComparePage1()}}>
+                                <button title="Submit" className="submitBtnWhite" disabled={!file2}>
+                                    <div className="loadingDots">
+                                        <div className="loadingDots--dot"></div>
+                                        <div className="loadingDots--dot"></div>
+                                        <div className="loadingDots--dot"></div>
+                                    </div>
+                                </button>
+                            </a>
+                        }
                     </span>
-                    </button></a>
+                </div>
+                <div style={{justifyContent: 'center', alignItems: 'center', textAlign: 'left', marginLeft: '6vw', paddingTop: '10vh'}}>
+                    <input type="file" id='uploadTwoTooltip1' accept=".txt" onChange={addFile1TwoComp}/>
+                    <input type="file" id='uploadTwoTooltip2' accept=".txt" onChange={addFile2TwoComp}/>
+                    {!loadingCompare2 &&
+                        <a onClick={()=>{toComparePage2()}}>
+                            <button className="submitBtn" disabled={!file1TwoComp  || !file2TwoComp}>submit</button>
+                        </a>
+                    }
+                    {loadingCompare2 &&
+                        <a onClick={()=>{toComparePage2()}}>
+                            <button className="submitBtnWhite" disabled={!file1TwoComp  || !file2TwoComp}>
+                                <span className="loadingDots">
+                                    <div className="loadingDots--dot"></div>
+                                    <div className="loadingDots--dot"></div>
+                                    <div className="loadingDots--dot"></div>
+                                </span>
+                            </button>
+                        </a>
+                    }
+                </div>
 
-                }
+                <ReactTooltip
+                    anchorSelect="#uploadOneTooltip"
+                    html={"upload the code for the user you want to compare with"}
+                    style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
+                    clickable={'true'}>
+                </ReactTooltip>
 
-                {/* {true &&
-                    <div className="loadingDots">
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                        <div className="loadingDots--dot"></div>
-                    </div>
-                } */}
+                <ReactTooltip
+                    anchorSelect="#uploadTwoTooltip1"
+                    html={"upload the code for the first user you want to compare with"}
+                    style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
+                    clickable={'true'}>
+                </ReactTooltip>
+
+                <ReactTooltip
+                    anchorSelect="#uploadTwoTooltip2"
+                    html={"upload the code for the second user you want to compare with"}
+                    style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
+                    clickable={'true'}>
+                </ReactTooltip>
             </div>
-            <ReactTooltip
-        anchorSelect="#uploadOneTooltip"
-        html={"upload the code for the user you want to compare with"}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
-        clickable={'true'}>
-      </ReactTooltip>
-
-      <ReactTooltip
-        anchorSelect="#uploadTwoTooltip1"
-        html={"upload the code for the first user you want to compare with"}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
-        clickable={'true'}>
-      </ReactTooltip>
-
-      <ReactTooltip
-        anchorSelect="#uploadTwoTooltip2"
-        html={"upload the code for the second user you want to compare with"}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
-        clickable={'true'}>
-      </ReactTooltip>
-      
-
-      </div>
-      <Footer/>
-    </div>
-      
-
+            <Footer/>
+        </div>
     )
 }
 
