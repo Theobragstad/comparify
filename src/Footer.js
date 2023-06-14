@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import logo from './img/logo.png';
 import spotify from './img/spotify.png';
+import openai from './img/openai.png';
+
 import Modal from 'react-modal';
 
 
@@ -27,7 +29,7 @@ const Footer = () => {
     },
     content: {
       zIndex: 9999,
-      width: '600px',
+      width: '75%',
       height: 'fit-content',
       margin: 'auto',
       borderRadius: '10px',
@@ -44,7 +46,7 @@ const Footer = () => {
       <span ><Link to="/"><img src={logo} style={{width:20}}></img></Link>&emsp;&copy; 2023&emsp;&emsp;</span><span id="infoTooltip">Info</span>&emsp;&emsp;<span onClick={openFooterModal} style={{cursor:'pointer'}}>Help</span>
       <ReactTooltip
         anchorSelect="#infoTooltip"
-        html={`comparify uses a variety of data points from multiple time spans to generate a code or "Music Fingerprint" based on your Spotify listening activity, which you can then use to compare your taste with others and gain unique insights. <div style='padding-top:10px'>Made by <a style='text-decoration:none;color:#bdf6d9' href='https://theobragstad.com'>Theo Bragstad</a></div>`}
+        html={`comparify uses a variety of data points from multiple time spans to generate a code or "Music Fingerprint" based on your Spotify listening activity, which you can then use to compare your taste with others and gain unique insights. <div style='padding-top:10px'>Made by <a style='text-decoration:none;color:#1e90ff' href='https://theobragstad.com'>Theo Bragstad</a></div>`}
         style={{backgroundColor:'#656565',color:'white',fontSize:14,pointerEvents: 'auto !important',fontWeight:'bold',zIndex:'2',borderRadius:'20px', wordBreak:'break-word', width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
@@ -55,26 +57,44 @@ const Footer = () => {
         contentLabel="Popup Window"
         style={customStyles}
       >
-        <h4 className='helpTitle'>Help</h4>
+        <h1 className='helpTitle'>Help</h1>
+        <h3 className='helpSection'>How to use</h3>
+        <div className='helpModalText' style={{fontWeight:'bold'}}>
+          <ol>
+            <li >From the homepage, click/tap on the logo to log in.</li>
+            <li >You can then download your code to share with friends and family.</li>
+            <li >You can also view your data by itself, without comparing.</li>
+            <li >Then, you have two options:</li>
+            <ul>
+              <li >Upload one other code to compare with your own data. (You can also upload an older code of your own to see how things have changed.)</li>
+              <li >Upload any two codes to compare.</li>
+            </ul>
+          </ol>
+        </div>
         <h5 className='helpSection'>Troubleshooting</h5>
         <div className='helpModalText'>
           <ul>
-            <li>If a page or button won't load, try clearing your cookies. To get them to appear for deletion in your browser's website settings menu (in Chrome, the button to the left of the URL in the search bar), you may have to go to the 'code' page of comparify. Then, go to the home page and try again.</li>
+            <li>comparify is primarily intended for use on a computer rather than a mobile device. The app is still functional on mobile, but you will have a better experience on a computer.</li>
+            <li>If a page or button won't load, try clearing your cookies. To get them to appear for deletion in your browser's website settings menu (in Chrome, the button to the left of the URL in the search bar), you may have to go to the <a style={{textDecoration:'none',  color:'#1e90ff'}} href="https://comparify.app/code">code</a> page of comparify. Then, go to the home page and try again.</li>
             <ul>
               <li>If this doesn't work, you can try a different browser or device, or try again later.</li>
-              <li>Note that the Spotify login session expires after one hour, so this could be the issue and you'll need to log in again and/or clear your cookies.</li>
+              <li>The Spotify login session expires after one hour, so this could be the issue and you'll need to log in again and/or clear your cookies.</li>
             </ul>
+            <li>The app times out after the Spotify login token expires, so you'll need to log in again.</li>
             <li>Regarding the ChatGPT feature, the OpenAI API is quite rate-limited, so you may encounter generation errors. The solution is generally to wait a minute or two before retrying. If the error persists, try again at a later time.</li>
-            <li>The same can be said for the Spotify API, which may occasionally run into limits. The solution is the same as above.</li>
+            <li>The same can be said for the Spotify API, which may run into limits depending on traffic. The solution is the same as above.</li>
             <li>If you encounter a random error message (rare), some combination of reloading the page, clearing your cookies, and/or logging back in and trying again usually does the trick.</li>
             <li>Rarely, you may see a blank or strangely formatted entry in your one or more of your data results. This could be due to missing data in Spotify's database, or due to a song you listened to that the API cannot get a complete or valid response for.</li>
             <li>If you encounter issues with uploading a code, make sure the format is correct. The compare feature only works for codes directly generated by the app, which have a very specific format. If you alter a code in any way, you will encounter unexpected behavior.</li>
+            <li>A note on some of the data points in the app: when a code is generated, the app uses Spotify's current popularity rating for various items to calculate values like the most popular song in your top songs for a given period. Once the code has been generated, there is no guarantee that the item's popularity will stay the same.
+              For example, if upon generation of the code your most popular song has a popularity score of 96, then it will remain this way even though its popularity may decrease, or be surpassed by another song. Therefore, such data points may become inaccurate for older codes because popularity changes over time.
+            </li>
           </ul>
         </div>
         <h5 className='helpSection'>How it works</h5>
         <div className='helpModalText'>
           <ul>
-            <li>comparify uses the <span><img src={spotify} style={{display:'inline-block', verticalAlign:'middle', width:'80px'}}></img></span> API to gather and analyze a large amount of Spotify user data about your music preferences from different time periods.</li>
+            <li>comparify uses the Spotify API to gather and analyze a large amount of Spotify user data about your music preferences from different time periods.</li>
             <li>Then, it generates a code in the form of a text file that serves as a "Musical Fingerprint" or snapshot of your taste at that moment in time.</li>
             <li>comparify is meant to provide unique and interesting insights into your Spotify activity and music habits in general.</li>
             <li>After logging in, you can either view your own data alone, or upload a comparify code from a friend or family member to compare your music.</li>
@@ -86,29 +106,30 @@ const Footer = () => {
             <li>The compare page gives a similarity score for you and the other person for each time range. This is by no means a completely thorough conclusion of your similarity, but it does provide a rough sense of how much, and what types, of music you have in common.</li>
             <li>You can share your similarity score by saving it as an image.</li>
             <li>You can also upload any two comparify codes to see their comparison. You can see your friend's data compared with someone else, or even upload two of your own codes from different times to see if/how your habits have changed.</li>
+            <li>Blue content indicates it is either your data or the first user's code. Yellow indicates data for the second user's code. Green indicates shared items, or differences in the case of statistics.</li>
           </ul>
         </div>
         <h5 className='helpSection'>Privacy, Data, and other Policy Information</h5>
         <div className='helpModalText'>
           <ul>
-            <li>comparify uses the <a style={{textDecoration:'none'}} href='https://developer.spotify.com/documentation/web-api'>Spotify API</a> to gather data and handle user login.</li>
+            <li>comparify uses the&ensp;<a style={{textDecoration:'none', color:'#1e90ff'}} href='https://developer.spotify.com/documentation/web-api'><span style={{fontSize:'12px', color:'#1ed760', fontWeight:'bold'}}><img src={spotify} style={{verticalAlign:'text-bottom', width:'80px'}}></img>&ensp;API&ensp;</span></a> to gather data and handle user login.</li>
             <li>No user data is used by this website for any other purposes than shown, and no sensitive personal data such as email addresses or passwords are shared.</li>
             <li>The only user data that is stored are temporary cookies which are needed to run the app.</li>
-            <li><b>You can use your browser settings to clear these cookies at any time. They are not saved in a server.</b></li>
+            <li><b>You can use your browser settings to clear these cookies at any time. They are not saved on a server.</b></li>
             <li>By choosing to log in to Spotify via comparify and using the app, you consent to analysis of the outlined music streaming data highlighted in the Spotify login permissions statement.</li>
             <li>comparify is a client-side app, meaning no data is sent to the cloud.</li>
-            <li>You can revoke comparify's access to your Spotify account at any time through their website, <a style={{textDecoration:'none'}} href='https://www.spotify.com/uk/account/apps/'>here</a>.</li>
+            <li>You can revoke comparify's access to your Spotify account at any time through their <a style={{textDecoration:'none',color:'#1e90ff'}} href='https://www.spotify.com/uk/account/apps/'>website</a>.</li>
             <br></br>
-            <li>comparify also uses the <a style={{textDecoration:'none'}} href='https://openai.com/blog/openai-api'>OpenAI API</a> to use ChatGPT.</li>
-            <li>comparify sends a prompt to ChatGPT containing a brief summary of your music preferences.</li>
-            <li>No personal data is used in the prompt. Your Spotify display name is not sent, and the prompt is anonymous beyond your music taste.</li>
+            <li>comparify also uses the&ensp;<a style={{textDecoration:'none', color:'black', fontWeight:'bold', fontSize:'12px'}} href='https://openai.com/blog/openai-api'><img src={openai} style={{verticalAlign:'text-bottom', width:'80px'}}></img>&ensp;API&ensp;</a> to use ChatGPT.</li>
+            <li>comparify sends a prompt to ChatGPT containing a brief summary of your music preferences. Due to size limits, the prompt is not intended to provide a complete picture of the data, but rather a brief overview.</li>
+            <li>No personal data is used in the prompt. None of your Spotify account information is sent, and the prompt is anonymous beyond your music taste.</li>
             <li>Use of the OpenAI API is voluntary. If you do not wish to use it, simply do not press the button (indicated by the ChatGPT logo) and no data will be sent.</li>
             <br></br>
             <li><b>Note that comparify is in no way affiliated with Spotify.</b></li>
           </ul>
         </div>
         <div className='helpModalText' style={{marginTop:'30px'}}>
-          For any further questions, email <a style={{textDecoration:'none'}} href='mailto:theobragstad2@gmail.com'>Theo Bragstad</a>.
+          For any further questions, email <a style={{textDecoration:'none', color:'#1e90ff'}} href='mailto:theobragstad2@gmail.com'>Theo Bragstad</a>.
         </div>
         <button className='closeBtn' onClick={closeFooterModal}>Close</button>
       </Modal>

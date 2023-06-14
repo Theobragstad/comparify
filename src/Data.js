@@ -66,7 +66,7 @@ function Data() {
         
         const image = canvas.toDataURL("image/png");
   
-        var fileName = 'Your ChatGPT creative music analysis.png';
+        var fileName = 'ChatGPT music analysis for ' + nameIdImgurlGenerationdate[0] + '.png';
         downloadPNG(image, fileName);
       });
     }
@@ -451,6 +451,10 @@ function Data() {
   const [mostLeastPopArtists, setMostLeastPopArtists] = useState([]);
 
 
+  const [highestAudioFeatureValues, setHighestAudioFeatureValues] = useState([]);
+  const [lowestAudioFeatureValues, setLowestAudioFeatureValues] = useState([]);
+
+
 
 
   function formatGptPrompt(topSong, topSongArtist, topArtist, topAlbum, topAlbumArtist, topGenre, topLabel, oldestSong, oldestSongArtist, oldestSongYear, newestSong, newestSongArtist, newestSongYear, avgSongPop, songPopStdDev, avgSongAgeYrMo, songAgeStdDevYrMo, avgArtistPop, artistPopStdDev, pctSongsExpl, highAudioFeatureAvgs, highAudioFeatureStdDevs, lowAudioFeatureAvgs, lowAudioFeatureStdDevs) {
@@ -552,14 +556,19 @@ function Data() {
     }
     getTopSongs(arrays.songIds);
     getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
+    getAudioFeatureValues(arrays.highestAudioFeatureSongIds, setHighestAudioFeatureValues);
+
     getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
+    getAudioFeatureValues(arrays.lowestAudioFeatureSongIds, setLowestAudioFeatureValues)
+
+
     getMostLeastPopSongs(arrays.mostLeastPopSongIds);
     getOldestNewestSongs(arrays.oldestNewestSongIds);
     getTopAlbums(arrays.albumIds);
     getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
     getTopArtists(arrays.artistIds);
     getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
-
+    
 
 
 
@@ -594,18 +603,115 @@ const [expirationTime, setExpirationTime] = useState("");
 const features = ['acousticness','danceability','duration','energy','instrumentalness','liveness','loudness','speechiness','tempo','valence'];
 
 
+
+const date = new Date(nameIdImgurlGenerationdate[3]);
+
+// Get the user's local time zone
+const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+// Convert the date to the user's local time zone
+const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZone });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  const getAudioFeatureValues = async (songIds, arrayToSet) => {
+    const featureNames = ['acousticness','danceability','duration_ms','energy','instrumentalness','liveness','loudness','speechiness','tempo','valence'];
+
+    const allEmpty = songIds.every(id => id === '');
+
+    if (allEmpty) {
+      return Array(songIds.length).fill('');
+    }
+
+    const filteredIds = songIds.filter(id => id !== '');
+
+    const {data} = await axios.get("https://api.spotify.com/v1/audio-features", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        ids: filteredIds.join(",")
+      }
+    });
+
+    const audioFeatures = data.audio_features.map(item => ({
+      id: item.id,
+      acousticness: item.acousticness,
+      danceability: item.danceability, 
+      duration_ms: item.duration_ms,
+      energy: item.energy,
+      instrumentalness: item.instrumentalness,
+      liveness: item.liveness,
+      loudness: item.loudness,
+      speechiness: item.speechiness,
+      tempo: item.tempo,
+      valence: item.valence
+    }));
+
+    const result = [];
+    for (let i = 0; i < songIds.length; i++) {
+      if (songIds[i] === '') {
+        result[i] = '';
+      } else {
+        const feature = featureNames[i];
+        const audioFeature = audioFeatures.find(item => item.id === songIds[i]);
+        if(feature === 'duration_ms') {
+          result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : '';
+        }
+        else {
+          result[i] = audioFeature ? audioFeature[feature] : '';
+        }
+      }
+    }
+    
+    arrayToSet(result);
+  };
+
+
+
+
+  
+
+
+  function msToMinSec(ms) {
+    const minutes = Math.floor(ms / 60000); 
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+
+
+
+
   return (
     <div>
-      <img className='dataPageLogo' src={logo}></img>
+       <Link to='/' title="Home" style={{display:'block'}}><img className='dataPageLogo' src={logo}></img></Link>
 
       <div class="container">
         <span><h4>comparify data for&nbsp;</h4></span>
         <div class="image">
-            <img src={nameIdImgurlGenerationdate[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img>
+        <a href={"https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]} ><img src={nameIdImgurlGenerationdate[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img></a>
             <div class="text" style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate[0]}</div>
         </div>
         <span>&emsp;<img id='gptTooltip' onClick={openModal} className='zoom' src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span>
 
+        </div>
+        <div className='generationDateTime'>
+          generated {generationDateTime}
         </div>
 
         
@@ -721,7 +827,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
 
 
      
-<div className="card-row" style={{paddingTop:'30px'}}>
+<div className="card-row" >
   <div className="primaryCard4">
     <div className='primaryTitle'>most popular song</div>
     {mostLeastPopSongs && mostLeastPopSongs[0] && (
@@ -1039,11 +1145,18 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th className='gradient'>average</th>
-                    <th className='gradient' id='stdDev'>standard deviation</th>
-                    <th className='gradient'>song with highest value</th>
-                    <th className='gradient'>song with lowest value</th>
+                <th style={{ textAlign: 'center', wordWrap: 'break-word' }}>
+  <div style={{ maxWidth: '140px', margin: '0 auto' }}>
+    <span style={{ fontSize: '10px' }}>&#9432;&ensp;Hover over select labels for more information.</span>
+  </div>
+</th>
+
+
+
+                    <th><span className='audioFeaturesColumnLabel'>average</span></th>
+                    <th id='stdDev'><span className='audioFeaturesColumnLabel'>standard deviation</span></th>
+                    <th><span className='audioFeaturesColumnLabel'>song with highest value</span></th>
+                    <th><span className='audioFeaturesColumnLabel'>song with lowest value</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -1051,11 +1164,14 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
     
 {features.map((feature, index) => {
             const highestSong = highestAudioFeatureSongs[index];
+            const highestSongValue = highestAudioFeatureValues[index];
+
             const lowestSong = lowestAudioFeatureSongs[index];
+            const lowestSongValue = lowestAudioFeatureValues[index];
 
             return (
               <tr key={feature}>
-                <td className='gradient' id={feature}>{feature}</td>
+                <td id={feature}><span className='audioFeaturesColumnLabel'>{feature}</span></td>
                 <td><div className='cellOutline'>{arrays.audioFeatureMeans[index]}</div></td>
                 <td><div className='cellOutline'>{arrays.audioFeatureStdDevs[index]}</div></td>
                 <td>
@@ -1064,8 +1180,14 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
                       <img className='primaryImage' src={highestSong.img} alt={highestSong.name} />
                       <p className='primaryName'> {highestSong.name}</p>&emsp;
                       <p className='primaryArtists'>{highestSong.artists.join(', ')}</p>
+                      {highestSongValue &&
+                  <span className='cellOutline' style={{marginLeft:'10px', fontSize:'11px'}}>
+                    {highestSongValue}
+                  </span>
+                  }
                     </div>
                   )}
+                  
                 </td>
                 <td>
                   {lowestSong && lowestSong.name && lowestSong.img && lowestSong.artists && (
@@ -1073,8 +1195,15 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
                       <img className='primaryImage' src={lowestSong.img} alt={lowestSong.name} />
                       <p className='primaryName'>{lowestSong.name}</p>&emsp;
                       <p className='primaryArtists'>{lowestSong.artists.join(', ')}</p>
+                      {/* {lowestSongValue && */}
+                  <span className='cellOutline' style={{marginLeft:'10px', fontSize:'11px'}}>
+                    {lowestSongValue}
+                  </span>
+                  {/* } */}
                     </div>
                   )}
+                  
+                  
                 </td>
               </tr>
             );
@@ -1211,7 +1340,7 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
         style={customStyles} 
         id="imgDiv"
       >
-        <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT-generated poem for <span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate[0]}</span>'s music preferences</h2>
+        <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT music analysis for <span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate[0]}</span></h2>
         <span className="timeRange">{selectedTimeRangeClean}</span>
           <div className='gptHaikusDiv'>
               {gptLoading && <div className="loadingDots">
@@ -1229,8 +1358,12 @@ const features = ['acousticness','danceability','duration','energy','instrumenta
                         )}
             
           </div>
+          {!gptLoading && 
+          <>
         <button className='closeBtn' onClick={closeModal}>Close</button>
         <button className="saveImg2" onClick={handleConvertToImage} title='Download image'><img src={download} style={{width:'10px'}}></img></button>
+        </>
+}
 
       </Modal>
        <Footer/>

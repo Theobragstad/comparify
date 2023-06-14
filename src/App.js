@@ -6,6 +6,7 @@ import Code from './Code';
 import Data from './Data';
 import Compare from './Compare';
 import Footer from './Footer';
+import NotFound from './NotFound';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/footer" element={<Footer/>}/>
         <Route path="/data" element={<Data/>}/>
         <Route path="/compare" element={<Compare/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>
   );
