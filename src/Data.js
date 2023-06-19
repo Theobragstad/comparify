@@ -12,7 +12,11 @@ import Footer from './Footer'
 import {Tooltip as ReactTooltip} from 'react-tooltip'
 import download from './img/download.png';
 import Modal from 'react-modal';
+import DataPageRecommendations from './DataPageRecommendations';
+
+
 const {Configuration, OpenAIApi} = require("openai");
+
 
 function Data() {
   Modal.setAppElement('#root')
@@ -44,8 +48,8 @@ function Data() {
       const result = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: gptPrompt,
-        temperature: 0.9,
-        max_tokens: 700,
+        temperature: 0.5,
+        max_tokens: 200,
       });
       console.log("response", result.data.choices[0].text);
       setApiResponse(result.data.choices[0].text);
@@ -102,6 +106,7 @@ function Data() {
       zIndex: 9999,
       display: 'flex',
       justifyContent: 'center',
+      textAlign:'center',
       alignItems: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       
@@ -109,15 +114,19 @@ function Data() {
     },
     content: {
       zIndex: 9999,
-      width: '400px',
+      width: '25%',
       height: 'fit-content',
       margin: 'auto',
       borderRadius: '10px',
       outline: 'none',
       padding: '20px',
 
-      maxHeight: '400px',
-      overflowY: 'auto'
+      maxHeight: '90vh',
+      overflowY: 'scroll'
+
+
+    
+      
     }
   };
 
@@ -206,7 +215,7 @@ function Data() {
  
 
   const getTopSongs = async (songIds) => {
-    if(songIds.length > 0) {
+    if(songIds && songIds.length > 0 && songIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -225,12 +234,13 @@ function Data() {
       setTopSongs(topSongsData);
     }
     else {
-      setTopSongs(['Not enough data to compute']);
+      setTopSongs([]);
     }
+    // console.log(topSongs);
   };
 
   const getHighestAudioFeatureSongs = async (songIds) => {
-    if(songIds.length > 0) {
+    if(songIds && songIds.length > 0 && songIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -249,12 +259,12 @@ function Data() {
       setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
     }
     else {
-      setHighestAudioFeatureSongs(['Not enough data to compute']);
+      setHighestAudioFeatureSongs(Array(11).fill('-'));
     }
   };
 
   const getLowestAudioFeatureSongs = async (songIds) => {
-    if(songIds.length > 0) {
+    if(songIds && songIds.length > 0 && songIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -273,12 +283,12 @@ function Data() {
       setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
     }
     else {
-      setLowestAudioFeatureSongs(['Not enough data to compute']);
+      setLowestAudioFeatureSongs(Array(11).fill('-'));
     }
   };
 
   const getMostLeastPopSongs = async (songIds) => {
-    if(songIds.length > 0) {
+    if(songIds && songIds.length > 0 && songIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -298,12 +308,12 @@ function Data() {
       setMostLeastPopSongs(mostLeastPopSongsData);
     }
     else {
-      setMostLeastPopSongs(['Not enough data to compute']);
+      setMostLeastPopSongs([]);
     }
   };
 
   const getOldestNewestSongs = async (songIds) => {
-    if(songIds.length > 0) {
+    if(songIds && songIds.length > 0 && songIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -323,12 +333,12 @@ function Data() {
       setOldestNewestSongs(oldestNewestSongsData);
     }
     else {
-      setOldestNewestSongs(['Not enough data to compute']);
+      setOldestNewestSongs([]);
     }
   };
 
   const getTopAlbums = async (albumIds) => {
-    if(albumIds.length > 0) {
+    if(albumIds && albumIds.length > 0 && albumIds[0] !== 'No data') {
       const maxAlbumsPerRequest = 20;
       const albumChunks = [];
 
@@ -360,12 +370,12 @@ function Data() {
       setTopAlbums(topAlbumData);
     } 
     else {
-      setTopAlbums(['Not enough data to compute']);
+      setTopAlbums([]);
     }
   };
 
   const getMostLeastPopAlbums = async (albumIds) => {
-    if(albumIds.length > 0) {
+    if(albumIds && albumIds.length > 0 && albumIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/albums", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -385,13 +395,13 @@ function Data() {
       setMostLeastPopAlbums(mostLeastPopAlbumsData);
     }
     else {
-      setMostLeastPopAlbums(['Not enough data to compute']);
+      setMostLeastPopAlbums([]);
     }
   };
 
 
   const getTopArtists = async (artistIds) => {
-    if(artistIds.length > 0) {
+    if(artistIds && artistIds.length > 0 && artistIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/artists", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -409,12 +419,12 @@ function Data() {
       setTopArtists(topArtistsData);
     }
     else {
-      setTopArtists(['Not enough data to compute']);
+      setTopArtists([]);
     }
   };
 
   const getMostLeastPopArtists = async (artistIds) => {
-    if(artistIds.length > 0) {
+    if(artistIds && artistIds.length > 0 && artistIds[0] !== 'No data') {
       const {data} = await axios.get("https://api.spotify.com/v1/artists", {
         headers: {
           Authorization: `Bearer ${token}`
@@ -435,7 +445,7 @@ function Data() {
       setMostLeastPopArtists(mostLeastPopArtistsData);
     }
     else {
-      setMostLeastPopArtists(['Not enough data to compute']);
+      setMostLeastPopArtists([]);
     }
   };
 
@@ -458,7 +468,7 @@ function Data() {
 
 
   function formatGptPrompt(topSong, topSongArtist, topArtist, topAlbum, topAlbumArtist, topGenre, topLabel, oldestSong, oldestSongArtist, oldestSongYear, newestSong, newestSongArtist, newestSongYear, avgSongPop, songPopStdDev, avgSongAgeYrMo, songAgeStdDevYrMo, avgArtistPop, artistPopStdDev, pctSongsExpl, highAudioFeatureAvgs, highAudioFeatureStdDevs, lowAudioFeatureAvgs, lowAudioFeatureStdDevs) {
-    return "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! The data is: Their top song is " + topSong.toString() + " by " + topSongArtist.toString() + ". Their top artist is " + topArtist.toString() + ". Their top album is " + topAlbum.toString() + " by " + topAlbumArtist.toString() + ". Their top genre is " + topGenre.toString() + ". Theyve listened to music from both " + oldestSongYear.toString() + " and " + newestSongYear.toString() + ". The average popularity (0-100) of their songs is " + avgSongPop.toString() + ". The standard deviation of the popularities of their top songs is " + songPopStdDev.toString() + ". The average age of their top songs is " + avgSongAgeYrMo.toString() + ". The standard deviation of the ages of their top songs is " + songAgeStdDevYrMo.toString() + ". The average popularity of their top artists is " + avgArtistPop.toString() + ". The standard deviation of the popularity of their top artists is " + artistPopStdDev.toString() + ". The percent of their top songs that are explicit is " + pctSongsExpl.toString() + ". They like songs that have high values for " + highAudioFeatureAvgs[0].toString() + " and " + highAudioFeatureAvgs[1].toString() + ", and low values for " + lowAudioFeatureAvgs[0].toString() + " and " + lowAudioFeatureAvgs[1].toString()  + ".";
+    return "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: limit your poem to at most 70 words. The data is: Their top song is " + topSong.toString() + " by " + topSongArtist.toString() + ". Their top artist is " + topArtist.toString() + ". Their top album is " + topAlbum.toString() + " by " + topAlbumArtist.toString() + ". Their top genre is " + topGenre.toString() + ". Theyve listened to music from both " + oldestSongYear.toString() + " and " + newestSongYear.toString() + ". The average popularity (0-100) of their songs is " + avgSongPop.toString() + ". The standard deviation of the popularities of their top songs is " + songPopStdDev.toString() + ". The average age of their top songs is " + avgSongAgeYrMo.toString() + ". The standard deviation of the ages of their top songs is " + songAgeStdDevYrMo.toString() + ". The average popularity of their top artists is " + avgArtistPop.toString() + ". The standard deviation of the popularity of their top artists is " + artistPopStdDev.toString() + ". The percent of their top songs that are explicit is " + pctSongsExpl.toString() + ". They like songs that have high values for " + highAudioFeatureAvgs[0].toString() + " and " + highAudioFeatureAvgs[1].toString() + ", and low values for " + lowAudioFeatureAvgs[0].toString() + " and " + lowAudioFeatureAvgs[1].toString()  + ".";
   }
 
 
@@ -634,7 +644,15 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
     const allEmpty = songIds.every(id => id === '');
 
     if (allEmpty) {
-      return Array(songIds.length).fill('');
+      // return Array(songIds.length).fill('-');
+      arrayToSet(Array(songIds.length).fill('-'));
+      return;
+    }
+
+    if(songIds && songIds.length > 0 && songIds[0] === 'No data') {
+      // return Array(songIds.length).fill('-');
+      arrayToSet(Array(songIds.length).fill('-'));
+      return;
     }
 
     const filteredIds = songIds.filter(id => id !== '');
@@ -694,27 +712,65 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
   }
 
 
+  const [recModalIsOpen, setRecModalIsOpen] = useState(false);
+  const openRecModal = async () => {
+    setRecModalIsOpen(true);
+  };
+  const closeRecModal = () => {
+    setRecModalIsOpen(false);
+  };
 
 
+
+
+  const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
+    if(![2,6,8].includes(index))
+    map[current] = parseFloat(arrays.audioFeatureMeans[index]);
+    return map;
+  }, {});
+  
+  
+  const audioFeaturesToAvgsMapSorted = new Map(
+    Object.entries(audioFeaturesToAvgsMap)
+      .sort(([, value1], [, value2]) => value1 - value2)
+  );
+  
+  const keysOfAudioFeaturesToAvgsMapSorted = Array.from(audioFeaturesToAvgsMapSorted.keys());
+  const twoAudioFeaturesLowestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(0,2);
+  const twoAudioFeaturesHighestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
 
   return (
     <div>
        <Link to='/' title="Home" style={{display:'block'}}><img className='dataPageLogo' src={logo}></img></Link>
 
-      <div class="container">
-        <span><h4>comparify data for&nbsp;</h4></span>
-        <div class="image">
+      {/* <div class="container"> */}
+      <div>
+
+        {/* <span><h4>comparify data for&nbsp;</h4></span>
+       
         <a href={"https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]} ><img src={nameIdImgurlGenerationdate[2]} style={{width:'30px', borderRadius:'50%',paddingLeft:'10px', paddingRight:'10px'}} alt="Image 1"></img></a>
-            <div class="text" style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate[0]}</div>
-        </div>
-        <span>&emsp;<img id='gptTooltip' onClick={openModal} className='zoom' src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span>
+            <div style={{color:'#1e90ff', fontWeight:'bold'}}>{nameIdImgurlGenerationdate[0]}</div>
+
+        <span>&emsp;<img id='gptTooltip' onClick={openModal} className='zoom' src={gptBtn} style={{width:'15px',cursor:'pointer'}}></img></span> */}
+<div style={{ display: 'inline-block' , marginTop:'20px'}}>
+  <span><h4 style={{ display: 'inline' }}>comparify data for&nbsp;</h4></span>
+  <a href={"https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]} style={{textDecoration:'none'}} id='SpotifyProfileLink'>
+    <img src={nameIdImgurlGenerationdate[2]} style={{ width: '30px', borderRadius: '50%', paddingLeft: '10px', paddingRight: '10px', verticalAlign:'middle' }} alt="Image 1" />
+  
+  <div style={{ color: '#1e90ff', fontWeight: 'bold', display: 'inline' }}>{nameIdImgurlGenerationdate[0]}</div></a>
+  <span>&emsp;<img id='gptTooltip' onClick={openModal} className='zoom' src={gptBtn} style={{ width: '15px', cursor: 'pointer' }} /></span>
+</div>
 
         </div>
         <div className='generationDateTime'>
-          generated {generationDateTime}
+          Generated {generationDateTime}
         </div>
 
-        
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+  <div className='recommendationsBtn'  onClick={openRecModal} style={{ width: 'fit-content', cursor: 'pointer', fontSize: '11px', fontWeight: 'bold', margin: 'auto',padding:'2px 5px' }}>
+    Get music recommendations
+  </div>
+</div>
       <div className="navBtnContainer">
       <div className="leftNavBtnContainer">
             <Link to='/code' title="Back">
@@ -735,15 +791,19 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
   
       <div className="primaryCard1">
         <div className='primaryTitle'>top songs</div>
-          {topSongs.map((song, index) => (
-            <div key={index} className="item">
-              <img src={song.img} className="primaryImage" />
-              <div className="primaryText">
-                <span className="primaryName">{song.name}</span>
-                <span className="primaryArtists">{song.artists.join(', ')}</span>
+          {topSongs.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+            topSongs.map((song, index) => (
+              <div key={index} className="item">
+                <img src={song?.img} className="primaryImage" />
+                <div className="primaryText">
+                  <span className="primaryName">{song.name}</span>
+                  <span className="primaryArtists">{song.artists?.join(', ')}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
      
 
@@ -751,53 +811,69 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
 
   <div className="primaryCard2">
         <div className='primaryTitle'>top artists</div>
-          {topArtists.map((artist, index) => (
+        {topArtists.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+          topArtists.map((artist, index) => (
             <div key={index} className="item">
               <img src={artist.img} className="primaryImage" />
               <div className="primaryText">
-                <span className="primaryName">{artist.name}</span>
+                <span className="primaryName">{(artist.name) ? artist.name : artist}</span>
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
 
 
 
         <div className="primaryCard1" >
         <div className='primaryTitle' id='topAlbums'>top albums</div>
-          {topAlbums.map((album, index) => (
+        {topAlbums.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+          topAlbums.map((album, index) => (
             <div key={index} className="item">
-              <img src={album.img} className="primaryImage" />
+              <img src={album?.img} className="primaryImage" />
               <div className="primaryText">
-                <span className="primaryName">{album.name}</span>
-                <span className="primaryArtists">{album.artists.join(', ')}</span>
+                <span className="primaryName">{(album.name) ? album.name : album}</span>
+                <span className="primaryArtists">{album.artists?.join(', ')}</span>
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
 
 
         <div className="primaryCard2" >
         <div className='primaryTitle' id='topGenres'>top genres</div>
-          {arrays.topGenresByArtist.map((genre, index) => (
+        {arrays.topLabelsByAlbums && arrays.topGenresByArtist[0] === 'No data' ? (
+            <div className="noData">No data</div>
+          ) : (
+          arrays.topGenresByArtist.map((genre, index) => (
             <div key={index} className="item">
               <div className="primaryText">
                 <span className="primaryName">{genre}</span>
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
 
 
         <div className="primaryCard3" >
         <div className='primaryTitle' id='topLabels'>top labels</div>
-          {arrays.topLabelsByAlbums.map((label, index) => (
+        {arrays.topLabelsByAlbums && arrays.topLabelsByAlbums[0] === 'No data' ? (
+            <div className="noData">No data</div>
+          ) : (
+          arrays.topLabelsByAlbums.map((label, index) => (
             <div key={index} className="item">
               <div className="primaryText">
                 <span className="primaryName">{label}</span>
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
 
         
@@ -830,17 +906,21 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
 <div className="card-row" >
   <div className="primaryCard4">
     <div className='primaryTitle'>most popular song</div>
-    {mostLeastPopSongs && mostLeastPopSongs[0] && (
+    {mostLeastPopSongs.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    mostLeastPopSongs && mostLeastPopSongs[0] && (
       <div className="item">
         <img src={mostLeastPopSongs[0]?.img} className="primaryImage" />
         <div className="primaryText">
           <span className="primaryName">{mostLeastPopSongs[0]?.name}</span>
           <span className="primaryArtists">
-            {mostLeastPopSongs[0]?.artists.join(', ')}
+            {mostLeastPopSongs[0]?.artists?.join(', ')}
           </span>
           <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopSongs[0]?.pop}</span>
         </div>
       </div>
+    )
     )}
     
   </div>
@@ -849,17 +929,21 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
 
   <div className="primaryCard4">
     <div className='primaryTitle'>least popular song</div>
-    {mostLeastPopSongs && mostLeastPopSongs[1] && (
+    {mostLeastPopSongs.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    mostLeastPopSongs && mostLeastPopSongs[1] && (
       <div className="item">
         <img src={mostLeastPopSongs[1]?.img} className="primaryImage" />
         <div className="primaryText">
           <span className="primaryName">{mostLeastPopSongs[1]?.name}</span>
           <span className="primaryArtists">
-            {mostLeastPopSongs[1]?.artists.join(', ')}
+            {mostLeastPopSongs[1]?.artists?.join(', ')}
           </span>
           <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopSongs[1]?.pop}</span>
         </div>
       </div>
+    )
     )}
     
   </div>
@@ -870,36 +954,44 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
 
   <div className="primaryCard4">
     <div className='primaryTitle'>oldest song</div>
-    {oldestNewestSongs && oldestNewestSongs[0] && (
+    {oldestNewestSongs.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    oldestNewestSongs && oldestNewestSongs[0] && (
       <div className="item">
         <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
         <div className="primaryText">
           <span className="primaryName">{oldestNewestSongs[0]?.name}</span>
           <span className="primaryArtists">
-            {oldestNewestSongs[0]?.artists.join(', ')}
+            {oldestNewestSongs[0]?.artists?.join(', ')}
           </span>
-          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date.substr(0,4)}</span>
+          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[0]?.date?.substr(0,4)}</span>
         </div>
       </div>
-    )}
+    )
+          )}
     
   </div>
 
 
   <div className="primaryCard5">
     <div className='primaryTitle'>newest song</div>
-    {oldestNewestSongs && oldestNewestSongs[1] && (
+    {oldestNewestSongs.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    oldestNewestSongs && oldestNewestSongs[1] && (
       <div className="item">
         <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
         <div className="primaryText">
           <span className="primaryName">{oldestNewestSongs[1]?.name}</span>
           <span className="primaryArtists">
-            {oldestNewestSongs[1]?.artists.join(', ')}
+            {oldestNewestSongs[1]?.artists?.join(', ')}
           </span>
-          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[1]?.date.substr(0,4)}</span>
+          <span style={{paddingLeft:'20px'}}>{oldestNewestSongs[1]?.date?.substr(0,4)}</span>
         </div>
       </div>
-    )}
+    )
+          )}
     
   </div>
 
@@ -907,7 +999,10 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
 
   <div className="primaryCard4">
     <div className='primaryTitle'>most popular artist</div>
-    {mostLeastPopArtists && mostLeastPopArtists[0] && (
+    {mostLeastPopArtists.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    mostLeastPopArtists && mostLeastPopArtists[0] && (
       <div className="item">
         <img src={mostLeastPopArtists[0]?.img} className="primaryImage" />
         <div className="primaryText">
@@ -915,13 +1010,17 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
           <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[0]?.pop}</span>
         </div>
       </div>
+    )
     )}
     
   </div>
 
   <div className="primaryCard4">
     <div className='primaryTitle'>least popular artist</div>
-    {mostLeastPopArtists && mostLeastPopArtists[1] && (
+    {mostLeastPopArtists.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    mostLeastPopArtists && mostLeastPopArtists[1] && (
       <div className="item">
         <img src={mostLeastPopArtists[1]?.img} className="primaryImage" />
         <div className="primaryText">
@@ -929,6 +1028,7 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
           <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopArtists[1]?.pop}</span>
         </div>
       </div>
+    )
     )}
     
   </div>
@@ -936,36 +1036,42 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
 
   <div className="primaryCard4">
     <div className='primaryTitle'>most popular album</div>
-    {mostLeastPopAlbums && mostLeastPopAlbums[0] && (
+    {mostLeastPopAlbums.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    mostLeastPopAlbums && mostLeastPopAlbums[0] && (
       <div className="item">
         <img src={mostLeastPopAlbums[0]?.img} className="primaryImage" />
         <div className="primaryText">
           <span className="primaryName">{mostLeastPopAlbums[0]?.name}</span>
           <span className="primaryArtists">
-            {mostLeastPopAlbums[0]?.artists.join(', ')}
+            {mostLeastPopAlbums[0]?.artists?.join(', ')}
           </span>
           <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[0]?.pop}</span>
         </div>
       </div>
-    )}
+    ))}
     
   </div>
 
 
   <div className="primaryCard4">
     <div className='primaryTitle'>least popular album</div>
-    {mostLeastPopAlbums && mostLeastPopAlbums[1] && (
+    {mostLeastPopAlbums.length === 0 ? (
+            <div className="noData">No data</div>
+          ) : (
+    mostLeastPopAlbums && mostLeastPopAlbums[1] && (
       <div className="item">
         <img src={mostLeastPopAlbums[1]?.img} className="primaryImage" />
         <div className="primaryText">
           <span className="primaryName">{mostLeastPopAlbums[1]?.name}</span>
           <span className="primaryArtists">
-            {mostLeastPopAlbums[1]?.artists.join(', ')}
+            {mostLeastPopAlbums[1]?.artists?.join(', ')}
           </span>
           <span style={{paddingLeft:'20px'}} id='popularity'>{mostLeastPopAlbums[1]?.pop}</span>
         </div>
       </div>
-    )}
+    ))}
     
   </div>
 
@@ -1083,7 +1189,8 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
     {arrays.avgArtistPop && (
       <div className="item">
         <div className="primaryText">
-          <span className="primaryName2">{arrays.avgArtistPop}</span>
+        <span className="primaryName2">{arrays.avgArtistPop}</span>
+          
          
         </div>
       </div>
@@ -1145,9 +1252,9 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
         <table>
             <thead>
                 <tr>
-                <th style={{ textAlign: 'center', wordWrap: 'break-word' }}>
+                <th style={{ textAlign: 'left', wordWrap: 'break-word' }}>
   <div style={{ maxWidth: '140px', margin: '0 auto' }}>
-    <span style={{ fontSize: '10px' }}>&#9432;&ensp;Hover over select labels for more information.</span>
+    <span style={{ fontSize: '10px' }}>&#9432;&ensp;You can hover over select labels for more information.</span>
   </div>
 </th>
 
@@ -1169,32 +1276,58 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
             const lowestSong = lowestAudioFeatureSongs[index];
             const lowestSongValue = lowestAudioFeatureValues[index];
 
+            // twoAudioFeaturesLowestAvgs 63E13D  ff2e2e
+
             return (
               <tr key={feature}>
                 <td id={feature}><span className='audioFeaturesColumnLabel'>{feature}</span></td>
-                <td><div className='cellOutline'>{arrays.audioFeatureMeans[index]}</div></td>
+
+                {/* <td><div className='cellOutline'>{arrays.audioFeatureMeans[index]}</div></td> */}
+                <td>
+                  <div className="cellOutline" style={
+                    (twoAudioFeaturesLowestAvgs.includes(feature) && !twoAudioFeaturesHighestAvgs.includes(feature) && arrays.audioFeatureMeans[index] !== '-')
+                    ? { border:'1px solid #ff0000',backgroundColor:'#ffeded',color:'#ff0000' }
+                    : (twoAudioFeaturesHighestAvgs.includes(feature) && !twoAudioFeaturesLowestAvgs.includes(feature) && arrays.audioFeatureMeans[index] !== '-')
+                    ? { border: '1px solid #17d475',backgroundColor:'#e8fcec',color:'#17d475'  }
+                    : null
+                  }>
+                    {arrays.audioFeatureMeans[index]}
+                  </div>
+                </td>
+
+
                 <td><div className='cellOutline'>{arrays.audioFeatureStdDevs[index]}</div></td>
                 <td>
-                  {highestSong && highestSong.name && highestSong.img && highestSong.artists && (
+                  {highestSong == '-' && (
+                     <div className='cellOutline'>
+                  <div className="noSongData">-</div>
+                  </div>
+                  )}
+                  {highestSong && highestSong != '-' && (
                     <div className='cellOutline'>
-                      <img className='primaryImage' src={highestSong.img} alt={highestSong.name} />
-                      <p className='primaryName'> {highestSong.name}</p>&emsp;
-                      <p className='primaryArtists'>{highestSong.artists.join(', ')}</p>
-                      {highestSongValue &&
+                      <img className='primaryImage' src={highestSong?.img} alt={''} />
+                      <p className='primaryName'> {highestSong?.name}</p>&emsp;
+                      <p className='primaryArtists'>{highestSong?.artists?.join(', ')}</p>
+                      {/* {highestSongValue && */}
                   <span className='cellOutline' style={{marginLeft:'10px', fontSize:'11px'}}>
                     {highestSongValue}
                   </span>
-                  }
+                  {/* } */}
                     </div>
                   )}
                   
                 </td>
                 <td>
-                  {lowestSong && lowestSong.name && lowestSong.img && lowestSong.artists && (
+                {lowestSong == '-' && (
+                     <div className='cellOutline'>
+                  <div className="noSongData">-</div>
+                  </div>
+                  )}
+                  {lowestSong  && lowestSong != '-' && (
                     <div className='cellOutline'>
-                      <img className='primaryImage' src={lowestSong.img} alt={lowestSong.name} />
-                      <p className='primaryName'>{lowestSong.name}</p>&emsp;
-                      <p className='primaryArtists'>{lowestSong.artists.join(', ')}</p>
+                      <img className='primaryImage' src={lowestSong.img} alt={lowestSong?.name} />
+                      <p className='primaryName'>{lowestSong?.name}</p>&emsp;
+                      <p className='primaryArtists'>{lowestSong.artists?.join(', ')}</p>
                       {/* {lowestSongValue && */}
                   <span className='cellOutline' style={{marginLeft:'10px', fontSize:'11px'}}>
                     {lowestSongValue}
@@ -1216,7 +1349,7 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
        <ReactTooltip
         anchorSelect="#topAlbums"
         html={"based on frequency of occurences in top songs."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -1224,7 +1357,7 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
       <ReactTooltip
         anchorSelect="#topGenres"
         html={"based on frequency of occurences in top artists."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -1232,7 +1365,7 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
       <ReactTooltip
         anchorSelect="#topLabels"
         html={"based on frequency of occurences in top songs."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -1240,7 +1373,7 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
       <ReactTooltip
         anchorSelect="#popularity"
         html={"0-100. assigned by Spotify and updated based on current data."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -1248,7 +1381,7 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
       <ReactTooltip
         anchorSelect="#stdDev"
         html={"a larger value indicates more variability, while a smaller value indicates less, on average."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -1265,55 +1398,55 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
       <ReactTooltip
         anchorSelect="#acousticness"
         html={"A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#danceability"
         html={"Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#energy"
         html={"Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#instrumentalness"
         html={`Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#liveness"
         html={"Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#loudness"
         html={"The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#speechiness"
         html={"Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#tempo"
         html={"The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
       <ReactTooltip
         anchorSelect="#valence"
         html={"A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."}
-        style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -1323,7 +1456,15 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
       <ReactTooltip
         anchorSelect="#gptTooltip"
         html={"ChatGPT"}
-        style={{backgroundColor:'#f3f3f3',color:'black',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2',wordBreak:'break-word',width:'fit-content'}}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'fit-content'}}
+        clickable={'true'}>
+      </ReactTooltip>
+
+      
+      <ReactTooltip
+        anchorSelect="#SpotifyProfileLink"
+        html={"Open Spotify profile"}
+        style={{fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2',wordBreak:'break-word',width:'fit-content'}}
         clickable={'true'}>
       </ReactTooltip>
     </div>
@@ -1338,8 +1479,9 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
         onRequestClose={closeModal}
         contentLabel="Popup Window"
         style={customStyles} 
-        id="imgDiv"
+        // id="imgDiv"
       >
+        <div id="imgDiv" style={{padding:'20px'}}>
         <h2 className='gptModalTitle'><img src={gptBtn} style={{width:'40px', marginRight:'10px'}}></img>ChatGPT music analysis for <span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate[0]}</span></h2>
         <span className="timeRange">{selectedTimeRangeClean}</span>
           <div className='gptHaikusDiv'>
@@ -1353,19 +1495,42 @@ const generationDateTime = date.toLocaleString(undefined, { timeZone: localTimeZ
                         <div className='gptContent'>
                           
                         {/* {apiResponse.replace(/\//g, '<br></br>')} */}
-                        <div dangerouslySetInnerHTML={{ __html: apiResponse.replace(/\//g, '<br></br>') }}/>
+                        {/* <div dangerouslySetInnerHTML={{ __html: apiResponse.replace(/\//g, `<div style={{lineHeight:'1px'}}>&nbsp;</div>`) }}/> */}
+                        <div dangerouslySetInnerHTML={{ __html: apiResponse.replace(/\//g, '<br></br>') }} />
+
                         </div>
                         )}
             
           </div>
+          {/* <div style={{width:'0',height:'0',overflow:'hidden',marginTop:'30px'}}></div> */}
+          </div>
           {!gptLoading && 
           <>
+          <div style={{marginTop:'-30px'}}>
         <button className='closeBtn' onClick={closeModal}>Close</button>
         <button className="saveImg2" onClick={handleConvertToImage} title='Download image'><img src={download} style={{width:'10px'}}></img></button>
+        </div>
         </>
 }
 
       </Modal>
+
+
+      <Modal
+        isOpen={recModalIsOpen}
+        onRequestClose={closeRecModal}
+        contentLabel="Popup Window"
+        style={customStyles} 
+        // id="gptImgDiv"
+      >
+        <h2 className=''>Music recommendations for <span style={{color:'#1e90ff'}}>{nameIdImgurlGenerationdate[0]}</span></h2>
+        <span className="timeRange">{selectedTimeRangeClean}</span>
+         <DataPageRecommendations safeArtistIds={arrays.artistIds[0]} exploratoryArtistIds={arrays.artistIds[49]}/>
+        
+        <button className='closeBtn' onClick={closeRecModal}>Close</button>
+
+      </Modal>
+
        <Footer/>
 
 

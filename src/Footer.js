@@ -43,11 +43,11 @@ const Footer = () => {
   return (
   <div>
     <div className='footer'>
-      <span ><Link to="/"><img src={logo} style={{width:20}}></img></Link>&emsp;&copy; 2023&emsp;&emsp;</span><span id="infoTooltip">Info</span>&emsp;&emsp;<span onClick={openFooterModal} style={{cursor:'pointer'}}>Help</span>
+      <span ><Link to="/"><img src={logo} style={{width:20}}></img></Link>&emsp;&copy; 2023&emsp;&emsp;</span><span id="infoTooltip" className='hoverGray'>About</span>&emsp;&emsp;<span onClick={openFooterModal} style={{cursor:'pointer'}} className='hoverGray'>Help</span>
       <ReactTooltip
         anchorSelect="#infoTooltip"
-        html={`comparify uses a variety of data points from multiple time spans to generate a code or "Music Fingerprint" based on your Spotify listening activity, which you can then use to compare your taste with others and gain unique insights. <div style='padding-top:10px'>Made by <a style='text-decoration:none;color:#1e90ff' href='https://theobragstad.com'>Theo Bragstad</a></div>`}
-        style={{backgroundColor:'#656565',color:'white',fontSize:14,pointerEvents: 'auto !important',fontWeight:'bold',zIndex:'2',borderRadius:'20px', wordBreak:'break-word', width:'200px'}}
+        html={`comparify uses a variety of data points from multiple time spans to generate a code or "Music Fingerprint" based on your Spotify listening activity, which you can then use to compare with others and gain insights. <div style='padding-top:10px'>Made by <a style='text-decoration:none;color:#1e90ff' title="theobragstad.com" href='https://theobragstad.com'>Theo Bragstad</a></div>`}
+        style={{pointerEvents: 'auto !important',fontWeight:'bold',zIndex:'2',borderRadius:'20px', wordBreak:'break-word', width:'200px'}}
         clickable={'true'}>
       </ReactTooltip>
 
@@ -58,18 +58,18 @@ const Footer = () => {
         style={customStyles}
       >
         <h1 className='helpTitle'>Help</h1>
-        <h3 className='helpSection'>How to use</h3>
+        <h3 className='helpSection'>How to use comparify</h3>
         <div className='helpModalText' style={{fontWeight:'bold'}}>
-          <ol>
-            <li >From the homepage, click/tap on the logo to log in.</li>
-            <li >You can then download your code to share with friends and family.</li>
-            <li >You can also view your data by itself, without comparing.</li>
-            <li >Then, you have two options:</li>
-            <ul>
-              <li >Upload one other code to compare with your own data. (You can also upload an older code of your own to see how things have changed.)</li>
-              <li >Upload any two codes to compare.</li>
-            </ul>
-          </ol>
+        <ol>
+  <li>Click on the logo to log in.</li>
+  <li>You can then download your unique code to share with friends and family.</li>
+  <li>You can also view your data by itself, without comparing.</li>
+  <li>Then, you have two options:</li>
+  <ul>
+    <li>Upload another code to compare with your own data. (You can also upload an older code of your own to see how things have changed.)</li>
+    <li>Upload any two codes to compare.</li>
+  </ul>
+</ol>
         </div>
         <h5 className='helpSection'>Troubleshooting</h5>
         <div className='helpModalText'>
@@ -81,7 +81,8 @@ const Footer = () => {
               <li>The Spotify login session expires after one hour, so this could be the issue and you'll need to log in again and/or clear your cookies.</li>
             </ul>
             <li>The app times out after the Spotify login token expires, so you'll need to log in again.</li>
-            <li>Regarding the ChatGPT feature, the OpenAI API is quite rate-limited, so you may encounter generation errors. The solution is generally to wait a minute or two before retrying. If the error persists, try again at a later time.</li>
+            <li>Due to Spotify's cookies, if you want to have another person log in to their own Spotify account on the same computer, you'll need to clear your cookies so that your session is cleared and the other person can enter their login information.</li>
+            <li>Regarding the ChatGPT feature, the OpenAI API is quite rate-limited, so you may encounter generation errors. The solution is generally to wait a minute or two before retrying. If the error persists, try again at a later time. The app may be overloaded by other API calls from different users.</li>
             <li>The same can be said for the Spotify API, which may run into limits depending on traffic. The solution is the same as above.</li>
             <li>If you encounter a random error message (rare), some combination of reloading the page, clearing your cookies, and/or logging back in and trying again usually does the trick.</li>
             <li>Rarely, you may see a blank or strangely formatted entry in your one or more of your data results. This could be due to missing data in Spotify's database, or due to a song you listened to that the API cannot get a complete or valid response for.</li>
@@ -103,10 +104,10 @@ const Footer = () => {
               <li>Note that for some data points, such as top genres, there are a number of different ways to calculate this, such as by top song frequency, top artist frequency, and so on. In these cases, the most objectively fair approach is taken by the algorithm in an effort to provide the most accurate information, but really there is no correct way to generate some types of data&#8212;only different ways.</li>
               <li>Also note that for stats like "most popular song", your results may change over time, even if your listening habits do not. This is because this stat measures your most popular song <i>currently</i>, meaning Spotify updates popularity values regularly.</li>
             </ul>
-            <li>The compare page gives a similarity score for you and the other person for each time range. This is by no means a completely thorough conclusion of your similarity, but it does provide a rough sense of how much, and what types, of music you have in common.</li>
+            <li>The compare page gives a similarity score for you and the other person for each time range. This is by no means a completely thorough picture of your similarity, but it does provide a rough sense of how much, and what types, of music you have in common.</li>
             <li>You can share your similarity score by saving it as an image.</li>
             <li>You can also upload any two comparify codes to see their comparison. You can see your friend's data compared with someone else, or even upload two of your own codes from different times to see if/how your habits have changed.</li>
-            <li>Blue content indicates it is either your data or the first user's code. Yellow indicates data for the second user's code. Green indicates shared items, or differences in the case of statistics.</li>
+            <li><span style={{color:'#1e90ff'}}>Blue</span> content indicates it is either your data or the first inputted user's code. <span style={{color:'#FFDF00'}}>Yellow</span> indicates data for the second user's code. <span style={{color:'#18d860'}}>Green</span> indicates shared items, or differences for statistics.</li>
           </ul>
         </div>
         <h5 className='helpSection'>Privacy, Data, and other Policy Information</h5>

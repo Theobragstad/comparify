@@ -8,7 +8,6 @@ import axios from 'axios';
 import './App.css';
 import { Tooltip as ReactTooltip } from 'react-tooltip'
 import back from './img/back.png'
-import defaultProfile from './img/defaultProfile.jpeg'
 
 
 function Code() {
@@ -30,7 +29,6 @@ function Code() {
       };
     
     const logout = () => {
-        clearCookies();
         setToken("");
         setExpirationTime("");
         window.localStorage.removeItem("token");
@@ -65,29 +63,17 @@ function Code() {
         return simplifiedNumber;
     }
 
-
-    const [profilePicUrl, setProfilePicUrl] = useState('');
-    const [displayName, setDisplayName] = useState('');
-
-    
-   
-
     const me = async () => {
-        const { data } = await axios.get("https://api.spotify.com/v1/me", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          params: {
-      
-          }
+        const {data} = await axios.get("https://api.spotify.com/v1/me", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: {
+
+            }
         });
-      
-        let imageUrl = data.images.length > 0 ? data.images[0].url : {defaultProfile};
-        setProfilePicUrl(imageUrl);
-        setDisplayName(data.display_name);
-        return ['nameIdImgurlGenerationdate[4]', data.display_name, data.id, imageUrl, new Date()];
-      };
-      
+        return ['nameIdImgurlGenerationdate[4]', data.display_name, data.id, data.images[0].url, new Date()];
+    };
 
     const getSongAudioFeatureData = async (songIds) => {
         const {data} = await axios.get("https://api.spotify.com/v1/audio-features", {
@@ -177,123 +163,100 @@ function Code() {
             }
         });
 
-        if(data && data.items && data.items.length > 0) {
+        const songIds = data.items.map(item => item.id);
+        songCode.push('songIds[<=50]', songIds);
 
-            const songIds = data.items.map(item => item.id);
-            songCode.push('songIds[<=50]', songIds);
+        const songIdsAndPops = data.items.map(item => ({
+            id: item.id,
+            pop: item.popularity
+        }));
 
-            const songIdsAndPops = data.items.map(item => ({
-                id: item.id,
-                pop: item.popularity
-            }));
+        const mostPopSongId = songIdsAndPops.reduce((currentPopularSongId, currentSong) => {
+            if (!currentPopularSongId || currentSong.pop > songIdsAndPops.find(album => album.id === currentPopularSongId).pop) {
+              return currentSong.id;
+            }
+            return currentPopularSongId;
+        }, null);
 
-            const mostPopSongId = songIdsAndPops.reduce((currentPopularSongId, currentSong) => {
-                if (!currentPopularSongId || currentSong.pop > songIdsAndPops.find(album => album.id === currentPopularSongId).pop) {
+        const leastPopSongId = songIdsAndPops.reduce((currentPopularSongId, currentSong) => {
+            if (!currentPopularSongId || currentSong.pop < songIdsAndPops.find(album => album.id === currentPopularSongId).pop) {
                 return currentSong.id;
-                }
-                return currentPopularSongId;
-            }, null);
+            }
+            return currentPopularSongId;
+        }, null);
 
-            const leastPopSongId = songIdsAndPops.reduce((currentPopularSongId, currentSong) => {
-                if (!currentPopularSongId || currentSong.pop < songIdsAndPops.find(album => album.id === currentPopularSongId).pop) {
-                    return currentSong.id;
-                }
-                return currentPopularSongId;
-            }, null);
-
-            songCode.push('mostLeastPopSongIds[<=2]', mostPopSongId, leastPopSongId);
+        songCode.push('mostLeastPopSongIds[<=2]', mostPopSongId, leastPopSongId);
 
 
-            const songIdsAndReleaseDates = data.items.map(item => ({
-                id: item.id,
-                releaseDate: item.album.release_date
-            })).filter(item => item.releaseDate !== '0000');
+        const songIdsAndReleaseDates = data.items.map(item => ({
+            id: item.id,
+            releaseDate: item.album.release_date
+        })).filter(item => item.releaseDate !== '0000');
 
 
-            const sortedSongIdsAndReleaseDates = songIdsAndReleaseDates.sort((a, b) => {
-                const dateA = new Date(a.releaseDate);
-                const dateB = new Date(b.releaseDate);
-                return dateA - dateB;
-            });
-            
-            const oldestSongId = sortedSongIdsAndReleaseDates[0].id; 
-            const newestSongId = sortedSongIdsAndReleaseDates[sortedSongIdsAndReleaseDates.length - 1].id; 
-            
-            songCode.push('oldestNewestSongIds[<=2]', oldestSongId, newestSongId);
+        const sortedSongIdsAndReleaseDates = songIdsAndReleaseDates.sort((a, b) => {
+            const dateA = new Date(a.releaseDate);
+            const dateB = new Date(b.releaseDate);
+            return dateA - dateB;
+        });
+          
+        const oldestSongId = sortedSongIdsAndReleaseDates[0].id; 
+        const newestSongId = sortedSongIdsAndReleaseDates[sortedSongIdsAndReleaseDates.length - 1].id; 
+          
+        songCode.push('oldestNewestSongIds[<=2]', oldestSongId, newestSongId);
 
 
-            const songPops = songIdsAndPops.map(item => item.pop);
-            const sumSongPops = songPops.reduce((accumulator, current) => accumulator + current, 0);
-            const avgSongPop = (sumSongPops / songPops.length);
-            const squaredDifferencesSongPops = songPops.map(pop => Math.pow(pop - avgSongPop, 2));
-            const varianceSongPops = squaredDifferencesSongPops.reduce((accumulator, current) => accumulator + current, 0) / songPops.length;
-            const songPopStdDev = Math.sqrt(varianceSongPops);
+        const songPops = songIdsAndPops.map(item => item.pop);
+        const sumSongPops = songPops.reduce((accumulator, current) => accumulator + current, 0);
+        const avgSongPop = (sumSongPops / songPops.length);
+        const squaredDifferencesSongPops = songPops.map(pop => Math.pow(pop - avgSongPop, 2));
+        const varianceSongPops = squaredDifferencesSongPops.reduce((accumulator, current) => accumulator + current, 0) / songPops.length;
+        const songPopStdDev = Math.sqrt(varianceSongPops);
 
-            songCode.push('avgSongPop[1]', avgSongPop.toFixed(2), 'songPopStdDev[1]', songPopStdDev.toFixed(2));
-
-
-            const today = new Date();
-            const totalSongAges = songIdsAndReleaseDates.reduce((sum, item) => {
-                const releaseDate = new Date(item.releaseDate);
-                const ageInMilliseconds = today - releaseDate;
-                return sum + ageInMilliseconds;
-            }, 0);
-
-            const averageSongAgeInMilliseconds = totalSongAges / songIdsAndReleaseDates.length;
-            const averageSongAge = new Date(averageSongAgeInMilliseconds);
-
-            const songAgeYr = averageSongAge.getUTCFullYear() - 1970;
-            const songAgeMo = averageSongAge.getUTCMonth();
-
-            const squaredDifferencesSongAges = songIdsAndReleaseDates.map(item => {
-                const releaseDate = new Date(item.releaseDate);
-                const ageInMilliseconds = today - releaseDate;
-                const difference = ageInMilliseconds - averageSongAgeInMilliseconds;
-                return difference * difference;
-            });
-            
-            const averageSquaredDifferenceSongAges = squaredDifferencesSongAges.reduce((sum, difference) => sum + difference, 0) / songIdsAndReleaseDates.length;
-            
-            const songAgeStdDev = Math.sqrt(averageSquaredDifferenceSongAges);
-            const songAgeStdDevAsDate = new Date(songAgeStdDev);
-            const songAgeStdDevYr = songAgeStdDevAsDate.getUTCFullYear() - 1970;
-            const songAgeStdDevMo = songAgeStdDevAsDate.getUTCMonth();
+        songCode.push('avgSongPop[1]', avgSongPop.toFixed(2), 'songPopStdDev[1]', songPopStdDev.toFixed(2));
 
 
-            songCode.push('avgSongAgeYrMo[2]', songAgeYr, songAgeMo, 'songAgeStdDevYrMo[2]', songAgeStdDevYr, songAgeStdDevMo);
+        const today = new Date();
+        const totalSongAges = songIdsAndReleaseDates.reduce((sum, item) => {
+            const releaseDate = new Date(item.releaseDate);
+            const ageInMilliseconds = today - releaseDate;
+            return sum + ageInMilliseconds;
+        }, 0);
+
+        const averageSongAgeInMilliseconds = totalSongAges / songIdsAndReleaseDates.length;
+        const averageSongAge = new Date(averageSongAgeInMilliseconds);
+
+        const songAgeYr = averageSongAge.getUTCFullYear() - 1970;
+        const songAgeMo = averageSongAge.getUTCMonth();
+
+        const squaredDifferencesSongAges = songIdsAndReleaseDates.map(item => {
+            const releaseDate = new Date(item.releaseDate);
+            const ageInMilliseconds = today - releaseDate;
+            const difference = ageInMilliseconds - averageSongAgeInMilliseconds;
+            return difference * difference;
+        });
+        
+        const averageSquaredDifferenceSongAges = squaredDifferencesSongAges.reduce((sum, difference) => sum + difference, 0) / songIdsAndReleaseDates.length;
+        
+        const songAgeStdDev = Math.sqrt(averageSquaredDifferenceSongAges);
+        const songAgeStdDevAsDate = new Date(songAgeStdDev);
+        const songAgeStdDevYr = songAgeStdDevAsDate.getUTCFullYear() - 1970;
+        const songAgeStdDevMo = songAgeStdDevAsDate.getUTCMonth();
+
+
+        songCode.push('avgSongAgeYrMo[2]', songAgeYr, songAgeMo, 'songAgeStdDevYrMo[2]', songAgeStdDevYr, songAgeStdDevMo);
 
 
 
-            const explicitSongBooleans = data.items.map(item => item.explicit);
-            const explicitSongCount = explicitSongBooleans.reduce((count, value) => count + (value ? 1 : 0), 0);
-            const pctSongsExpl = (explicitSongCount / explicitSongBooleans.length) * 100;
-            songCode.push('pctSongsExpl[1]', pctSongsExpl);
-            
+        const explicitSongBooleans = data.items.map(item => item.explicit);
+        const explicitSongCount = explicitSongBooleans.reduce((count, value) => count + (value ? 1 : 0), 0);
+        const pctSongsExpl = (explicitSongCount / explicitSongBooleans.length) * 100;
+        songCode.push('pctSongsExpl[1]', pctSongsExpl);
+        
 
-            songCode.push((await getSongAudioFeatureData(songIds)).concat());
+        songCode.push((await getSongAudioFeatureData(songIds)).concat());
 
-            songCode.push(await albums(data.items.map(item => item.album.id)));
-        }
-        else {
-            songCode.push('songIds[<=50]', 'No data', 
-            'mostLeastPopSongIds[<=2]', 'No data', 
-            'No data', 'oldestNewestSongIds[<=2]',
-            'No data', 'No data',
-            'avgSongPop[1]', '-',
-            'songPopStdDev[1]', '-', 
-            'avgSongAgeYrMo[2]', '-',
-            '-', 'songAgeStdDevYrMo[2]',
-            '-', '-',
-            'pctSongsExpl[1]', '-',
-            'audioFeatureMeans[11]', Array(11).fill('-'), 
-            'audioFeatureStdDevs[11]', Array(11).fill('-'), 
-            'highestAudioFeatureSongIds[<=11]', 'No data', 
-            'lowestAudioFeatureSongIds[<=11]', 'No data', 
-            'albumIds[<=10]', 'No data', 
-            'mostLeastPopAlbumIds[<=2]', 'No data', 'No data', 
-            'avgAlbumPop[1]', '-', 'albumPopsStdDev[1]', '-',
-            'topLabelsByAlbums[<=5]', 'No data');
-        }
+        songCode.push(await albums(data.items.map(item => item.album.id)));
 
         return songCode;
     };
@@ -310,65 +273,53 @@ function Code() {
             }
         });
 
-        if(data && data.items && data.items.length > 0) {
-
-            const artistIds = data.items.map(item => item.id);
-            artistCode.push('artistIds[<=50]', artistIds);
+        const artistIds = data.items.map(item => item.id);
+        artistCode.push('artistIds[<=50]', artistIds);
 
 
-            const artistIdsAndPops = data.items.map(item => ({
-                id: item.id,
-                pop: item.popularity
-            }));
-            
-            const mostPopArtistId = artistIdsAndPops.reduce((currentPopularArtistId, currentArtist) => {
-                if (!currentPopularArtistId || currentArtist.pop > artistIdsAndPops.find(album => album.id === currentPopularArtistId).pop) {
-                return currentArtist.id;
-                }
-                return currentPopularArtistId;
-            }, null);
+        const artistIdsAndPops = data.items.map(item => ({
+            id: item.id,
+            pop: item.popularity
+        }));
+        
+        const mostPopArtistId = artistIdsAndPops.reduce((currentPopularArtistId, currentArtist) => {
+            if (!currentPopularArtistId || currentArtist.pop > artistIdsAndPops.find(album => album.id === currentPopularArtistId).pop) {
+              return currentArtist.id;
+            }
+            return currentPopularArtistId;
+        }, null);
 
-            const {id: leastPopArtistId} = artistIdsAndPops.reduce((acc, curr) => {
-                return curr.pop < acc.pop ? curr : acc;
-            });
+        const {id: leastPopArtistId} = artistIdsAndPops.reduce((acc, curr) => {
+            return curr.pop < acc.pop ? curr : acc;
+        });
 
-            artistCode.push('mostLeastPopArtistIds[<=2]', mostPopArtistId, leastPopArtistId);
+        artistCode.push('mostLeastPopArtistIds[<=2]', mostPopArtistId, leastPopArtistId);
 
-            
-            const artistPops = artistIdsAndPops.map(item => item.pop);
-            const sumArtistPops = artistPops.reduce((accumulator, current) => accumulator + current, 0);
-            const avgArtistPop = (sumArtistPops / artistPops.length);
-            const squaredDifferencesArtistPops = artistPops.map(pop => Math.pow(pop - avgArtistPop, 2));
-            const varianceArtistPops = squaredDifferencesArtistPops.reduce((accumulator, current) => accumulator + current, 0) / artistPops.length;
-            const artistPopStdDev = Math.sqrt(varianceArtistPops);
+        
+        const artistPops = artistIdsAndPops.map(item => item.pop);
+        const sumArtistPops = artistPops.reduce((accumulator, current) => accumulator + current, 0);
+        const avgArtistPop = (sumArtistPops / artistPops.length);
+        const squaredDifferencesArtistPops = artistPops.map(pop => Math.pow(pop - avgArtistPop, 2));
+        const varianceArtistPops = squaredDifferencesArtistPops.reduce((accumulator, current) => accumulator + current, 0) / artistPops.length;
+        const artistPopStdDev = Math.sqrt(varianceArtistPops);
 
-            artistCode.push('avgArtistPop[1]', avgArtistPop.toFixed(2), 'artistPopStdDev[1]', artistPopStdDev.toFixed(2));
+        artistCode.push('avgArtistPop[1]', avgArtistPop.toFixed(2), 'artistPopStdDev[1]', artistPopStdDev.toFixed(2));
 
-            artistCode.push((await artists(artistIds)).concat());
+        artistCode.push((await artists(artistIds)).concat());
 
 
-            const genresAssocWithArtists = data.items.map(item => item.genres);
-            const genresAssocWithArtistsFlat = genresAssocWithArtists.flat();
-            const genreCounts = {};
-            genresAssocWithArtistsFlat.forEach(genre => {
-                genreCounts[genre] = (genreCounts[genre] || 0) + 1;
-            });
-            const sortedGenres = Object.keys(genreCounts).sort((a, b) => {
-                return genreCounts[b] - genreCounts[a];
-            });
-            const topGenres = sortedGenres.slice(0, 20);
-            artistCode.push('topGenresByArtist[<=20]', topGenres);
-        }
-        else {
-            artistCode.push('artistIds[<=50]', 'No data', 
-            'mostLeastPopArtistIds[<=2]', 'No data', 
-            'No data', 'avgArtistPop[1]', 
-            '-', 'artistPopStdDev[1]', 
-            '-', 'avgArtistFolls[1]', 
-            '-', 'artistFollsStdDev[1]', 
-            '-', 
-            'topGenresByArtist[<=20]', 'No data');
-        }
+        const genresAssocWithArtists = data.items.map(item => item.genres);
+        const genresAssocWithArtistsFlat = genresAssocWithArtists.flat();
+        const genreCounts = {};
+        genresAssocWithArtistsFlat.forEach(genre => {
+            genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+        });
+        const sortedGenres = Object.keys(genreCounts).sort((a, b) => {
+            return genreCounts[b] - genreCounts[a];
+        });
+        const topGenres = sortedGenres.slice(0, 20);
+        artistCode.push('topGenresByArtist[<=20]', topGenres);
+
 
 
         return artistCode;
@@ -561,9 +512,6 @@ function Code() {
         navigate('/compare', {state: {file1: code.join(','), file2: file2, token: token}});
     };
 
-
-    
-
     const toComparePage2 = async (number) => {
         setLoadingCompare2(true);
         
@@ -579,17 +527,12 @@ function Code() {
         setLoadingCompare2(false);
 
         navigate('/compare', {state: {file1: file1TwoComp, file2: file2TwoComp, token: token}});
-
     };
 
     const [file2, setFile2] = useState("");
     
 
     const addFile2 = event => {
-        if(event.target.files.length === 0) {
-            setFile2(null);
-        }
-        else {
         const fileReader = new FileReader();
         const {files} = event.target;
 
@@ -598,64 +541,39 @@ function Code() {
             const content = e.target.result;
             setFile2(content);
         };
-    }
     };
 
     const [file1TwoComp, setFile1TwoComp] = useState("");
     const [file2TwoComp, setFile2TwoComp] = useState("");
     
 
-    const addFile1TwoComp = event => {//
-        if(event.target.files.length === 0) {
-            setFile1TwoComp(null);
-        }
-        else {
+    const addFile1TwoComp = event => {
         const fileReader = new FileReader();
         const {files} = event.target;
 
-        // if(files && files.length > 0) {
-            fileReader.readAsText(files[0], "UTF-8");
-            fileReader.onload = e => {
-                const content = e.target.result;
-                setFile1TwoComp(content);
-            };
-        // }
-    }
+        fileReader.readAsText(files[0], "UTF-8");
+        fileReader.onload = e => {
+            const content = e.target.result;
+            setFile1TwoComp(content);
+        };
     };
 
-    const addFile2TwoComp = event => {//
-        if(event.target.files.length === 0) {
-            setFile2TwoComp(null);
-        }
-        else {
+    const addFile2TwoComp = event => {
         const fileReader = new FileReader();
         const {files} = event.target;
-
-        // if(files && files.length > 0) {
 
         fileReader.readAsText(files[0], "UTF-8");
         fileReader.onload = e => {
             const content = e.target.result;
             setFile2TwoComp(content);
         };
-    // }
-    }
     };
-
-
-
-    useEffect(() => {
-        if(token) {
-            me();
-        }
-    }, [token]);
 
 
     useEffect(() => {
         const hash = window.location.hash;
         let token = window.localStorage.getItem('token');
         let expirationTime = window.localStorage.getItem("expirationTime");
-
     
         if ((!token || !expirationTime) && hash) {
             token = hash.substring(1).split('&').find(elem => elem.startsWith('access_token')).split('=')[1];
@@ -667,29 +585,14 @@ function Code() {
             window.localStorage.setItem('token', token);
             window.localStorage.setItem("expirationTime", expirationTime);
         }
-
     
         setToken(token);
         setExpirationTime(expirationTime);  
 
         if (isTokenExpired()) {
             logout();
-        }
+          }
     }, [downloadCode, toDataPage, toComparePage1, toComparePage2]);
-
-
-
-    function clearCookies() {
-        var cookies = document.cookie.split(";");
-        console.log(cookies);
-      
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i];
-          var eqPos = cookie.indexOf("=");
-          var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-        }
-      }
 
     return (
         <div>
@@ -700,21 +603,8 @@ function Code() {
             }
             <div className='cardOverlay'>
                 <div className='logout'>
-                    <img src={back} style={{width:'13px'}} onClick={logout} data-tooltip-id="backBtn" data-tooltip-content='Go back'></img>
+                    <img src={back} style={{width:'13px'}} title='Log out' onClick={logout}></img>
                 </div>
-                <div style={{ position: 'relative' }}>
-                    {profilePicUrl && (
-                    <img
-                        src={profilePicUrl}
-                        style={{ width: '30px', borderRadius: '50%', position: 'absolute', top: '0', right: '0' }}
-                        alt="Image 1"
-                        
-                        data-tooltip-id="profileIcon" data-tooltip-content={displayName}
-                    />
-                    
-                    )}
-                </div>
-
                 <div className='codeDiv'>
                     <button onClick={downloadCode} className="basicBtn" title="Download your code" style={{marginTop:'10vh'}} disabled={loadingDownload}>download your code</button>
                     {loadingDownload &&
@@ -779,42 +669,26 @@ function Code() {
                     }
                 </div>
 
-                
-
                 <ReactTooltip
                     anchorSelect="#uploadOneTooltip"
                     html={"upload the code for the user you want to compare with"}
-                    style={{fontSize:'12px',fontWeight:'bold',borderRadius:'10px',zIndex:'2'}}
+                    style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
                     clickable={'true'}>
                 </ReactTooltip>
 
                 <ReactTooltip
                     anchorSelect="#uploadTwoTooltip1"
                     html={"upload the code for the first user you want to compare with"}
-                    style={{fontSize:'12px',fontWeight:'bold',borderRadius:'10px',zIndex:'2'}}
+                    style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
                     clickable={'true'}>
                 </ReactTooltip>
 
                 <ReactTooltip
                     anchorSelect="#uploadTwoTooltip2"
                     html={"upload the code for the second user you want to compare with"}
-                    style={{fontSize:'12px',pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'10px',zIndex:'2'}}
-                    clickable={'true'}>
-                </ReactTooltip>
-
-                {/* <ReactTooltip
-                    anchorSelect="#profileIcon"
-                    html={displayName}
                     style={{backgroundColor:'#656565',color:'white',fontSize:12,pointerEvents: 'auto !important',fontWeight:'bold',borderRadius:'25px',zIndex:'2'}}
                     clickable={'true'}>
-                </ReactTooltip> */}
-                <ReactTooltip id="profileIcon"
-                style={{borderRadius:'10px',fontWeight:'bold'}}
-                 />
-                 <ReactTooltip id="backBtn"
-                style={{borderRadius:'10px',fontWeight:'bold', fontSize:'10px'}}
-                 />
-
+                </ReactTooltip>
             </div>
             <Footer/>
         </div>
