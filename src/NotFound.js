@@ -7,7 +7,7 @@ const NotFound = () => {
   <img src={earth} style={{ width: '100px' }} />
   <div style={{ marginLeft: '20px', textAlign: 'left' }}>
     <h4>404</h4>
-    <h5 style={{ color: 'gray' }}>The requested URL was not found.</h5>
+    <h5 style={{ color: 'gray' }}>The requested page was not found.</h5>
   </div>
 </div>
 
