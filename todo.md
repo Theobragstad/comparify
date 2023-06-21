@@ -1,0 +1,45 @@
+- [ ] Tooltips  
+- [ ] Link titles  
+- [ ] No data  
+- [ ] Null checks  
+- [ ] Data errors/missing  
+- [ ] Modal widths  
+- [ ] GPT prompts  
+- [ ] Extended quota approval. Guidelines adhered.  
+- [ ] Catch errors  
+- [ ] Check for undefined/empty  
+- [ ] Log out  
+- [ ] Song recs modals  
+- [ ] No inline CSS  
+- [ ] Messages  
+- [ ] Highest and lowest averages and standard deviations  
+- [ ] Console errors  
+- [ ] Nav bar back button  
+- [ ] Set min widths, maxwidths, layout, modal sizing   
+- [ ] Clean up code  
+- [ ] Restrict routing  
+- [ ] Generalized response sizes?  
+- [ ] Other sites inspo  
+- [ ] Trends over time  
+- [ ] Songs by decades  
+- [ ] Scroll to top or bottom buttons  
+- [ ] Image saving sizing, and naming  
+- [ ] Security  
+- [ ] Time streamed  
+- [ ] Ptr events none  
+- [ ] Playlists contents  
+- [ ] Api rate limits  
+- [ ] Dark mode  
+- [ ] Api payments  
+- [ ] Top song times played  
+- [ ] Number of streams, mins streamed  
+- [ ] Global leaderboards- top % of artist  
+- [ ] Number of different artists, tracks, albums  
+- [ ] Number of minutes streamed of each artist  
+- [ ] Most common shared audio feature(s)  
+- [ ] Google Ads  
+- [ ] Custom timeframes  
+- [ ] Request sizing  
+- [ ] Links to data  
+- [ ] Saved albums, tracks, shows. Other API endpoints  
+- [ ] Most common decade
