@@ -1,36 +1,37 @@
-- [ ] Tooltips  
-- [ ] Link titles  
-- [ ] No data  
-- [ ] Null checks  
-- [ ] Data errors/missing  
-- [ ] Modal widths  
+# to-do
+
+- [ ] Tooltips styling, clean up
+- [ ] Link/button titles  
 - [ ] GPT prompts  
 - [ ] Extended quota approval. Guidelines adhered.  
 - [ ] Catch errors  
-- [ ] Check for undefined/empty  
-- [ ] Log out  
+- [ ] Check for undefined/empty at all stages, show no data if null
 - [ ] Song recs modals  
 - [ ] No inline CSS  
-- [ ] Messages  
+- [ ] Compare page stats stacking table
+- [ ] NaN number check
+- [ ] Break into smaller components
+- [ ] Genre, label pie charts, popularity ranges pie charts
 - [ ] Highest and lowest averages and standard deviations  
-- [ ] Console errors  
-- [ ] Nav bar back button  
-- [ ] Set min widths, maxwidths, layout, modal sizing   
-- [ ] Clean up code  
-- [ ] Restrict routing  
+- [ ] Console errors, logs  
+- [ ] Set min widths, maxwidths, layout, modal sizing  
 - [ ] Generalized response sizes?  
-- [ ] Other sites inspo  
+- [ ] Other sites inspo  (stats.fm, last.fm, favorited artists, all releases by artist, volt.fm, pie chart, )
+- [ ] Footer positioning
+- [ ] Podcasts
+- [ ] Check wrong formatted codes
 - [ ] Trends over time  
 - [ ] Songs by decades  
-- [ ] Scroll to top or bottom buttons  
+- [ ] Similarity percent calculation
 - [ ] Image saving sizing, and naming  
-- [ ] Security  
+- [ ] Security issues
 - [ ] Time streamed  
-- [ ] Ptr events none  
 - [ ] Playlists contents  
-- [ ] Api rate limits  
+- [ ] Improve grid layout
+- [ ] Quiz for songs
+- [ ] Sort songs by features
+- [ ] Time of day listen
 - [ ] Dark mode  
-- [ ] Api payments  
 - [ ] Top song times played  
 - [ ] Number of streams, mins streamed  
 - [ ] Global leaderboards- top % of artist  
@@ -38,8 +39,5 @@
 - [ ] Number of minutes streamed of each artist  
 - [ ] Most common shared audio feature(s)  
 - [ ] Google Ads  
-- [ ] Custom timeframes  
-- [ ] Request sizing  
-- [ ] Links to data  
 - [ ] Saved albums, tracks, shows. Other API endpoints  
-- [ ] Most common decade
+- [ ] Code cleaning, refactoring, reordering

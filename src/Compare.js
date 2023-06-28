@@ -7,6 +7,8 @@ import missingImage from "./img/missingImage.png";
 import "./App.css";
 import Big from "big.js";
 import back from "./img/back.png";
+import ScrollButton from "./ScrollButton";
+
 import download from "./img/download.png";
 import Footer from "./Footer";
 import ComparePageRecommendations from "./ComparePageRecommendations";
@@ -91,6 +93,7 @@ function Compare() {
   const labels = [
     "songIds[<=50]",
     "mostLeastPopSongIds[<=2]",
+    "decadesAndPcts[]",
     "oldestNewestSongIds[<=2]",
     "avgSongPop[1]",
     "songPopStdDev[1]",
@@ -118,6 +121,7 @@ function Compare() {
   const arrays1 = {
     songIds: [],
     mostLeastPopSongIds: [],
+    decadesAndPcts: [],
     oldestNewestSongIds: [],
     avgSongPop: [],
     songPopStdDev: [],
@@ -145,6 +149,7 @@ function Compare() {
   const arrays2 = {
     songIds: [],
     mostLeastPopSongIds: [],
+    decadesAndPcts: [],
     oldestNewestSongIds: [],
     avgSongPop: [],
     songPopStdDev: [],
@@ -326,6 +331,8 @@ function Compare() {
 
   for (const field in arrays1) {
     if (arrays1.hasOwnProperty(field) && arrays2.hasOwnProperty(field)) {
+      if (field === "decadesAndPcts") {
+      }
       if (
         field === "avgSongPop" ||
         field === "songPopStdDev" ||
@@ -780,6 +787,7 @@ function Compare() {
   };
 
   const getMostLeastPopSongs = async (songIds, arrayToSet) => {
+    console.log(songIds);
     if (
       songIds.length == 0 ||
       (songIds && songIds.length > 0 && songIds[0] == "No data") ||
@@ -1603,6 +1611,7 @@ function Compare() {
 
   return (
     <div>
+      <ScrollButton />
       <Link to="/" title="Home" style={{ display: "block" }}>
         <img
           src={logo}
@@ -3148,9 +3157,10 @@ function Compare() {
                           <div className="item">
                             <div className="primaryText">
                               <span className="primaryName2" id="stdDev">
-                                {!isNaN(overlappingData.artistPopStdDev)
+                                {overlappingData.artistPopStdDev}
+                                {/* {!isNaN(overlappingData.artistPopStdDev)
                                   ? overlappingData.artistPopStdDev
-                                  : "-"}
+                                  : "-"} */}
                               </span>
                             </div>
                           </div>
@@ -3168,9 +3178,10 @@ function Compare() {
                         <div className="item">
                           <div className="primaryText">
                             <span className="primaryName2">
-                              {!isNaN(overlappingData.avgArtistFolls)
+                              {overlappingData.avgArtistFolls}
+                              {/* {!isNaN(overlappingData.avgArtistFolls)
                                 ? overlappingData.avgArtistFolls
-                                : "-"}
+                                : "-"} */}
                             </span>
                           </div>
                         </div>
@@ -3187,9 +3198,10 @@ function Compare() {
                         <div className="item">
                           <div className="primaryText">
                             <span className="primaryName2" id="stdDev">
-                              {!isNaN(overlappingData.artistFollsStdDev)
+                              {overlappingData.artistFollsStdDev}
+                              {/* {!isNaN(overlappingData.artistFollsStdDev)
                                 ? overlappingData.artistFollsStdDev
-                                : "-"}
+                                : "-"} */}
                             </span>
                           </div>
                         </div>
@@ -3868,7 +3880,7 @@ function Compare() {
                 <div
                   className="image"
                   data-tooltip-id="column1"
-                  data-tooltip-content={`Data for ${nameIdImgurlGenerationdate1[0]} only`}
+                  data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate1[0]} only`}
                 >
                   <img
                     src={nameIdImgurlGenerationdate1[2]}
@@ -3939,7 +3951,7 @@ function Compare() {
                 <div
                   className="image"
                   data-tooltip-id="column3"
-                  data-tooltip-content={`Data for ${nameIdImgurlGenerationdate2[0]} only`}
+                  data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate2[0]} only`}
                 >
                   <img
                     src={nameIdImgurlGenerationdate2[2]}
@@ -5507,9 +5519,10 @@ function Compare() {
                   <div className="item">
                     <div className="primaryText">
                       <span className="primaryName2">
-                        {!isNaN(overlappingData.avgArtistFolls)
+                        {overlappingData.avgArtistFolls}
+                        {/* {!isNaN(overlappingData.avgArtistFolls)
                           ? overlappingData.avgArtistFolls
-                          : "-"}
+                          : "-"} */}
                       </span>
                     </div>
                   </div>
@@ -5556,9 +5569,10 @@ function Compare() {
                   <div className="item">
                     <div className="primaryText">
                       <span className="primaryName2" id="stdDev">
-                        {!isNaN(overlappingData.artistFollsStdDev)
+                        {overlappingData.artistFollsStdDev}
+                        {/* {!isNaN(overlappingData.artistFollsStdDev)
                           ? overlappingData.artistFollsStdDev
-                          : "-"}
+                          : "-"} */}
                       </span>
                     </div>
                   </div>

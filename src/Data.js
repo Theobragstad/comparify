@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
+import { PieChart, Pie, Cell, Legend } from "recharts";
+
 import logo from "./img/logo.png";
 import missingImage from "./img/missingImage.png";
 import "./App.css";
@@ -9,7 +11,9 @@ import back from "./img/back.png";
 import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import ScrollButton from "./ScrollButton";
+
+import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
 import Modal from "react-modal";
 import DataPageRecommendations from "./DataPageRecommendations";
@@ -134,7 +138,7 @@ function Data() {
   };
 
   const location = useLocation();
-  const token = location.state.token;
+  let token = location.state.token;
   const allData = location.state.data.split(",");
   const nameIdImgurlGenerationdate = allData.slice(1, 5);
 
@@ -150,6 +154,7 @@ function Data() {
   const labels = [
     "songIds[<=50]",
     "mostLeastPopSongIds[<=2]",
+    "decadesAndPcts[]", //
     "oldestNewestSongIds[<=2]",
     "avgSongPop[1]",
     "songPopStdDev[1]",
@@ -177,6 +182,7 @@ function Data() {
   const arrays = {
     songIds: [],
     mostLeastPopSongIds: [],
+    decadesAndPcts: [], //
     oldestNewestSongIds: [],
     avgSongPop: [],
     songPopStdDev: [],
@@ -212,227 +218,305 @@ function Data() {
   arrays.topGenresByArtist = data.slice(
     data.indexOf("topGenresByArtist[<=20]") + 1
   );
+  /////
+  const pieData = [];
+
+  for (let i = 0; i < arrays.decadesAndPcts.length; i += 2) {
+    const decade = arrays.decadesAndPcts[i];
+    const percentage = arrays.decadesAndPcts[i + 1];
+    pieData.push({ name: `${decade}s`, value: parseFloat(percentage) });
+  }
+
+  const colors = [
+    "#1e90ff",
+    "#18d860",
+    "#ffdf00",
+    "#FF1493",
+    "#9370DB",
+    "#FF4500",
+    "#008080",
+    "#FF8C00",
+    "#9932CC",
+    "#20B2AA",
+    "#FF69B4",
+    "#6A5ACD",
+    "#32CD32",
+    "#FF6347",
+    "#7B68EE",
+  ];
+
+  //14
+
+  ////
 
   const getTopSongs = async (songIds) => {
-    if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: songIds.join(","),
-        },
-      });
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
 
-      const topSongsData = data.tracks.map((track) => ({
-        name: track.name,
-        artists: track.artists.map((artist) => artist.name),
-        img: track.album.images[0]?.url || missingImage,
-      }));
+        const topSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+        }));
 
-      setTopSongs(topSongsData);
-    } else {
-      setTopSongs([]);
+        setTopSongs(topSongsData);
+      } else {
+        setTopSongs([]);
+      }
+      // console.log(topSongs);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
-    // console.log(topSongs);
   };
 
   const getHighestAudioFeatureSongs = async (songIds) => {
-    if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: songIds.join(","),
-        },
-      });
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
 
-      const highestAudioFeatureSongsData = data.tracks.map((track) => ({
-        name: track.name,
-        artists: track.artists.map((artist) => artist.name),
-        img: track.album.images[0]?.url || missingImage,
-      }));
+        const highestAudioFeatureSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+        }));
 
-      setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
-    } else {
-      setHighestAudioFeatureSongs(Array(11).fill("-"));
+        setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
+      } else {
+        setHighestAudioFeatureSongs(Array(11).fill("-"));
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getLowestAudioFeatureSongs = async (songIds) => {
-    if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: songIds.join(","),
-        },
-      });
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
 
-      const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
-        name: track.name,
-        artists: track.artists.map((artist) => artist.name),
-        img: track.album.images[0]?.url || missingImage,
-      }));
+        const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+        }));
 
-      setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
-    } else {
-      setLowestAudioFeatureSongs(Array(11).fill("-"));
+        setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
+      } else {
+        setLowestAudioFeatureSongs(Array(11).fill("-"));
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getMostLeastPopSongs = async (songIds) => {
-    if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: songIds.join(","),
-        },
-      });
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
 
-      const mostLeastPopSongsData = data.tracks.map((track) => ({
-        name: track.name,
-        pop: track.popularity,
-        artists: track.artists.map((artist) => artist.name),
-        img: track.album.images[0]?.url || missingImage,
-      }));
+        const mostLeastPopSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          pop: track.popularity,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+        }));
 
-      setMostLeastPopSongs(mostLeastPopSongsData);
-    } else {
-      setMostLeastPopSongs([]);
+        setMostLeastPopSongs(mostLeastPopSongsData);
+      } else {
+        setMostLeastPopSongs([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getOldestNewestSongs = async (songIds) => {
-    if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: songIds.join(","),
-        },
-      });
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
 
-      const oldestNewestSongsData = data.tracks.map((track) => ({
-        name: track.name,
-        date: track.album.release_date,
-        artists: track.artists.map((artist) => artist.name),
-        img: track.album.images[0]?.url || missingImage,
-      }));
+        const oldestNewestSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          date: track.album.release_date,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+        }));
 
-      setOldestNewestSongs(oldestNewestSongsData);
-    } else {
-      setOldestNewestSongs([]);
+        setOldestNewestSongs(oldestNewestSongsData);
+      } else {
+        setOldestNewestSongs([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getTopAlbums = async (albumIds) => {
-    if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
-      const maxAlbumsPerRequest = 20;
-      const albumChunks = [];
+    try {
+      if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
+        const maxAlbumsPerRequest = 20;
+        const albumChunks = [];
 
-      for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
-        albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
+        for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
+          albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
+        }
+
+        const topAlbumData = [];
+
+        for (const albumChunk of albumChunks) {
+          const { data } = await axios.get(
+            "https://api.spotify.com/v1/albums",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              params: {
+                ids: albumChunk.join(","),
+              },
+            }
+          );
+
+          const chunkAlbumsData = data.albums.map((album) => ({
+            name: album.name,
+            artists: album.artists.map((artist) => artist.name),
+            img: album.images[0]?.url || missingImage,
+          }));
+
+          topAlbumData.push(...chunkAlbumsData);
+        }
+
+        setTopAlbums(topAlbumData);
+      } else {
+        setTopAlbums([]);
       }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
 
-      const topAlbumData = [];
-
-      for (const albumChunk of albumChunks) {
+  const getMostLeastPopAlbums = async (albumIds) => {
+    try {
+      if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
         const { data } = await axios.get("https://api.spotify.com/v1/albums", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            ids: albumChunk.join(","),
+            ids: albumIds.join(","),
           },
         });
 
-        const chunkAlbumsData = data.albums.map((album) => ({
+        const mostLeastPopAlbumsData = data.albums.map((album) => ({
           name: album.name,
+          pop: album.popularity,
           artists: album.artists.map((artist) => artist.name),
           img: album.images[0]?.url || missingImage,
         }));
 
-        topAlbumData.push(...chunkAlbumsData);
+        setMostLeastPopAlbums(mostLeastPopAlbumsData);
+      } else {
+        setMostLeastPopAlbums([]);
       }
-
-      setTopAlbums(topAlbumData);
-    } else {
-      setTopAlbums([]);
-    }
-  };
-
-  const getMostLeastPopAlbums = async (albumIds) => {
-    if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/albums", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: albumIds.join(","),
-        },
-      });
-
-      const mostLeastPopAlbumsData = data.albums.map((album) => ({
-        name: album.name,
-        pop: album.popularity,
-        artists: album.artists.map((artist) => artist.name),
-        img: album.images[0]?.url || missingImage,
-      }));
-
-      setMostLeastPopAlbums(mostLeastPopAlbumsData);
-    } else {
-      setMostLeastPopAlbums([]);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getTopArtists = async (artistIds) => {
-    if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: artistIds.join(","),
-        },
-      });
+    try {
+      if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: artistIds.join(","),
+          },
+        });
 
-      const topArtistsData = data.artists.map((artist) => ({
-        name: artist.name,
-        img: artist.images[0]?.url || missingImage,
-      }));
+        const topArtistsData = data.artists.map((artist) => ({
+          name: artist.name,
+          img: artist.images[0]?.url || missingImage,
+        }));
 
-      setTopArtists(topArtistsData);
-    } else {
-      setTopArtists([]);
+        setTopArtists(topArtistsData);
+      } else {
+        setTopArtists([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getMostLeastPopArtists = async (artistIds) => {
-    if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: artistIds.join(","),
-        },
-      });
+    try {
+      if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: artistIds.join(","),
+          },
+        });
 
-      const mostLeastPopArtistsData = data.artists.map((artist) => ({
-        name: artist.name,
-        pop: artist.popularity,
-        img: artist.images[0]?.url || missingImage,
-      }));
+        const mostLeastPopArtistsData = data.artists.map((artist) => ({
+          name: artist.name,
+          pop: artist.popularity,
+          img: artist.images[0]?.url || missingImage,
+        }));
 
-      setMostLeastPopArtists(mostLeastPopArtistsData);
-    } else {
-      setMostLeastPopArtists([]);
+        setMostLeastPopArtists(mostLeastPopArtistsData);
+      } else {
+        setMostLeastPopArtists([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
@@ -645,11 +729,34 @@ function Data() {
     return new Date().getTime() > parseInt(expirationTime);
   };
 
-  const logout = () => {
-    setExpirationTime("");
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("expirationTime");
-    navigate("/");
+  function clearCookies() {
+    var cookies = document.cookie.split(";");
+    // console.log(cookies);
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+  }
+
+  const logout = (error) => {
+    if (error === "apiError") {
+      clearCookies();
+      token = "";
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      // window.localStorage.removeItem("expirationTime"); //
+      navigate("/", { state: { [error]: true } });
+    } else {
+      clearCookies();
+      token = "";
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("expirationTime");
+      navigate("/");
+    }
   };
 
   const [expirationTime, setExpirationTime] = useState("");
@@ -676,77 +783,82 @@ function Data() {
   });
 
   const getAudioFeatureValues = async (songIds, arrayToSet) => {
-    const featureNames = [
-      "acousticness",
-      "danceability",
-      "duration_ms",
-      "energy",
-      "instrumentalness",
-      "liveness",
-      "loudness",
-      "speechiness",
-      "tempo",
-      "valence",
-    ];
+    try {
+      const featureNames = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+      ];
 
-    const allEmpty = songIds.every((id) => id === "");
+      const allEmpty = songIds.every((id) => id === "");
 
-    if (allEmpty) {
-      arrayToSet(Array(songIds.length).fill("-"));
-      return;
-    }
-
-    if (songIds && songIds.length > 0 && songIds[0] === "No data") {
-      arrayToSet(Array(songIds.length).fill("-"));
-      return;
-    }
-
-    const filteredIds = songIds.filter((id) => id !== "");
-
-    const { data } = await axios.get(
-      "https://api.spotify.com/v1/audio-features",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: filteredIds.join(","),
-        },
+      if (allEmpty) {
+        arrayToSet(Array(songIds.length).fill("-"));
+        return;
       }
-    );
 
-    const audioFeatures = data.audio_features.map((item) => ({
-      id: item.id,
-      acousticness: item.acousticness,
-      danceability: item.danceability,
-      duration_ms: item.duration_ms,
-      energy: item.energy,
-      instrumentalness: item.instrumentalness,
-      liveness: item.liveness,
-      loudness: item.loudness,
-      speechiness: item.speechiness,
-      tempo: item.tempo,
-      valence: item.valence,
-    }));
+      if (songIds && songIds.length > 0 && songIds[0] === "No data") {
+        arrayToSet(Array(songIds.length).fill("-"));
+        return;
+      }
 
-    const result = [];
-    for (let i = 0; i < songIds.length; i++) {
-      if (songIds[i] === "") {
-        result[i] = "";
-      } else {
-        const feature = featureNames[i];
-        const audioFeature = audioFeatures.find(
-          (item) => item.id === songIds[i]
-        );
-        if (feature === "duration_ms") {
-          result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
+      const filteredIds = songIds.filter((id) => id !== "");
+
+      const { data } = await axios.get(
+        "https://api.spotify.com/v1/audio-features",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: filteredIds.join(","),
+          },
+        }
+      );
+
+      const audioFeatures = data.audio_features.map((item) => ({
+        id: item.id,
+        acousticness: item.acousticness,
+        danceability: item.danceability,
+        duration_ms: item.duration_ms,
+        energy: item.energy,
+        instrumentalness: item.instrumentalness,
+        liveness: item.liveness,
+        loudness: item.loudness,
+        speechiness: item.speechiness,
+        tempo: item.tempo,
+        valence: item.valence,
+      }));
+
+      const result = [];
+      for (let i = 0; i < songIds.length; i++) {
+        if (songIds[i] === "") {
+          result[i] = "";
         } else {
-          result[i] = audioFeature ? audioFeature[feature] : "";
+          const feature = featureNames[i];
+          const audioFeature = audioFeatures.find(
+            (item) => item.id === songIds[i]
+          );
+          if (feature === "duration_ms") {
+            result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
+          } else {
+            result[i] = audioFeature ? audioFeature[feature] : "";
+          }
         }
       }
-    }
 
-    arrayToSet(result);
+      arrayToSet(result);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
   };
 
   function msToMinSec(ms) {
@@ -785,8 +897,49 @@ function Data() {
   const twoAudioFeaturesHighestAvgs =
     keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
 
+  const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
+    if (![2, 6, 8].includes(index))
+      map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
+    return map;
+  }, {});
+
+  const audioFeaturesToStdDevsMapSorted = new Map(
+    Object.entries(audioFeaturesToStdDevsMap).sort(
+      ([, value1], [, value2]) => value1 - value2
+    )
+  );
+
+  const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
+    audioFeaturesToStdDevsMapSorted.keys()
+  );
+  const twoAudioFeaturesLowestStdDevs =
+    keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
+  const twoAudioFeaturesHighestStdDevs =
+    keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
+
+
+
+
+
+
+
+    const featureExplanations = [
+       "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.", 
+       "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
+       "",
+       "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
+       `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
+       "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
+       "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
+       "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
+       "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
+       "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
+    ]
+
   return (
-    <div>
+    <div className="dataPage">
+      <ScrollButton />
+
       <Link to="/" title="Home" style={{ display: "block" }}>
         <img className="dataPageLogo" src={logo}></img>
       </Link>
@@ -801,7 +954,7 @@ function Data() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
             }
             style={{ textDecoration: "none" }}
-            id="SpotifyProfileLink"
+            data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile"
           >
             <img
               src={nameIdImgurlGenerationdate[2]}
@@ -828,7 +981,7 @@ function Data() {
           <span>
             &emsp;
             <img
-              id="gptTooltip"
+              data-tooltip-id="dataPageTooltip1" data-tooltip-content="Try ChatGPT"
               onClick={openModal}
               className="zoom"
               src={gptBtn}
@@ -930,7 +1083,11 @@ function Data() {
         </div>
 
         <div className="primaryCard1">
-          <div className="primaryTitle" id="topAlbums">
+          <div
+            className="primaryTitle"
+            data-tooltip-id="dataPageTooltip1"
+            data-tooltip-content="based on frequency of occurences in top songs."
+          >
             top albums
           </div>
           {topAlbums.length === 0 ? (
@@ -953,7 +1110,11 @@ function Data() {
         </div>
 
         <div className="primaryCard2">
-          <div className="primaryTitle" id="topGenres">
+          <div
+            className="primaryTitle"
+            data-tooltip-id="dataPageTooltip1"
+            data-tooltip-content="based on frequency of occurences in top artists."
+          >
             top genres
           </div>
           {arrays.topLabelsByAlbums &&
@@ -971,7 +1132,11 @@ function Data() {
         </div>
 
         <div className="primaryCard3">
-          <div className="primaryTitle" id="topLabels">
+          <div
+            className="primaryTitle"
+            data-tooltip-id="dataPageTooltip1"
+            data-tooltip-content="based on frequency of occurences in top songs."
+          >
             top labels
           </div>
           {arrays.topLabelsByAlbums &&
@@ -987,9 +1152,59 @@ function Data() {
             ))
           )}
         </div>
-      </div>
+        {/* <PieChart width={400} height={400}>
+    <Pie
+      data={pieData}
+      cx={200}
+      cy={200}
+      outerRadius={80}
+      fill="#8884d8"
+      dataKey="value"
+      label
+    >
+      {pieData.map((entry, index) => (
+        <Cell key={index} fill={colors[index % colors.length]} />
+      ))}
+    </Pie>
+    <Legend />
+  </PieChart> */}
 
-      <div className="card-row">
+        <div className="pieCard">
+          <div className="primaryTitle">song release decade distribution</div>
+          {arrays.decadesAndPcts && arrays.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData}
+                outerRadius={30}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name }) => name} // Set the label to display the name property
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={index} fill={colors[index % colors.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          )}
+          {/* {arrays.decadesAndPcts &&
+          arrays.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            arrays.decadesAndPcts.map((item, index) => (
+              (index % 2 === 0) &&
+              <div key={index} className="item">
+                <div className="primaryText">
+                  <span className="primaryName">{item}: {parseFloat(arrays.decadesAndPcts[index + 1]).toFixed(2)}%</span>
+                </div>
+              </div>
+            ))
+          )} */}
+        </div>
+        {/* </div> */}
+
+        {/* <div className="card-row"> */}
         <div className="primaryCard4">
           <div className="primaryTitle">most popular song</div>
           {mostLeastPopSongs.length === 0 ? (
@@ -1006,7 +1221,11 @@ function Data() {
                   <span className="primaryArtists">
                     {mostLeastPopSongs[0]?.artists?.join(", ")}
                   </span>
-                  <span style={{ paddingLeft: "20px" }} id="popularity">
+                  <span
+                    style={{ paddingLeft: "20px" }}
+                    data-tooltip-id="dataPageTooltip1"
+                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                  >
                     {mostLeastPopSongs[0]?.pop}
                   </span>
                 </div>
@@ -1031,7 +1250,11 @@ function Data() {
                   <span className="primaryArtists">
                     {mostLeastPopSongs[1]?.artists?.join(", ")}
                   </span>
-                  <span style={{ paddingLeft: "20px" }} id="popularity">
+                  <span
+                    style={{ paddingLeft: "20px" }}
+                    data-tooltip-id="dataPageTooltip1"
+                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                  >
                     {mostLeastPopSongs[1]?.pop}
                   </span>
                 </div>
@@ -1106,7 +1329,11 @@ function Data() {
                   <span className="primaryName">
                     {mostLeastPopArtists[0]?.name}
                   </span>
-                  <span style={{ paddingLeft: "20px" }} id="popularity">
+                  <span
+                    style={{ paddingLeft: "20px" }}
+                    data-tooltip-id="dataPageTooltip1"
+                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                  >
                     {mostLeastPopArtists[0]?.pop}
                   </span>
                 </div>
@@ -1131,7 +1358,11 @@ function Data() {
                   <span className="primaryName">
                     {mostLeastPopArtists[1]?.name}
                   </span>
-                  <span style={{ paddingLeft: "20px" }} id="popularity">
+                  <span
+                    style={{ paddingLeft: "20px" }}
+                    data-tooltip-id="dataPageTooltip1"
+                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                  >
                     {mostLeastPopArtists[1]?.pop}
                   </span>
                 </div>
@@ -1159,7 +1390,11 @@ function Data() {
                   <span className="primaryArtists">
                     {mostLeastPopAlbums[0]?.artists?.join(", ")}
                   </span>
-                  <span style={{ paddingLeft: "20px" }} id="popularity">
+                  <span
+                    style={{ paddingLeft: "20px" }}
+                    data-tooltip-id="dataPageTooltip1"
+                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                  >
                     {mostLeastPopAlbums[0]?.pop}
                   </span>
                 </div>
@@ -1187,7 +1422,11 @@ function Data() {
                   <span className="primaryArtists">
                     {mostLeastPopAlbums[1]?.artists?.join(", ")}
                   </span>
-                  <span style={{ paddingLeft: "20px" }} id="popularity">
+                  <span
+                    style={{ paddingLeft: "20px" }}
+                    data-tooltip-id="dataPageTooltip1"
+                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                  >
                     {mostLeastPopAlbums[1]?.pop}
                   </span>
                 </div>
@@ -1201,7 +1440,13 @@ function Data() {
           {arrays.avgSongPop && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2">{arrays.avgSongPop}</span>
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="0-100. assigned by Spotify and updated based on current data. higher means more popular."
+                >
+                  {arrays.avgSongPop}
+                </span>
               </div>
             </div>
           )}
@@ -1212,7 +1457,7 @@ function Data() {
           {arrays.songPopStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" id="stdDev">
+                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
                   {arrays.songPopStdDev}
                 </span>
               </div>
@@ -1246,7 +1491,7 @@ function Data() {
           {arrays.songAgeStdDevYrMo && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" id="stdDev">
+                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
                   {`${
                     arrays.songAgeStdDevYrMo[0] === 1
                       ? "1 year"
@@ -1278,7 +1523,13 @@ function Data() {
           {arrays.avgAlbumPop && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2">{arrays.avgAlbumPop}</span>
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="0-100. assigned by Spotify and updated based on current data. higher means more popular."
+                >
+                  {arrays.avgAlbumPop}
+                </span>
               </div>
             </div>
           )}
@@ -1291,7 +1542,7 @@ function Data() {
           {arrays.albumPopsStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" id="stdDev">
+                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
                   {arrays.albumPopsStdDev}
                 </span>
               </div>
@@ -1304,7 +1555,13 @@ function Data() {
           {arrays.avgArtistPop && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2">{arrays.avgArtistPop}</span>
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="0-100. assigned by Spotify and updated based on current data. higher means more popular."
+                >
+                  {arrays.avgArtistPop}
+                </span>
               </div>
             </div>
           )}
@@ -1317,7 +1574,7 @@ function Data() {
           {arrays.artistPopStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" id="stdDev">
+                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
                   {arrays.artistPopStdDev}
                 </span>
               </div>
@@ -1343,13 +1600,14 @@ function Data() {
           {arrays.artistFollsStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" id="stdDev">
+                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
                   {arrays.artistFollsStdDev}
                 </span>
               </div>
             </div>
           )}
         </div>
+        {/* </div> */}
       </div>
 
       <div className="audioFeaturesHeader">audio features</div>
@@ -1358,7 +1616,7 @@ function Data() {
         <table>
           <thead>
             <tr>
-              <th style={{ textAlign: "left", wordWrap: "break-word" }}>
+              <th style={{ wordWrap: "break-word" }}>
                 <div style={{ maxWidth: "140px", margin: "0 auto" }}>
                   <span style={{ fontSize: "10px" }}>
                     &#9432;&ensp;You can hover over select labels for more
@@ -1370,7 +1628,7 @@ function Data() {
               <th>
                 <span className="audioFeaturesColumnLabel">average</span>
               </th>
-              <th id="stdDev">
+              <th data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
                 <span className="audioFeaturesColumnLabel">
                   standard deviation
                 </span>
@@ -1395,9 +1653,11 @@ function Data() {
               const lowestSong = lowestAudioFeatureSongs[index];
               const lowestSongValue = lowestAudioFeatureValues[index];
 
+
+           
               return (
                 <tr key={feature}>
-                  <td id={feature}>
+                  <td data-tooltip-id="dataPageTooltip1" data-tooltip-content={featureExplanations[index]}>
                     <span className="audioFeaturesColumnLabel">{feature}</span>
                   </td>
 
@@ -1429,7 +1689,28 @@ function Data() {
                   </td>
 
                   <td>
-                    <div className="cellOutline">
+                    <div
+                      className="cellOutline"
+                      style={
+                        twoAudioFeaturesLowestStdDevs.includes(feature) &&
+                        !twoAudioFeaturesHighestStdDevs.includes(feature) &&
+                        arrays.audioFeatureStdDevs[index] !== "-"
+                          ? {
+                              border: "1px solid #ff0000",
+                              backgroundColor: "#ffeded",
+                              color: "#ff0000",
+                            }
+                          : twoAudioFeaturesHighestStdDevs.includes(feature) &&
+                            !twoAudioFeaturesLowestStdDevs.includes(feature) &&
+                            arrays.audioFeatureStdDevs[index] !== "-"
+                          ? {
+                              border: "1px solid #17d475",
+                              backgroundColor: "#e8fcec",
+                              color: "#17d475",
+                            }
+                          : null
+                      }
+                    >
                       {arrays.audioFeatureStdDevs[index]}
                     </div>
                   </td>
@@ -1494,255 +1775,22 @@ function Data() {
           </tbody>
         </table>
 
-        <ReactTooltip
-          anchorSelect="#topAlbums"
-          html={"based on frequency of occurences in top songs."}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "25px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
 
-        <ReactTooltip
-          anchorSelect="#topGenres"
-          html={"based on frequency of occurences in top artists."}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "25px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
 
-        <ReactTooltip
-          anchorSelect="#topLabels"
-          html={"based on frequency of occurences in top songs."}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "25px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
+        {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
+        <Tooltip
+          id="dataPageTooltip1"
+          className="tooltip3"
+        />
+       
+         
 
-        <ReactTooltip
-          anchorSelect="#popularity"
-          html={"0-100. assigned by Spotify and updated based on current data."}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "25px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
+       
+      
+     
+       
 
-        <ReactTooltip
-          anchorSelect="#stdDev"
-          html={
-            "a larger value indicates more variability, while a smaller value indicates less, on average."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "25px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-
-        <ReactTooltip
-          anchorSelect="#acousticness"
-          html={
-            "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#danceability"
-          html={
-            "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#energy"
-          html={
-            "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#instrumentalness"
-          html={`Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#liveness"
-          html={
-            "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#loudness"
-          html={
-            "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#speechiness"
-          html={
-            "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#tempo"
-          html={
-            "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-        <ReactTooltip
-          anchorSelect="#valence"
-          html={
-            "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
-          }
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "200px",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-
-        <ReactTooltip
-          anchorSelect="#gptTooltip"
-          html={"ChatGPT"}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "fit-content",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
-
-        <ReactTooltip
-          anchorSelect="#SpotifyProfileLink"
-          html={"Open Spotify profile"}
-          style={{
-            fontSize: 12,
-            pointerEvents: "auto !important",
-            fontWeight: "bold",
-            borderRadius: "10px",
-            zIndex: "2",
-            wordBreak: "break-word",
-            width: "fit-content",
-          }}
-          clickable={"true"}
-        ></ReactTooltip>
+       
       </div>
 
       <Modal
