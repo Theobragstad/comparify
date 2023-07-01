@@ -27,11 +27,11 @@ const ScrollButton = () => {
     clearTimeout(clickTimeout);
     clickTimeout = setTimeout(() => {
       setRecentClick(false);
-    }, 5000);
+    }, 2000);
   };
 
   const handleScroll = () => {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    const { scrollTop, scrollHeight } = document.documentElement;
     const scrollThreshold = scrollHeight / 2;
 
     if (scrollTop < scrollThreshold) {
@@ -83,9 +83,9 @@ const ScrollButton = () => {
     >
       {showButton ? (
         scrollDirection === "down" ? (
-          <img src={downBtn} style={{ width: "30px" }} title="Go to bottom" />
+          <img src={downBtn} style={{ width: "30px" }} title="Go to bottom" alt="Go to bottom button"/>
         ) : (
-          <img src={upBtn} style={{ width: "30px" }} title="Go to top" />
+          <img src={upBtn} style={{ width: "30px" }} title="Go to top" alt="Go to top button"/>
         )
       ) : null}
     </div>

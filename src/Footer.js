@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import logo from "./img/logo.png";
+import x from "./img/x.png"
 import HelpModalContent from "./HelpModalContent";
 import Modal from "react-modal";
 
@@ -39,11 +40,22 @@ const Footer = () => {
   };
 
   // Add the media query style
-  const mediaQueryStyles = `@media (max-width: 500px) {
+  const mediaQueryStyles = 
+  `
+  @media (max-width: 500px) {
     .helpModal {
       width: 75% !important;
     }
-  }`;
+  }
+  
+ 
+  
+  @media (max-width:1500px) {
+    .helpModal {
+      max-height:80% !important;
+    }
+  }
+  `;
 
   return (
     <div>
@@ -54,6 +66,7 @@ const Footer = () => {
               src={logo}
               style={{ width: 20, pointerEvents: "cursor" }}
               title="Home"
+              alt="comparify logo"
             ></img>
           </Link>
           &emsp;&copy; 2023&emsp;&emsp;
@@ -94,11 +107,18 @@ const Footer = () => {
           style={customStyles}
           className="helpModal"
         >
+          <span>
+           <button className="xBtn" onClick={closeFooterModal}>
+              <img src={x} style={{width:'15px'}} alt="x" title="Close"></img>
+            </button></span>
           <style>{mediaQueryStyles}</style>
+
           <HelpModalContent />
-          <button className="closeBtn" onClick={closeFooterModal}>
-            Close
-          </button>
+          
+          {/* <button className="closeBtn" onClick={closeFooterModal}>
+              Close
+            </button> */}
+            
         </Modal>
       </div>
     </div>

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { PieChart, Pie, Cell, Legend } from "recharts";
+import AudioPlayer from 'react-audio-player';
 
 import logo from "./img/logo.png";
+import x from "./img/x.png"
 import missingImage from "./img/missingImage.png";
 import "./App.css";
 import back from "./img/back.png";
@@ -108,7 +110,7 @@ function Data() {
     },
     content: {
       zIndex: 9999,
-      width: "25%",
+      width: "30%",
       height: "fit-content",
       margin: "auto",
       borderRadius: "10px",
@@ -117,6 +119,41 @@ function Data() {
 
       maxHeight: "90vh",
       overflowY: "scroll",
+      backgroundColor: "rgba(255, 255, 255, 1)",
+    },
+  };
+
+
+
+  const mediaQueryStyles = `@media (max-width: 1000px) {
+    .recommendationModal {
+      width: 90% !important;
+    }
+  }`;
+
+
+  const customRecModalStyles = {
+    overlay: {
+      zIndex: 9999,
+      display: "flex",
+      justifyContent: "center",
+      textAlign: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+      zIndex: 9999,
+      maxWidth: "30%",
+      width: "30%",
+      height: "fit-content",
+      margin: "auto",
+      borderRadius: "10px",
+      outline: "none",
+      padding: "20px",
+
+      maxHeight: "90vh",
+      overflowY: "scroll",
+      backgroundColor: "rgba(255, 255, 255, 1)",
     },
   };
 
@@ -129,12 +166,14 @@ function Data() {
   const timeRangesClean = ["last month", "last 6 months", "all time"];
 
   const selectButton = (index) => {
+    
     setSelectedButton(index);
     setSelectedTimeRange(timeRanges[index - 1]);
 
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
 
     setApiResponse("");
+    
   };
 
   const location = useLocation();
@@ -265,6 +304,8 @@ function Data() {
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify
         }));
 
         setTopSongs(topSongsData);
@@ -695,6 +736,8 @@ function Data() {
   }
 
   useEffect(() => {
+    resetAllAudio();
+
     if (isTokenExpired()) {
       logout();
     }
@@ -936,9 +979,150 @@ function Data() {
        "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
     ]
 
+   
+
+
+  // const [isPlaying, setIsPlaying] = useState([]);
+
+  // const togglePlayback = (index) => {
+  //   const audioElements = document.querySelectorAll('audio');
+  //   const updatedIsPlaying = Array.from(isPlaying);
+  
+  //   audioElements.forEach((audioElement, i) => {
+  //     if (i !== index) {
+  //       audioElement.pause();
+  //       updatedIsPlaying[i] = false;
+  //     } else {
+  //       if (audioElement.paused) {
+  //         audioElement.play();
+  //         updatedIsPlaying[i] = true;
+  //       } else {
+  //         audioElement.pause();
+  //         updatedIsPlaying[i] = false;
+  //       }
+  //     }
+  //   });
+  
+  //   setIsPlaying(updatedIsPlaying);
+  // };
+  
+   
+
+  const [isPlaying, setIsPlaying] = useState([]);
+
+// const togglePlayback = (index) => {
+//   const audioElements = document.querySelectorAll('audio');
+//   const updatedIsPlaying = Array.from(isPlaying);
+
+//   audioElements.forEach((audioElement, i) => {
+
+   
+//     if (i !== index) {
+//       audioElement.pause();
+//       updatedIsPlaying[i] = false;
+//     } else {
+//       if (audioElement.paused) {
+//         audioElement.play();
+//         updatedIsPlaying[i] = true;
+//       } else {
+//         audioElement.pause();
+//         updatedIsPlaying[i] = false;
+//       }
+//     }
+  
+//   });
+
+//   setIsPlaying(updatedIsPlaying);
+// };
+
+const togglePlayback = (index) => {
+  const audioElements = document.querySelectorAll('audio');
+  const updatedIsPlaying = Array.from(isPlaying);
+
+  audioElements.forEach((audioElement, i) => {
+    if (i !== index) {
+      audioElement.pause();
+      updatedIsPlaying[i] = false;
+    } else {
+      if (audioElement.paused) {
+        // Pause all other audio elements before playing
+        audioElements.forEach((el, j) => {
+          if (j !== index) {
+            el.pause();
+            updatedIsPlaying[j] = false;
+          }
+        });
+
+        // Play the selected audio element
+        updatedIsPlaying[i] = true;
+        audioElement.play().catch((error) => {
+          console.log(error);
+        });
+      } else {
+        // Pause the selected audio element
+        audioElement.pause();
+        updatedIsPlaying[i] = false;
+      }
+    }
+  });
+
+  setIsPlaying(updatedIsPlaying);
+};
+
+
+
+
+const resetAllAudio = () => {
+  const audioElements = document.querySelectorAll('audio');
+  const updatedIsPlaying = Array.from(isPlaying);
+
+  audioElements.forEach((audioElement, i) => {
+   
+      audioElement.pause();
+      audioElement.currentTime = 0; // Restart the audio element
+      updatedIsPlaying[i] = false;
+  
+  });
+
+  setIsPlaying(updatedIsPlaying);
+};
+
+
+
+
+
+
+useEffect(() => {
+  const audioElements = document.querySelectorAll('audio');
+  const updatedIsPlaying = Array.from(isPlaying);
+
+  const handleAudioEnded = (index) => {
+    updatedIsPlaying[index] = false;
+    setIsPlaying(updatedIsPlaying);
+  };
+
+  audioElements.forEach((audioElement, i) => {
+    audioElement.addEventListener('ended', () => handleAudioEnded(i));
+  });
+
+  return () => {
+    audioElements.forEach((audioElement, i) => {
+      audioElement.removeEventListener('ended', () => handleAudioEnded(i));
+    });
+  };
+}, [isPlaying]);
+
+   
+    
+    
+    
+    
+
+    
+    
   return (
     <div className="dataPage">
-      <ScrollButton />
+      {/* <ScrollButton /> */}
 
       <Link to="/" title="Home" style={{ display: "block" }}>
         <img className="dataPageLogo" src={logo}></img>
@@ -980,13 +1164,15 @@ function Data() {
           </a>
           <span>
             &emsp;
-            <img
-              data-tooltip-id="dataPageTooltip1" data-tooltip-content="Try ChatGPT"
+            <button  data-tooltip-id="dataPageTooltip1" data-tooltip-content="ChatGPT Plugin"
               onClick={openModal}
-              className="zoom"
+              className="gptBtn"
+              >
+            <img
+             className="zoom"
               src={gptBtn}
               style={{ width: "15px", cursor: "pointer" }}
-            />
+            /></button>
           </span>
         </div>
       </div>
@@ -1011,7 +1197,7 @@ function Data() {
             padding: "2px 5px",
           }}
         >
-          Get music recommendations
+          Get recommendations
         </div>
       </div>
       <div className="navBtnContainer">
@@ -1052,9 +1238,19 @@ function Data() {
           ) : (
             topSongs.map((song, index) => (
               <div key={index} className="item">
+                <div class={`primaryImage`} onClick={() => togglePlayback(index)}>
+                <audio  id={`audio-element${index}`} src={song?.mp3} ></audio>
+
                 <img src={song?.img} className="primaryImage" />
+
+                {song?.mp3 &&
+                <div className={isPlaying[index] ? 'paused' : 'playing'}></div>
+}
+
+                </div>
+                
                 <div className="primaryText">
-                  <span className="primaryName">{song.name}</span>
+                  <span  className="primaryName"><a className="link2" href={song.url}>{song.name}</a></span>
                   <span className="primaryArtists">
                     {song.artists?.join(", ")}
                   </span>
@@ -1188,19 +1384,7 @@ function Data() {
               </Pie>
             </PieChart>
           )}
-          {/* {arrays.decadesAndPcts &&
-          arrays.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            arrays.decadesAndPcts.map((item, index) => (
-              (index % 2 === 0) &&
-              <div key={index} className="item">
-                <div className="primaryText">
-                  <span className="primaryName">{item}: {parseFloat(arrays.decadesAndPcts[index + 1]).toFixed(2)}%</span>
-                </div>
-              </div>
-            ))
-          )} */}
+        
         </div>
         {/* </div> */}
 
@@ -1657,8 +1841,8 @@ function Data() {
            
               return (
                 <tr key={feature}>
-                  <td data-tooltip-id="dataPageTooltip1" data-tooltip-content={featureExplanations[index]}>
-                    <span className="audioFeaturesColumnLabel">{feature}</span>
+                  <td>
+                    <span className="audioFeaturesColumnLabel" data-tooltip-id="dataPageTooltip1" data-tooltip-content={featureExplanations[index]}>{feature}</span>
                   </td>
 
                   <td>
@@ -1853,23 +2037,69 @@ function Data() {
         isOpen={recModalIsOpen}
         onRequestClose={closeRecModal}
         contentLabel="Popup Window"
-        style={customStyles}
+        style={customRecModalStyles}
+        className="recommendationModal"
       >
+         
+         <button className="xBtn3" onClick={closeRecModal}>
+           <img src={x} style={{width:'10px'}} alt="x" title="Close"></img>
+            </button>
         <h2 className="">
-          Music recommendations for{" "}
+          Recommendations for{" "}
           <span style={{ color: "#1e90ff" }}>
             {nameIdImgurlGenerationdate[0]}
           </span>
         </h2>
         <span className="timeRange">{selectedTimeRangeClean}</span>
+        <style>{mediaQueryStyles}</style>
         <DataPageRecommendations
-          safeArtistIds={arrays.artistIds[0]}
-          exploratoryArtistIds={arrays.artistIds[49]}
+        
+          safeArtistIds={arrays.artistIds.length <= 5
+            ? [...arrays.artistIds]
+            : [...arrays.artistIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
+          safeGenres={arrays.topGenresByArtist.length <= 5
+            ? [...arrays.topGenresByArtist]
+            : [...arrays.topGenresByArtist].sort(() => 0.5 - Math.random()).slice(0, 1)}
+          safeTrackIds={arrays.songIds.length <= 5
+            ? [...arrays.songIds]
+            : [...arrays.songIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
+          target_acousticness={arrays.audioFeatureMeans[0]}
+          target_danceability={arrays.audioFeatureMeans[1]}
+          target_duration_ms={parseInt(arrays.audioFeatureMeans[2].split(':')[0]) * 60000 + parseInt(arrays.audioFeatureMeans[2].split(':')[1]) * 1000}
+          target_energy={arrays.audioFeatureMeans[3]}
+          target_instrumentalness={arrays.audioFeatureMeans[4]}
+          target_liveness={arrays.audioFeatureMeans[5]}
+          target_loudness={arrays.audioFeatureMeans[6]}
+          target_popularity={arrays.avgSongPop}
+          target_speechiness={arrays.audioFeatureMeans[7]}
+          target_tempo={arrays.audioFeatureMeans[8]}
+          target_valence={arrays.audioFeatureMeans[9]}
+          allTopSongIds={arrays.songIds}
+          
+          
+
+           exploratoryArtistIds = {[...arrays.artistIds.slice(-10)]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 2)}
+        
+         exploratoryGenres = {[...arrays.topGenresByArtist.slice(-10)]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 1)}
+        
+         exploratoryTrackIds = {[...arrays.songIds.slice(-10)]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 2)}
+        
+
+
+          user_id={nameIdImgurlGenerationdate[1]}
+          display_name={nameIdImgurlGenerationdate[0]}
+          selectedTimeRange={selectedTimeRangeClean}
         />
 
-        <button className="closeBtn" onClick={closeRecModal}>
+        {/* <button className="closeBtn" onClick={closeRecModal}>
           Close
-        </button>
+        </button> */}
       </Modal>
 
       <Footer />

@@ -12,7 +12,7 @@ const NotFound = () => {
         marginTop: "15vh",
       }}
     >
-      <img src={earth} style={{ width: "120px" }} />
+      <img src={earth} style={{ width: "120px" }} alt="Not found"/>
       <div style={{ marginLeft: "20px", textAlign: "left" }}>
         <h2>404</h2>
         <h5 style={{ color: "gray" }}>The requested page was not found.</h5>

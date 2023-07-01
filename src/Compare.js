@@ -8,6 +8,8 @@ import "./App.css";
 import Big from "big.js";
 import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
+import { PieChart, Pie, Cell, Legend } from "recharts";
+
 
 import download from "./img/download.png";
 import Footer from "./Footer";
@@ -332,6 +334,7 @@ function Compare() {
   for (const field in arrays1) {
     if (arrays1.hasOwnProperty(field) && arrays2.hasOwnProperty(field)) {
       if (field === "decadesAndPcts") {
+
       }
       if (
         field === "avgSongPop" ||
@@ -690,6 +693,7 @@ function Compare() {
     (similaritiesCount / (0.5 * (entryCount1 + entryCount2))) * 100;
 
   const getSongs = async (songIds, arrayToSet) => {
+    try {
     if (songIds.length > 0 && songIds && songIds[0] !== "No data") {
       const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
@@ -710,9 +714,46 @@ function Compare() {
     } else {
       arrayToSet([]);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
+  };
+
+
+  function clearCookies() {
+    var cookies = document.cookie.split(";");
+    // console.log(cookies);
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+  }
+  const [expirationTime, setExpirationTime] = useState("");
+
+  const logout = (error) => {
+    if (error === "apiError") {
+      clearCookies();
+      token = "";
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      // window.localStorage.removeItem("expirationTime"); //
+      navigate("/", { state: { [error]: true } });
+    } else {
+      clearCookies();
+      token = "";
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("expirationTime");
+      navigate("/");
+    }
   };
 
   const getHighestAudioFeatureSongs = async (songIds, arrayToSet) => {
+    try {
     const validSongIds = songIds.filter((id) => id !== "");
     if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
       arrayToSet(new Array(songIds.length).fill(""));
@@ -747,9 +788,14 @@ function Compare() {
     });
 
     arrayToSet(valuesToSet);
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const getLowestAudioFeatureSongs = async (songIds, arrayToSet) => {
+    try {
     const validSongIds = songIds.filter((id) => id !== "");
     if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
       arrayToSet(new Array(songIds.length).fill(""));
@@ -784,10 +830,15 @@ function Compare() {
     });
 
     arrayToSet(valuesToSet);
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const getMostLeastPopSongs = async (songIds, arrayToSet) => {
-    console.log(songIds);
+    try {
+    // console.log(songIds);
     if (
       songIds.length == 0 ||
       (songIds && songIds.length > 0 && songIds[0] == "No data") ||
@@ -830,9 +881,14 @@ function Compare() {
     } else if (indices == "0") {
       arrayToSet([mostLeastPopSongsData[0], ""]);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const getOldestNewestSongs = async (songIds, arrayToSet) => {
+    try {
     if (
       songIds.length == 0 ||
       (songIds && songIds.length > 0 && songIds[0] == "No data") ||
@@ -875,9 +931,14 @@ function Compare() {
     } else if (indices == "0") {
       arrayToSet([oldestNewestSongsData[0], ""]);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const getAlbums = async (albumIds, arrayToSet) => {
+    try {
     if (albumIds.length > 0 && albumIds && albumIds[0] !== "No data") {
       const maxAlbumsPerRequest = 20;
       const albumChunks = [];
@@ -911,9 +972,14 @@ function Compare() {
     } else {
       arrayToSet([]);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const getMostLeastPopAlbums = async (albumIds, arrayToSet) => {
+    try {
     if (
       albumIds.length == 0 ||
       (albumIds && albumIds.length > 0 && albumIds[0] == "No data") ||
@@ -956,9 +1022,14 @@ function Compare() {
     } else if (indices == "0") {
       arrayToSet([mostLeastPopAlbumsData[0], ""]);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const getArtists = async (artistIds, arrayToSet) => {
+    try {
     if (artistIds.length > 0 && artistIds[0] !== "No data") {
       const { data } = await axios.get("https://api.spotify.com/v1/artists", {
         headers: {
@@ -977,10 +1048,14 @@ function Compare() {
       arrayToSet(artistData);
     } else {
       arrayToSet([]);
+    }} catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
   };
 
   const getMostLeastPopArtists = async (artistIds, arrayToSet) => {
+    try {
     if (
       artistIds.length == 0 ||
       (artistIds && artistIds.length > 0 && artistIds[0] == "No data") ||
@@ -1022,6 +1097,10 @@ function Compare() {
     } else if (indices == "0") {
       arrayToSet([mostLeastPopArtistsData[0], ""]);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   function handleConvertToImage() {
@@ -1432,6 +1511,7 @@ function Compare() {
     useState([]);
 
   const getAudioFeatureValues = async (songIds, arrayToSet) => {
+    try {
     const featureNames = [
       "acousticness",
       "danceability",
@@ -1497,6 +1577,10 @@ function Compare() {
     }
 
     arrayToSet(result);
+  } catch (error) {
+    console.error("Error:", error);
+    logout("apiError");
+  }
   };
 
   const [recModalIsOpen, setRecModalIsOpen] = useState(false);
@@ -1609,9 +1693,46 @@ function Compare() {
     }
   }
 
+
+
+  const colors = [
+    "#1e90ff",
+    "#18d860",
+    "#ffdf00",
+    "#FF1493",
+    "#9370DB",
+    "#FF4500",
+    "#008080",
+    "#FF8C00",
+    "#9932CC",
+    "#20B2AA",
+    "#FF69B4",
+    "#6A5ACD",
+    "#32CD32",
+    "#FF6347",
+    "#7B68EE",
+  ];
+
+
+  const pieData1 = [];
+
+  for (let i = 0; i < arrays1.decadesAndPcts.length; i += 2) {
+    const decade = arrays1.decadesAndPcts[i];
+    const percentage = arrays1.decadesAndPcts[i + 1];
+    pieData1.push({ name: `${decade}s`, value: parseFloat(percentage) });
+  }
+
+  const pieData2 = [];
+
+  for (let i = 0; i < arrays2.decadesAndPcts.length; i += 2) {
+    const decade = arrays2.decadesAndPcts[i];
+    const percentage = arrays2.decadesAndPcts[i + 1];
+    pieData2.push({ name: `${decade}s`, value: parseFloat(percentage) });
+  }
+
   return (
     <div>
-      <ScrollButton />
+      {/* <ScrollButton /> */}
       <Link to="/" title="Home" style={{ display: "block" }}>
         <img
           src={logo}
@@ -1741,7 +1862,7 @@ function Compare() {
         }}
       >
         <div className="recommendationsBtn" onClick={openRecModal}>
-          Get music recommendations
+          Get recommendations
         </div>
       </div>
 
@@ -2326,6 +2447,32 @@ function Compare() {
                     <td></td>
                     <td></td>
                   </tr>
+
+
+                  <tr>
+              <td>
+                <div className="compareCardSmall1 pieCard">
+                  <div className="primaryTitle">song release decade distribution</div>
+                {arrays1.decadesAndPcts && arrays1.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData1}
+                outerRadius={30}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name }) => name} // Set the label to display the name property
+              >
+                {pieData1.map((entry, index) => (
+                  <Cell key={index} fill={colors[index % colors.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          )}
+                </div>
+              </td>
+              </tr>
 
                   <tr>
                     <td>
@@ -3644,6 +3791,33 @@ function Compare() {
                     <td></td>
                     <td></td>
                   </tr>
+
+
+
+                  <tr>
+              <td>
+                <div className="compareCardSmall1 pieCard">
+                  <div className="primaryTitle">song release decade distribution</div>
+                {arrays2.decadesAndPcts && arrays2.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData2}
+                outerRadius={30}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name }) => name} // Set the label to display the name property
+              >
+                {pieData2.map((entry, index) => (
+                  <Cell key={index} fill={colors[index % colors.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          )}
+                </div>
+              </td>
+              </tr>
 
                   <tr>
                     <td>
@@ -5001,6 +5175,56 @@ function Compare() {
 
             <tr>
               <td>
+                <div className="compareCardSmall1 pieCard">
+                  <div className="primaryTitle">song release decade distribution</div>
+                {arrays1.decadesAndPcts && arrays1.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData1}
+                outerRadius={30}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name }) => name} // Set the label to display the name property
+              >
+                {pieData1.map((entry, index) => (
+                  <Cell key={index} fill={colors[index % colors.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          )}
+                </div>
+              </td>
+              <td>
+               
+              </td>
+              <td>
+                <div className="compareCardSmall3 pieCard">
+                  <div className="primaryTitle">song release decade distribution</div>
+                  {arrays2.decadesAndPcts && arrays2.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData2}
+                outerRadius={30}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name }) => name} // Set the label to display the name property
+              >
+                {pieData2.map((entry, index) => (
+                  <Cell key={index} fill={colors[index % colors.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          )}
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
                 <div className="compareCardSmall1">
                   <div className="primaryTitle">average song popularity</div>
                   {arrays1.avgSongPop && (
@@ -5999,11 +6223,114 @@ function Compare() {
           </span>
         </h2>
         <span className="timeRange">{selectedTimeRangeClean}</span>
-        <ComparePageRecommendations />
+        <ComparePageRecommendations
+          display_name1={nameIdImgurlGenerationdate1[0]}
+          display_name2={nameIdImgurlGenerationdate2[0]}
+          display_name={nameIdImgurlGenerationdate1[0]}
+          selectedTimeRange={selectedTimeRangeClean}
+          user_id={nameIdImgurlGenerationdate1[1]}
 
-        <button className="closeBtn" onClick={closeRecModal}>
-          Close
-        </button>
+          blendArtistIds={overlappingData.artistIds.length <= 5
+            ? [...overlappingData.artistIds]
+            : [...overlappingData.artistIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
+          blendGenres={overlappingData.topGenresByArtist.length <= 5
+            ? [...overlappingData.topGenresByArtist]
+            : [...overlappingData.topGenresByArtist].sort(() => 0.5 - Math.random()).slice(0, 1)}
+          blendTrackIds={overlappingData.songIds.length <= 5
+            ? [...overlappingData.songIds]
+            : [...overlappingData.songIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
+            target_acousticness = {
+              (parseFloat(arrays1.audioFeatureMeans[0]) + parseFloat(arrays2.audioFeatureMeans[0])) / 2
+          }
+          target_danceability = {
+              (parseFloat(arrays1.audioFeatureMeans[1]) + parseFloat(arrays2.audioFeatureMeans[1])) / 2
+          }
+          target_duration_ms = {
+              (
+                  (parseInt(arrays1.audioFeatureMeans[2].split(':')[0]) * 60000 +
+                      parseInt(arrays1.audioFeatureMeans[2].split(':')[1]) * 1000) +
+                  (parseInt(arrays2.audioFeatureMeans[2].split(':')[0]) * 60000 +
+                      parseInt(arrays2.audioFeatureMeans[2].split(':')[1]) * 1000)
+              ) / 2
+          }
+          target_energy = {
+              (parseFloat(arrays1.audioFeatureMeans[3]) + parseFloat(arrays2.audioFeatureMeans[3])) / 2
+          }
+          target_instrumentalness = {
+              (parseFloat(arrays1.audioFeatureMeans[4]) + parseFloat(arrays2.audioFeatureMeans[4])) / 2
+          }
+          target_liveness = {
+              (parseFloat(arrays1.audioFeatureMeans[5]) + parseFloat(arrays2.audioFeatureMeans[5])) / 2
+          }
+          target_loudness = {
+              (parseFloat(arrays1.audioFeatureMeans[6]) + parseFloat(arrays2.audioFeatureMeans[6])) / 2
+          }
+          target_popularity = {
+              [((parseFloat(arrays1.avgSongPop) + parseFloat(arrays2.avgSongPop)) / 2)]
+          }
+          target_speechiness = {
+              (parseFloat(arrays1.audioFeatureMeans[7]) + parseFloat(arrays2.audioFeatureMeans[7])) / 2
+          }
+          target_tempo = {
+              (parseFloat(arrays1.audioFeatureMeans[8]) + parseFloat(arrays2.audioFeatureMeans[8])) / 2
+          }
+          target_valence = {
+              (parseFloat(arrays1.audioFeatureMeans[9]) + parseFloat(arrays2.audioFeatureMeans[9])) / 2
+          }
+
+          user1AllTopSongs={arrays1.songIds}
+          user1AllTopArtists={arrays1.artistIds}
+          user1AllTopGenres={arrays1.topGenresByArtist}
+
+          user2AllTopSongs={arrays2.songIds}
+          user2AllTopArtists={arrays2.artistIds}
+          user2AllTopGenres={arrays2.topGenresByArtist}
+
+
+          onlyUser1TopSongs={user1TopSongs.map(song => song.id)}
+          onlyUser1TopArtists={user1TopArtists.map(artist => artist.id)}
+          onlyUser1TopGenres={arrays1.topGenresByArtist.filter((item) => !overlappingData.topGenresByArtist.includes(item))}
+
+
+
+          onlyUser2TopSongs={user2TopSongs.map(song => song.id)}
+          onlyUser2TopArtists={user2TopArtists.map(artist => artist.id)}
+          onlyUser2TopGenres={arrays2.topGenresByArtist.filter(
+            (item) =>
+              !overlappingData.topGenresByArtist.includes(item)
+          )}
+
+
+    //       songIds: [],
+    // mostLeastPopSongIds: [],
+    // decadesAndPcts: [],
+    // oldestNewestSongIds: [],
+    // avgSongPop: [],
+    // songPopStdDev: [],
+    // avgSongAgeYrMo: [],
+    // songAgeStdDevYrMo: [],
+    // pctSongsExpl: [],
+    // audioFeatureMeans: [],
+    // audioFeatureStdDevs: [],
+    // highestAudioFeatureSongIds: [],
+    // lowestAudioFeatureSongIds: [],
+    // albumIds: [],
+    // mostLeastPopAlbumIds: [],
+    // avgAlbumPop: [],
+    // albumPopsStdDev: [],
+    // topLabelsByAlbums: [],
+    // artistIds: [],
+    // mostLeastPopArtistIds: [],
+    // avgArtistPop: [],
+    // artistPopStdDev: [],
+    // avgArtistFolls: [],
+    // artistFollsStdDev: [],
+    // topGenresByArtist: [],
+          
+      
+      />
+
+       
       </Modal>
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>

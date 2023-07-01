@@ -42,23 +42,32 @@ const HelpModalContent = () => {
 
   return (
     <div>
+    <div className="helpModalContent">
       {isHowToUseExpanded ? (
-        <h3 className="helpSection" onClick={toggleHowToUse}>
+        <h3
+          className="helpSection"
+          onClick={toggleHowToUse}
+          title="Collapse section"
+        >
           How to use{" "}
           <span>
-            <img src={downBtn} style={{ height: "10px" }}></img>
+            <img src={downBtn} style={{ height: "10px" }} alt="Collapse section button"></img>
           </span>
         </h3>
       ) : (
-        <h3 className="helpSection" onClick={toggleHowToUse}>
+        <h3
+          className="helpSection"
+          onClick={toggleHowToUse}
+          title="Expand section"
+        >
           How to use{" "}
           <span>
-            <img src={sideArrowRight} style={{ width: "10px" }}></img>
+            <img src={sideArrowRight} style={{ width: "10px" }} alt="Expand section button"></img>
           </span>
         </h3>
       )}
       {isHowToUseExpanded && (
-        <div className="helpModalText" style={{ fontWeight: "bold" }}>
+        <div className="helpModalText">
           <ol>
             <li>Click on the logo to log in.</li>
             <li>
@@ -83,17 +92,25 @@ const HelpModalContent = () => {
       )}
 
       {isTroubleshootingExpanded ? (
-        <h5 className="helpSection" onClick={toggleTroubleshooting}>
+        <h5
+          className="helpSection"
+          onClick={toggleTroubleshooting}
+          title="Collapse section"
+        >
           Troubleshooting{" "}
           <span>
-            <img src={downBtn} style={{ height: "10px" }}></img>
+            <img src={downBtn} style={{ height: "10px" }} alt="Collapse section button"></img>
           </span>
         </h5>
       ) : (
-        <h5 className="helpSection" onClick={toggleTroubleshooting}>
+        <h5
+          className="helpSection"
+          onClick={toggleTroubleshooting}
+          title="Expand section"
+        >
           Troubleshooting{" "}
           <span>
-            <img src={sideArrowRight} style={{ width: "10px" }}></img>
+            <img src={sideArrowRight} style={{ width: "10px" }} alt="Expand section button"></img>
           </span>
         </h5>
       )}
@@ -102,8 +119,8 @@ const HelpModalContent = () => {
           <ul>
             <li>
               comparify is primarily intended for use on a computer rather than
-              a mobile device. The app is still functional on mobile, but you
-              will have a better experience on a computer.
+              a mobile device. The app is still fully functional on mobile, but you
+              will have a more seamless experience on a computer.
             </li>
             <li>
               If a page or button won't load, try clearing your cookies. To get
@@ -120,40 +137,25 @@ const HelpModalContent = () => {
             </li>
             <ul>
               <li>
-                If this doesn't work, you can try a different browser or device,
+                If this doesn't work, try a different browser or device,
                 or try again later.
               </li>
               <li>
-                The Spotify login session expires after one hour, so this could
-                be the issue and you'll need to log in again and/or clear your
-                cookies.
+                Note that the Spotify login session expires after one hour.
               </li>
             </ul>
             <li>
-              The app times out after the Spotify login token expires, so you'll
-              need to log in again.
+              To have another user log in to their account on the same computer, choose the "Not you?" option on the login page.
             </li>
             <li>
-              Due to Spotify's cookies, if you want to have another person log
-              in to their own Spotify account on the same computer, you'll need
-              to clear your cookies so that your session is cleared and the
-              other person can enter their login information.
-            </li>
-            <li>
-              Regarding the ChatGPT feature, the OpenAI API is quite
-              rate-limited, so you may encounter generation errors. The solution
+              The OpenAI API is quite
+              rate-limited, so you may encounter generation errors with ChatGPT. The solution
               is generally to wait a minute or two before retrying. If the error
-              persists, try again at a later time. The app may be overloaded by
-              other API calls from different users.
+              persists, try again later. The app may be overloaded by
+              other API calls.
             </li>
             <li>
-              The same can be said for the Spotify API, which may run into
-              limits depending on traffic. The solution is the same as above.
-            </li>
-            <li>
-              If you encounter a random error message (rare), some combination
-              of reloading the page, clearing your cookies, and/or logging back
-              in and trying again usually does the trick.
+              Spotify rate limits are less strict, but the solution is the same as above.
             </li>
             <li>
               Rarely, you may see a blank or strangely formatted entry in your
@@ -162,8 +164,8 @@ const HelpModalContent = () => {
               streamed to that the API cannot get a complete or valid response
               for (for example, if a song was removed from Spotify). A common
               way this can happen is if you listen to a leaked song that gets
-              taken down; it will still appear in your top songs as a unique ID,
-              but the API may fail to render some data for it.
+              taken down. It will still appear in your top songs as a unique ID,
+              but the API may fail to render some or all of the data for it.
             </li>
             <li>
               If you encounter issues with uploading a code, make sure the
@@ -182,24 +184,32 @@ const HelpModalContent = () => {
               most popular song has a popularity score of 96, then it will
               remain this way even though its popularity may decrease, or be
               surpassed by another song. Therefore, such data points may become
-              inaccurate for older codes because popularity changes over time.
+              inaccurate for older codes because popularity changes over time. Still, they give you a snapshot of the state of your music habits at that moment in time.
             </li>
           </ul>
         </div>
       )}
 
       {isHowItWorksExpanded ? (
-        <h5 className="helpSection" onClick={toggleHowItWorks}>
-          How it works{" "}
+        <h5
+          className="helpSection"
+          onClick={toggleHowItWorks}
+          title="Collapse section"
+        >
+          How it works and more information{" "}
           <span>
-            <img src={downBtn} style={{ height: "10px" }}></img>
+            <img src={downBtn} style={{ height: "10px" }} alt="Collapse section button"></img>
           </span>
         </h5>
       ) : (
-        <h5 className="helpSection" onClick={toggleHowItWorks}>
+        <h5
+          className="helpSection"
+          onClick={toggleHowItWorks}
+          title="Expand section"
+        >
           How it works{" "}
           <span>
-            <img src={sideArrowRight} style={{ width: "10px" }}></img>
+            <img src={sideArrowRight} style={{ width: "10px" }} alt="Expand section button"></img>
           </span>
         </h5>
       )}
@@ -226,44 +236,41 @@ const HelpModalContent = () => {
               your music.
             </li>
             <li>
-              The data is compiled based on your 'Top Content' as determined by
+              The data is gathered based on your 'Top Content' as determined by
               Spotify. For example, the 'most popular song' statistic displays
               the song with the highest popularity value that also appeared in
-              your top 50 most-played songs for each given period.
+              your top 50 most-played songs for the given time period.
             </li>
             <li>
-              For select data points, such as the audio features, you can hover
-              over them to see a tooltip providing more info by explaining what
-              they mean.
+              You can hover over select data labels/stats to learn more about them.
             </li>
             <ul>
               <li>
                 The audio features section gives you in-depth information about
-                what characteristics you like in a song. For example, you might
+                what specific characteristics you tend to like in a song. For example, you might
                 have a low average duration but a high duration standard
                 deviation, which indicates that you mostly prefer shorter songs
                 but are willing to explore and enjoy longer and shorter songs as
                 well.
               </li>
               <li>
-                For your convenience, the two highest and two lowest averages
+                The two highest and two lowest averages/standard deviations
                 are highlighted in green and red respectively. These are
-                features you tend to have a clear preference for or aversion to.
+                features you tend to have a clear preference for or aversion to (or willingness/unwillingness to explore across a particular feature).
               </li>
               <li>
                 The highest and lowest song columns let you see the outliers in
                 your data; that is, songs that fall on either end of the
                 spectrum, making them particularly unique elements that could
-                also be indicative of your individual preferences.
+                also be indicative of your individual preferences. These values also indicate the range of your tastes.
               </li>
             </ul>
             <li>
-              Note that for some data points, such as top genres, there are a
-              number of different ways to calculate this, such as by top song
+              Note that there are multiple ways to calculate some data points, such as your top genres, which can be determined by top song
               frequency, top artist frequency, and so on. In these cases, the
-              most objectively fair approach is taken by the algorithm in an
+              most fair approach is taken by the algorithm in an
               effort to provide the most accurate information, but really there
-              is no correct way to generate some types of data&#8212;only
+              is no "correct" way to generate some types of data&#8212;only
               different ways.
             </li>
             <li>
@@ -301,22 +308,36 @@ const HelpModalContent = () => {
               <span style={{ color: "#18d860" }}>Green</span> indicates shared
               items, or differences for statistics.
             </li>
+            <li>
+              You can click a song's image to hear a 30-second audio preview.
+            </li>
+            <li>
+              You can also click on a song name/artist/album to open it in Spotify.
+            </li>
           </ul>
         </div>
       )}
 
       {isPrivacyExpanded ? (
-        <h5 className="helpSection" onClick={togglePrivacy}>
+        <h5
+          className="helpSection"
+          onClick={togglePrivacy}
+          title="Collapse section"
+        >
           Privacy, Data, and other Policy Information{" "}
           <span>
-            <img src={downBtn} style={{ height: "10px" }}></img>
+            <img src={downBtn} style={{ height: "10px" }} alt="Collapse section button"></img>
           </span>
         </h5>
       ) : (
-        <h5 className="helpSection" onClick={togglePrivacy}>
+        <h5
+          className="helpSection"
+          onClick={togglePrivacy}
+          title="Expand section"
+        >
           Privacy, Data, and other Policy Information{" "}
           <span>
-            <img src={sideArrowRight} style={{ width: "10px" }}></img>
+            <img src={sideArrowRight} style={{ width: "10px" }} alt="Expand section button"></img>
           </span>
         </h5>
       )}
@@ -333,21 +354,21 @@ const HelpModalContent = () => {
                   style={{
                     fontSize: "12px",
                     color: "#1ed760",
-                    fontWeight: "bold",
+                    fontWeight: "400",
                   }}
                 >
                   <img
                     src={spotify}
                     style={{
                       verticalAlign: "text-bottom",
-                      width: "80px",
+                      width: "55px",
                       pointerEvents: "none",
                     }}
+                    alt="Spotify logo"
                   ></img>
-                  &ensp;API&ensp;
                 </span>
               </a>{" "}
-              to gather data and handle user login.
+              API to gather data and handle user login.
             </li>
             <li>
               No user data is used by this website for any other purposes than
@@ -391,7 +412,7 @@ const HelpModalContent = () => {
                 style={{
                   textDecoration: "none",
                   color: "black",
-                  fontWeight: "bold",
+                  fontWeight: "400",
                   fontSize: "12px",
                 }}
                 href="https://openai.com/blog/openai-api"
@@ -401,15 +422,15 @@ const HelpModalContent = () => {
                     src={openai}
                     style={{
                       verticalAlign: "text-bottom",
-                      width: "80px",
+                      width: "55px",
                       pointerEvents: "none",
                     }}
                     className="openaiLogo"
+                    alt="OpenAI logo"
                   ></img>
-                  &ensp;API&ensp;
                 </span>
               </a>{" "}
-              to use ChatGPT.
+              API to use ChatGPT.
             </li>
             <li>
               comparify sends a prompt to ChatGPT containing a brief summary of
@@ -434,19 +455,18 @@ const HelpModalContent = () => {
           </ul>
         </div>
       )}
-
-      <div
-        className="helpModalText helpFooter"
-        style={{ marginTop: "30px", fontWeight: "bold" }}
-      >
-        For any further questions, email{" "}
-        <a
-          style={{ textDecoration: "none", color: "#1e90ff" }}
-          href="mailto:theobragstad2@gmail.com"
-        >
-          Theo Bragstad
-        </a>
-        .
+      
+    </div>
+    <div className="helpModalFooter">
+        <div style={{ fontWeight: "500", fontSize: "12px" }}>
+          Contact: {" "}
+          <a
+            style={{ textDecoration: "none", color: "#1e90ff" }}
+            href="mailto:theobragstad2@gmail.com"
+          >
+            Theo Bragstad
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -347,7 +347,7 @@ function Code() {
           return list;
         }, []);
 
-        console.log(roundedResult);
+        // console.log(roundedResult);
         songCode.push("decadesAndPcts[]", resultList);
 
         const sortedSongIdsAndReleaseDates = songIdsAndReleaseDates.sort(
@@ -796,15 +796,44 @@ function Code() {
     return formattedDateTime;
   }
 
+  const [trigger, setTrigger] = useState(false);
+
+
+
+  useEffect(() => {
+    if (trigger) {
+      setTrigger(true);
+     
+
+      const timer = setTimeout(() => {
+        setTrigger(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [trigger]);
+
+  
+
   const downloadCode = async () => {
+    
     setLoadingDownload(true);
+    window.scrollTo(0, 0);
+
+
+    setTrigger(true);
+
+    // setTimeout(() => {
+    //   setTrigger(false);
+    // }, 5000);
+
     const blob = new Blob([await generateCode()], { type: "text/plain" });
     setLoadingDownload(false);
 
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
     link.download = `comparify code for ${displayName.replace(
-      /[<>:"\/\\|?*\x00-\x1F]/g,
+      /[<>:"\\|?*]/g, 
       ""
     )} at ${getCurrentDateTime()}.txt`;
     link.click();
@@ -944,7 +973,7 @@ function Code() {
         null,
         null,
         window.location.pathname + window.location.search
-      ); //idk
+      ); 
       window.location.hash = "";
       window.localStorage.setItem("token", token);
       window.localStorage.setItem("expirationTime", expirationTime);
@@ -974,8 +1003,13 @@ function Code() {
     <div className="codePage">
       {location.state?.error && location.state.error === 400 && (
         <div className="errorMessage2">
-          code formatting error. make sure the file you uploaded is a valid
+          code error. make sure the file you uploaded is a valid
           comparify code.
+        </div>
+      )}
+      {trigger && (
+        <div className="errorMessage3">
+          remember that your code contains your Spotify display name, ID, profile photo, and music streaming data. only share your code with people you are comfortable with having that information.
         </div>
       )}
       <div className="cardOverlay">
@@ -987,7 +1021,7 @@ function Code() {
             data-tooltip-id="codePageTooltip1"
             data-tooltip-content="Home"
           >
-            <img src={back} className="backImgCodePage"></img>
+            <img src={back} className="backImgCodePage" alt="Home button arrow"></img>
           </button>
         </div>
         <div className="profilePicDivCodePage">
@@ -997,6 +1031,7 @@ function Code() {
               className="profilePicImgCodePage"
               data-tooltip-id="codePageTooltip1"
               data-tooltip-content={displayName}
+              alt={displayName}
             />
           )}
         </div>
@@ -1019,19 +1054,17 @@ function Code() {
           )}
         </div>
         <div className="codeDiv ">
-          <a
-            onClick={() => {
-              toDataPage();
-            }}
-          >
+        
             <button
               className="basicBtn"
               title="View your data"
               disabled={loadingView}
+              onClick={() => {
+                toDataPage();
+              }}
             >
               view your data
             </button>
-          </a>
           {loadingView && (
             <div className="loadingDots">
               <div className="loadingDots--dot"></div>
@@ -1054,26 +1087,22 @@ function Code() {
           />
           <span className="codeDiv">
             {!loadingCompare1 && (
-              <a
-                onClick={() => {
+            
+                <button title="Submit" className="submitBtn" disabled={!file2} onClick={() => {
                   toComparePage1();
-                }}
-              >
-                <button title="Submit" className="submitBtn" disabled={!file2}>
+                }}>
                   submit
                 </button>
-              </a>
             )}
             {loadingCompare1 && (
-              <a
-                onClick={() => {
-                  toComparePage1();
-                }}
-              >
+            
                 <button
                   title="Submit"
                   className="submitBtnWhite"
                   disabled={!file2}
+                  onClick={() => {
+                    toComparePage1();
+                  }}
                 >
                   <div className="loadingDots">
                     <div className="loadingDots--dot"></div>
@@ -1081,7 +1110,6 @@ function Code() {
                     <div className="loadingDots--dot"></div>
                   </div>
                 </button>
-              </a>
             )}
           </span>
         </div>
@@ -1101,28 +1129,25 @@ function Code() {
             onChange={addFile2TwoComp}
           />
           {!loadingCompare2 && (
-            <a
-              onClick={() => {
-                toComparePage2();
-              }}
-            >
+          
               <button
                 className="submitBtn"
                 disabled={!file1TwoComp || !file2TwoComp}
+                onClick={() => {
+                  toComparePage2();
+                }}
               >
                 submit
               </button>
-            </a>
           )}
           {loadingCompare2 && (
-            <a
-              onClick={() => {
-                toComparePage2();
-              }}
-            >
+           
               <button
                 className="submitBtnWhite"
                 disabled={!file1TwoComp || !file2TwoComp}
+                onClick={() => {
+                  toComparePage2();
+                }}
               >
                 <span className="loadingDots">
                   <div className="loadingDots--dot"></div>
@@ -1130,7 +1155,6 @@ function Code() {
                   <div className="loadingDots--dot"></div>
                 </span>
               </button>
-            </a>
           )}
         </div>
 

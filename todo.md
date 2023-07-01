@@ -1,43 +1,63 @@
 # to-do
 
-- [ ] Tooltips styling, clean up
-- [ ] Link/button titles  
-- [ ] GPT prompts  
-- [ ] Extended quota approval. Guidelines adhered.  
-- [ ] Catch errors  
-- [ ] Check for undefined/empty at all stages, show no data if null
-- [ ] Song recs modals  
 - [ ] No inline CSS  
-- [ ] Compare page stats stacking table
+- [ ] Tooltips
+- [ ] Link/button titles  
+- [ ] X button positioning
+- [ ] Modal heights
+- [ ] Recommendation algorithm
+- [ ] More tooltips
+- [ ] Catch errors  
+- [ ] Text sizing
+- [ ] No songs message.
+- [ ] Button styling
+- [ ] Image sizing
+- [ ] Compile errors/alts
+- [ ] Aligning of buttons
 - [ ] NaN number check
-- [ ] Break into smaller components
-- [ ] Genre, label pie charts, popularity ranges pie charts
+- [ ] Check wrong formatted codes
+- [ ] GPT prompts  
+- [ ] Rec modals issues
+- [ ] No data issues
+- [ ] Do not count zeroes in calculations
+- [ ] Track samples
+- [ ] Links to data on spotify
+- [ ] Check for undefined/empty at all stages, show no data if null
+- [ ] Compare page stats stacking table
 - [ ] Highest and lowest averages and standard deviations  
+- [ ] Footer positioning
 - [ ] Console errors, logs  
 - [ ] Set min widths, maxwidths, layout, modal sizing  
-- [ ] Generalized response sizes?  
-- [ ] Other sites inspo  (stats.fm, last.fm, favorited artists, all releases by artist, volt.fm, pie chart, )
-- [ ] Footer positioning
-- [ ] Podcasts
-- [ ] Check wrong formatted codes
-- [ ] Trends over time  
-- [ ] Songs by decades  
+- [ ] Logo link issue click
+- [ ] Logouts
 - [ ] Similarity percent calculation
 - [ ] Image saving sizing, and naming  
+- [ ] Who does the playlist belong to, make collaborative?
+- [ ] Dark mode  
+
+
+- [ ] Break into smaller components
+- [ ] Generalized response sizes?  
+- [ ] Code tagging, refactoring, reordering, variable naming
 - [ ] Security issues
+- [ ] Improve grid layout
+- [ ] Extended quota approval. Guidelines adhered.  
+- [ ] Google Ads  
+
 - [ ] Time streamed  
 - [ ] Playlists contents  
-- [ ] Improve grid layout
+- [ ] Genre, label pie charts, popularity ranges pie charts
 - [ ] Quiz for songs
 - [ ] Sort songs by features
 - [ ] Time of day listen
-- [ ] Dark mode  
 - [ ] Top song times played  
+- [ ] Podcasts
 - [ ] Number of streams, mins streamed  
 - [ ] Global leaderboards- top % of artist  
+- [ ] Other sites inspo  (stats.fm, last.fm, favorited artists, all releases by artist, volt.fm, pie chart, ...)
 - [ ] Number of different artists, tracks, albums  
 - [ ] Number of minutes streamed of each artist  
 - [ ] Most common shared audio feature(s)  
-- [ ] Google Ads  
-- [ ] Saved albums, tracks, shows. Other API endpoints  
-- [ ] Code cleaning, refactoring, reordering
+- [ ] Trends over time  
+- [ ] Spotify top countries analysis
+- [ ] Saved albums, tracks, shows, episodes
