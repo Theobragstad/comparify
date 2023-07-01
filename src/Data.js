@@ -3,17 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { PieChart, Pie, Cell, Legend } from "recharts";
-import AudioPlayer from 'react-audio-player';
 
 import logo from "./img/logo.png";
-import x from "./img/x.png"
+import x from "./img/x.png";
 import missingImage from "./img/missingImage.png";
 import "./App.css";
 import back from "./img/back.png";
 import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
-import ScrollButton from "./ScrollButton";
 
 import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
@@ -123,14 +121,11 @@ function Data() {
     },
   };
 
-
-
   const mediaQueryStyles = `@media (max-width: 1000px) {
     .recommendationModal {
       width: 90% !important;
     }
   }`;
-
 
   const customRecModalStyles = {
     overlay: {
@@ -166,14 +161,12 @@ function Data() {
   const timeRangesClean = ["last month", "last 6 months", "all time"];
 
   const selectButton = (index) => {
-    
     setSelectedButton(index);
     setSelectedTimeRange(timeRanges[index - 1]);
 
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
 
     setApiResponse("");
-    
   };
 
   const location = useLocation();
@@ -305,7 +298,7 @@ function Data() {
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
           mp3: track.preview_url,
-          url: track.external_urls.spotify
+          url: track.external_urls.spotify,
         }));
 
         setTopSongs(topSongsData);
@@ -960,34 +953,25 @@ function Data() {
   const twoAudioFeaturesHighestStdDevs =
     keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
 
-
-
-
-
-
-
-    const featureExplanations = [
-       "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.", 
-       "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
-       "",
-       "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
-       `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
-       "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
-       "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
-       "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
-       "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
-       "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)."
-    ]
-
-   
-
+  const featureExplanations = [
+    "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.",
+    "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
+    "",
+    "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
+    `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
+    "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
+    "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
+    "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
+    "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
+    "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
+  ];
 
   // const [isPlaying, setIsPlaying] = useState([]);
 
   // const togglePlayback = (index) => {
   //   const audioElements = document.querySelectorAll('audio');
   //   const updatedIsPlaying = Array.from(isPlaying);
-  
+
   //   audioElements.forEach((audioElement, i) => {
   //     if (i !== index) {
   //       audioElement.pause();
@@ -1002,124 +986,103 @@ function Data() {
   //       }
   //     }
   //   });
-  
+
   //   setIsPlaying(updatedIsPlaying);
   // };
-  
-   
 
   const [isPlaying, setIsPlaying] = useState([]);
 
-// const togglePlayback = (index) => {
-//   const audioElements = document.querySelectorAll('audio');
-//   const updatedIsPlaying = Array.from(isPlaying);
+  // const togglePlayback = (index) => {
+  //   const audioElements = document.querySelectorAll('audio');
+  //   const updatedIsPlaying = Array.from(isPlaying);
 
-//   audioElements.forEach((audioElement, i) => {
+  //   audioElements.forEach((audioElement, i) => {
 
-   
-//     if (i !== index) {
-//       audioElement.pause();
-//       updatedIsPlaying[i] = false;
-//     } else {
-//       if (audioElement.paused) {
-//         audioElement.play();
-//         updatedIsPlaying[i] = true;
-//       } else {
-//         audioElement.pause();
-//         updatedIsPlaying[i] = false;
-//       }
-//     }
-  
-//   });
+  //     if (i !== index) {
+  //       audioElement.pause();
+  //       updatedIsPlaying[i] = false;
+  //     } else {
+  //       if (audioElement.paused) {
+  //         audioElement.play();
+  //         updatedIsPlaying[i] = true;
+  //       } else {
+  //         audioElement.pause();
+  //         updatedIsPlaying[i] = false;
+  //       }
+  //     }
 
-//   setIsPlaying(updatedIsPlaying);
-// };
+  //   });
 
-const togglePlayback = (index) => {
-  const audioElements = document.querySelectorAll('audio');
-  const updatedIsPlaying = Array.from(isPlaying);
+  //   setIsPlaying(updatedIsPlaying);
+  // };
 
-  audioElements.forEach((audioElement, i) => {
-    if (i !== index) {
-      audioElement.pause();
-      updatedIsPlaying[i] = false;
-    } else {
-      if (audioElement.paused) {
-        // Pause all other audio elements before playing
-        audioElements.forEach((el, j) => {
-          if (j !== index) {
-            el.pause();
-            updatedIsPlaying[j] = false;
-          }
-        });
+  const togglePlayback = (index) => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
 
-        // Play the selected audio element
-        updatedIsPlaying[i] = true;
-        audioElement.play().catch((error) => {
-          console.log(error);
-        });
-      } else {
-        // Pause the selected audio element
+    audioElements.forEach((audioElement, i) => {
+      if (i !== index) {
         audioElement.pause();
         updatedIsPlaying[i] = false;
+      } else {
+        if (audioElement.paused) {
+          // Pause all other audio elements before playing
+          audioElements.forEach((el, j) => {
+            if (j !== index) {
+              el.pause();
+              updatedIsPlaying[j] = false;
+            }
+          });
+
+          // Play the selected audio element
+          updatedIsPlaying[i] = true;
+          audioElement.play().catch((error) => {
+            console.log(error);
+          });
+        } else {
+          // Pause the selected audio element
+          audioElement.pause();
+          updatedIsPlaying[i] = false;
+        }
       }
-    }
-  });
+    });
 
-  setIsPlaying(updatedIsPlaying);
-};
-
-
-
-
-const resetAllAudio = () => {
-  const audioElements = document.querySelectorAll('audio');
-  const updatedIsPlaying = Array.from(isPlaying);
-
-  audioElements.forEach((audioElement, i) => {
-   
-      audioElement.pause();
-      audioElement.currentTime = 0; // Restart the audio element
-      updatedIsPlaying[i] = false;
-  
-  });
-
-  setIsPlaying(updatedIsPlaying);
-};
-
-
-
-
-
-
-useEffect(() => {
-  const audioElements = document.querySelectorAll('audio');
-  const updatedIsPlaying = Array.from(isPlaying);
-
-  const handleAudioEnded = (index) => {
-    updatedIsPlaying[index] = false;
     setIsPlaying(updatedIsPlaying);
   };
 
-  audioElements.forEach((audioElement, i) => {
-    audioElement.addEventListener('ended', () => handleAudioEnded(i));
-  });
+  const resetAllAudio = () => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
 
-  return () => {
     audioElements.forEach((audioElement, i) => {
-      audioElement.removeEventListener('ended', () => handleAudioEnded(i));
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      updatedIsPlaying[i] = false;
     });
+
+    setIsPlaying(updatedIsPlaying);
   };
-}, [isPlaying]);
 
-   
-    
-    
-    
-    
+  useEffect(() => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
 
-    
-    
+    const handleAudioEnded = (index) => {
+      updatedIsPlaying[index] = false;
+      setIsPlaying(updatedIsPlaying);
+    };
+
+    audioElements.forEach((audioElement, i) => {
+      audioElement.addEventListener("ended", () => handleAudioEnded(i));
+    });
+
+    return () => {
+      audioElements.forEach((audioElement, i) => {
+        audioElement.removeEventListener("ended", () => handleAudioEnded(i));
+      });
+    };
+  }, [isPlaying]);
+
   return (
     <div className="dataPage">
       {/* <ScrollButton /> */}
@@ -1138,7 +1101,8 @@ useEffect(() => {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
             }
             style={{ textDecoration: "none" }}
-            data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile"
+            data-tooltip-id="dataPageTooltip1"
+            data-tooltip-content="Open Spotify profile"
           >
             <img
               src={nameIdImgurlGenerationdate[2]}
@@ -1164,15 +1128,18 @@ useEffect(() => {
           </a>
           <span>
             &emsp;
-            <button  data-tooltip-id="dataPageTooltip1" data-tooltip-content="ChatGPT Plugin"
+            <button
+              data-tooltip-id="dataPageTooltip1"
+              data-tooltip-content="ChatGPT Plugin"
               onClick={openModal}
               className="gptBtn"
-              >
-            <img
-             className="zoom"
-              src={gptBtn}
-              style={{ width: "15px", cursor: "pointer" }}
-            /></button>
+            >
+              <img
+                className="zoom"
+                src={gptBtn}
+                style={{ width: "15px", cursor: "pointer" }}
+              />
+            </button>
           </span>
         </div>
       </div>
@@ -1238,19 +1205,27 @@ useEffect(() => {
           ) : (
             topSongs.map((song, index) => (
               <div key={index} className="item">
-                <div class={`primaryImage`} onClick={() => togglePlayback(index)}>
-                <audio  id={`audio-element${index}`} src={song?.mp3} ></audio>
+                <div
+                  class={`primaryImage`}
+                  onClick={() => togglePlayback(index)}
+                >
+                  <audio id={`audio-element${index}`} src={song?.mp3}></audio>
 
-                <img src={song?.img} className="primaryImage" />
+                  <img src={song?.img} className="primaryImage" />
 
-                {song?.mp3 &&
-                <div className={isPlaying[index] ? 'paused' : 'playing'}></div>
-}
-
+                  {song?.mp3 && (
+                    <div
+                      className={isPlaying[index] ? "paused" : "playing"}
+                    ></div>
+                  )}
                 </div>
-                
+
                 <div className="primaryText">
-                  <span  className="primaryName"><a className="link2" href={song.url}>{song.name}</a></span>
+                  <span className="primaryName">
+                    <a className="link2" href={song.url}>
+                      {song.name}
+                    </a>
+                  </span>
                   <span className="primaryArtists">
                     {song.artists?.join(", ")}
                   </span>
@@ -1384,7 +1359,6 @@ useEffect(() => {
               </Pie>
             </PieChart>
           )}
-        
         </div>
         {/* </div> */}
 
@@ -1641,7 +1615,11 @@ useEffect(() => {
           {arrays.songPopStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                >
                   {arrays.songPopStdDev}
                 </span>
               </div>
@@ -1675,7 +1653,11 @@ useEffect(() => {
           {arrays.songAgeStdDevYrMo && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                >
                   {`${
                     arrays.songAgeStdDevYrMo[0] === 1
                       ? "1 year"
@@ -1726,7 +1708,11 @@ useEffect(() => {
           {arrays.albumPopsStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                >
                   {arrays.albumPopsStdDev}
                 </span>
               </div>
@@ -1758,7 +1744,11 @@ useEffect(() => {
           {arrays.artistPopStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                >
                   {arrays.artistPopStdDev}
                 </span>
               </div>
@@ -1784,7 +1774,11 @@ useEffect(() => {
           {arrays.artistFollsStdDev && (
             <div className="item">
               <div className="primaryText">
-                <span className="primaryName2" data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
+                <span
+                  className="primaryName2"
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                >
                   {arrays.artistFollsStdDev}
                 </span>
               </div>
@@ -1812,7 +1806,10 @@ useEffect(() => {
               <th>
                 <span className="audioFeaturesColumnLabel">average</span>
               </th>
-              <th data-tooltip-id="dataPageTooltip1" data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average.">
+              <th
+                data-tooltip-id="dataPageTooltip1"
+                data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+              >
                 <span className="audioFeaturesColumnLabel">
                   standard deviation
                 </span>
@@ -1837,12 +1834,16 @@ useEffect(() => {
               const lowestSong = lowestAudioFeatureSongs[index];
               const lowestSongValue = lowestAudioFeatureValues[index];
 
-
-           
               return (
                 <tr key={feature}>
                   <td>
-                    <span className="audioFeaturesColumnLabel" data-tooltip-id="dataPageTooltip1" data-tooltip-content={featureExplanations[index]}>{feature}</span>
+                    <span
+                      className="audioFeaturesColumnLabel"
+                      data-tooltip-id="dataPageTooltip1"
+                      data-tooltip-content={featureExplanations[index]}
+                    >
+                      {feature}
+                    </span>
                   </td>
 
                   <td>
@@ -1959,22 +1960,8 @@ useEffect(() => {
           </tbody>
         </table>
 
-
-
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
-        <Tooltip
-          id="dataPageTooltip1"
-          className="tooltip3"
-        />
-       
-         
-
-       
-      
-     
-       
-
-       
+        <Tooltip id="dataPageTooltip1" className="tooltip3" />
       </div>
 
       <Modal
@@ -2040,10 +2027,9 @@ useEffect(() => {
         style={customRecModalStyles}
         className="recommendationModal"
       >
-         
-         <button className="xBtn3" onClick={closeRecModal}>
-           <img src={x} style={{width:'10px'}} alt="x" title="Close"></img>
-            </button>
+        <button className="xBtn3" onClick={closeRecModal}>
+          <img src={x} style={{ width: "10px" }} alt="x" title="Close"></img>
+        </button>
         <h2 className="">
           Recommendations for{" "}
           <span style={{ color: "#1e90ff" }}>
@@ -2053,19 +2039,31 @@ useEffect(() => {
         <span className="timeRange">{selectedTimeRangeClean}</span>
         <style>{mediaQueryStyles}</style>
         <DataPageRecommendations
-        
-          safeArtistIds={arrays.artistIds.length <= 5
-            ? [...arrays.artistIds]
-            : [...arrays.artistIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
-          safeGenres={arrays.topGenresByArtist.length <= 5
-            ? [...arrays.topGenresByArtist]
-            : [...arrays.topGenresByArtist].sort(() => 0.5 - Math.random()).slice(0, 1)}
-          safeTrackIds={arrays.songIds.length <= 5
-            ? [...arrays.songIds]
-            : [...arrays.songIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
+          safeArtistIds={
+            arrays.artistIds.length <= 5
+              ? [...arrays.artistIds]
+              : [...arrays.artistIds]
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 2)
+          }
+          safeGenres={
+            arrays.topGenresByArtist.length <= 5
+              ? [...arrays.topGenresByArtist]
+              : [...arrays.topGenresByArtist]
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 1)
+          }
+          safeTrackIds={
+            arrays.songIds.length <= 5
+              ? [...arrays.songIds]
+              : [...arrays.songIds].sort(() => 0.5 - Math.random()).slice(0, 2)
+          }
           target_acousticness={arrays.audioFeatureMeans[0]}
           target_danceability={arrays.audioFeatureMeans[1]}
-          target_duration_ms={parseInt(arrays.audioFeatureMeans[2].split(':')[0]) * 60000 + parseInt(arrays.audioFeatureMeans[2].split(':')[1]) * 1000}
+          target_duration_ms={
+            parseInt(arrays.audioFeatureMeans[2].split(":")[0]) * 60000 +
+            parseInt(arrays.audioFeatureMeans[2].split(":")[1]) * 1000
+          }
           target_energy={arrays.audioFeatureMeans[3]}
           target_instrumentalness={arrays.audioFeatureMeans[4]}
           target_liveness={arrays.audioFeatureMeans[5]}
@@ -2075,23 +2073,15 @@ useEffect(() => {
           target_tempo={arrays.audioFeatureMeans[8]}
           target_valence={arrays.audioFeatureMeans[9]}
           allTopSongIds={arrays.songIds}
-          
-          
-
-           exploratoryArtistIds = {[...arrays.artistIds.slice(-10)]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 2)}
-        
-         exploratoryGenres = {[...arrays.topGenresByArtist.slice(-10)]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 1)}
-        
-         exploratoryTrackIds = {[...arrays.songIds.slice(-10)]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 2)}
-        
-
-
+          exploratoryArtistIds={[...arrays.artistIds.slice(-10)]
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 2)}
+          exploratoryGenres={[...arrays.topGenresByArtist.slice(-10)]
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 1)}
+          exploratoryTrackIds={[...arrays.songIds.slice(-10)]
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 2)}
           user_id={nameIdImgurlGenerationdate[1]}
           display_name={nameIdImgurlGenerationdate[0]}
           selectedTimeRange={selectedTimeRangeClean}

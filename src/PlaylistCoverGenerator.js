@@ -29,9 +29,6 @@ const PlaylistCoverGenerator = (props) => {
   const display_name2 = props.display_name2 ? props.display_name2 : null;
 
   const [fontSize, setFontSize] = useState(24);
-  
-  
-
 
   useEffect(() => {
     const calculateFontSize = () => {
@@ -41,11 +38,11 @@ const PlaylistCoverGenerator = (props) => {
         ? display_name1.length + display_name2.length
         : 0;
 
-        let adjustedFontSize = Math.max(24 - (nameLength - 8), 14);
+      let adjustedFontSize = Math.max(24 - (nameLength - 8), 14);
 
-        if(!display_name) {
-            adjustedFontSize =  Math.max(20 - (nameLength - 8), 14);
-        }
+      if (!display_name) {
+        adjustedFontSize = Math.max(20 - (nameLength - 8), 14);
+      }
       setFontSize(adjustedFontSize);
     };
 
@@ -69,7 +66,7 @@ const PlaylistCoverGenerator = (props) => {
       }
       return [display_name1, display_name2];
     }
-    return [null, null]
+    return [null, null];
   };
 
   return (
@@ -194,7 +191,10 @@ const PlaylistCoverGenerator = (props) => {
           >
             <span style={{ fontSize: `${fontSize}px` }}>
               <span style={{ color: "#1e90ff" }}>{getFormattedNames()[0]}</span>
-              <span style={{ color: "#18d860",whiteSpace: 'pre-wrap'}}> {"\n"}+{"\n"}</span>
+              <span style={{ color: "#18d860", whiteSpace: "pre-wrap" }}>
+                {" "}
+                {"\n"}+{"\n"}
+              </span>
               <span style={{ color: "#ffdf00" }}>{getFormattedNames()[1]}</span>
             </span>
             <br></br>
@@ -242,9 +242,12 @@ const PlaylistCoverGenerator = (props) => {
           >
             <span style={{ fontSize: `${fontSize}px` }}>
               <span style={{ color: "#1e90ff" }}>{getFormattedNames[0]}</span>
-             
-              <span style={{ color: "#18d860",whiteSpace: 'pre-wrap' }}> {"\n"}+{"\n"}</span>
-             
+
+              <span style={{ color: "#18d860", whiteSpace: "pre-wrap" }}>
+                {" "}
+                {"\n"}+{"\n"}
+              </span>
+
               <span style={{ color: "#ffdf00" }}>{getFormattedNames[1]}</span>
             </span>
             <br></br>

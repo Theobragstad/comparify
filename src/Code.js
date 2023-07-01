@@ -798,12 +798,9 @@ function Code() {
 
   const [trigger, setTrigger] = useState(false);
 
-
-
   useEffect(() => {
     if (trigger) {
       setTrigger(true);
-     
 
       const timer = setTimeout(() => {
         setTrigger(false);
@@ -813,19 +810,11 @@ function Code() {
     }
   }, [trigger]);
 
-  
-
   const downloadCode = async () => {
-    
     setLoadingDownload(true);
     window.scrollTo(0, 0);
 
-
     setTrigger(true);
-
-    // setTimeout(() => {
-    //   setTrigger(false);
-    // }, 5000);
 
     const blob = new Blob([await generateCode()], { type: "text/plain" });
     setLoadingDownload(false);
@@ -833,7 +822,7 @@ function Code() {
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
     link.download = `comparify code for ${displayName.replace(
-      /[<>:"\\|?*]/g, 
+      /[<>:"\\|?*]/g,
       ""
     )} at ${getCurrentDateTime()}.txt`;
     link.click();
@@ -973,7 +962,7 @@ function Code() {
         null,
         null,
         window.location.pathname + window.location.search
-      ); 
+      );
       window.location.hash = "";
       window.localStorage.setItem("token", token);
       window.localStorage.setItem("expirationTime", expirationTime);
@@ -1003,13 +992,14 @@ function Code() {
     <div className="codePage">
       {location.state?.error && location.state.error === 400 && (
         <div className="errorMessage2">
-          code error. make sure the file you uploaded is a valid
-          comparify code.
+          code error. make sure the file you uploaded is a valid comparify code.
         </div>
       )}
       {trigger && (
         <div className="errorMessage3">
-          remember that your code contains your Spotify display name, ID, profile photo, and music streaming data. only share your code with people you are comfortable with having that information.
+          remember that your code contains your Spotify display name, ID,
+          profile photo, and music streaming data. only share your code with
+          people you are comfortable with having that information.
         </div>
       )}
       <div className="cardOverlay">
@@ -1021,7 +1011,11 @@ function Code() {
             data-tooltip-id="codePageTooltip1"
             data-tooltip-content="Home"
           >
-            <img src={back} className="backImgCodePage" alt="Home button arrow"></img>
+            <img
+              src={back}
+              className="backImgCodePage"
+              alt="Home button arrow"
+            ></img>
           </button>
         </div>
         <div className="profilePicDivCodePage">
@@ -1054,17 +1048,16 @@ function Code() {
           )}
         </div>
         <div className="codeDiv ">
-        
-            <button
-              className="basicBtn"
-              title="View your data"
-              disabled={loadingView}
-              onClick={() => {
-                toDataPage();
-              }}
-            >
-              view your data
-            </button>
+          <button
+            className="basicBtn"
+            title="View your data"
+            disabled={loadingView}
+            onClick={() => {
+              toDataPage();
+            }}
+          >
+            view your data
+          </button>
           {loadingView && (
             <div className="loadingDots">
               <div className="loadingDots--dot"></div>
@@ -1087,29 +1080,32 @@ function Code() {
           />
           <span className="codeDiv">
             {!loadingCompare1 && (
-            
-                <button title="Submit" className="submitBtn" disabled={!file2} onClick={() => {
+              <button
+                title="Submit"
+                className="submitBtn"
+                disabled={!file2}
+                onClick={() => {
                   toComparePage1();
-                }}>
-                  submit
-                </button>
+                }}
+              >
+                submit
+              </button>
             )}
             {loadingCompare1 && (
-            
-                <button
-                  title="Submit"
-                  className="submitBtnWhite"
-                  disabled={!file2}
-                  onClick={() => {
-                    toComparePage1();
-                  }}
-                >
-                  <div className="loadingDots">
-                    <div className="loadingDots--dot"></div>
-                    <div className="loadingDots--dot"></div>
-                    <div className="loadingDots--dot"></div>
-                  </div>
-                </button>
+              <button
+                title="Submit"
+                className="submitBtnWhite"
+                disabled={!file2}
+                onClick={() => {
+                  toComparePage1();
+                }}
+              >
+                <div className="loadingDots">
+                  <div className="loadingDots--dot"></div>
+                  <div className="loadingDots--dot"></div>
+                  <div className="loadingDots--dot"></div>
+                </div>
+              </button>
             )}
           </span>
         </div>
@@ -1129,32 +1125,30 @@ function Code() {
             onChange={addFile2TwoComp}
           />
           {!loadingCompare2 && (
-          
-              <button
-                className="submitBtn"
-                disabled={!file1TwoComp || !file2TwoComp}
-                onClick={() => {
-                  toComparePage2();
-                }}
-              >
-                submit
-              </button>
+            <button
+              className="submitBtn"
+              disabled={!file1TwoComp || !file2TwoComp}
+              onClick={() => {
+                toComparePage2();
+              }}
+            >
+              submit
+            </button>
           )}
           {loadingCompare2 && (
-           
-              <button
-                className="submitBtnWhite"
-                disabled={!file1TwoComp || !file2TwoComp}
-                onClick={() => {
-                  toComparePage2();
-                }}
-              >
-                <span className="loadingDots">
-                  <div className="loadingDots--dot"></div>
-                  <div className="loadingDots--dot"></div>
-                  <div className="loadingDots--dot"></div>
-                </span>
-              </button>
+            <button
+              className="submitBtnWhite"
+              disabled={!file1TwoComp || !file2TwoComp}
+              onClick={() => {
+                toComparePage2();
+              }}
+            >
+              <span className="loadingDots">
+                <div className="loadingDots--dot"></div>
+                <div className="loadingDots--dot"></div>
+                <div className="loadingDots--dot"></div>
+              </span>
+            </button>
           )}
         </div>
 

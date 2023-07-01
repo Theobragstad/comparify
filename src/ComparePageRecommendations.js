@@ -86,7 +86,11 @@ const ComparePageRecommendations = (props) => {
   };
 
   const getUser1Songs = async () => {
-    if(props.onlyUser1TopArtists.length === 0 && props.onlyUser1TopGenres.length === 0 && props.onlyUser1TopSongs.length === 0) {
+    if (
+      props.onlyUser1TopArtists.length === 0 &&
+      props.onlyUser1TopGenres.length === 0 &&
+      props.onlyUser1TopSongs.length === 0
+    ) {
       return [];
     }
 
@@ -96,9 +100,9 @@ const ComparePageRecommendations = (props) => {
       .slice(0, 2);
     if (seedArtists.length === 0) {
       seedArtists = props.user1AllTopArtists
-      .slice(0, Math.min(10, props.user1AllTopArtists.length))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 2);
+        .slice(0, Math.min(10, props.user1AllTopArtists.length))
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
     }
 
     let seedGenres = props.onlyUser1TopGenres
@@ -107,9 +111,9 @@ const ComparePageRecommendations = (props) => {
       .slice(0, 1);
     if (seedGenres.length === 0) {
       seedGenres = props.user1AllTopGenres
-      .slice(0, Math.min(10, props.user1AllTopGenres.length))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 1);
+        .slice(0, Math.min(10, props.user1AllTopGenres.length))
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 1);
     }
 
     let seedTracks = props.onlyUser1TopSongs
@@ -118,13 +122,16 @@ const ComparePageRecommendations = (props) => {
       .slice(0, 2);
     if (seedTracks.length === 0) {
       seedTracks = props.user1AllTopSongs
-      .slice(0, Math.min(10, props.user1AllTopSongs.length))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 2);
+        .slice(0, Math.min(10, props.user1AllTopSongs.length))
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
     }
 
-
-    if(seedArtists.length === 0 || seedGenres.length === 0 || seedTracks.length === 0) {
+    if (
+      seedArtists.length === 0 ||
+      seedGenres.length === 0 ||
+      seedTracks.length === 0
+    ) {
       return [];
     }
 
@@ -163,7 +170,11 @@ const ComparePageRecommendations = (props) => {
   };
 
   const getUser2Songs = async () => {
-    if(props.onlyUser2TopArtists.length === 0 && props.onlyUser2TopGenres.length === 0 && props.onlyUser2TopSongs.length === 0) {
+    if (
+      props.onlyUser2TopArtists.length === 0 &&
+      props.onlyUser2TopGenres.length === 0 &&
+      props.onlyUser2TopSongs.length === 0
+    ) {
       return [];
     }
 
@@ -173,9 +184,9 @@ const ComparePageRecommendations = (props) => {
       .slice(0, 2);
     if (seedArtists.length === 0) {
       seedArtists = props.user2AllTopArtists
-      .slice(0, Math.min(10, props.user2AllTopArtists.length))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 2);
+        .slice(0, Math.min(10, props.user2AllTopArtists.length))
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
     }
 
     let seedGenres = props.onlyUser2TopGenres
@@ -184,9 +195,9 @@ const ComparePageRecommendations = (props) => {
       .slice(0, 1);
     if (seedGenres.length === 0) {
       seedGenres = props.user2AllTopGenres
-      .slice(0, Math.min(10, props.user2AllTopGenres.length))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 1);
+        .slice(0, Math.min(10, props.user2AllTopGenres.length))
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 1);
     }
 
     let seedTracks = props.onlyUser2TopSongs
@@ -195,13 +206,16 @@ const ComparePageRecommendations = (props) => {
       .slice(0, 2);
     if (seedTracks.length === 0) {
       seedTracks = props.user2AllTopSongs
-      .slice(0, Math.min(10, props.user2AllTopSongs.length))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 2);
+        .slice(0, Math.min(10, props.user2AllTopSongs.length))
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 2);
     }
 
-
-    if(seedArtists.length === 0 || seedGenres.length === 0 || seedTracks.length === 0) {
+    if (
+      seedArtists.length === 0 ||
+      seedGenres.length === 0 ||
+      seedTracks.length === 0
+    ) {
       return [];
     }
 
@@ -244,15 +258,16 @@ const ComparePageRecommendations = (props) => {
     const recommendations1 = await getUser1Songs();
     const recommendations2 = await getUser2Songs();
     const recommendations = recommendations1.concat(recommendations2);
-    console.log(recommendations)
-   
-    setNonblendSongs(
+    console.log(recommendations);
 
-      recommendations.length > 0 ? recommendations.filter(
-        (item) =>
-          !props.onlyUser1TopSongs.includes(item) &&
-          !props.onlyUser2TopSongs.includes(item)
-      ) : []
+    setNonblendSongs(
+      recommendations.length > 0
+        ? recommendations.filter(
+            (item) =>
+              !props.onlyUser1TopSongs.includes(item) &&
+              !props.onlyUser2TopSongs.includes(item)
+          )
+        : []
     );
 
     setLoadingNonblendPlaylist(false);

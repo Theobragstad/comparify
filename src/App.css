@@ -254,7 +254,7 @@
 }
 .link2 {
   text-decoration: none;
-  color:inherit;
+  color: inherit;
 }
 .btnGradient {
   background: linear-gradient(
@@ -611,15 +611,14 @@
  
 }
  */
- .primaryImage {
+.primaryImage {
   position: relative;
   width: 40px;
-  min-width:40px;
+  min-width: 40px;
   border-radius: 5px;
   margin-right: 10px;
   overflow: hidden; /* This ensures the play icon doesn't overflow outside the container */
 }
-
 
 .primaryImage img {
   width: 100%;
@@ -644,7 +643,6 @@
   opacity: 0; /* Hide the play icon by default */
 }
 
-
 .primaryImage .paused {
   position: absolute;
   top: 0;
@@ -663,17 +661,10 @@
   opacity: 1; /* Show the play icon on hover */
 }
 
-
 .primaryImage:hover .paused {
   cursor: pointer;
   opacity: 1; /* Show the play icon on hover */
 }
-
-
-
-
-
-
 
 .primaryText {
   margin-left: 10px;
@@ -739,7 +730,6 @@
   margin-left: 3px;
 }
 
-
 .loadingDotsGreen {
   /* margin-top: 2vh;
   text-align: center;
@@ -747,22 +737,21 @@
   justify-content: center;
   align-items: center; */
   display: inline-block;
-   vertical-align: middle;
-   margin-left:2vw;
+  vertical-align: middle;
+  margin-left: 2vw;
 }
 .addToSpotifyBtn:hover {
   transform: scale(1.1);
 }
 .addToSpotifyBtn {
   color: #1ed760;
-font-size: 12px;
-margin-left: 20px;
-border: none;
-background-color: white;
-cursor: pointer;
-font-weight: bold;
-transition: transform 0.4s;
-
+  font-size: 12px;
+  margin-left: 20px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.4s;
 }
 
 .addToSpotifyBtn:disabled {
@@ -771,9 +760,8 @@ transition: transform 0.4s;
 }
 
 .addToSpotifyBtn:disabled:hover {
-  transform:scale(1)
+  transform: scale(1);
 }
-
 
 .loadingDotsGreen--dot {
   animation: dot-keyframes 1.5s infinite ease-in-out;
@@ -793,7 +781,6 @@ transition: transform 0.4s;
   background-color: #18d860;
   margin-left: 3px;
 }
-
 
 @keyframes dot-keyframes {
   0% {
@@ -1057,8 +1044,8 @@ img:active {
   font-size: 15px;
   background-color: #fafafa;
   border-radius: 15px;
-  padding:5px;
-  font-weight:450
+  padding: 5px;
+  font-weight: 450;
 }
 .helpFooter {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -1154,14 +1141,11 @@ img:active {
   top: 0;
 }
 
-
-
 .errorMessage3 {
- 
   color: #41dc8e;
   border: 1px solid #64e3a1;
   background-color: #defade;
- 
+
   font-weight: bold;
   font-size: 12px;
   position: absolute;
@@ -1363,11 +1347,11 @@ img:active {
 .emptyContainer {
   display: flex;
   align-items: center;
-  
+
   justify-content: center;
   margin-top: 80px;
   font-size: 14px;
-  color:gray;
+  color: gray;
 }
 
 .noData {
@@ -1469,7 +1453,7 @@ img:active {
   cursor: pointer;
   background-color: #fafafa;
   border-radius: 15px;
-  width:fit-content;
+  width: fit-content;
   padding: 5px 10px;
 }
 .helpSection:hover {
@@ -1488,27 +1472,24 @@ img:active {
   -webkit-text-fill-color: transparent;
 }
 
-
 .xBtn {
   border-radius: 50%;
   border: none;
   cursor: pointer;
   font-weight: bold;
-  height:fit-content;
+  height: fit-content;
   padding: 4px;
   background-color: white;
   position: relative;
-  left:99%;
-  top:-12px;
+  left: 99%;
+  top: -12px;
 }
 .xBtn:hover {
   background-color: #f3f3f3;
   border-radius: 50%;
-  padding:4px;
+  padding: 4px;
   /* transform: scale(1.1); */
 }
-
-
 
 .xBtn2 {
   border-radius: 10px;
@@ -1518,45 +1499,33 @@ img:active {
   padding: 4px 3px;
   background-color: white;
   position: relative;
-  top:0px;
-  left:350px;
+  top: 0px;
+  left: 350px;
 }
 .xBtn2:hover {
   background-color: #f3f3f3;
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
-
-
-
-
-
-
-
-
-
-
 
 .xBtn3 {
   border: none;
   cursor: pointer;
   font-weight: bold;
-padding:0px;
+  padding: 0px;
   background-color: white;
   transition: transform 0.4s;
-  position:relative;
-  left:200px;
-
+  position: relative;
+  left: 200px;
 }
 .xBtn3:hover {
   /* background-color: #f3f3f3; */
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .gptBtn {
   background-color: transparent;
 
   cursor: pointer;
-  border:none;
+  border: none;
   border-radius: 20px;
- 
 }

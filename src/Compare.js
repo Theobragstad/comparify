@@ -10,7 +10,6 @@ import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
-
 import download from "./img/download.png";
 import Footer from "./Footer";
 import ComparePageRecommendations from "./ComparePageRecommendations";
@@ -334,7 +333,6 @@ function Compare() {
   for (const field in arrays1) {
     if (arrays1.hasOwnProperty(field) && arrays2.hasOwnProperty(field)) {
       if (field === "decadesAndPcts") {
-
       }
       if (
         field === "avgSongPop" ||
@@ -694,32 +692,31 @@ function Compare() {
 
   const getSongs = async (songIds, arrayToSet) => {
     try {
-    if (songIds.length > 0 && songIds && songIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: songIds.join(","),
-        },
-      });
+      if (songIds.length > 0 && songIds && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
 
-      const songsData = data.tracks.map((track) => ({
-        name: track.name,
-        artists: track.artists.map((artist) => artist.name),
-        img: track.album.images[0]?.url || missingImage,
-      }));
+        const songsData = data.tracks.map((track) => ({
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+        }));
 
-      arrayToSet(songsData);
-    } else {
-      arrayToSet([]);
+        arrayToSet(songsData);
+      } else {
+        arrayToSet([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
   };
-
 
   function clearCookies() {
     var cookies = document.cookie.split(";");
@@ -754,301 +751,305 @@ function Compare() {
 
   const getHighestAudioFeatureSongs = async (songIds, arrayToSet) => {
     try {
-    const validSongIds = songIds.filter((id) => id !== "");
-    if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
-      arrayToSet(new Array(songIds.length).fill(""));
-      return;
-    }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        ids: validSongIds.join(","),
-      },
-    });
-
-    const highestAudioFeatureSongsData = data.tracks.map((track) => ({
-      name: track.name,
-      artists: track.artists.map((artist) => artist.name),
-      img: track.album.images[0]?.url || missingImage,
-    }));
-
-    const valuesToSet = [];
-
-    let index = 0;
-    songIds.forEach((id) => {
-      if (id !== "") {
-        valuesToSet.push(highestAudioFeatureSongsData[index]);
-        index++;
-      } else {
-        valuesToSet.push("");
-      }
-    });
-
-    arrayToSet(valuesToSet);
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
-  };
-
-  const getLowestAudioFeatureSongs = async (songIds, arrayToSet) => {
-    try {
-    const validSongIds = songIds.filter((id) => id !== "");
-    if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
-      arrayToSet(new Array(songIds.length).fill(""));
-      return;
-    }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        ids: validSongIds.join(","),
-      },
-    });
-
-    const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
-      name: track.name,
-      artists: track.artists.map((artist) => artist.name),
-      img: track.album.images[0]?.url || missingImage,
-    }));
-
-    const valuesToSet = [];
-
-    let index = 0;
-    songIds.forEach((id) => {
-      if (id !== "") {
-        valuesToSet.push(lowestAudioFeatureSongsData[index]);
-        index++;
-      } else {
-        valuesToSet.push("");
-      }
-    });
-
-    arrayToSet(valuesToSet);
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
-  };
-
-  const getMostLeastPopSongs = async (songIds, arrayToSet) => {
-    try {
-    // console.log(songIds);
-    if (
-      songIds.length == 0 ||
-      (songIds && songIds.length > 0 && songIds[0] == "No data") ||
-      (songIds[0] == "" && songIds[1] == "")
-    ) {
-      arrayToSet(["", ""]);
-      return;
-    }
-
-    let ids = songIds.join(",");
-    let indices = "01";
-    if (songIds[0] == "") {
-      ids = songIds[1];
-      indices = "1";
-    } else if (songIds[1] == "") {
-      ids = songIds[0];
-      indices = "0";
-    }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        ids: ids,
-      },
-    });
-
-    const mostLeastPopSongsData = data.tracks.map((track) => ({
-      name: track.name,
-      pop: track.popularity,
-      artists: track.artists.map((artist) => artist.name),
-      img: track.album.images[0]?.url || missingImage,
-    }));
-
-    if (indices == "01") {
-      arrayToSet(mostLeastPopSongsData);
-    } else if (indices == "1") {
-      arrayToSet(["", mostLeastPopSongsData[0]]);
-    } else if (indices == "0") {
-      arrayToSet([mostLeastPopSongsData[0], ""]);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
-  };
-
-  const getOldestNewestSongs = async (songIds, arrayToSet) => {
-    try {
-    if (
-      songIds.length == 0 ||
-      (songIds && songIds.length > 0 && songIds[0] == "No data") ||
-      (songIds[0] == "" && songIds[1] == "")
-    ) {
-      arrayToSet(["", ""]);
-      return;
-    }
-
-    let ids = songIds.join(",");
-    let indices = "01";
-    if (songIds[0] == "") {
-      ids = songIds[1];
-      indices = "1";
-    } else if (songIds[1] == "") {
-      ids = songIds[0];
-      indices = "0";
-    }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        ids: ids,
-      },
-    });
-
-    const oldestNewestSongsData = data.tracks.map((track) => ({
-      name: track.name,
-      date: track.album.release_date,
-      artists: track.artists.map((artist) => artist.name),
-      img: track.album.images[0]?.url || missingImage,
-    }));
-
-    if (indices == "01") {
-      arrayToSet(oldestNewestSongsData);
-    } else if (indices == "1") {
-      arrayToSet(["", oldestNewestSongsData[0]]);
-    } else if (indices == "0") {
-      arrayToSet([oldestNewestSongsData[0], ""]);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
-  };
-
-  const getAlbums = async (albumIds, arrayToSet) => {
-    try {
-    if (albumIds.length > 0 && albumIds && albumIds[0] !== "No data") {
-      const maxAlbumsPerRequest = 20;
-      const albumChunks = [];
-
-      for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
-        albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
+      const validSongIds = songIds.filter((id) => id !== "");
+      if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
+        arrayToSet(new Array(songIds.length).fill(""));
+        return;
       }
 
-      const albumData = [];
-
-      for (const albumChunk of albumChunks) {
-        const { data } = await axios.get("https://api.spotify.com/v1/albums", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: albumChunk.join(","),
-          },
-        });
-
-        const chunkAlbumsData = data.albums.map((album) => ({
-          name: album.name,
-          artists: album.artists.map((artist) => artist.name),
-          img: album.images[0]?.url || missingImage,
-        }));
-
-        albumData.push(...chunkAlbumsData);
-      }
-
-      arrayToSet(albumData);
-    } else {
-      arrayToSet([]);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
-  };
-
-  const getMostLeastPopAlbums = async (albumIds, arrayToSet) => {
-    try {
-    if (
-      albumIds.length == 0 ||
-      (albumIds && albumIds.length > 0 && albumIds[0] == "No data") ||
-      (albumIds[0] == "" && albumIds[1] == "")
-    ) {
-      arrayToSet(["", ""]);
-      return;
-    }
-
-    let ids = albumIds.join(",");
-    let indices = "01";
-    if (albumIds[0] == "") {
-      ids = albumIds[1];
-      indices = "1";
-    } else if (albumIds[1] == "") {
-      ids = albumIds[0];
-      indices = "0";
-    }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/albums", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        ids: ids,
-      },
-    });
-
-    const mostLeastPopAlbumsData = data.albums.map((album) => ({
-      name: album.name,
-      pop: album.popularity,
-      artists: album.artists.map((artist) => artist.name),
-      img: album.images[0]?.url || missingImage,
-    }));
-
-    if (indices == "01") {
-      arrayToSet(mostLeastPopAlbumsData);
-    } else if (indices == "1") {
-      arrayToSet(["", mostLeastPopAlbumsData[0]]);
-    } else if (indices == "0") {
-      arrayToSet([mostLeastPopAlbumsData[0], ""]);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
-  };
-
-  const getArtists = async (artistIds, arrayToSet) => {
-    try {
-    if (artistIds.length > 0 && artistIds[0] !== "No data") {
-      const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          ids: artistIds.join(","),
+          ids: validSongIds.join(","),
         },
       });
 
-      const artistData = data.artists.map((artist) => ({
-        name: artist.name,
-        img: artist.images[0]?.url || missingImage,
+      const highestAudioFeatureSongsData = data.tracks.map((track) => ({
+        name: track.name,
+        artists: track.artists.map((artist) => artist.name),
+        img: track.album.images[0]?.url || missingImage,
       }));
 
-      arrayToSet(artistData);
-    } else {
-      arrayToSet([]);
-    }} catch (error) {
+      const valuesToSet = [];
+
+      let index = 0;
+      songIds.forEach((id) => {
+        if (id !== "") {
+          valuesToSet.push(highestAudioFeatureSongsData[index]);
+          index++;
+        } else {
+          valuesToSet.push("");
+        }
+      });
+
+      arrayToSet(valuesToSet);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getLowestAudioFeatureSongs = async (songIds, arrayToSet) => {
+    try {
+      const validSongIds = songIds.filter((id) => id !== "");
+      if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
+        arrayToSet(new Array(songIds.length).fill(""));
+        return;
+      }
+
+      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          ids: validSongIds.join(","),
+        },
+      });
+
+      const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
+        name: track.name,
+        artists: track.artists.map((artist) => artist.name),
+        img: track.album.images[0]?.url || missingImage,
+      }));
+
+      const valuesToSet = [];
+
+      let index = 0;
+      songIds.forEach((id) => {
+        if (id !== "") {
+          valuesToSet.push(lowestAudioFeatureSongsData[index]);
+          index++;
+        } else {
+          valuesToSet.push("");
+        }
+      });
+
+      arrayToSet(valuesToSet);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getMostLeastPopSongs = async (songIds, arrayToSet) => {
+    try {
+      // console.log(songIds);
+      if (
+        songIds.length == 0 ||
+        (songIds && songIds.length > 0 && songIds[0] == "No data") ||
+        (songIds[0] == "" && songIds[1] == "")
+      ) {
+        arrayToSet(["", ""]);
+        return;
+      }
+
+      let ids = songIds.join(",");
+      let indices = "01";
+      if (songIds[0] == "") {
+        ids = songIds[1];
+        indices = "1";
+      } else if (songIds[1] == "") {
+        ids = songIds[0];
+        indices = "0";
+      }
+
+      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          ids: ids,
+        },
+      });
+
+      const mostLeastPopSongsData = data.tracks.map((track) => ({
+        name: track.name,
+        pop: track.popularity,
+        artists: track.artists.map((artist) => artist.name),
+        img: track.album.images[0]?.url || missingImage,
+      }));
+
+      if (indices == "01") {
+        arrayToSet(mostLeastPopSongsData);
+      } else if (indices == "1") {
+        arrayToSet(["", mostLeastPopSongsData[0]]);
+      } else if (indices == "0") {
+        arrayToSet([mostLeastPopSongsData[0], ""]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getOldestNewestSongs = async (songIds, arrayToSet) => {
+    try {
+      if (
+        songIds.length == 0 ||
+        (songIds && songIds.length > 0 && songIds[0] == "No data") ||
+        (songIds[0] == "" && songIds[1] == "")
+      ) {
+        arrayToSet(["", ""]);
+        return;
+      }
+
+      let ids = songIds.join(",");
+      let indices = "01";
+      if (songIds[0] == "") {
+        ids = songIds[1];
+        indices = "1";
+      } else if (songIds[1] == "") {
+        ids = songIds[0];
+        indices = "0";
+      }
+
+      const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          ids: ids,
+        },
+      });
+
+      const oldestNewestSongsData = data.tracks.map((track) => ({
+        name: track.name,
+        date: track.album.release_date,
+        artists: track.artists.map((artist) => artist.name),
+        img: track.album.images[0]?.url || missingImage,
+      }));
+
+      if (indices == "01") {
+        arrayToSet(oldestNewestSongsData);
+      } else if (indices == "1") {
+        arrayToSet(["", oldestNewestSongsData[0]]);
+      } else if (indices == "0") {
+        arrayToSet([oldestNewestSongsData[0], ""]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getAlbums = async (albumIds, arrayToSet) => {
+    try {
+      if (albumIds.length > 0 && albumIds && albumIds[0] !== "No data") {
+        const maxAlbumsPerRequest = 20;
+        const albumChunks = [];
+
+        for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
+          albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
+        }
+
+        const albumData = [];
+
+        for (const albumChunk of albumChunks) {
+          const { data } = await axios.get(
+            "https://api.spotify.com/v1/albums",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              params: {
+                ids: albumChunk.join(","),
+              },
+            }
+          );
+
+          const chunkAlbumsData = data.albums.map((album) => ({
+            name: album.name,
+            artists: album.artists.map((artist) => artist.name),
+            img: album.images[0]?.url || missingImage,
+          }));
+
+          albumData.push(...chunkAlbumsData);
+        }
+
+        arrayToSet(albumData);
+      } else {
+        arrayToSet([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getMostLeastPopAlbums = async (albumIds, arrayToSet) => {
+    try {
+      if (
+        albumIds.length == 0 ||
+        (albumIds && albumIds.length > 0 && albumIds[0] == "No data") ||
+        (albumIds[0] == "" && albumIds[1] == "")
+      ) {
+        arrayToSet(["", ""]);
+        return;
+      }
+
+      let ids = albumIds.join(",");
+      let indices = "01";
+      if (albumIds[0] == "") {
+        ids = albumIds[1];
+        indices = "1";
+      } else if (albumIds[1] == "") {
+        ids = albumIds[0];
+        indices = "0";
+      }
+
+      const { data } = await axios.get("https://api.spotify.com/v1/albums", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          ids: ids,
+        },
+      });
+
+      const mostLeastPopAlbumsData = data.albums.map((album) => ({
+        name: album.name,
+        pop: album.popularity,
+        artists: album.artists.map((artist) => artist.name),
+        img: album.images[0]?.url || missingImage,
+      }));
+
+      if (indices == "01") {
+        arrayToSet(mostLeastPopAlbumsData);
+      } else if (indices == "1") {
+        arrayToSet(["", mostLeastPopAlbumsData[0]]);
+      } else if (indices == "0") {
+        arrayToSet([mostLeastPopAlbumsData[0], ""]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getArtists = async (artistIds, arrayToSet) => {
+    try {
+      if (artistIds.length > 0 && artistIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: artistIds.join(","),
+          },
+        });
+
+        const artistData = data.artists.map((artist) => ({
+          name: artist.name,
+          img: artist.images[0]?.url || missingImage,
+        }));
+
+        arrayToSet(artistData);
+      } else {
+        arrayToSet([]);
+      }
+    } catch (error) {
       console.error("Error:", error);
       logout("apiError");
     }
@@ -1056,51 +1057,51 @@ function Compare() {
 
   const getMostLeastPopArtists = async (artistIds, arrayToSet) => {
     try {
-    if (
-      artistIds.length == 0 ||
-      (artistIds && artistIds.length > 0 && artistIds[0] == "No data") ||
-      (artistIds[0] == "" && artistIds[1] == "")
-    ) {
-      arrayToSet(["", ""]);
-      return;
+      if (
+        artistIds.length == 0 ||
+        (artistIds && artistIds.length > 0 && artistIds[0] == "No data") ||
+        (artistIds[0] == "" && artistIds[1] == "")
+      ) {
+        arrayToSet(["", ""]);
+        return;
+      }
+
+      let ids = artistIds.join(",");
+      let indices = "01";
+      if (artistIds[0] == "") {
+        ids = artistIds[1];
+        indices = "1";
+      } else if (artistIds[1] == "") {
+        ids = artistIds[0];
+        indices = "0";
+      }
+
+      const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          ids: ids,
+        },
+      });
+
+      const mostLeastPopArtistsData = data.artists.map((artist) => ({
+        name: artist.name,
+        pop: artist.popularity,
+        img: artist.images[0]?.url || missingImage,
+      }));
+
+      if (indices == "01") {
+        arrayToSet(mostLeastPopArtistsData);
+      } else if (indices == "1") {
+        arrayToSet(["", mostLeastPopArtistsData[0]]);
+      } else if (indices == "0") {
+        arrayToSet([mostLeastPopArtistsData[0], ""]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
-
-    let ids = artistIds.join(",");
-    let indices = "01";
-    if (artistIds[0] == "") {
-      ids = artistIds[1];
-      indices = "1";
-    } else if (artistIds[1] == "") {
-      ids = artistIds[0];
-      indices = "0";
-    }
-
-    const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        ids: ids,
-      },
-    });
-
-    const mostLeastPopArtistsData = data.artists.map((artist) => ({
-      name: artist.name,
-      pop: artist.popularity,
-      img: artist.images[0]?.url || missingImage,
-    }));
-
-    if (indices == "01") {
-      arrayToSet(mostLeastPopArtistsData);
-    } else if (indices == "1") {
-      arrayToSet(["", mostLeastPopArtistsData[0]]);
-    } else if (indices == "0") {
-      arrayToSet([mostLeastPopArtistsData[0], ""]);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
   };
 
   function handleConvertToImage() {
@@ -1512,75 +1513,75 @@ function Compare() {
 
   const getAudioFeatureValues = async (songIds, arrayToSet) => {
     try {
-    const featureNames = [
-      "acousticness",
-      "danceability",
-      "duration_ms",
-      "energy",
-      "instrumentalness",
-      "liveness",
-      "loudness",
-      "speechiness",
-      "tempo",
-      "valence",
-    ];
+      const featureNames = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+      ];
 
-    const allEmpty = songIds.every((id) => id === "");
+      const allEmpty = songIds.every((id) => id === "");
 
-    if (allEmpty || (songIds && songIds[0] == "No data")) {
-      return Array(songIds.length).fill("");
-    }
-
-    const filteredIds = songIds.filter((id) => id !== "");
-
-    const { data } = await axios.get(
-      "https://api.spotify.com/v1/audio-features",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          ids: filteredIds.join(","),
-        },
+      if (allEmpty || (songIds && songIds[0] == "No data")) {
+        return Array(songIds.length).fill("");
       }
-    );
 
-    const audioFeatures = data.audio_features.map((item) => ({
-      id: item.id,
-      acousticness: item.acousticness,
-      danceability: item.danceability,
-      duration_ms: item.duration_ms,
-      energy: item.energy,
-      instrumentalness: item.instrumentalness,
-      liveness: item.liveness,
-      loudness: item.loudness,
-      speechiness: item.speechiness,
-      tempo: item.tempo,
-      valence: item.valence,
-    }));
+      const filteredIds = songIds.filter((id) => id !== "");
 
-    const result = [];
-    for (let i = 0; i < songIds.length; i++) {
-      if (songIds[i] === "") {
-        result[i] = "";
-      } else {
-        const feature = featureNames[i];
-        const audioFeature = audioFeatures.find(
-          (item) => item.id === songIds[i]
-        );
-        if (feature === "duration_ms") {
-          result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
+      const { data } = await axios.get(
+        "https://api.spotify.com/v1/audio-features",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: filteredIds.join(","),
+          },
+        }
+      );
+
+      const audioFeatures = data.audio_features.map((item) => ({
+        id: item.id,
+        acousticness: item.acousticness,
+        danceability: item.danceability,
+        duration_ms: item.duration_ms,
+        energy: item.energy,
+        instrumentalness: item.instrumentalness,
+        liveness: item.liveness,
+        loudness: item.loudness,
+        speechiness: item.speechiness,
+        tempo: item.tempo,
+        valence: item.valence,
+      }));
+
+      const result = [];
+      for (let i = 0; i < songIds.length; i++) {
+        if (songIds[i] === "") {
+          result[i] = "";
         } else {
-          result[i] = audioFeature ? audioFeature[feature] : "";
+          const feature = featureNames[i];
+          const audioFeature = audioFeatures.find(
+            (item) => item.id === songIds[i]
+          );
+          if (feature === "duration_ms") {
+            result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
+          } else {
+            result[i] = audioFeature ? audioFeature[feature] : "";
+          }
         }
       }
-    }
 
-    arrayToSet(result);
-  } catch (error) {
-    console.error("Error:", error);
-    logout("apiError");
-  }
+      arrayToSet(result);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
   };
 
   const [recModalIsOpen, setRecModalIsOpen] = useState(false);
@@ -1693,8 +1694,6 @@ function Compare() {
     }
   }
 
-
-
   const colors = [
     "#1e90ff",
     "#18d860",
@@ -1712,7 +1711,6 @@ function Compare() {
     "#FF6347",
     "#7B68EE",
   ];
-
 
   const pieData1 = [];
 
@@ -2448,31 +2446,36 @@ function Compare() {
                     <td></td>
                   </tr>
 
-
                   <tr>
-              <td>
-                <div className="compareCardSmall1 pieCard">
-                  <div className="primaryTitle">song release decade distribution</div>
-                {arrays1.decadesAndPcts && arrays1.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            <PieChart width={200} height={200}>
-              <Pie
-                data={pieData1}
-                outerRadius={30}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name }) => name} // Set the label to display the name property
-              >
-                {pieData1.map((entry, index) => (
-                  <Cell key={index} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          )}
-                </div>
-              </td>
-              </tr>
+                    <td>
+                      <div className="compareCardSmall1 pieCard">
+                        <div className="primaryTitle">
+                          song release decade distribution
+                        </div>
+                        {arrays1.decadesAndPcts &&
+                        arrays1.decadesAndPcts[0] === "No data" ? (
+                          <div className="noData">No data</div>
+                        ) : (
+                          <PieChart width={200} height={200}>
+                            <Pie
+                              data={pieData1}
+                              outerRadius={30}
+                              fill="#8884d8"
+                              dataKey="value"
+                              label={({ name }) => name} // Set the label to display the name property
+                            >
+                              {pieData1.map((entry, index) => (
+                                <Cell
+                                  key={index}
+                                  fill={colors[index % colors.length]}
+                                />
+                              ))}
+                            </Pie>
+                          </PieChart>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
 
                   <tr>
                     <td>
@@ -3792,32 +3795,36 @@ function Compare() {
                     <td></td>
                   </tr>
 
-
-
                   <tr>
-              <td>
-                <div className="compareCardSmall1 pieCard">
-                  <div className="primaryTitle">song release decade distribution</div>
-                {arrays2.decadesAndPcts && arrays2.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            <PieChart width={200} height={200}>
-              <Pie
-                data={pieData2}
-                outerRadius={30}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name }) => name} // Set the label to display the name property
-              >
-                {pieData2.map((entry, index) => (
-                  <Cell key={index} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          )}
-                </div>
-              </td>
-              </tr>
+                    <td>
+                      <div className="compareCardSmall1 pieCard">
+                        <div className="primaryTitle">
+                          song release decade distribution
+                        </div>
+                        {arrays2.decadesAndPcts &&
+                        arrays2.decadesAndPcts[0] === "No data" ? (
+                          <div className="noData">No data</div>
+                        ) : (
+                          <PieChart width={200} height={200}>
+                            <Pie
+                              data={pieData2}
+                              outerRadius={30}
+                              fill="#8884d8"
+                              dataKey="value"
+                              label={({ name }) => name} // Set the label to display the name property
+                            >
+                              {pieData2.map((entry, index) => (
+                                <Cell
+                                  key={index}
+                                  fill={colors[index % colors.length]}
+                                />
+                              ))}
+                            </Pie>
+                          </PieChart>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
 
                   <tr>
                     <td>
@@ -5176,49 +5183,59 @@ function Compare() {
             <tr>
               <td>
                 <div className="compareCardSmall1 pieCard">
-                  <div className="primaryTitle">song release decade distribution</div>
-                {arrays1.decadesAndPcts && arrays1.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            <PieChart width={200} height={200}>
-              <Pie
-                data={pieData1}
-                outerRadius={30}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name }) => name} // Set the label to display the name property
-              >
-                {pieData1.map((entry, index) => (
-                  <Cell key={index} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          )}
+                  <div className="primaryTitle">
+                    song release decade distribution
+                  </div>
+                  {arrays1.decadesAndPcts &&
+                  arrays1.decadesAndPcts[0] === "No data" ? (
+                    <div className="noData">No data</div>
+                  ) : (
+                    <PieChart width={200} height={200}>
+                      <Pie
+                        data={pieData1}
+                        outerRadius={30}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name }) => name} // Set the label to display the name property
+                      >
+                        {pieData1.map((entry, index) => (
+                          <Cell
+                            key={index}
+                            fill={colors[index % colors.length]}
+                          />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  )}
                 </div>
               </td>
-              <td>
-               
-              </td>
+              <td></td>
               <td>
                 <div className="compareCardSmall3 pieCard">
-                  <div className="primaryTitle">song release decade distribution</div>
-                  {arrays2.decadesAndPcts && arrays2.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            <PieChart width={200} height={200}>
-              <Pie
-                data={pieData2}
-                outerRadius={30}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name }) => name} // Set the label to display the name property
-              >
-                {pieData2.map((entry, index) => (
-                  <Cell key={index} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          )}
+                  <div className="primaryTitle">
+                    song release decade distribution
+                  </div>
+                  {arrays2.decadesAndPcts &&
+                  arrays2.decadesAndPcts[0] === "No data" ? (
+                    <div className="noData">No data</div>
+                  ) : (
+                    <PieChart width={200} height={200}>
+                      <Pie
+                        data={pieData2}
+                        outerRadius={30}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name }) => name} // Set the label to display the name property
+                      >
+                        {pieData2.map((entry, index) => (
+                          <Cell
+                            key={index}
+                            fill={colors[index % colors.length]}
+                          />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  )}
                 </div>
               </td>
             </tr>
@@ -6229,108 +6246,126 @@ function Compare() {
           display_name={nameIdImgurlGenerationdate1[0]}
           selectedTimeRange={selectedTimeRangeClean}
           user_id={nameIdImgurlGenerationdate1[1]}
-
-          blendArtistIds={overlappingData.artistIds.length <= 5
-            ? [...overlappingData.artistIds]
-            : [...overlappingData.artistIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
-          blendGenres={overlappingData.topGenresByArtist.length <= 5
-            ? [...overlappingData.topGenresByArtist]
-            : [...overlappingData.topGenresByArtist].sort(() => 0.5 - Math.random()).slice(0, 1)}
-          blendTrackIds={overlappingData.songIds.length <= 5
-            ? [...overlappingData.songIds]
-            : [...overlappingData.songIds].sort(() => 0.5 - Math.random()).slice(0, 2)}
-            target_acousticness = {
-              (parseFloat(arrays1.audioFeatureMeans[0]) + parseFloat(arrays2.audioFeatureMeans[0])) / 2
+          blendArtistIds={
+            overlappingData.artistIds.length <= 5
+              ? [...overlappingData.artistIds]
+              : [...overlappingData.artistIds]
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 2)
           }
-          target_danceability = {
-              (parseFloat(arrays1.audioFeatureMeans[1]) + parseFloat(arrays2.audioFeatureMeans[1])) / 2
+          blendGenres={
+            overlappingData.topGenresByArtist.length <= 5
+              ? [...overlappingData.topGenresByArtist]
+              : [...overlappingData.topGenresByArtist]
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 1)
           }
-          target_duration_ms = {
-              (
-                  (parseInt(arrays1.audioFeatureMeans[2].split(':')[0]) * 60000 +
-                      parseInt(arrays1.audioFeatureMeans[2].split(':')[1]) * 1000) +
-                  (parseInt(arrays2.audioFeatureMeans[2].split(':')[0]) * 60000 +
-                      parseInt(arrays2.audioFeatureMeans[2].split(':')[1]) * 1000)
-              ) / 2
+          blendTrackIds={
+            overlappingData.songIds.length <= 5
+              ? [...overlappingData.songIds]
+              : [...overlappingData.songIds]
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 2)
           }
-          target_energy = {
-              (parseFloat(arrays1.audioFeatureMeans[3]) + parseFloat(arrays2.audioFeatureMeans[3])) / 2
+          target_acousticness={
+            (parseFloat(arrays1.audioFeatureMeans[0]) +
+              parseFloat(arrays2.audioFeatureMeans[0])) /
+            2
           }
-          target_instrumentalness = {
-              (parseFloat(arrays1.audioFeatureMeans[4]) + parseFloat(arrays2.audioFeatureMeans[4])) / 2
+          target_danceability={
+            (parseFloat(arrays1.audioFeatureMeans[1]) +
+              parseFloat(arrays2.audioFeatureMeans[1])) /
+            2
           }
-          target_liveness = {
-              (parseFloat(arrays1.audioFeatureMeans[5]) + parseFloat(arrays2.audioFeatureMeans[5])) / 2
+          target_duration_ms={
+            (parseInt(arrays1.audioFeatureMeans[2].split(":")[0]) * 60000 +
+              parseInt(arrays1.audioFeatureMeans[2].split(":")[1]) * 1000 +
+              (parseInt(arrays2.audioFeatureMeans[2].split(":")[0]) * 60000 +
+                parseInt(arrays2.audioFeatureMeans[2].split(":")[1]) * 1000)) /
+            2
           }
-          target_loudness = {
-              (parseFloat(arrays1.audioFeatureMeans[6]) + parseFloat(arrays2.audioFeatureMeans[6])) / 2
+          target_energy={
+            (parseFloat(arrays1.audioFeatureMeans[3]) +
+              parseFloat(arrays2.audioFeatureMeans[3])) /
+            2
           }
-          target_popularity = {
-              [((parseFloat(arrays1.avgSongPop) + parseFloat(arrays2.avgSongPop)) / 2)]
+          target_instrumentalness={
+            (parseFloat(arrays1.audioFeatureMeans[4]) +
+              parseFloat(arrays2.audioFeatureMeans[4])) /
+            2
           }
-          target_speechiness = {
-              (parseFloat(arrays1.audioFeatureMeans[7]) + parseFloat(arrays2.audioFeatureMeans[7])) / 2
+          target_liveness={
+            (parseFloat(arrays1.audioFeatureMeans[5]) +
+              parseFloat(arrays2.audioFeatureMeans[5])) /
+            2
           }
-          target_tempo = {
-              (parseFloat(arrays1.audioFeatureMeans[8]) + parseFloat(arrays2.audioFeatureMeans[8])) / 2
+          target_loudness={
+            (parseFloat(arrays1.audioFeatureMeans[6]) +
+              parseFloat(arrays2.audioFeatureMeans[6])) /
+            2
           }
-          target_valence = {
-              (parseFloat(arrays1.audioFeatureMeans[9]) + parseFloat(arrays2.audioFeatureMeans[9])) / 2
+          target_popularity={[
+            (parseFloat(arrays1.avgSongPop) + parseFloat(arrays2.avgSongPop)) /
+              2,
+          ]}
+          target_speechiness={
+            (parseFloat(arrays1.audioFeatureMeans[7]) +
+              parseFloat(arrays2.audioFeatureMeans[7])) /
+            2
           }
-
+          target_tempo={
+            (parseFloat(arrays1.audioFeatureMeans[8]) +
+              parseFloat(arrays2.audioFeatureMeans[8])) /
+            2
+          }
+          target_valence={
+            (parseFloat(arrays1.audioFeatureMeans[9]) +
+              parseFloat(arrays2.audioFeatureMeans[9])) /
+            2
+          }
           user1AllTopSongs={arrays1.songIds}
           user1AllTopArtists={arrays1.artistIds}
           user1AllTopGenres={arrays1.topGenresByArtist}
-
           user2AllTopSongs={arrays2.songIds}
           user2AllTopArtists={arrays2.artistIds}
           user2AllTopGenres={arrays2.topGenresByArtist}
-
-
-          onlyUser1TopSongs={user1TopSongs.map(song => song.id)}
-          onlyUser1TopArtists={user1TopArtists.map(artist => artist.id)}
-          onlyUser1TopGenres={arrays1.topGenresByArtist.filter((item) => !overlappingData.topGenresByArtist.includes(item))}
-
-
-
-          onlyUser2TopSongs={user2TopSongs.map(song => song.id)}
-          onlyUser2TopArtists={user2TopArtists.map(artist => artist.id)}
+          onlyUser1TopSongs={user1TopSongs.map((song) => song.id)}
+          onlyUser1TopArtists={user1TopArtists.map((artist) => artist.id)}
+          onlyUser1TopGenres={arrays1.topGenresByArtist.filter(
+            (item) => !overlappingData.topGenresByArtist.includes(item)
+          )}
+          onlyUser2TopSongs={user2TopSongs.map((song) => song.id)}
+          onlyUser2TopArtists={user2TopArtists.map((artist) => artist.id)}
           onlyUser2TopGenres={arrays2.topGenresByArtist.filter(
-            (item) =>
-              !overlappingData.topGenresByArtist.includes(item)
+            (item) => !overlappingData.topGenresByArtist.includes(item)
           )}
 
-
-    //       songIds: [],
-    // mostLeastPopSongIds: [],
-    // decadesAndPcts: [],
-    // oldestNewestSongIds: [],
-    // avgSongPop: [],
-    // songPopStdDev: [],
-    // avgSongAgeYrMo: [],
-    // songAgeStdDevYrMo: [],
-    // pctSongsExpl: [],
-    // audioFeatureMeans: [],
-    // audioFeatureStdDevs: [],
-    // highestAudioFeatureSongIds: [],
-    // lowestAudioFeatureSongIds: [],
-    // albumIds: [],
-    // mostLeastPopAlbumIds: [],
-    // avgAlbumPop: [],
-    // albumPopsStdDev: [],
-    // topLabelsByAlbums: [],
-    // artistIds: [],
-    // mostLeastPopArtistIds: [],
-    // avgArtistPop: [],
-    // artistPopStdDev: [],
-    // avgArtistFolls: [],
-    // artistFollsStdDev: [],
-    // topGenresByArtist: [],
-          
-      
-      />
-
-       
+          //       songIds: [],
+          // mostLeastPopSongIds: [],
+          // decadesAndPcts: [],
+          // oldestNewestSongIds: [],
+          // avgSongPop: [],
+          // songPopStdDev: [],
+          // avgSongAgeYrMo: [],
+          // songAgeStdDevYrMo: [],
+          // pctSongsExpl: [],
+          // audioFeatureMeans: [],
+          // audioFeatureStdDevs: [],
+          // highestAudioFeatureSongIds: [],
+          // lowestAudioFeatureSongIds: [],
+          // albumIds: [],
+          // mostLeastPopAlbumIds: [],
+          // avgAlbumPop: [],
+          // albumPopsStdDev: [],
+          // topLabelsByAlbums: [],
+          // artistIds: [],
+          // mostLeastPopArtistIds: [],
+          // avgArtistPop: [],
+          // artistPopStdDev: [],
+          // avgArtistFolls: [],
+          // artistFollsStdDev: [],
+          // topGenresByArtist: [],
+        />
       </Modal>
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
