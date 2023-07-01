@@ -70,6 +70,7 @@ const HelpModalContent = () => {
                 src={sideArrowRight}
                 style={{ width: "10px" }}
                 alt="Expand section button"
+                onClick={toggleHowToUse}
               ></img>
             </span>
           </h3>
@@ -126,6 +127,7 @@ const HelpModalContent = () => {
                 src={sideArrowRight}
                 style={{ width: "10px" }}
                 alt="Expand section button"
+                onClick={toggleTroubleshooting}
               ></img>
             </span>
           </h5>
@@ -217,7 +219,7 @@ const HelpModalContent = () => {
             onClick={toggleHowItWorks}
             title="Collapse section"
           >
-            How it works and more information{" "}
+            How it works + more info{" "}
             <span>
               <img
                 src={downBtn}
@@ -232,12 +234,13 @@ const HelpModalContent = () => {
             onClick={toggleHowItWorks}
             title="Expand section"
           >
-            How it works{" "}
+            How it works + more info{" "}
             <span>
               <img
                 src={sideArrowRight}
                 style={{ width: "10px" }}
                 alt="Expand section button"
+                onClick={toggleHowItWorks}
               ></img>
             </span>
           </h5>
@@ -366,6 +369,7 @@ const HelpModalContent = () => {
                 src={downBtn}
                 style={{ height: "10px" }}
                 alt="Collapse section button"
+                onClick={togglePrivacy}
               ></img>
             </span>
           </h5>
@@ -375,12 +379,13 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Expand section"
           >
-            Privacy, Data, and other Policy Information{" "}
+            Privacy, Data, and Policy Information{" "}
             <span>
               <img
                 src={sideArrowRight}
                 style={{ width: "10px" }}
                 alt="Expand section button"
+                onClick={togglePrivacy}
               ></img>
             </span>
           </h5>

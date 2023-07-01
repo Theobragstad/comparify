@@ -1451,7 +1451,7 @@ img:active {
   /* padding-top: 3px; */
   border-radius: 10px;
   cursor: pointer;
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
   border-radius: 15px;
   width: fit-content;
   padding: 5px 10px;
