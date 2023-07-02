@@ -21,6 +21,8 @@ import DataPageRecommendations from "./DataPageRecommendations";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
+  document.title = "comparify - Your data";
+
   Modal.setAppElement("#root");
   window.scrollTo(0, 0);
 

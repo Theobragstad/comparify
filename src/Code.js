@@ -9,7 +9,12 @@ import "./App.css";
 import back from "./img/back.png";
 import defaultProfile from "./img/defaultProfile.jpeg";
 
+
 function Code() {
+
+  // const pageTitle = `${"hello"}`;
+  document.title = "comparify - Get your code";
+
   const location = useLocation();
   const navigate = useNavigate();
 

@@ -429,9 +429,8 @@ const HelpModalContent = () => {
                 to gather data and handle user login.
               </li>
               <li>
-                No user data is used by this website for any other purposes than
-                shown, and no sensitive personal data such as email addresses or
-                passwords are shared.
+                No user data is used by this app for any other purposes than
+                shown, and no sensitive personal data visible to the app.
               </li>
               <li>
                 The only user data that is stored are temporary cookies which
@@ -443,11 +442,7 @@ const HelpModalContent = () => {
                   any time. They are not saved on a server.
                 </b>
               </li>
-              <li>
-                By choosing to log in to Spotify via comparify and using the
-                app, you consent to analysis of the outlined music streaming
-                data highlighted in the Spotify login permissions statement.
-              </li>
+            
             
               <li>
                 You can revoke comparify's access to your Spotify account at any
@@ -503,7 +498,7 @@ const HelpModalContent = () => {
               <li>
                 Use of the OpenAI API is voluntary. If you do not wish to use
                 it, simply do not press the button (indicated by the ChatGPT
-                logo) and no data will be sent.
+                logo).
               </li>
               <br></br>
               <li>
