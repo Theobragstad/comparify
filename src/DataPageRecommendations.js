@@ -75,10 +75,15 @@ const DataPageRecommendations = (props) => {
       artists: track.artists.map((artist) => artist.name),
       img: track.album.images[0]?.url,
       uri: track.uri,
+      mp3: track.preview_url,
+      id: track.id
     }));
 
+
     arrayToSet(
-      recommendations.filter((item) => !props.allTopSongIds.includes(item))
+      // recommendations.filter((item) => !props.allTopSongIds.includes(item))
+      // recommendations.filter(item => !props.allTopSongIds.some(id => id === item.id))
+      recommendations.filter(item => !props.allTopSongIds.includes(item.id))
     );
     // console.log(recommendations)
     // console.log(recommendations.filter(item => !props.allTopSongIds.includes(item)))
@@ -254,6 +259,7 @@ const DataPageRecommendations = (props) => {
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url,
           uri: track.uri,
+          mp3: track.preview_url,
         }));
 
         setExploratoryHighRecommendationSongs(
@@ -353,6 +359,7 @@ const DataPageRecommendations = (props) => {
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url,
           uri: track.uri,
+          mp3: track.preview_url,
         }));
 
         setExploratoryLowRecommendationSongs(
@@ -546,6 +553,93 @@ const DataPageRecommendations = (props) => {
   const [loadingExploratoryPlaylist, setLoadingExploratoryPlaylist] =
     useState(true);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const [isPlaying, setIsPlaying] = useState({});
+
+
+
+  const togglePlayback = (id) => {
+    const thisElement = document.getElementById(id);
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = { ...isPlaying };
+  
+    audioElements.forEach((audioElement, i) => {
+      if (audioElement !== thisElement) {
+        audioElement.pause();
+        updatedIsPlaying[audioElement.id] = false;
+      } else {
+        if (audioElement.paused) {
+          audioElements.forEach((el, j) => {
+            if (el !== thisElement) {
+              el.pause();
+              updatedIsPlaying[el.id] = false;
+            }
+          });
+  
+          updatedIsPlaying[id] = true;
+          audioElement.play().catch((error) => {
+            console.log(error);
+          });
+        } else {
+          audioElement.pause();
+          updatedIsPlaying[id] = false;
+        }
+      }
+    });
+  
+    setIsPlaying(updatedIsPlaying);
+  };
+  
+
+  const resetAllAudio = () => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
+
+    audioElements.forEach((audioElement, i) => {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      updatedIsPlaying[i] = false;
+    });
+
+    setIsPlaying(updatedIsPlaying);
+  };
+
+  useEffect(() => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
+
+    const handleAudioEnded = (index) => {
+      updatedIsPlaying[index] = false;
+      setIsPlaying(updatedIsPlaying);
+    };
+
+    audioElements.forEach((audioElement, i) => {
+      audioElement.addEventListener("ended", () => handleAudioEnded(i));
+    });
+
+    return () => {
+      audioElements.forEach((audioElement, i) => {
+        audioElement.removeEventListener("ended", () => handleAudioEnded(i));
+      });
+    };
+  }, [isPlaying]);
+
   return (
     <div>
       <div
@@ -639,7 +733,21 @@ const DataPageRecommendations = (props) => {
             ) : (
               safeRecommendationSongs.map((song, index) => (
                 <div key={index} className="item">
-                  <img src={song.img} className="primaryImage" />
+                   <div
+                              class={`primaryImage`}
+                              onClick={() => togglePlayback(`safe-suggested-audio-${index}`)}
+                              >
+                              <audio id={`safe-suggested-audio-${index}`}  src={song?.mp3}></audio>
+
+                              <img src={song?.img} className="primaryImage" />
+
+                              {song?.mp3 && (
+                              <div
+                              className={isPlaying[`safe-suggested-audio-${index}`] ? "paused" : "playing"}
+                              ></div>
+                              )}
+                              </div>
+                  {/* <img src={song.img} className="primaryImage" /> */}
                   <div className="primaryText">
                     <span className="primaryName">{song.name}</span>
                     <span className="primaryArtists">
@@ -745,7 +853,24 @@ const DataPageRecommendations = (props) => {
                 .concat(exploratoryLowRecommendationSongs)
                 .map((song, index) => (
                   <div key={index} className="item">
-                    <img src={song.img} className="primaryImage" />
+
+                              <div
+                              class={`primaryImage`}
+                              onClick={() => togglePlayback(`expl-suggested-audio-${index}`)}
+                              >
+                              <audio id={`expl-suggested-audio-${index}`}  src={song?.mp3}></audio>
+
+                              <img src={song?.img} className="primaryImage" />
+
+                              {song?.mp3 && (
+                              <div
+                              className={isPlaying[`expl-suggested-audio-${index}`] ? "paused" : "playing"}
+                              ></div>
+                              )}
+                              </div>
+
+
+                    {/* <img src={song.img} className="primaryImage" /> */}
                     <div className="primaryText">
                       <span className="primaryName">{song.name}</span>
                       <span className="primaryArtists">

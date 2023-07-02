@@ -22,6 +22,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
   Modal.setAppElement("#root");
+  window.scrollTo(0, 0);
 
   const configuration = new Configuration({
     organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
@@ -37,6 +38,7 @@ function Data() {
 
   const handleGptSumbit = async () => {
     setGptLoading(true);
+    setApiResponse("");
     let gptPrompt = gatherGptPromptData();
 
     if (!gptPrompt) {
@@ -49,8 +51,8 @@ function Data() {
       const result = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: gptPrompt,
-        temperature: 0.5,
-        max_tokens: 200,
+        temperature: 1.2,
+        max_tokens: 250,
       });
       console.log("response", result.data.choices[0].text);
       setApiResponse(result.data.choices[0].text);
@@ -63,21 +65,25 @@ function Data() {
     }
     setGptLoading(false);
   };
-
   function handleConvertToImage() {
-    const div = document.getElementById("imgDiv");
-    if (div) {
-      html2canvas(div, {}).then((canvas) => {
-        const image = canvas.toDataURL("image/png");
+    setSaveGptClicked(true);
 
-        var fileName =
-          "ChatGPT music analysis for " +
-          nameIdImgurlGenerationdate[0] +
-          ".png";
-        downloadPNG(image, fileName);
-      });
-    }
+    setTimeout(() => {
+      const div = document.getElementById("imgDiv");
+      if (div) {
+        html2canvas(div, {}).then((canvas) => {
+          const image = canvas.toDataURL("image/png");
+  
+          var fileName =
+            `comparify x ChatGPT for ` +
+            nameIdImgurlGenerationdate[0] +
+            ".png";
+          downloadPNG(image, fileName);
+        });
+      }
+    }, 0); 
   }
+  
 
   function downloadPNG(url, filename) {
     var anchorElement = document.createElement("a");
@@ -85,6 +91,8 @@ function Data() {
     anchorElement.download = filename;
 
     anchorElement.click();
+    setSaveGptClicked(false);
+
   }
 
   const [isOpen, setIsOpen] = useState(false);
@@ -109,13 +117,15 @@ function Data() {
     content: {
       zIndex: 9999,
       width: "30%",
-      height: "fit-content",
+      height: "80%",
       margin: "auto",
       borderRadius: "10px",
       outline: "none",
-      padding: "20px",
+      padding:'0px 0px 10px 0px',
+      border:'none',
 
-      maxHeight: "90vh",
+
+      // maxHeight: "75%",
       overflowY: "scroll",
       backgroundColor: "rgba(255, 255, 255, 1)",
     },
@@ -328,6 +338,8 @@ function Data() {
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
         }));
 
         setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
@@ -356,6 +368,8 @@ function Data() {
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
         }));
 
         setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
@@ -385,6 +399,8 @@ function Data() {
           pop: track.popularity,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
         }));
 
         setMostLeastPopSongs(mostLeastPopSongsData);
@@ -414,6 +430,8 @@ function Data() {
           date: track.album.release_date,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
         }));
 
         setOldestNewestSongs(oldestNewestSongsData);
@@ -595,8 +613,16 @@ function Data() {
     lowAudioFeatureAvgs,
     lowAudioFeatureStdDevs
   ) {
+
+
+    const yearWithHighestPercent = arrays.decadesAndPcts.reduce((maxYear, currentValue, currentIndex) => (
+      currentIndex % 2 === 1 && parseFloat(currentValue) > parseFloat(arrays.decadesAndPcts[currentIndex - 2])
+        ? arrays.decadesAndPcts[currentIndex - 1]
+        : maxYear
+    ));
+
     return (
-      "Youll be given some information about a persons music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: limit your poem to at most 70 words. The data is: Their top song is " +
+      "You'll be given some information about a person's music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person POV. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: LIMIT YOUR POEM TO 70 WORDS MAXIMUM. DO NOT PRODUCE MORE THAN 70 WORDS IN YOUR RESPONSE. The data is: Their top song is " +
       topSong.toString() +
       " by " +
       topSongArtist.toString() +
@@ -608,7 +634,7 @@ function Data() {
       topAlbumArtist.toString() +
       ". Their top genre is " +
       topGenre.toString() +
-      ". Theyve listened to music from both " +
+      ". They've listened to music from both " +
       oldestSongYear.toString() +
       " and " +
       newestSongYear.toString() +
@@ -634,7 +660,11 @@ function Data() {
       lowAudioFeatureAvgs[0].toString() +
       " and " +
       lowAudioFeatureAvgs[1].toString() +
-      "."
+      ". They've listened to music from "  +
+      (arrays.decadesAndPcts.length / 2).toString() +
+      " different decades, but they liked songs from the " +
+      (yearWithHighestPercent).toString() +
+      "'s the most."
     );
   }
 
@@ -727,6 +757,10 @@ function Data() {
 
     return prompt;
   }
+
+
+  const [saveGptClicked, setSaveGptClicked] = useState(false);
+
 
   useEffect(() => {
     resetAllAudio();
@@ -966,89 +1000,44 @@ function Data() {
     "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
   ];
 
+
   // const [isPlaying, setIsPlaying] = useState([]);
+  const [isPlaying, setIsPlaying] = useState({});
 
-  // const togglePlayback = (index) => {
-  //   const audioElements = document.querySelectorAll('audio');
-  //   const updatedIsPlaying = Array.from(isPlaying);
 
-  //   audioElements.forEach((audioElement, i) => {
-  //     if (i !== index) {
-  //       audioElement.pause();
-  //       updatedIsPlaying[i] = false;
-  //     } else {
-  //       if (audioElement.paused) {
-  //         audioElement.play();
-  //         updatedIsPlaying[i] = true;
-  //       } else {
-  //         audioElement.pause();
-  //         updatedIsPlaying[i] = false;
-  //       }
-  //     }
-  //   });
 
-  //   setIsPlaying(updatedIsPlaying);
-  // };
-
-  const [isPlaying, setIsPlaying] = useState([]);
-
-  // const togglePlayback = (index) => {
-  //   const audioElements = document.querySelectorAll('audio');
-  //   const updatedIsPlaying = Array.from(isPlaying);
-
-  //   audioElements.forEach((audioElement, i) => {
-
-  //     if (i !== index) {
-  //       audioElement.pause();
-  //       updatedIsPlaying[i] = false;
-  //     } else {
-  //       if (audioElement.paused) {
-  //         audioElement.play();
-  //         updatedIsPlaying[i] = true;
-  //       } else {
-  //         audioElement.pause();
-  //         updatedIsPlaying[i] = false;
-  //       }
-  //     }
-
-  //   });
-
-  //   setIsPlaying(updatedIsPlaying);
-  // };
-
-  const togglePlayback = (index) => {
+  const togglePlayback = (id) => {
+    const thisElement = document.getElementById(id);
     const audioElements = document.querySelectorAll("audio");
-    const updatedIsPlaying = Array.from(isPlaying);
-
+    const updatedIsPlaying = { ...isPlaying };
+  
     audioElements.forEach((audioElement, i) => {
-      if (i !== index) {
+      if (audioElement !== thisElement) {
         audioElement.pause();
-        updatedIsPlaying[i] = false;
+        updatedIsPlaying[audioElement.id] = false;
       } else {
         if (audioElement.paused) {
-          // Pause all other audio elements before playing
           audioElements.forEach((el, j) => {
-            if (j !== index) {
+            if (el !== thisElement) {
               el.pause();
-              updatedIsPlaying[j] = false;
+              updatedIsPlaying[el.id] = false;
             }
           });
-
-          // Play the selected audio element
-          updatedIsPlaying[i] = true;
+  
+          updatedIsPlaying[id] = true;
           audioElement.play().catch((error) => {
             console.log(error);
           });
         } else {
-          // Pause the selected audio element
           audioElement.pause();
-          updatedIsPlaying[i] = false;
+          updatedIsPlaying[id] = false;
         }
       }
     });
-
+  
     setIsPlaying(updatedIsPlaying);
   };
+  
 
   const resetAllAudio = () => {
     const audioElements = document.querySelectorAll("audio");
@@ -1082,6 +1071,11 @@ function Data() {
       });
     };
   }, [isPlaying]);
+
+
+
+
+
 
   return (
     <div className="dataPage">
@@ -1129,8 +1123,8 @@ function Data() {
           <span>
             &emsp;
             <button
-              data-tooltip-id="dataPageTooltip1"
-              data-tooltip-content="ChatGPT Plugin"
+              data-tooltip-id="gptTooltip"
+              
               onClick={openModal}
               className="gptBtn"
             >
@@ -1207,7 +1201,7 @@ function Data() {
               <div key={index} className="item">
                 <div
                   class={`primaryImage`}
-                  onClick={() => togglePlayback(index)}
+                  onClick={() => togglePlayback(`audio-element${index}`)}
                 >
                   <audio id={`audio-element${index}`} src={song?.mp3}></audio>
 
@@ -1215,7 +1209,7 @@ function Data() {
 
                   {song?.mp3 && (
                     <div
-                      className={isPlaying[index] ? "paused" : "playing"}
+                      className={isPlaying[`audio-element${index}`] ? "paused" : "playing"}
                     ></div>
                   )}
                 </div>
@@ -1368,10 +1362,33 @@ function Data() {
           {mostLeastPopSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
+
+
+            
+
+
+            
+
             mostLeastPopSongs &&
             mostLeastPopSongs[0] && (
               <div className="item">
-                <img src={mostLeastPopSongs[0]?.img} className="primaryImage" />
+
+                 <div
+                  class={`primaryImage`}
+                  onClick={() => togglePlayback("additional-audio-1")}
+                >
+                  <audio id="additional-audio-1"  src={mostLeastPopSongs[0]?.mp3}></audio>
+
+                  <img src={mostLeastPopSongs[0]?.img} className="primaryImage" />
+
+                  {mostLeastPopSongs[0]?.mp3 && (
+                    <div
+                      className={isPlaying["additional-audio-1"] ? "paused" : "playing"}
+                    ></div>
+                  )}
+                </div>
+
+              
                 <div className="primaryText">
                   <span className="primaryName">
                     {mostLeastPopSongs[0]?.name}
@@ -1400,7 +1417,26 @@ function Data() {
             mostLeastPopSongs &&
             mostLeastPopSongs[1] && (
               <div className="item">
-                <img src={mostLeastPopSongs[1]?.img} className="primaryImage" />
+
+                <div
+                  class={`primaryImage`}
+                  onClick={() => togglePlayback("additional-audio-2")}
+                >
+                  <audio id="additional-audio-2"  src={mostLeastPopSongs[1]?.mp3}></audio>
+
+                  <img src={mostLeastPopSongs[1]?.img} className="primaryImage" />
+
+                  {mostLeastPopSongs[1]?.mp3 && (
+                    <div
+                      className={isPlaying["additional-audio-2"] ? "paused" : "playing"}
+                    ></div>
+                  )}
+                </div>
+
+
+
+
+                {/* <img src={mostLeastPopSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
                   <span className="primaryName">
                     {mostLeastPopSongs[1]?.name}
@@ -1429,7 +1465,25 @@ function Data() {
             oldestNewestSongs &&
             oldestNewestSongs[0] && (
               <div className="item">
-                <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
+
+
+<div
+                  class={`primaryImage`}
+                  onClick={() => togglePlayback("additional-audio-3")}
+                >
+                  <audio id="additional-audio-3"  src={oldestNewestSongs[0]?.mp3}></audio>
+
+                  <img src={oldestNewestSongs[0]?.img} className="primaryImage" />
+
+                  {oldestNewestSongs[0]?.mp3 && (
+                    <div
+                      className={isPlaying["additional-audio-3"] ? "paused" : "playing"}
+                    ></div>
+                  )}
+                </div>
+
+
+                {/* <img src={oldestNewestSongs[0]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
                   <span className="primaryName">
                     {oldestNewestSongs[0]?.name}
@@ -1454,7 +1508,23 @@ function Data() {
             oldestNewestSongs &&
             oldestNewestSongs[1] && (
               <div className="item">
-                <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
+
+<div
+                  class={`primaryImage`}
+                  onClick={() => togglePlayback("additional-audio-4")}
+                >
+                  <audio id="additional-audio-4"  src={oldestNewestSongs[1]?.mp3}></audio>
+
+                  <img src={oldestNewestSongs[1]?.img} className="primaryImage" />
+
+                  {oldestNewestSongs[1]?.mp3 && (
+                    <div
+                      className={isPlaying["additional-audio-4"] ? "paused" : "playing"}
+                    ></div>
+                  )}
+                </div>
+                
+                {/* <img src={oldestNewestSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
                   <span className="primaryName">
                     {oldestNewestSongs[1]?.name}
@@ -1907,11 +1977,35 @@ function Data() {
                     )}
                     {highestSong && highestSong != "-" && (
                       <div className="cellOutline">
-                        <img
+
+
+
+
+                              <div
+                              class={`primaryImage`}
+                              onClick={() => togglePlayback(`highest-audio-${index}`)}
+                              >
+                              <audio id={`highest-audio-${index}`}  src={highestSong?.mp3}></audio>
+
+                              <img src={highestSong?.img} className="primaryImage" />
+
+                              {highestSong?.mp3 && (
+                              <div
+                              className={isPlaying[`highest-audio-${index}`] ? "paused" : "playing"}
+                              ></div>
+                              )}
+                              </div>
+
+
+
+
+
+
+                        {/* <img
                           className="primaryImage"
                           src={highestSong?.img}
                           alt={""}
-                        />
+                        /> */}
                         <p className="primaryName"> {highestSong?.name}</p>
                         &emsp;
                         <p className="primaryArtists">
@@ -1935,11 +2029,30 @@ function Data() {
                     )}
                     {lowestSong && lowestSong != "-" && (
                       <div className="cellOutline">
-                        <img
+
+
+
+<div
+                              class={`primaryImage`}
+                              onClick={() => togglePlayback(`lowest-audio-${index}`)}
+                              >
+                              <audio id={`lowest-audio-${index}`}  src={lowestSong?.mp3}></audio>
+
+                              <img src={lowestSong?.img} className="primaryImage" />
+
+                              {lowestSong?.mp3 && (
+                              <div
+                              className={isPlaying[`lowest-audio-${index}`] ? "paused" : "playing"}
+                              ></div>
+                              )}
+                              </div>
+
+
+                        {/* <img
                           className="primaryImage"
                           src={lowestSong.img}
                           alt={lowestSong?.name}
-                        />
+                        /> */}
                         <p className="primaryName">{lowestSong?.name}</p>&emsp;
                         <p className="primaryArtists">
                           {lowestSong.artists?.join(", ")}
@@ -1962,6 +2075,12 @@ function Data() {
 
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
         <Tooltip id="dataPageTooltip1" className="tooltip3" />
+        <Tooltip id="gptTooltip" className="tooltip3">
+
+        <span className="gradient">comparify</span>
+          {" "}&#10799;{" "}<span style={{color:"#75ac9d"}}>ChatGPT</span>
+
+        </Tooltip>
       </div>
 
       <Modal
@@ -1973,11 +2092,11 @@ function Data() {
       >
         <div id="imgDiv" style={{ padding: "20px" }}>
           <h2 className="gptModalTitle">
-            <img
-              src={gptBtn}
-              style={{ width: "40px", marginRight: "10px" }}
-            ></img>
-            ChatGPT music analysis for{" "}
+            
+            {saveGptClicked ? (<span style={{fontWeight:'bold'}}>comparify</span>) : (<span className="gradient">comparify</span>)
+
+            }
+             {" "}&#10799;{" "}<span style={{color:"#75ac9d"}}>ChatGPT</span><br/><br/>{" "}
             <span style={{ color: "#1e90ff" }}>
               {nameIdImgurlGenerationdate[0]}
             </span>
@@ -1985,20 +2104,29 @@ function Data() {
           <span className="timeRange">{selectedTimeRangeClean}</span>
           <div className="gptHaikusDiv">
             {gptLoading && (
-              <div className="loadingDots">
-                <div className="loadingDots--dot"></div>
-                <div className="loadingDots--dot"></div>
-                <div className="loadingDots--dot"></div>
+              <div className="loadingDotsGPT">
+                <div className="loadingDotsGPT--dot"></div>
+                <div className="loadingDotsGPT--dot"></div>
+                <div className="loadingDotsGPT--dot"></div>
               </div>
             )}
+           
+
             {apiResponse && (
-              <div className="gptContent">
+              <>
+               <div>
+               <img
+      src={gptBtn}
+      style={{ width: "30px", float: "left",display:"block" ,marginBottom:'10px'}}
+    /></div>
+              <div className="gptContent" style={{clear: "both"}}>
                 <div
                   dangerouslySetInnerHTML={{
                     __html: apiResponse.replace(/\//g, "<br></br>"),
                   }}
                 />
               </div>
+              </>
             )}
           </div>
         </div>

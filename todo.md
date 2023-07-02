@@ -1,21 +1,27 @@
 # to-do
 
 - [ ] No inline CSS  
-- [ ] Tooltips
+- [ ] Tooltips, more
 - [ ] Link/button titles  
-- [ ] X button positioning
-- [ ] Modal heights
+- [ ] X button positioning, color on hover
+- [ ] Modal heights, widths, etc
+- [ ] Message sizing
+- [ ] Font sizing
+- [ ] Make sure song not saved yet
 - [ ] Recommendation algorithm
-- [ ] More tooltips
 - [ ] Catch errors  
 - [ ] Text sizing
 - [ ] No songs message.
+- [ ] Error message styling
 - [ ] Button styling
 - [ ] Image sizing
 - [ ] Compile errors/alts
 - [ ] Aligning of buttons
 - [ ] NaN number check
 - [ ] Check wrong formatted codes
+- [ ] Multiple close buttons
+- [ ] Google monitor error login
+- [ ] Image not capturing what we want
 - [ ] GPT prompts  
 - [ ] Rec modals issues
 - [ ] No data issues
@@ -28,12 +34,20 @@
 - [ ] Footer positioning
 - [ ] Console errors, logs  
 - [ ] Set min widths, maxwidths, layout, modal sizing  
-- [ ] Logo link issue click
+- [ ] No data code check
+- [ ] Check with other users!
 - [ ] Logouts
 - [ ] Similarity percent calculation
 - [ ] Image saving sizing, and naming  
 - [ ] Who does the playlist belong to, make collaborative?
 - [ ] Dark mode  
+- [ ] Long names adjust
+- [ ] Logo link issue click
+
+
+
+
+
 
 
 - [ ] Break into smaller components
@@ -47,9 +61,9 @@
 - [ ] Time streamed  
 - [ ] Playlists contents  
 - [ ] Genre, label pie charts, popularity ranges pie charts
-- [ ] Quiz for songs
 - [ ] Sort songs by features
 - [ ] Time of day listen
+- [ ] Compare multiple users (3+)
 - [ ] Top song times played  
 - [ ] Podcasts
 - [ ] Number of streams, mins streamed  
@@ -60,4 +74,5 @@
 - [ ] Most common shared audio feature(s)  
 - [ ] Trends over time  
 - [ ] Spotify top countries analysis
+- [ ] Recently played
 - [ ] Saved albums, tracks, shows, episodes

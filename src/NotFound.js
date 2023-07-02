@@ -9,7 +9,11 @@ const NotFound = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "15vh",
+        margin: "15vh auto",
+        boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+        width: "fit-content",
+        borderRadius: "20px",
+        paddingRight:'10px'
       }}
     >
       <img src={earth} style={{ width: "120px" }} alt="Not found"/>

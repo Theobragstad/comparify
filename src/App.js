@@ -6,6 +6,8 @@ import Code from './Code';
 import Data from './Data';
 import Compare from './Compare';
 import NotFound from './NotFound';
+import Game from './Game';
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path="/code" element={<Code/>}/>
         <Route path="/data" element={<Data/>}/>
         <Route path="/compare" element={<Compare/>}/>
+        <Route path="/play" element={<Game/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>

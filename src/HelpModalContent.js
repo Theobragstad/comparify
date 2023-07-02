@@ -136,13 +136,11 @@ const HelpModalContent = () => {
           <div className="helpModalText">
             <ul>
               <li>
-                comparify is primarily intended for use on a computer rather
-                than a mobile device. The app is still fully functional on
-                mobile, but you will have a more seamless experience on a
+                comparify is primarily intended for use on a computer. You can still use it on mobile, but will have a more seamless experience on a
                 computer.
               </li>
               <li>
-                If a page or button won't load, try clearing your cookies. To
+                The general fix to many issues is to clear your cookies. To
                 get them to appear for deletion in your browser's website
                 settings menu (in Chrome, the button to the left of the URL in
                 the search bar), you may have to go to the{" "}
@@ -249,7 +247,14 @@ const HelpModalContent = () => {
           <div className="helpModalText">
             <ul>
               <li>
-                comparify uses the Spotify API to gather and analyze a large
+                comparify uses the{" "}
+                <a
+                  style={{ textDecoration: "none", color: "#1e90ff" }}
+                  href="https://developer.spotify.com/documentation/web-api"
+                >
+                
+                   Spotify API
+                </a>{" "}to gather and analyze a large
                 amount of Spotify user data about your music preferences from
                 different time periods.
               </li>
@@ -347,11 +352,30 @@ const HelpModalContent = () => {
                 items, or differences for statistics.
               </li>
               <li>
-                You can click a song's image to hear a 30-second audio preview.
+                You can click a song's cover art to hear a 30-second audio preview.
               </li>
               <li>
-                You can also click on a song name/artist/album to open it in
+                You can also click on a song name, artist, or album to open it in
                 Spotify.
+              </li>
+              <li>
+                Recommendations:
+                <ul>
+                  <li>
+                    You can generate 4 types of playlists with comparify: mixes, exploratory mixes, blends, and non-blends.
+                  </li>
+                  <li>
+                    These are each generated using the relevant data from the page you're on. The algorithm does its best to make relevant suggestions, but they may not always be perfectly representative for the type of playlist they're intended for.
+                  </li>
+                  <ul>
+                    <li>
+                      Also, when there is not enough data, the playlist may be empty or limited (for example, if your similarity percent is 100, the non-blend playlist will be empty).
+                    </li>
+                  </ul>
+                  <li>
+                    You can click to add one to your Spotify library as a public playlist, and you can also reopen the modal to get a fresh set of recommendations.
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -363,7 +387,7 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Collapse section"
           >
-            Privacy, Data, and other Policy Information{" "}
+            Privacy + data + policy info{" "}
             <span>
               <img
                 src={downBtn}
@@ -379,7 +403,7 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Expand section"
           >
-            Privacy, Data, and Policy Information{" "}
+            Privacy + data + policy info{" "}
             <span>
               <img
                 src={sideArrowRight}
@@ -394,30 +418,15 @@ const HelpModalContent = () => {
           <div className="helpModalText">
             <ul>
               <li>
-                comparify uses the&ensp;
+                comparify uses the{" "}
                 <a
                   style={{ textDecoration: "none", color: "#1e90ff" }}
                   href="https://developer.spotify.com/documentation/web-api"
                 >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#1ed760",
-                      fontWeight: "400",
-                    }}
-                  >
-                    <img
-                      src={spotify}
-                      style={{
-                        verticalAlign: "text-bottom",
-                        width: "55px",
-                        pointerEvents: "none",
-                      }}
-                      alt="Spotify logo"
-                    ></img>
-                  </span>
+                
+                   Spotify API
                 </a>{" "}
-                API to gather data and handle user login.
+                to gather data and handle user login.
               </li>
               <li>
                 No user data is used by this website for any other purposes than
@@ -439,10 +448,7 @@ const HelpModalContent = () => {
                 app, you consent to analysis of the outlined music streaming
                 data highlighted in the Spotify login permissions statement.
               </li>
-              <li>
-                comparify is a client-side app, meaning no data is sent to the
-                cloud.
-              </li>
+            
               <li>
                 You can revoke comparify's access to your Spotify account at any
                 time through their{" "}
@@ -456,17 +462,18 @@ const HelpModalContent = () => {
               </li>
               <br></br>
               <li>
-                comparify also uses the&ensp;
+                comparify also uses the{" "}
                 <a
                   style={{
                     textDecoration: "none",
-                    color: "black",
-                    fontWeight: "400",
-                    fontSize: "12px",
+                    // color: "black",
+                    // fontWeight: "400",
+                    // fontSize: "12px",
+                    color: "#1e90ff"
                   }}
                   href="https://openai.com/blog/openai-api"
                 >
-                  <span className="openaiText">
+                  {/* <span className="openaiText">
                     <img
                       src={openai}
                       style={{
@@ -477,9 +484,10 @@ const HelpModalContent = () => {
                       className="openaiLogo"
                       alt="OpenAI logo"
                     ></img>
-                  </span>
+                  </span> */}
+                  OpenAI API
                 </a>{" "}
-                API to use ChatGPT.
+                to use ChatGPT.
               </li>
               <li>
                 comparify sends a prompt to ChatGPT containing a brief summary

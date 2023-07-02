@@ -12,6 +12,8 @@ import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import download from "./img/download.png";
 import Footer from "./Footer";
+import Game from "./Game";
+
 import ComparePageRecommendations from "./ComparePageRecommendations";
 
 import html2canvas from "html2canvas";
@@ -19,10 +21,19 @@ import gptBtn from "./img/gptBtn.png";
 
 import Modal from "react-modal";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { useGameModalState } from './GameModalState';
+
 
 const { Configuration, OpenAIApi } = require("openai");
 
+
+
+
+
 function Compare() {
+
+  const gameModalState = useGameModalState();
+
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   useEffect(() => {
     const handleResize = () => {
@@ -706,6 +717,8 @@ function Compare() {
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
         }));
 
         arrayToSet(songsData);
@@ -1584,6 +1597,19 @@ function Compare() {
     }
   };
 
+
+  // const [playModalIsOpen, setPlayModalIsOpen] = useState(false);
+  // const openPlayModal = async () => {
+  //   setPlayModalIsOpen(true);
+  // };
+  // const closePlayModal = () => {
+  //   setPlayModalIsOpen(false);
+  // };
+  
+
+
+
+
   const [recModalIsOpen, setRecModalIsOpen] = useState(false);
   const openRecModal = async () => {
     setRecModalIsOpen(true);
@@ -1651,6 +1677,73 @@ function Compare() {
       maxHeight: "80%",
     },
   };
+
+
+
+
+
+
+
+
+
+
+
+
+  // const playModalStyles = {
+  //   overlay: {
+  //     zIndex: 9999,
+  //     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  //   },
+  //   content: {
+  //     margin: "auto",
+  //     width: '50%',
+  //     height: '60%',
+  //     overflow: "hidden", // Hides the scroll bar
+  //     borderRadius:'20px'
+
+  //   },
+  // };
+  
+  const playModalStyles = {
+    overlay: {
+      zIndex: 9999,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      // outline: '0',
+    },
+    content: {
+      margin: "auto",
+      maxWidth: "600px",
+      outline: '0',
+
+      maxHeight: "500px",
+      width: "90%",
+      height: "90%",
+      overflow: "hidden",
+      borderRadius: "20px",
+      background: "#f8f8ff",
+      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding:'20px'
+    },
+  };
+  const mediaQueryStyles = `@media (max-width: 768px) {
+    .gameModal {
+      width: 90% !important;
+      padding:0px !important;
+    }
+  }`;
+  
+
+
+  // <style>{mediaQueryStyles}</style>
+
+  
+  
 
   Modal.setAppElement("#root");
 
@@ -1728,6 +1821,25 @@ function Compare() {
     pieData2.push({ name: `${decade}s`, value: parseFloat(percentage) });
   }
 
+
+
+
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem("expirationTime");
+    if (!expirationTime) {
+      return true;
+    }
+    return new Date().getTime() > parseInt(expirationTime);
+  };
+
+  const toPlayPage = async () => {
+    if (isTokenExpired()) {
+      logout();
+    } else {
+      
+      navigate("/play", { state: { token: token, sharedSongs: sharedTopSongs, user1Songs: user1TopSongs, user2Songs: user2TopSongs} });
+    }
+  };
   return (
     <div>
       {/* <ScrollButton /> */}
@@ -1861,6 +1973,14 @@ function Compare() {
       >
         <div className="recommendationsBtn" onClick={openRecModal}>
           Get recommendations
+        </div>
+        {/* <div className="recommendationsBtn"  onClick={() => {
+              toPlayPage();
+            }}>
+          Play
+        </div> */}
+         <div className="recommendationsBtn" onClick={gameModalState.openGameModal}>
+          Play
         </div>
       </div>
 
@@ -6173,6 +6293,7 @@ function Compare() {
         style={customStyles}
       >
         <div style={{ textAlign: "center" }}>
+
           <h2 className="">
             <img
               src={gptBtn}
@@ -6222,6 +6343,42 @@ function Compare() {
           )}
         </div>
       </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+      <Modal
+        isOpen={gameModalState.gameModalIsOpen}
+        onRequestClose={gameModalState.closeGameModal}
+        contentLabel="Popup Window"
+        style={playModalStyles}
+        className="gameModal"
+      >
+                <style>{mediaQueryStyles}</style>
+
+       <Game sharedSongs={sharedTopSongs} user1Songs={user1TopSongs} user2Songs={user2TopSongs} closeGameModal={gameModalState.closeGameModal} name1={nameIdImgurlGenerationdate1[0]} name2={nameIdImgurlGenerationdate2[0]}/>
+      </Modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <Modal
         isOpen={recModalIsOpen}

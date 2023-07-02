@@ -1,0 +1,400 @@
+.gameDiv {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8ff;
+  border-radius: 20px;
+  /* width: 40%;
+  height: 60%; */
+  /* width:100%;
+  height:100%; */
+  width: 600px;
+  height: 500px;
+  padding:10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  text-align: center;
+
+}
+
+@media only screen and (max-width: 768px) {
+  .gameDiv {
+    transform: scale(0.5);
+    height: 900px;
+  }
+  .gameInstructionsDiv , .exitBtn  {
+    transform: scale(1.6);
+  }
+
+
+  .startGameBtn  {
+    transform: scale(1.6);
+    margin-bottom: 30px !important;
+  }
+
+  .scoreDiv {
+    transform: scale(2.5);
+  }
+
+
+
+
+  .counter {
+    transform: scale(3);
+  }
+
+
+  .buttonContainer {
+    position: absolute;
+    bottom: 20px !important;
+    left: 50%;
+    transform: translateX(-50%) scale(2) !important;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;  
+  }
+
+  .songImageDiv, .songName {
+    transform: scale(1.4);
+  }
+
+  .songArtists {
+    transform: scale(1.7);
+  }
+
+
+  .songName {
+    margin-top: 100px !important;
+
+  }
+
+   .songArtists {
+    margin-top: 40px !important;
+  }
+  .songsRemainingContainer {
+    transform: scale(2);
+    /* left: 50px; */
+  top: 30px;
+  left: 40px !important;
+ 
+
+  }
+
+  .gameRulesDiv {
+    transform: scale(1.075);
+    height:400px;
+  }
+
+  .gameRules {
+    transform: scale(1.3);
+    width:175px;
+    margin: auto !important;
+    margin-top:60px !important
+  }
+}
+
+.gamePage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.startGameBtn {
+  border:none;
+  border-radius: 20px;
+  color:#64e3a1;
+  border: 1px solid #64e3a1;
+  background-color: #defade;
+  font-weight: bold;
+  cursor:pointer;
+  width:fit-content;
+  font-size: 18px;
+  transition: transform 0.3s;
+  position: relative;
+  /* top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  margin-top: 20px;
+}
+.startGameBtn:hover {
+  transform:scale(1.05);
+
+
+}
+
+
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+
+.gameRulesDiv {
+  width:90%;
+ margin: auto;
+}
+
+.gameRules {
+  font-weight: bold;
+  font-size: 14px;
+  color:gray;
+}
+
+
+
+.user1 {
+  color:#1e90ff;
+}
+.shared {
+  color:#18d860;
+}
+
+.user2 {
+  color:#ffdf00;
+}
+
+
+.gameInstructionsDiv {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8ff;
+  border-radius: 20px;
+  width:50%;
+  padding:10px;
+  margin: auto;
+  opacity: 1;
+}
+
+.gameInstructionsDiv.clicked {
+  animation: fade 1s linear forwards; /* Apply the animation */
+}
+
+.counter {
+  font-weight: bold;
+  font-size: 50px;
+}
+
+
+.songImage {
+    width:200px;
+    border-radius:10px;
+    margin: auto;
+
+}
+
+
+
+.songName {
+  /* font-style: oblique 60deg; */
+font-weight: bold;
+font-size: 25px;
+max-width: 75%;
+margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.songArtists {
+  color:gray;
+  font-weight: bold;
+  max-width: 50%;
+  margin-top: 20px;
+margin-left: auto;
+margin-right: auto;
+}
+
+
+
+.buttonContainer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+}
+
+
+.songsRemainingContainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  margin: 10px auto;
+}
+.buttonUser1,
+.buttonShared,
+.buttonUser2 {
+  border-radius: 10px;
+  border: none;
+  width: 100px;
+  font-weight: bold;
+  width: fit-content;
+  color: white;
+  padding: 4px;
+  cursor: pointer;
+  transition: transform .3s;
+  user-select: none;
+}
+
+.buttonUser1:hover,
+.buttonShared:hover,
+.buttonUser2:hover {
+  transform: scale(1.2);
+}
+
+.buttonUser1 {
+  color: #1e90ff;
+  /* border: 1px solid #1e90ff; */
+  background-color: #e6f6fe;
+
+  margin-right: 10px;
+}
+
+
+.correctSelection {
+  background-color: #00FF00;
+}
+
+.wrongSelection {
+  background-color: #FF0000;
+}
+
+
+
+
+
+.buttonShared {
+  color: #18d860;
+  /* border: 1px solid #18d860; */
+  background-color: #defade;
+  margin-right: 10px;
+}
+
+.buttonUser2 {
+  color: #ffdf00;
+  background-color: #fffec8;
+
+  /* border: 1px solid #ffdf00; */
+}
+
+
+
+
+
+/* 
+.buttonUser1:hover {
+  color: #e6f6fe;
+ 
+}
+.buttonShared:hover {
+  color: #defade;
+
+}
+
+.buttonUser2:hover {
+  color: #fffec8;
+}
+ */
+
+
+
+
+
+
+
+
+.songsRemaining {
+  font-weight: bold;
+  font-style: oblique 60deg;
+  font-size: 10px;
+}
+
+
+
+
+.scoreDiv {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8ff;
+  border-radius: 20px;
+  width:25%;
+  padding:10px;
+  margin: auto;
+  opacity: 1;
+  font-weight: bold;
+}
+
+.replayBtn {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8ff;
+  border-radius: 20px;
+  /* width:25%; */
+  padding:2px 5px;
+  margin: auto;
+  opacity: 1;
+  font-weight: bold;
+  margin-top: 30px;
+  font-size: 14px;
+  cursor: pointer;
+transition: transform .3s;
+border:none;
+}
+
+.replayBtn:hover {
+  transform:scale(1.1)
+}
+
+
+
+
+
+.exitBtn {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8ff;
+  border-radius: 20px;
+  padding:5px 5px;
+ 
+  opacity: 1;
+  font-weight: bold;
+  margin-top: 30px;
+  font-size: 14px;
+  cursor: pointer;
+transition: color .3s;
+border:none;
+color:gray;
+
+transition: transform .3s;
+
+position: absolute;
+top: 10px;
+right: 10px;
+/* transform: translateX(-50%); */
+display: flex;
+margin: 10px auto;
+
+
+/* filter: grayscale(100%);
+    -webkit-filter: grayscale(100%); */
+
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+}
+
+
+.exitBtn:hover {
+/* color:black; */
+/* filter: none; */
+/* -webkit-filter: grayscale(0); */
+filter: grayscale(0%);
+
+
+}

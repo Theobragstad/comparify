@@ -5,8 +5,8 @@ import logo from "./img/logo.png";
 
 function Home() {
   const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  // const REDIRECT_URI = "http://localhost:3000/code";
-  const REDIRECT_URI = "https://comparify.app/code";
+  const REDIRECT_URI = "http://localhost:3000/code";
+  // const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
@@ -29,9 +29,9 @@ function Home() {
           API error. Make sure you're logged in and and/or try again later.
         </div>
       )}
-      <div className={zoomed ? "buttonZoom zoomed" : ""} onClick={handleClick} title="Log in">
+      <a className={zoomed ? "buttonZoom zoomed" : ""} onClick={handleClick} title="Log in">
         <img src={logo} className="appLogo" alt="logo" />
-      </div>
+      </a>
       <h1 className="logoName">comparify</h1>
       <div className="homeFooter">
         <Footer />
