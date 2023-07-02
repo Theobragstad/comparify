@@ -272,6 +272,7 @@ const Game = (props) => {
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
+                  preload="auto"
                 ></audio>
               )}
 
