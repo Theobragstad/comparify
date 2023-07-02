@@ -1558,3 +1558,15 @@ img:active {
 
 
 
+
+
+
+.defaultBtn {
+  background-color:transparent;
+  color:none;
+border:none;
+  
+  cursor: pointer;
+  
+  
+}
