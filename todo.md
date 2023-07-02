@@ -42,6 +42,15 @@
 - [ ] Who does the playlist belong to, make collaborative?
 - [ ] Dark mode  
 - [ ] Long names adjust
+- [ ] Audio not playing
+- [ ] Color gradient weird error
+- [ ] Fit window view, no scroll
+- [ ] Long loading times
+- [ ] Approve users
+- [ ] Responsiveness
+- [ ] Instructions div cut off
+- [ ] Game error
+- [ ] Game choose randoms
 - [ ] Logo link issue click
 
 
