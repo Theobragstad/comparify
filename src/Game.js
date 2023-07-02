@@ -10,6 +10,8 @@ import "./Game.css";
 import Footer from "./Footer";
 
 const Game = (props) => {
+
+
   const gameModalState = useGameModalState();
 
   const navigate = useNavigate();
@@ -188,10 +190,12 @@ const Game = (props) => {
     
 
   function makeSelection(selection) {
+
     const currentSource = sourceArrays[currentSongIndex];
     if (currentSource === 'user1Songs' && selection === 1) {
       setScore((prevScore) => prevScore + 1);
       setSelectionCorrect(true);
+      
     } else if (currentSource === 'sharedSongs' && selection === 3) {
       setScore((prevScore) => prevScore + 1);
       setSelectionCorrect(true);
@@ -207,7 +211,10 @@ const Game = (props) => {
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
       setRemainingTime(7); // Reset remaining time
+
+
     }
+    
   }
 
   useEffect(() => {
@@ -217,6 +224,9 @@ const Game = (props) => {
   }, [remainingTime]);
 
 
+
+  
+  
 
 
   
@@ -233,7 +243,7 @@ const Game = (props) => {
   };
 
 
-  
+ 
   
   return (
     <div>
@@ -289,6 +299,14 @@ const Game = (props) => {
                 {randomSelections[currentSongIndex]?.artists?.join(", ")}
               </div>
 
+            {/* line here */}
+            <div className="countdownLineContainer">
+        <div
+          className={remainingTime === 0 ? ("countdownLine refill") : ("countdownLine")}
+          style={{ width: `${(remainingTime - 1) / 6 * 100}%` }}
+        ></div>
+      </div>
+      
               <div className="buttonContainer">
                 <div
                   className="buttonUser1"
@@ -323,7 +341,7 @@ const Game = (props) => {
                 
                 <div className="gameRules">
 
-                  You'll be presented one song at a time.
+                  You'll be presented one song at a time. (Turn your volume up!)
                   <br />
                   <br />
                   You have seven seconds to decide if the song is exclusively

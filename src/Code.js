@@ -1008,10 +1008,10 @@ function Code() {
         </div>
       )}
       <div className="cardOverlay">
-        <div className="logout">
+        <div className="homeBtnDiv">
           <button
             title="Back"
-            className="backBtn"
+            className="homeBtn"
             onClick={logout}
             data-tooltip-id="codePageTooltip1"
             data-tooltip-content="Home"

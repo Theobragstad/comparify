@@ -82,6 +82,7 @@
 }
 .profilePicImgCodePage {
   width: 30px;
+  height:30px;
   border-radius: 50%;
   position: absolute;
   top: 0;
@@ -138,6 +139,8 @@
 .basicBtn:disabled {
   filter: grayscale(75%);
   cursor: default;
+  /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0); */
+
 }
 .grayText {
   color: #aaaaaa;
@@ -1181,7 +1184,7 @@ img:active {
   border-radius: 10px;
   width: fit-content;
   margin-top: 10px;
-  animation: hide 8s linear 2s 1 forwards;
+  animation: hide 8s linear 3s 1 forwards;
   top: 0;
 }
 
@@ -1569,4 +1572,50 @@ border:none;
   cursor: pointer;
   
   
+}
+
+
+
+
+
+
+.homeBtnDiv {
+  position: relative;
+  margin-top: 5px;
+  margin-left: 5px;
+  vertical-align: middle;
+  cursor: pointer;
+  /* background-color: white; */
+  border-radius: 20px;
+  width: fit-content;
+  transition:transform 0.3s;
+
+}
+
+.homeBtn {
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 5px;
+  margin: 5px;
+  height: 20px;
+  vertical-align: middle;
+  transition: background-color 0.6s ease;
+  z-index: 3;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 20px;
+  color: white;
+
+ 
+}
+.homeBtn:hover,
+.homeBtn:active {
+  background-color: #f3f3f3;
+}
+
+
+
+.homeBtnDiv:hover {
+  transform: scale(1.4);
 }
