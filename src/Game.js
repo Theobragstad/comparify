@@ -34,37 +34,15 @@ const Game = (props) => {
 
 
 
-  const [isAudioReady, setIsAudioReady] = useState(false);
 
-  const play = () => {
+ 
+
+  const handleStartGame = () => {
+    setStartClicked(true);
     if (audioRef.current) {
       audioRef.current.play();
     }
   };
-
-  // const handleStartGame = () => {
-  //   setStartClicked(true);
-  //   setIsAudioReady(true);
-  // };
-
-  const handleStartGame = () => {
-    setStartClicked(true);
-    setIsAudioReady(true);
-  
-    // Play audio on touchstart event
-    const playOnTouchStart = () => {
-      if (audioRef.current) {
-        audioRef.current.play();
-      }
-      // Remove the event listener to prevent multiple playbacks
-      document.removeEventListener("touchstart", playOnTouchStart);
-    };
-  
-    // Add event listener for touchstart and click events
-    document.addEventListener("touchstart", playOnTouchStart);
-    document.addEventListener("click", playOnTouchStart);
-  };
-  
 
 
 
@@ -305,7 +283,7 @@ const Game = (props) => {
                   </span>
                 </span>
               </div>
-              {randomSelections.length > 0 && isAudioReady && (
+              {randomSelections.length > 0 && (
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
