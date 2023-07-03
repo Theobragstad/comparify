@@ -223,6 +223,10 @@ const Game = (props) => {
     imageElement.src = grayX; // Set the source of the image back to the gray version
   };
 
+
+  if (audioRef.current) {
+    audioRef.current.play();
+  }
   return (
     <div>
       <div className="gamePage">
