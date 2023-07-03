@@ -13,6 +13,7 @@ import Footer from "./Footer";
 
 const Game = (props) => {
 
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const gameModalState = useGameModalState();
 
@@ -43,6 +44,9 @@ const Game = (props) => {
     setCounter(3)
     setCurrentSongIndex(0)
     setRemainingTime(7)
+
+    setIsAudioPlaying(false); // Add this line to pause audio playback
+
   };
 
   useEffect(() => {
@@ -154,28 +158,30 @@ const Game = (props) => {
 
   const audioRef = useRef(null);
 
+
+
   // useEffect(() => {
   //   const audioElement = audioRef.current;
 
-  //   console.log(audioElement);
-  //   if (audioElement && randomSelections.length > 0 && startGame) {
-  //     const handleCanPlay = () => {
+  //   const handleCanPlay = () => {
+  //     if (startClicked) {
   //       audioElement.play();
-  //     };
-
+  //     }
+  //   };
+  
+  //   if (audioElement && randomSelections.length > 0 && startGame) {
   //     audioElement.addEventListener("canplay", handleCanPlay);
-
+  
   //     return () => {
   //       audioElement.removeEventListener("canplay", handleCanPlay);
   //     };
   //   }
-  // }, [randomSelections, currentSongIndex, startGame, restart]);
-
+  // }, [randomSelections, currentSongIndex, startGame, restart, startClicked]);
   useEffect(() => {
     const audioElement = audioRef.current;
-
+  
     const handleCanPlay = () => {
-      if (startClicked) {
+      if (startClicked && isAudioPlaying) {
         audioElement.play();
       }
     };
@@ -187,8 +193,8 @@ const Game = (props) => {
         audioElement.removeEventListener("canplay", handleCanPlay);
       };
     }
-  }, [randomSelections, currentSongIndex, startGame, restart, startClicked]);
- 
+  }, [randomSelections, currentSongIndex, startGame, restart, startClicked, isAudioPlaying]);
+  
     
 
   function makeSelection(selection) {
@@ -207,6 +213,8 @@ const Game = (props) => {
     } else {
       setSelectionCorrect(false);
     }
+
+    setIsAudioPlaying(true);
 
     if (currentSongIndex + 1 >= randomSelections.length) {
       setEndGame(true);
@@ -250,6 +258,7 @@ const Game = (props) => {
   return (
     <div>
       <div className="gamePage">
+      
         <div className="gameDiv">
         {/* <div className="exitBtnDiv"> */}
                <button className="exitBtn" onMouseOver={handleMouseOver}
@@ -285,7 +294,6 @@ const Game = (props) => {
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
                   // preload="auto"
-                  controls
                 ></audio>
               )}
 
