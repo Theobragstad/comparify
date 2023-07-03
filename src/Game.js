@@ -2,24 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 
-import grayX from "./img/grayX.png"
-import x from "./img/x.png"
-import { useGameModalState } from './GameModalState';
-import replay from "./img/replay.png"
-import play from "./img/play.png"
+import grayX from "./img/grayX.png";
+import x from "./img/x.png";
+import { useGameModalState } from "./GameModalState";
+import replay from "./img/replay.png";
+import play from "./img/play.png";
 
 import "./Game.css";
 import Footer from "./Footer";
 
 const Game = (props) => {
-
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-
   const gameModalState = useGameModalState();
 
   const navigate = useNavigate();
   const [selectionCorrect, setSelectionCorrect] = useState(false);
-
 
   const [startClicked, setStartClicked] = useState(false);
   const [startCountdown, setStartCountdown] = useState(false);
@@ -33,20 +29,16 @@ const Game = (props) => {
 
   const [restart, setRestart] = useState(false);
 
-
   const playAgain = () => {
     setRestart(true);
     setStartClicked(false);
-    setStartCountdown(false)
-    setStartGame(false)
-    setEndGame(false)
-    setScore(0)
-    setCounter(3)
-    setCurrentSongIndex(0)
-    setRemainingTime(7)
-
-    setIsAudioPlaying(false); // Add this line to pause audio playback
-
+    setStartCountdown(false);
+    setStartGame(false);
+    setEndGame(false);
+    setScore(0);
+    setCounter(3);
+    setCurrentSongIndex(0);
+    setRemainingTime(7);
   };
 
   useEffect(() => {
@@ -77,7 +69,6 @@ const Game = (props) => {
       }, 3000);
     }
   }, [startCountdown]);
-
 
   useEffect(() => {
     let countdownInterval;
@@ -158,73 +149,62 @@ const Game = (props) => {
 
   const audioRef = useRef(null);
 
-
-
   // useEffect(() => {
   //   const audioElement = audioRef.current;
 
-  //   const handleCanPlay = () => {
-  //     if (startClicked) {
-  //       audioElement.play();
-  //     }
-  //   };
-  
+  //   console.log(audioElement);
   //   if (audioElement && randomSelections.length > 0 && startGame) {
+  //     const handleCanPlay = () => {
+  //       audioElement.play();
+  //     };
+
   //     audioElement.addEventListener("canplay", handleCanPlay);
-  
+
   //     return () => {
   //       audioElement.removeEventListener("canplay", handleCanPlay);
   //     };
   //   }
-  // }, [randomSelections, currentSongIndex, startGame, restart, startClicked]);
+  // }, [randomSelections, currentSongIndex, startGame, restart]);
+
   useEffect(() => {
     const audioElement = audioRef.current;
-  
+
     const handleCanPlay = () => {
-      if (startClicked && isAudioPlaying) {
+      if (startClicked) {
         audioElement.play();
       }
     };
-  
+
     if (audioElement && randomSelections.length > 0 && startGame) {
       audioElement.addEventListener("canplay", handleCanPlay);
-  
+
       return () => {
         audioElement.removeEventListener("canplay", handleCanPlay);
       };
     }
-  }, [randomSelections, currentSongIndex, startGame, restart, startClicked, isAudioPlaying]);
-  
-    
+  }, [randomSelections, currentSongIndex, startGame, restart, startClicked]);
 
   function makeSelection(selection) {
-
     const currentSource = sourceArrays[currentSongIndex];
-    if (currentSource === 'user1Songs' && selection === 1) {
+    if (currentSource === "user1Songs" && selection === 1) {
       setScore((prevScore) => prevScore + 1);
       setSelectionCorrect(true);
-      
-    } else if (currentSource === 'sharedSongs' && selection === 3) {
+    } else if (currentSource === "sharedSongs" && selection === 3) {
       setScore((prevScore) => prevScore + 1);
       setSelectionCorrect(true);
-    } else if (currentSource === 'user2Songs' && selection === 2) {
+    } else if (currentSource === "user2Songs" && selection === 2) {
       setScore((prevScore) => prevScore + 1);
       setSelectionCorrect(true);
     } else {
       setSelectionCorrect(false);
     }
 
-    setIsAudioPlaying(true);
-
     if (currentSongIndex + 1 >= randomSelections.length) {
       setEndGame(true);
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
       setRemainingTime(7); // Reset remaining time
-
-
     }
-    
   }
 
   useEffect(() => {
@@ -233,37 +213,30 @@ const Game = (props) => {
     }
   }, [remainingTime]);
 
-
-
-  
-  
-
-
-  
-
-
   const handleMouseOver = () => {
-    const imageElement = document.getElementById('exitBtn');
+    const imageElement = document.getElementById("exitBtn");
     imageElement.src = x; // Set the source of the image to the black version
   };
-  
+
   const handleMouseOut = () => {
-    const imageElement = document.getElementById('exitBtn');
+    const imageElement = document.getElementById("exitBtn");
     imageElement.src = grayX; // Set the source of the image back to the gray version
   };
 
-
- 
-  
   return (
     <div>
       <div className="gamePage">
-      
         <div className="gameDiv">
-        {/* <div className="exitBtnDiv"> */}
-               <button className="exitBtn" onMouseOver={handleMouseOver}
-    onMouseOut={handleMouseOut} onClick={props.closeGameModal}><img src={grayX} style={{width:'10px'}} id="exitBtn"></img></button>
-              {/* </div> */}
+          {/* <div className="exitBtnDiv"> */}
+          <button
+            className="exitBtn"
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            onClick={props.closeGameModal}
+          >
+            <img src={grayX} style={{ width: "10px" }} id="exitBtn"></img>
+          </button>
+          {/* </div> */}
           {endGame ? (
             <div className="scoreDiv">
               <h3>Score:</h3>
@@ -274,15 +247,17 @@ const Game = (props) => {
                 / {randomSelections?.length}
               </span>
               <div>
-              <button className="replayBtn gradient" onClick={playAgain}><img src={replay} style={{width:'20px'}}/></button></div>
-
+                <button className="replayBtn gradient" onClick={playAgain}>
+                  <img src={replay} style={{ width: "20px" }} />
+                </button>
+              </div>
             </div>
           ) : startGame && !endGame ? (
             <div>
               <div className="songsRemainingContainer">
                 <span className="songsRemaining">
                   <span className="gradient" style={{ fontSize: "25px" }}>
-                    {currentSongIndex+1}
+                    {currentSongIndex + 1}
                   </span>{" "}
                   <span style={{ color: "gray" }}>
                     / {randomSelections?.length}
@@ -294,6 +269,8 @@ const Game = (props) => {
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
                   // preload="auto"
+                  muted defaultMuted
+                  webkit-playsinline playsinline
                 ></audio>
               )}
 
@@ -310,69 +287,68 @@ const Game = (props) => {
                 {randomSelections[currentSongIndex]?.artists?.join(", ")}
               </div>
 
-            {/* line here */}
-            <div className="countdownLineContainer">
-        <div
-          className={remainingTime === 0 ? ("countdownLine refill") : ("countdownLine")}
-          style={{ width: `${(remainingTime - 1) / 6 * 100}%` }}
-        ></div>
-      </div>
-      
-              <div className="buttonContainer">
+              {/* line here */}
+              <div className="countdownLineContainer">
                 <div
-                  className="buttonUser1"
-                  onClick={() => makeSelection(1)}
-                >
+                  className={
+                    remainingTime === 0
+                      ? "countdownLine refill"
+                      : "countdownLine"
+                  }
+                  style={{ width: `${((remainingTime - 1) / 6) * 100}%` }}
+                ></div>
+              </div>
+
+              <div className="buttonContainer">
+                <div className="buttonUser1" onClick={() => makeSelection(1)}>
                   {props.name1}
                 </div>
-                <div
-                  className="buttonShared"
-                  onClick={() => makeSelection(3)}
-                >
+                <div className="buttonShared" onClick={() => makeSelection(3)}>
                   shared
                 </div>
-                <div
-                  className="buttonUser2"
-                  onClick={() => makeSelection(2)}
-                >
+                <div className="buttonUser2" onClick={() => makeSelection(2)}>
                   {props.name2}
                 </div>
               </div>
             </div>
           ) : startCountdown && !endGame ? (
             <div className="counter gradient">{counter}</div>
-          ) : !endGame && !startGame  && (
-            <div
-              className={`gameInstructionsDiv ${
-                startClicked ? "clicked" : ""
-              }`}
-            >
-              <div className="gameRulesDiv">
-              <h3 >See how well you know your music tastes!</h3>
-                
-                <div className="gameRules">
-
-                  You'll be presented one song at a time. (Turn your volume up!)
-                  <br />
-                  <br />
-                  You have seven seconds to decide if the song is exclusively
-                  one of <span className="user1">{props.name1}</span>'s top songs, one
-                  that's <span className="shared">shared</span>, or if
-                  it is exclusively <span className="user2">{props.name2}</span>'s.
-                  <br />
-                  <br />
-                  Choose the button corresponding to your choice before the
-                  time runs out.
-                </div>
-              </div>
-              <button
-                onClick={() => setStartClicked(true)}
-                className="startGameBtn"
-                title="Start game"
+          ) : (
+            !endGame &&
+            !startGame && (
+              <div
+                className={`gameInstructionsDiv ${
+                  startClicked ? "clicked" : ""
+                }`}
               >
-                <img src={play} style={{width:'20px'}}/>
-              </button>
-            </div>
+                <div className="gameRulesDiv">
+                  <h3>See how well you know your music tastes!</h3>
+
+                  <div className="gameRules">
+                    You'll be presented one song at a time. (Turn your volume
+                    up!)
+                    <br />
+                    <br />
+                    You have seven seconds to decide if the song is exclusively
+                    one of <span className="user1">{props.name1}</span>'s top
+                    songs, one that's <span className="shared">shared</span>, or
+                    if it is exclusively{" "}
+                    <span className="user2">{props.name2}</span>'s.
+                    <br />
+                    <br />
+                    Choose the button corresponding to your choice before the
+                    time runs out.
+                  </div>
+                </div>
+                <button
+                  onClick={() => setStartClicked(true)}
+                  className="startGameBtn"
+                  title="Start game"
+                >
+                  <img src={play} style={{ width: "20px" }} />
+                </button>
+              </div>
+            )
           )}
         </div>
       </div>

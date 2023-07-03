@@ -32,7 +32,11 @@ function Home() {
           API error. Make sure you're logged in and and/or try again later.
         </div>
       )}
-      <button className={zoomed ? "buttonZoom zoomed defaultBtn" : "defaultBtn"} onClick={handleClick} title="Log in">
+      <button
+        className={zoomed ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
+        onClick={handleClick}
+        title="Log in"
+      >
         {/* <img src={logo} className="appLogo" alt="logo" /> */}
         <img src={logoAlt} className="appLogo" alt="logo" />
       </button>

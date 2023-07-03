@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export const useGameModalState = () => {
   const [gameModalIsOpen, setGameModalIsOpen] = useState(false);
@@ -14,6 +14,6 @@ export const useGameModalState = () => {
   return {
     gameModalIsOpen,
     openGameModal,
-    closeGameModal
+    closeGameModal,
   };
 };

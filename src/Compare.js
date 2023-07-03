@@ -21,17 +21,11 @@ import gptBtn from "./img/gptBtn.png";
 
 import Modal from "react-modal";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { useGameModalState } from './GameModalState';
-
+import { useGameModalState } from "./GameModalState";
 
 const { Configuration, OpenAIApi } = require("openai");
 
-
-
-
-
 function Compare() {
-
   const gameModalState = useGameModalState();
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -1597,7 +1591,6 @@ function Compare() {
     }
   };
 
-
   // const [playModalIsOpen, setPlayModalIsOpen] = useState(false);
   // const openPlayModal = async () => {
   //   setPlayModalIsOpen(true);
@@ -1605,10 +1598,6 @@ function Compare() {
   // const closePlayModal = () => {
   //   setPlayModalIsOpen(false);
   // };
-  
-
-
-
 
   const [recModalIsOpen, setRecModalIsOpen] = useState(false);
   const openRecModal = async () => {
@@ -1678,17 +1667,6 @@ function Compare() {
     },
   };
 
-
-
-
-
-
-
-
-
-
-
-
   // const playModalStyles = {
   //   overlay: {
   //     zIndex: 9999,
@@ -1703,7 +1681,7 @@ function Compare() {
 
   //   },
   // };
-  
+
   const playModalStyles = {
     overlay: {
       zIndex: 9999,
@@ -1716,7 +1694,7 @@ function Compare() {
     content: {
       margin: "auto",
       maxWidth: "600px",
-      outline: '0',
+      outline: "0",
 
       maxHeight: "500px",
       width: "90%",
@@ -1728,7 +1706,7 @@ function Compare() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      padding:'20px'
+      padding: "20px",
     },
   };
   const mediaQueryStyles = `@media (max-width: 768px) {
@@ -1737,13 +1715,8 @@ function Compare() {
       padding:0px !important;
     }
   }`;
-  
-
 
   // <style>{mediaQueryStyles}</style>
-
-  
-  
 
   Modal.setAppElement("#root");
 
@@ -1821,9 +1794,6 @@ function Compare() {
     pieData2.push({ name: `${decade}s`, value: parseFloat(percentage) });
   }
 
-
-
-
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem("expirationTime");
     if (!expirationTime) {
@@ -1836,8 +1806,14 @@ function Compare() {
     if (isTokenExpired()) {
       logout();
     } else {
-      
-      navigate("/play", { state: { token: token, sharedSongs: sharedTopSongs, user1Songs: user1TopSongs, user2Songs: user2TopSongs} });
+      navigate("/play", {
+        state: {
+          token: token,
+          sharedSongs: sharedTopSongs,
+          user1Songs: user1TopSongs,
+          user2Songs: user2TopSongs,
+        },
+      });
     }
   };
   return (
@@ -1979,7 +1955,10 @@ function Compare() {
             }}>
           Play
         </div> */}
-         <div className="recommendationsBtn" onClick={gameModalState.openGameModal}>
+        <div
+          className="recommendationsBtn"
+          onClick={gameModalState.openGameModal}
+        >
           Play
         </div>
       </div>
@@ -6293,7 +6272,6 @@ function Compare() {
         style={customStyles}
       >
         <div style={{ textAlign: "center" }}>
-
           <h2 className="">
             <img
               src={gptBtn}
@@ -6344,17 +6322,6 @@ function Compare() {
         </div>
       </Modal>
 
-
-
-
-
-
-
-
-
-
-
-
       <Modal
         isOpen={gameModalState.gameModalIsOpen}
         onRequestClose={gameModalState.closeGameModal}
@@ -6362,23 +6329,17 @@ function Compare() {
         style={playModalStyles}
         className="gameModal"
       >
-                <style>{mediaQueryStyles}</style>
+        <style>{mediaQueryStyles}</style>
 
-       <Game sharedSongs={sharedTopSongs} user1Songs={user1TopSongs} user2Songs={user2TopSongs} closeGameModal={gameModalState.closeGameModal} name1={nameIdImgurlGenerationdate1[0]} name2={nameIdImgurlGenerationdate2[0]}/>
+        <Game
+          sharedSongs={sharedTopSongs}
+          user1Songs={user1TopSongs}
+          user2Songs={user2TopSongs}
+          closeGameModal={gameModalState.closeGameModal}
+          name1={nameIdImgurlGenerationdate1[0]}
+          name2={nameIdImgurlGenerationdate2[0]}
+        />
       </Modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       <Modal
         isOpen={recModalIsOpen}

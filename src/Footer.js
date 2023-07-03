@@ -7,7 +7,6 @@ import HelpModalContent from "./HelpModalContent";
 import Modal from "react-modal";
 import logoAlt from "./img/logoAlt.png";
 
-
 const Footer = () => {
   const [footerModalIsOpen, setFooterModalIsOpen] = useState(false);
 

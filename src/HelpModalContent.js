@@ -136,14 +136,15 @@ const HelpModalContent = () => {
           <div className="helpModalText">
             <ul>
               <li>
-                comparify is primarily intended for use on a computer. You can still use it on mobile, but will have a more seamless experience on a
-                computer.
+                comparify is primarily intended for use on a computer. You can
+                still use it on mobile, but will have a more seamless experience
+                on a computer.
               </li>
               <li>
-                The general fix to many issues is to clear your cookies. To
-                get them to appear for deletion in your browser's website
-                settings menu (in Chrome, the button to the left of the URL in
-                the search bar), you may have to go to the{" "}
+                The general fix to many issues is to clear your cookies. To get
+                them to appear for deletion in your browser's website settings
+                menu (in Chrome, the button to the left of the URL in the search
+                bar), you may have to go to the{" "}
                 <a
                   style={{ textDecoration: "none", color: "#1e90ff" }}
                   href="https://comparify.app/code"
@@ -252,11 +253,10 @@ const HelpModalContent = () => {
                   style={{ textDecoration: "none", color: "#1e90ff" }}
                   href="https://developer.spotify.com/documentation/web-api"
                 >
-                
-                   Spotify API
-                </a>{" "}to gather and analyze a large
-                amount of Spotify user data about your music preferences from
-                different time periods.
+                  Spotify API
+                </a>{" "}
+                to gather and analyze a large amount of Spotify user data about
+                your music preferences from different time periods.
               </li>
               <li>
                 Then, it generates a code in the form of a text file that serves
@@ -352,28 +352,38 @@ const HelpModalContent = () => {
                 items, or differences for statistics.
               </li>
               <li>
-                You can click a song's cover art to hear a 30-second audio preview.
+                You can click a song's cover art to hear a 30-second audio
+                preview.
               </li>
               <li>
-                You can also click on a song name, artist, or album to open it in
-                Spotify.
+                You can also click on a song name, artist, or album to open it
+                in Spotify.
               </li>
               <li>
                 Recommendations:
                 <ul>
                   <li>
-                    You can generate 4 types of playlists with comparify: mixes, exploratory mixes, blends, and non-blends.
+                    You can generate 4 types of playlists with comparify: mixes,
+                    exploratory mixes, blends, and non-blends.
                   </li>
                   <li>
-                    These are each generated using the relevant data from the page you're on. The algorithm does its best to make relevant suggestions, but they may not always be perfectly representative for the type of playlist they're intended for.
+                    These are each generated using the relevant data from the
+                    page you're on. The algorithm does its best to make relevant
+                    suggestions, but they may not always be perfectly
+                    representative for the type of playlist they're intended
+                    for.
                   </li>
                   <ul>
                     <li>
-                      Also, when there is not enough data, the playlist may be empty or limited (for example, if your similarity percent is 100, the non-blend playlist will be empty).
+                      Also, when there is not enough data, the playlist may be
+                      empty or limited (for example, if your similarity percent
+                      is 100, the non-blend playlist will be empty).
                     </li>
                   </ul>
                   <li>
-                    You can click to add one to your Spotify library as a public playlist, and you can also reopen the modal to get a fresh set of recommendations.
+                    You can click to add one to your Spotify library as a public
+                    playlist, and you can also reopen the modal to get a fresh
+                    set of recommendations.
                   </li>
                 </ul>
               </li>
@@ -423,8 +433,7 @@ const HelpModalContent = () => {
                   style={{ textDecoration: "none", color: "#1e90ff" }}
                   href="https://developer.spotify.com/documentation/web-api"
                 >
-                
-                   Spotify API
+                  Spotify API
                 </a>{" "}
                 to gather data and handle user login.
               </li>
@@ -442,8 +451,7 @@ const HelpModalContent = () => {
                   any time. They are not saved on a server.
                 </b>
               </li>
-            
-            
+
               <li>
                 You can revoke comparify's access to your Spotify account at any
                 time through their{" "}
@@ -464,7 +472,7 @@ const HelpModalContent = () => {
                     // color: "black",
                     // fontWeight: "400",
                     // fontSize: "12px",
-                    color: "#1e90ff"
+                    color: "#1e90ff",
                   }}
                   href="https://openai.com/blog/openai-api"
                 >

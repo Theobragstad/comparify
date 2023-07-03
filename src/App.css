@@ -82,7 +82,7 @@
 }
 .profilePicImgCodePage {
   width: 30px;
-  height:30px;
+  height: 30px;
   border-radius: 50%;
   position: absolute;
   top: 0;
@@ -140,7 +140,6 @@
   filter: grayscale(75%);
   cursor: default;
   /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0); */
-
 }
 .grayText {
   color: #aaaaaa;
@@ -786,10 +785,6 @@
   background-color: #18d860;
   margin-left: 3px;
 }
-
-
-
-
 
 .loadingDotsGPT--dot {
   animation: dot-keyframes 1.5s infinite ease-in-out;
@@ -1559,25 +1554,13 @@ img:active {
   border-radius: 20px;
 }
 
-
-
-
-
-
 .defaultBtn {
-  background-color:transparent;
-  color:none;
-border:none;
-  
+  background-color: transparent;
+  color: none;
+  border: none;
+
   cursor: pointer;
-  
-  
 }
-
-
-
-
-
 
 .homeBtnDiv {
   position: relative;
@@ -1588,8 +1571,7 @@ border:none;
   /* background-color: white; */
   border-radius: 20px;
   width: fit-content;
-  transition:transform 0.3s;
-
+  transition: transform 0.3s;
 }
 
 .homeBtn {
@@ -1606,15 +1588,11 @@ border:none;
   background-color: white;
   border-radius: 20px;
   color: white;
-
- 
 }
 .homeBtn:hover,
 .homeBtn:active {
   background-color: #f3f3f3;
 }
-
-
 
 .homeBtnDiv:hover {
   transform: scale(1.4);

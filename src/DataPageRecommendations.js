@@ -76,14 +76,13 @@ const DataPageRecommendations = (props) => {
       img: track.album.images[0]?.url,
       uri: track.uri,
       mp3: track.preview_url,
-      id: track.id
+      id: track.id,
     }));
-
 
     arrayToSet(
       // recommendations.filter((item) => !props.allTopSongIds.includes(item))
       // recommendations.filter(item => !props.allTopSongIds.some(id => id === item.id))
-      recommendations.filter(item => !props.allTopSongIds.includes(item.id))
+      recommendations.filter((item) => !props.allTopSongIds.includes(item.id))
     );
     // console.log(recommendations)
     // console.log(recommendations.filter(item => !props.allTopSongIds.includes(item)))
@@ -553,32 +552,13 @@ const DataPageRecommendations = (props) => {
   const [loadingExploratoryPlaylist, setLoadingExploratoryPlaylist] =
     useState(true);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    const [isPlaying, setIsPlaying] = useState({});
-
-
+  const [isPlaying, setIsPlaying] = useState({});
 
   const togglePlayback = (id) => {
     const thisElement = document.getElementById(id);
     const audioElements = document.querySelectorAll("audio");
     const updatedIsPlaying = { ...isPlaying };
-  
+
     audioElements.forEach((audioElement, i) => {
       if (audioElement !== thisElement) {
         audioElement.pause();
@@ -591,7 +571,7 @@ const DataPageRecommendations = (props) => {
               updatedIsPlaying[el.id] = false;
             }
           });
-  
+
           updatedIsPlaying[id] = true;
           audioElement.play().catch((error) => {
             console.log(error);
@@ -602,10 +582,9 @@ const DataPageRecommendations = (props) => {
         }
       }
     });
-  
+
     setIsPlaying(updatedIsPlaying);
   };
-  
 
   const resetAllAudio = () => {
     const audioElements = document.querySelectorAll("audio");
@@ -733,20 +712,29 @@ const DataPageRecommendations = (props) => {
             ) : (
               safeRecommendationSongs.map((song, index) => (
                 <div key={index} className="item">
-                   <div
-                              class={`primaryImage`}
-                              onClick={() => togglePlayback(`safe-suggested-audio-${index}`)}
-                              >
-                              <audio id={`safe-suggested-audio-${index}`}  src={song?.mp3}></audio>
+                  <div
+                    class={`primaryImage`}
+                    onClick={() =>
+                      togglePlayback(`safe-suggested-audio-${index}`)
+                    }
+                  >
+                    <audio
+                      id={`safe-suggested-audio-${index}`}
+                      src={song?.mp3}
+                    ></audio>
 
-                              <img src={song?.img} className="primaryImage" />
+                    <img src={song?.img} className="primaryImage" />
 
-                              {song?.mp3 && (
-                              <div
-                              className={isPlaying[`safe-suggested-audio-${index}`] ? "paused" : "playing"}
-                              ></div>
-                              )}
-                              </div>
+                    {song?.mp3 && (
+                      <div
+                        className={
+                          isPlaying[`safe-suggested-audio-${index}`]
+                            ? "paused"
+                            : "playing"
+                        }
+                      ></div>
+                    )}
+                  </div>
                   {/* <img src={song.img} className="primaryImage" /> */}
                   <div className="primaryText">
                     <span className="primaryName">{song.name}</span>
@@ -853,22 +841,29 @@ const DataPageRecommendations = (props) => {
                 .concat(exploratoryLowRecommendationSongs)
                 .map((song, index) => (
                   <div key={index} className="item">
+                    <div
+                      class={`primaryImage`}
+                      onClick={() =>
+                        togglePlayback(`expl-suggested-audio-${index}`)
+                      }
+                    >
+                      <audio
+                        id={`expl-suggested-audio-${index}`}
+                        src={song?.mp3}
+                      ></audio>
 
-                              <div
-                              class={`primaryImage`}
-                              onClick={() => togglePlayback(`expl-suggested-audio-${index}`)}
-                              >
-                              <audio id={`expl-suggested-audio-${index}`}  src={song?.mp3}></audio>
+                      <img src={song?.img} className="primaryImage" />
 
-                              <img src={song?.img} className="primaryImage" />
-
-                              {song?.mp3 && (
-                              <div
-                              className={isPlaying[`expl-suggested-audio-${index}`] ? "paused" : "playing"}
-                              ></div>
-                              )}
-                              </div>
-
+                      {song?.mp3 && (
+                        <div
+                          className={
+                            isPlaying[`expl-suggested-audio-${index}`]
+                              ? "paused"
+                              : "playing"
+                          }
+                        ></div>
+                      )}
+                    </div>
 
                     {/* <img src={song.img} className="primaryImage" /> */}
                     <div className="primaryText">
