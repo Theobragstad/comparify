@@ -39,12 +39,13 @@ const Game = (props) => {
 
   const handleStartGame = () => {
     setStartClicked(true);
-    if (audioRef.current) {
-      // audioRef.current.play();
-      console.log("yes")
-    }
+   
   };
 
+
+
+
+  
 
 
   const playAgain = () => {
@@ -95,7 +96,26 @@ const Game = (props) => {
       countdownInterval = setInterval(() => {
         setRemainingTime((prevTime) => prevTime - 1);
       }, 1000);
+      
     }
+
+
+
+
+
+
+
+    if (startGame && remainingTime === 1) {
+      clearInterval(countdownInterval);
+      setTimeout(() => {
+        setStartGame(true);
+      }, 1000); // Wait for 1 second before starting the game
+    }
+
+
+
+
+
 
     return () => {
       clearInterval(countdownInterval);
