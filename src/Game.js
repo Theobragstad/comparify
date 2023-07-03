@@ -6,7 +6,7 @@ import grayX from "./img/grayX.png";
 import x from "./img/x.png";
 import { useGameModalState } from "./GameModalState";
 import replay from "./img/replay.png";
-import play from "./img/play.png";
+import playBtn from "./img/play.png";
 
 import "./Game.css";
 import Footer from "./Footer";
@@ -28,6 +28,26 @@ const Game = (props) => {
   const [remainingTime, setRemainingTime] = useState(7); // Track remaining time
 
   const [restart, setRestart] = useState(false);
+
+
+
+
+
+
+  const [isAudioReady, setIsAudioReady] = useState(false);
+
+  const play = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+
+  const handleStartGame = () => {
+    setStartClicked(true);
+    setIsAudioReady(true);
+  };
+
+
 
   const playAgain = () => {
     setRestart(true);
@@ -224,9 +244,7 @@ const Game = (props) => {
   };
 
 
-  if (audioRef.current) {
-    audioRef.current.play();
-  }
+  
   return (
     <div>
       <div className="gamePage">
@@ -268,7 +286,7 @@ const Game = (props) => {
                   </span>
                 </span>
               </div>
-              {randomSelections.length > 0 && (
+              {randomSelections.length > 0 && isAudioReady && (
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
@@ -343,11 +361,12 @@ const Game = (props) => {
                   </div>
                 </div>
                 <button
-                  onClick={() => setStartClicked(true)}
+                  // onClick={() => setStartClicked(true)}
+                  onClick={() => handleStartGame()}
                   className="startGameBtn"
                   title="Start game"
                 >
-                  <img src={play} style={{ width: "20px" }} />
+                  <img src={playBtn} style={{ width: "20px" }} />
                 </button>
               </div>
             )
