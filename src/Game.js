@@ -40,7 +40,8 @@ const Game = (props) => {
   const handleStartGame = () => {
     setStartClicked(true);
     if (audioRef.current) {
-      audioRef.current.play();
+      // audioRef.current.play();
+      console.log("yes")
     }
   };
 
@@ -287,7 +288,7 @@ const Game = (props) => {
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
-                  autoPlay="autoplay" playsInLine="playsinline" 
+                  autoPlay="autoPlay" playsInline="playsInline" 
                 ></audio>
               )}
 
