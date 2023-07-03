@@ -268,9 +268,7 @@ const Game = (props) => {
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
-                  // preload="auto"
-                  muted defaultMuted
-                  webkit-playsinline playsinline
+                  autoPlay="autoplay" playsInLine="playsinline" 
                 ></audio>
               )}
 
