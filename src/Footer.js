@@ -5,6 +5,8 @@ import logo from "./img/logo.png";
 import x from "./img/x.png";
 import HelpModalContent from "./HelpModalContent";
 import Modal from "react-modal";
+import logoAlt from "./img/logoAlt.png";
+
 
 const Footer = () => {
   const [footerModalIsOpen, setFooterModalIsOpen] = useState(false);
@@ -61,7 +63,7 @@ const Footer = () => {
         <span>
           <Link to="/">
             <img
-              src={logo}
+              src={logoAlt}
               style={{ width: 20, pointerEvents: "cursor" }}
               title="Home"
               alt="comparify logo"

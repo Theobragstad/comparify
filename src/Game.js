@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import grayX from "./img/grayX.png"
 import x from "./img/x.png"
 import { useGameModalState } from './GameModalState';
+import replay from "./img/replay.png"
+import play from "./img/play.png"
 
 import "./Game.css";
 import Footer from "./Footer";
@@ -263,7 +265,7 @@ const Game = (props) => {
                 / {randomSelections?.length}
               </span>
               <div>
-              <button className="replayBtn gradient" onClick={playAgain}>play again</button></div>
+              <button className="replayBtn gradient" onClick={playAgain}><img src={replay} style={{width:'20px'}}/></button></div>
 
             </div>
           ) : startGame && !endGame ? (
@@ -282,7 +284,8 @@ const Game = (props) => {
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
-                  preload="auto"
+                  // preload="auto"
+                  controls
                 ></audio>
               )}
 
@@ -359,7 +362,7 @@ const Game = (props) => {
                 className="startGameBtn"
                 title="Start game"
               >
-                start
+                <img src={play} style={{width:'20px'}}/>
               </button>
             </div>
           )}

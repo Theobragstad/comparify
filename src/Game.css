@@ -114,14 +114,17 @@
   background-color: #defade;
   font-weight: bold;
   cursor:pointer;
-  width:fit-content;
-  font-size: 18px;
+  /* width:fit-content; */
+  /* font-size: 18px; */
   transition: transform 0.3s;
   position: relative;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
   margin-top: 20px;
+  position: relative;
+
+}
+.startGameBtn img {
+  display: block;
+  margin: 0 auto;
 }
 .startGameBtn:hover {
   transform:scale(1.05);

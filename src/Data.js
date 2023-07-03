@@ -12,6 +12,8 @@ import back from "./img/back.png";
 import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
+import logoAlt from "./img/logoAlt.png";
+
 
 import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
@@ -1084,7 +1086,7 @@ function Data() {
       {/* <ScrollButton /> */}
 
       <Link to="/" title="Home" style={{ display: "block" }}>
-        <img className="dataPageLogo" src={logo}></img>
+        <img className="dataPageLogo" src={logoAlt}></img>
       </Link>
 
       <div>
