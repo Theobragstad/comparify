@@ -42,10 +42,29 @@ const Game = (props) => {
     }
   };
 
+  // const handleStartGame = () => {
+  //   setStartClicked(true);
+  //   setIsAudioReady(true);
+  // };
+
   const handleStartGame = () => {
     setStartClicked(true);
     setIsAudioReady(true);
+  
+    // Play audio on touchstart event
+    const playOnTouchStart = () => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+      // Remove the event listener to prevent multiple playbacks
+      document.removeEventListener("touchstart", playOnTouchStart);
+    };
+  
+    // Add event listener for touchstart and click events
+    document.addEventListener("touchstart", playOnTouchStart);
+    document.addEventListener("click", playOnTouchStart);
   };
+  
 
 
 
