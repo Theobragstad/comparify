@@ -186,6 +186,7 @@ const Game = (props) => {
 
   useEffect(() => {
     const audioElement = audioRef.current;
+    console.log(audioElement);
 
     const handleCanPlay = () => {
       if (startClicked) {
