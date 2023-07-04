@@ -9,6 +9,8 @@ import Big from "big.js";
 import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
 import logoAlt from "./img/logoAlt.png";
+import finishSound from "./finished.mp3"
+
 
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
@@ -1967,6 +1969,14 @@ function Compare() {
         >
           Play
         </div>
+
+
+<audio
+                 id="audio1"
+                  src={finishSound}
+                  muted
+                  // autoPlay="autoPlay" playsInline="playsInline" 
+                ></audio>
         {/* <div><button className="sun-button">Hover Me</button>
 </div> */}
       </div>

@@ -84,7 +84,6 @@ setSourceArrays([])
    
 
 
-    document.getElementById("audio1")?.play();
 
 
 
@@ -372,12 +371,6 @@ setSourceArrays([])
                 ></audio> */}
 
 
-<audio
-                 id="audio1"
-                  src={finishSound}
-                  muted
-                  // autoPlay="autoPlay" playsInline="playsInline" 
-                ></audio>
                 {/* <audio
                  id="correct"
                   src={correct}
