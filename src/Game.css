@@ -32,9 +32,12 @@
     transform: scale(0.5);
     height: 900px;
   }
-  .gameInstructionsDiv,
-  .exitBtn {
+  .gameInstructionsDiv {
     transform: scale(1.6);
+  }
+
+  .exitBtn {
+    transform: scale(2);
   }
 
   .feedback img {

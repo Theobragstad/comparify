@@ -81,12 +81,27 @@ setSourceArrays([])
   const handleStartGame = () => {
     setStartClicked(true);
    
+
+
+
+
+
   };
 
 
 
 
-  
+  useEffect(()=> {
+  if( !endGame &&
+    !startGame) {
+  document.getElementById("playBtn").addEventListener("click", function() {
+    setTimeout(function() {
+      var audio = document.getElementById("audio1");
+      audio.play();
+    }, 3000); // Delay playback by 3 seconds (3000 milliseconds)
+  });
+}
+}, [startGame, endGame])
 
 
  
@@ -494,7 +509,7 @@ setSourceArrays([])
                   className="startGameBtn"
                   title="Start game"
                 >
-                  <img src={playBtn} style={{ width: "20px" }} />
+                  <img src={playBtn} id="playBtn"style={{ width: "20px" }} />
                 </button>
               </div>
             )

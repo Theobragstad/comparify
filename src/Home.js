@@ -25,16 +25,12 @@ function Home() {
 
   const handleClick = () => {
     setZoomed(true);
-    document.getElementById("logoGif").src = logoOut;
+    // document.getElementById("logoGif").src = logoOut;
     setTimeout(() => {
       
-      // if(location.state?.switchUser) {
-      // window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}&show_dialog=true`;
-      // }
-      // else {
+     
         window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}`;
 
-      //}
 
     }, 1000);
   };
@@ -52,20 +48,19 @@ function Home() {
         </div>
       )}
       <button
-        className={false ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
-        // className={zoomed ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
+        // className={false ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
+        className={zoomed ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
 
         onClick={handleClick}
         title="Log in"
       >
-        {/* <img src={logoAlt} className="appLogo" alt="logo" /> */}
-  {/* <img src={rightArrowBlue} alt="Your Image"/> */}
+        <img src={logo} className="appLogo" alt="logo" />
       <div className="logoDiv">
       {/* <img src={rightArrowBlue} className="rightArrowBlue" alt="logo" />
       <img src={leftArrowYellow} className="leftArrowYellow" alt="logo" />
       <img src={greenArrow} className="greenArrow" alt="logo" /> */}
    
-<img src={logoGif} id="logoGif" style={{width:'200px'}}/>
+{/* <img src={logoGif} id="logoGif" style={{width:'200px'}}/> */}
 </div>
 
 </button>

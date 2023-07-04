@@ -53,8 +53,8 @@ function Code() {
 
   const switchUser = () => {
     const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  // const REDIRECT_URI = "http://localhost:3000/code";
-  const REDIRECT_URI = "https://comparify.app/code";
+  const REDIRECT_URI = "http://localhost:3000/code";
+  // const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
@@ -1081,7 +1081,7 @@ function Code() {
         </div>
         <div className="codeDiv ">
           <button
-            className="basicBtn"
+            className="basicBtn "
             title="View your data"
             disabled={loadingView}
             onClick={() => {
@@ -1114,7 +1114,7 @@ function Code() {
             {!loadingCompare1 && (
               <button
                 title="Submit"
-                className="submitBtn"
+                className="submitBtn "
                 disabled={!file2}
                 onClick={() => {
                   toComparePage1();

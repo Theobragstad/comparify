@@ -164,7 +164,7 @@ const HelpModalContent = () => {
               </ul>
               <li>
                 To have another user log in to their account on the same
-                computer, choose the "Not you?" option on the login page.
+                computer, click the switch user button on the code page.
               </li>
               <li>
                 The OpenAI API is quite rate-limited, so you may encounter

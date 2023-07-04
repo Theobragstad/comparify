@@ -1962,11 +1962,13 @@ function Compare() {
           Play
         </div> */}
         <div
-          className="recommendationsBtn"
+          className="recommendationsBtn border"
           onClick={gameModalState.openGameModal}
         >
           Play
         </div>
+        {/* <div><button className="sun-button">Hover Me</button>
+</div> */}
       </div>
 
       <div className="navBtnContainer">
