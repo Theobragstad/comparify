@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  user-select: none;
+
 }
 .viewToggle {
   border: none;
@@ -1357,7 +1359,7 @@ img:active {
   transition: transform 3s;
 }
 .buttonZoom.zoomed {
-  transform: scale(2);
+  transform: scale(1.5);
 }
 .playlistCard {
   height: 180px;
@@ -1596,4 +1598,243 @@ img:active {
 
 .homeBtnDiv:hover {
   transform: scale(1.4);
+}
+
+
+
+.gradientSimple {
+  background: linear-gradient(
+    to bottom,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  width: fit-content;
+  /* margin: 0 auto 3vh; */
+}
+
+
+
+
+
+
+/* .rightArrowBlue {
+  position: absolute;
+  top: 41.7%;
+  left: -100%;
+  transform: translate(-100%, -50%) ;
+  animation: slideFromLeft 1s ease-in-out forwards;
+  width: 50px;
+  height: auto;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 48.5%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+
+
+.leftArrowYellow {
+  position: absolute;
+  top: 46.25%;
+  left: 50%; 
+  transform: translate(-100%, -50%) ;
+  animation: slideFromRight 1s ease-in-out forwards; 
+  width: 50px;
+  height: auto;
+}
+
+@keyframes slideFromRight {
+  0% {
+    left: 100% ; 
+  }
+  100% {
+    left: 51.25%; 
+    transform: translate(-50%, -50%) ;
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+.line {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: black;
+  z-index: 9999;
+}
+
+
+
+.linevert {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 1px;
+  background-color: black;
+  z-index: 9999;
+  transform: translateX(-50%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .greenArrow {
+  position: absolute;
+  top: 43.75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: slideFromCenter 1s ease-in-out 1s forwards;
+  width: 40px;
+  height: auto;
+  opacity: 0;
+}
+
+
+@keyframes slideFromCenter {
+  0% {
+    opacity: 0;
+    top: 43.75%;
+    left: 50%;
+  }
+  100% {
+    top: 42.3%;
+    left: 50.75%;
+    opacity: 1;
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.greenArrow {
+  position: absolute;
+  top: 42.3%;
+    left: 50.75%;
+  transform: translate(-50%, -50%);
+  animation: slideFromCenter 1s ease-in-out 1s infinite;
+  width: 40px;
+  height: auto;
+}
+
+
+@keyframes slideFromCenter {
+  0% {
+    top: 42.3%;
+    left: 50.75%;
+  }
+  
+  100% {
+    top: 22.85%;
+    left: 62%;
+  }
+}
+
+
+.rightArrowBlue {
+  position: absolute;
+  top: 41.7%;
+  left: 48.5%; /* Change the left property to the final position */
+  transform: translate(-50%, -50%);
+  animation: slideFromLeft 1s ease-in-out infinite; /* Change the animation name and set it to repeat infinitely */
+  width: 50px; /* Adjust the width as needed */
+  height: auto;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    left: 48.5%; /* Set the initial position to the final position */
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    left: 101.5%; /* Set the left property to a value greater than 100% to continue going right */
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+
+
+
+.leftArrowYellow {
+  position: absolute;
+  top: 46.25%;
+  left: 50%; /* Change the right property to left */
+  transform: translate(-100%, -50%);
+  animation: slideFromRight 1s ease-in-out infinite; /* Change the animation name and set it to repeat infinitely */
+  width: 50px;
+  height: auto;
+}
+
+@keyframes slideFromRight {
+  0% {
+    left: 51.25%; /* Change the right property to left */
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    left: -1.25%; /* Set the left property to a negative value to continue going left */
+    transform: translate(-50%, -50%);
+  }
 }

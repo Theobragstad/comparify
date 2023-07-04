@@ -6,12 +6,27 @@ import grayX from "./img/grayX.png";
 import x from "./img/x.png";
 import { useGameModalState } from "./GameModalState";
 import replay from "./img/replay.png";
+import correctCheck from "./img/check.png";
+
+import incorrectX from "./img/redX.png";
+
 import playBtn from "./img/play.png";
+import finishSound from "./finished.mp3"
+import correct from "./correct.mp3"
+import incorrect from "./incorrect.mp3"
 
 import "./Game.css";
 import Footer from "./Footer";
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
+
+
+
+
+
+
 
 const Game = (props) => {
+
   const gameModalState = useGameModalState();
 
   const navigate = useNavigate();
@@ -25,16 +40,42 @@ const Game = (props) => {
 
   const [counter, setCounter] = useState(3);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(7); // Track remaining time
+  const [remainingTime, setRemainingTime] = useState(7); 
 
   const [restart, setRestart] = useState(false);
 
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  const [feedbackTimer, setFeedbackTimer] = useState(null);
+
+  const [randomSelections, setRandomSelections] = useState([]);
+  const [sourceArrays, setSourceArrays] = useState([]);
+
+  
+
+
+  const playAgain = () => {
+    setRestart(true);
+    setSelectionCorrect(false);
+    setStartClicked(false);
+    setStartCountdown(false);
+    setStartGame(false);
+    setEndGame(false);
+    setScore(0);
+    setCounter(3);
+    setCurrentSongIndex(0);
+    setRemainingTime(7);
 
 
 
+setShowFeedback(false)
+setFeedbackTimer(null)
+setRandomSelections([])
+setSourceArrays([])
+  };
 
 
-
+ 
  
 
   const handleStartGame = () => {
@@ -48,18 +89,7 @@ const Game = (props) => {
   
 
 
-  const playAgain = () => {
-    setRestart(true);
-    setStartClicked(false);
-    setStartCountdown(false);
-    setStartGame(false);
-    setEndGame(false);
-    setScore(0);
-    setCounter(3);
-    setCurrentSongIndex(0);
-    setRemainingTime(7);
-  };
-
+ 
   useEffect(() => {
     if (startClicked) {
       setRestart(false);
@@ -73,7 +103,10 @@ const Game = (props) => {
   useEffect(() => {
     if (startCountdown) {
       const countdownInterval = setInterval(() => {
+       
+
         setCounter((prevCounter) => {
+
           const updatedCounter = prevCounter - 1;
           if (updatedCounter === 0) {
             clearInterval(countdownInterval);
@@ -88,6 +121,10 @@ const Game = (props) => {
       }, 3000);
     }
   }, [startCountdown]);
+
+
+  
+
 
   useEffect(() => {
     let countdownInterval;
@@ -105,13 +142,7 @@ const Game = (props) => {
 
 
 
-    if (startGame && remainingTime === 1) {
-      clearInterval(countdownInterval);
-      setTimeout(() => {
-        setStartGame(true);
-      }, 1000); // Wait for 1 second before starting the game
-    }
-
+  
 
 
 
@@ -131,8 +162,7 @@ const Game = (props) => {
   const user1Songs = props.user1TopSongs || [];
   const user2Songs = props.user2TopSongs || [];
 
-  const [randomSelections, setRandomSelections] = useState([]);
-  const [sourceArrays, setSourceArrays] = useState([]);
+  
 
   useEffect(() => {
     const chooseRandomSongs = (array, numSongs) =>
@@ -224,27 +254,79 @@ const Game = (props) => {
   }, [randomSelections, currentSongIndex, startGame, restart, startClicked]);
 
   function makeSelection(selection) {
-    const currentSource = sourceArrays[currentSongIndex];
-    if (currentSource === "user1Songs" && selection === 1) {
-      setScore((prevScore) => prevScore + 1);
-      setSelectionCorrect(true);
-    } else if (currentSource === "sharedSongs" && selection === 3) {
-      setScore((prevScore) => prevScore + 1);
-      setSelectionCorrect(true);
-    } else if (currentSource === "user2Songs" && selection === 2) {
-      setScore((prevScore) => prevScore + 1);
-      setSelectionCorrect(true);
-    } else {
-      setSelectionCorrect(false);
+    setShowFeedback(true);
+
+   
+    
+    if (feedbackTimer) {
+      clearTimeout(feedbackTimer);
     }
 
+
+   
+
+
+    const currentSource = sourceArrays[currentSongIndex];
+
+
+    let selectionCorrect = false;
+
+    
+  if (currentSource === "user1Songs" && selection === 1) {
+    setScore((prevScore) => prevScore + 1);
+    selectionCorrect = true;
+  } else if (currentSource === "sharedSongs" && selection === 3) {
+    setScore((prevScore) => prevScore + 1);
+    selectionCorrect = true;
+  } else if (currentSource === "user2Songs" && selection === 2) {
+    setScore((prevScore) => prevScore + 1);
+    selectionCorrect = true;
+  }
+
+
+  setSelectionCorrect(selectionCorrect)
     if (currentSongIndex + 1 >= randomSelections.length) {
       setEndGame(true);
+
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
       setRemainingTime(7); // Reset remaining time
+
+
     }
+
+   
+
+    const newFeedbackTimer = setTimeout(() => {
+      setShowFeedback(false);
+      setFeedbackTimer(null);
+    }, 3000);
+    setFeedbackTimer(newFeedbackTimer);
+    
   }
+
+
+
+  
+
+
+
+  useEffect(() => {
+    // Clear the feedback timer when the component unmounts or the current song changes
+    return () => {
+      if (feedbackTimer) {
+        clearTimeout(feedbackTimer);
+      }
+    };
+  }, [feedbackTimer]);
+  
+
+  useEffect(() => {
+    if(endGame) {
+    document.getElementById("finishSound").play();
+    }
+
+  }, [endGame]);
 
   useEffect(() => {
     if (remainingTime === 0) {
@@ -266,6 +348,18 @@ const Game = (props) => {
   
   return (
     <div>
+      <audio
+                 id="finishSound"
+                  src={finishSound}
+                ></audio>
+                {/* <audio
+                 id="correct"
+                  src={correct}
+                ></audio>
+                <audio
+                 id="incorrect"
+                  src={incorrect}
+                ></audio> */}
       <div className="gamePage">
         <div className="gameDiv">
           {/* <div className="exitBtnDiv"> */}
@@ -279,20 +373,24 @@ const Game = (props) => {
           </button>
           {/* </div> */}
           {endGame ? (
+            <>
+            {/* <div className="finished gradient">game over</div> */}
             <div className="scoreDiv">
-              <h3>Score:</h3>
-              <span className="gradient" style={{ fontSize: "25px" }}>
+              {/* <h3>score:</h3> */}
+              <span className="gradient" style={{ fontSize: "40px" }}>
                 {score}
               </span>{" "}
-              <span style={{ color: "gray", fontSize: "12px" }}>
+              <span style={{ color: "gray", fontSize: "16px" }}>
                 / {randomSelections?.length}
               </span>
-              <div>
+              <div style={{ color: "DimGray", fontSize: "20px" ,paddingTop:'10px'}}>{((score/randomSelections?.length)*100).toFixed(1)}%</div>
+              <div className="replayBtnContainer">
                 <button className="replayBtn gradient" onClick={playAgain}>
                   <img src={replay} style={{ width: "20px" }} />
                 </button>
               </div>
             </div>
+            </>
           ) : startGame && !endGame ? (
             <div>
               <div className="songsRemainingContainer">
@@ -305,6 +403,17 @@ const Game = (props) => {
                   </span>
                 </span>
               </div>
+              {showFeedback && 
+              <div>
+                
+              <div className={selectionCorrect ? "feedback correct" : (currentSongIndex !== 0) ? "feedback incorrect" : ""}>
+              {selectionCorrect ? (<img src={correctCheck}/>) : (currentSongIndex !== 0) ? (<img src={incorrectX}/>) : ("") 
+                
+              }
+                  </div>
+
+                
+              </div>}
               {randomSelections.length > 0 && (
                 <audio
                   ref={audioRef}
@@ -361,21 +470,21 @@ const Game = (props) => {
                 }`}
               >
                 <div className="gameRulesDiv">
-                  <h3>See how well you know your music tastes!</h3>
+                  <h3>see how well you know your music tastes!</h3>
 
                   <div className="gameRules">
-                    You'll be presented one song at a time. (Turn your volume
+                    you'll be presented one song at a time (turn your volume
                     up!)
                     <br />
                     <br />
-                    You have seven seconds to decide if the song is exclusively
+                    you have seven seconds to decide if the song is exclusively
                     one of <span className="user1">{props.name1}</span>'s top
                     songs, one that's <span className="shared">shared</span>, or
                     if it is exclusively{" "}
                     <span className="user2">{props.name2}</span>'s.
                     <br />
                     <br />
-                    Choose the button corresponding to your choice before the
+                    select the button corresponding to your choice before the
                     time runs out.
                   </div>
                 </div>

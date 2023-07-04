@@ -1,4 +1,6 @@
 .gameDiv {
+  user-select: none;
+
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #f8f8ff;
   border-radius: 20px;
@@ -18,6 +20,14 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .countdownLineContainer {
+    width:400px !important;
+    height:20px !important;
+  }
+
+  /* .countdownLine {
+    width:400px;
+  } */
   .gameDiv {
     transform: scale(0.5);
     height: 900px;
@@ -25,6 +35,16 @@
   .gameInstructionsDiv,
   .exitBtn {
     transform: scale(1.6);
+  }
+
+  .feedback img {
+   width:20px !important;
+    
+  }
+
+  .feedback {
+    left:20px !important;
+    top:80px !important;
   }
 
   .countdownLineContainer {
@@ -78,7 +98,6 @@
   }
 
   .gameRulesDiv {
-    transform: scale(1.075);
     height: 400px;
   }
 
@@ -137,7 +156,7 @@
 
 .gameRules {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
   color: gray;
 }
 
@@ -168,7 +187,7 @@
 
 .counter {
   font-weight: bold;
-  font-size: 50px;
+  font-size: 100px;
   animation: popAnimation 1s ease-out infinite;
 }
 
@@ -310,8 +329,15 @@
   margin: auto;
   opacity: 1;
   font-weight: bold;
+  animation: fadeIn 1s ease-in-out;
 }
 
+
+
+
+.replayBtnContainer {
+  margin-top: 50px;
+}
 .replayBtn {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #f8f8ff;
@@ -326,6 +352,7 @@
   cursor: pointer;
   transition: transform 0.3s;
   border: none;
+ 
 }
 
 .replayBtn:hover {
@@ -487,5 +514,116 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+
+
+
+.feedback {
+  /* animation: fadeOut 3s forwards;  */
+  font-weight: bold;
+  font-size: 12px;
+  font-style: oblique 60deg;
+  position: absolute;
+  left:10px;
+  top:60px;
+}
+
+.feedback.correct {
+  color:#64e3a1
+}
+
+.feedback.incorrect {
+  color:#ff4747
+}
+
+.feedback img {
+  width:10px
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden; /* Hide the element after fading out */
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+
+}
+
+
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.gradient {
+  background: linear-gradient(
+    to right,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  width: fit-content;
+  margin: 0 auto 3vh;
+}
+
+.finished {
+  /* animation:  popFade 1s ease-out forwards; */
+  animation: fadeInOut 3s ease-in-out;
+  font-weight: bold;
+  font-size: 40px;
+  /* font-style: oblique 60deg; */
+  position: absolute;
+  top:60px;
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+@keyframes popFade {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
   }
 }

@@ -16,9 +16,10 @@ const NotFound = () => {
         paddingRight:'10px'
       }}
     >
-      <img src={earth} style={{ width: "120px" }} alt="Not found"/>
-      <div style={{ marginLeft: "20px", textAlign: "left" }}>
-        <h2>404</h2>
+      {/* <img src={earth} style={{ width: "120px" }} alt="Not found"/> */}
+      <span style={{fontSize:'100px', fontWeight:'bold', marginLeft:'20px'}} className="gradientSimple">?</span>
+      <div style={{ marginLeft: "20px", textAlign: "left",marginRight: "20px"}}>
+        <h2>{"[404]"}</h2>
         <h5 style={{ color: "gray" }}>The requested page was not found.</h5>
       </div>
     </div>

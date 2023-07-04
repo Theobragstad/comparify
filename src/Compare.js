@@ -8,6 +8,8 @@ import "./App.css";
 import Big from "big.js";
 import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
+import logoAlt from "./img/logoAlt.png";
+
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import download from "./img/download.png";
@@ -26,6 +28,9 @@ import { useGameModalState } from "./GameModalState";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Compare() {
+
+  document.title = "comparify - Results";
+
   const gameModalState = useGameModalState();
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -1816,12 +1821,13 @@ function Compare() {
       });
     }
   };
+
   return (
     <div>
       {/* <ScrollButton /> */}
       <Link to="/" title="Home" style={{ display: "block" }}>
         <img
-          src={logo}
+          src={logoAlt}
           style={{ width: 80, paddingTop: "20px", pointerEvents: "none" }}
         ></img>
       </Link>
@@ -1919,7 +1925,7 @@ function Compare() {
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
-          <img src={logo} style={{ width: 80, paddingTop: "20px" }}></img>
+          <img src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
           <h3>comparify score</h3>
           <h4>
             <span style={{ color: "#1e90ff" }}>

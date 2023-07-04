@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
-import logo from "./img/logo.png";
+import logo from "./img/logoAlt.png";
 
 export const getPlaylistCoverImageURL = async (type) => {
   try {
