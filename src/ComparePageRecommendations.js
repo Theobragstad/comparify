@@ -5,8 +5,22 @@ import spotifysmall from "./img/spotifysmall.png";
 import PlaylistCoverGenerator from "./PlaylistCoverGenerator";
 import { getPlaylistCoverImageURL } from "./PlaylistCoverGenerator";
 import check from "./img/check.png";
+import checkBlue from "./img/checkBlue.png";
 
 const ComparePageRecommendations = (props) => {
+const [copiedBlend, setCopiedBlend] = useState(false)
+const [copiedNonblend, setCopiedNonblend] = useState(false)
+
+
+const [blendURL, setBlendURL] = useState(false)
+const [nonblendURL, setNonblendURL] = useState(false)
+
+  const handleCopy = (arrayToSet, url) => {
+    navigator.clipboard.writeText(url);
+    arrayToSet(true);
+  };
+
+
   const location = useLocation();
   const token = location.state.token;
 
@@ -296,6 +310,12 @@ const ComparePageRecommendations = (props) => {
       }
     );
 
+    if (playlistType === "blend") {
+      setBlendURL(data.external_urls.spotify);
+    } else if (playlistType === "nonblend") {
+      setNonblendURL(data.external_urls.spotify);
+    }
+
     await addSongsToPlaylist(data.id, playlistType);
     await setPlaylistImage(data.id, playlistType);
   };
@@ -395,7 +415,7 @@ const ComparePageRecommendations = (props) => {
                   color: "#18d860",
                 }}
               >
-                Added <img src={check} style={{ width: "10px" }}></img>
+                Added <img src={check} style={{ width: "10px" }}></img><span style={{color:'#1e90ff', marginLeft:'20px',cursor:'pointer'}} onClick={()=>handleCopy(setCopiedBlend, blendURL)}>{copiedBlend ? (<span style={{cursor:"auto"}}>Copied <img src={checkBlue} style={{ width: "10px" }}></img></span>):(<span>Copy URL</span>)}</span>
               </span>
             ) : (
               <button
@@ -500,7 +520,8 @@ const ComparePageRecommendations = (props) => {
                   color: "#18d860",
                 }}
               >
-                Added <img src={check} style={{ width: "10px" }}></img>
+
+                Added <img src={check} style={{ width: "10px" }}></img>{"  "}<span style={{color:'#1e90ff', marginLeft:'20px', cursor:'pointer'}} onClick={() => handleCopy(setCopiedNonblend, nonblendURL)}>{copiedNonblend ? (<span style={{cursor:"none"}}>Copied <img src={checkBlue} style={{ width: "10px" }}></img></span>):(<span>Copy URL</span>)}</span>
               </span>
             ) : (
               <button

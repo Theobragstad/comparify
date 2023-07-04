@@ -205,8 +205,10 @@ const HelpModalContent = () => {
                 remain this way even though its popularity may decrease, or be
                 surpassed by another song. Therefore, such data points may
                 become inaccurate for older codes because popularity changes
-                over time. Still, they give you a snapshot of the state of your
-                music habits at that moment in time.
+                over time (ie, if your most popular song displays a low
+                popularity score, this does not mean that it was this low when
+                the code was generated). Still, they give you a snapshot of the
+                state of your music habits at that moment in time.
               </li>
             </ul>
           </div>

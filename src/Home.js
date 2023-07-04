@@ -21,18 +21,24 @@ function Home() {
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
 
   const [zoomed, setZoomed] = useState(false);
+  const location = useLocation();
 
   const handleClick = () => {
     setZoomed(true);
     document.getElementById("logoGif").src = logoOut;
     setTimeout(() => {
+      
+      // if(location.state?.switchUser) {
       // window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}&show_dialog=true`;
-      window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}`;
+      // }
+      // else {
+        window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}`;
+
+      //}
 
     }, 1000);
   };
 
-  const location = useLocation();
 
 
 

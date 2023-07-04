@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import "./App.css";
 import back from "./img/back.png";
 import defaultProfile from "./img/defaultProfile.jpeg";
+import switchUserImg from "./img/switchUser.png";
 
 function Code() {
   // const pageTitle = `${"hello"}`;
@@ -43,8 +44,22 @@ function Code() {
       setExpirationTime("");
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("expirationTime");
-      navigate("/");
+      // navigate("/", { state: { switchUser: true } });
+      navigate("/")
     }
+  };
+
+
+
+  const switchUser = () => {
+    const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
+  // const REDIRECT_URI = "http://localhost:3000/code";
+  const REDIRECT_URI = "https://comparify.app/code";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const RESPONSE_TYPE = "token";
+  const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
+
+    window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}&show_dialog=true`;
   };
 
   const [expirationTime, setExpirationTime] = useState("");
@@ -1018,6 +1033,20 @@ function Code() {
               src={back}
               className="backImgCodePage"
               alt="Home button arrow"
+            ></img>
+          </button>
+
+          <button
+            title="Switch user"
+            className="homeBtn"
+            onClick={switchUser}
+            data-tooltip-id="codePageTooltip1"
+            data-tooltip-content="Switch user"
+          >
+            <img
+              src={switchUserImg}
+              className="backImgCodePage"
+              alt=""
             ></img>
           </button>
         </div>
