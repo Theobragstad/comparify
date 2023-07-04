@@ -716,7 +716,7 @@ function Compare() {
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
-          mp3: track.preview_url,
+          mp3: track.preview_url || null,
           url: track.external_urls.spotify,
         }));
 

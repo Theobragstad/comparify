@@ -7,6 +7,7 @@ import x from "./img/x.png";
 import { useGameModalState } from "./GameModalState";
 import replay from "./img/replay.png";
 import correctCheck from "./img/check.png";
+import muted from "./img/muted.png";
 
 import incorrectX from "./img/redX.png";
 
@@ -40,7 +41,7 @@ const Game = (props) => {
 
   const [counter, setCounter] = useState(3);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(7); 
+  const [remainingTime, setRemainingTime] = useState(4); 
 
   const [restart, setRestart] = useState(false);
 
@@ -64,7 +65,7 @@ const Game = (props) => {
     setScore(0);
     setCounter(3);
     setCurrentSongIndex(0);
-    setRemainingTime(7);
+    setRemainingTime(4);
 
 
 
@@ -91,27 +92,17 @@ setSourceArrays([])
 
 
 
-//   useEffect(()=> {
+
+// useEffect(()=> {
  
   
-//     if(counter === 1) {
-//       document.getElementById("audio1").play();
-//     }
+//   if(counter === 0 && currentSongIndex === 0) {
+//     document.getElementById("audio1").play();
+//   }else {
+//     document.getElementById("audio1").pause();
+//   }
 
-// }, [counter])
-
-
-
-useEffect(()=> {
- 
-  
-  if(counter === 0 && currentSongIndex === 0) {
-    document.getElementById("audio1").play();
-  }else {
-    document.getElementById("audio1").pause();
-  }
-
-}, [counter, currentSongIndex])
+// }, [counter, currentSongIndex])
 
  
   useEffect(() => {
@@ -236,6 +227,8 @@ useEffect(()=> {
     );
 
     setRandomSelections(randomSelections);
+
+    console.log(randomSelections)
     setSourceArrays(sourceArrays);
   }, [restart]);
 
@@ -260,11 +253,11 @@ useEffect(()=> {
 
   useEffect(() => {
     const audioElement = audioRef.current;
-    console.log(audioElement);
+    // console.log(audioElement);
 
     const handleCanPlay = () => {
       if (startClicked) {
-        //audioElement.play();
+        audioElement.play();
       }
     };
 
@@ -314,7 +307,7 @@ useEffect(()=> {
 
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
-      setRemainingTime(7); // Reset remaining time
+      setRemainingTime(4); // Reset remaining time
 
 
     }
@@ -345,12 +338,12 @@ useEffect(()=> {
   }, [feedbackTimer]);
   
 
-  useEffect(() => {
-    if(endGame) {
-    document.getElementById("finishSound").play();
-    }
+  // useEffect(() => {
+  //   if(endGame) {
+  //   document.getElementById("finishSound").play();
+  //   }
 
-  }, [endGame]);
+  // }, [endGame]);
 
   useEffect(() => {
     if (remainingTime === 0) {
@@ -372,16 +365,17 @@ useEffect(()=> {
   
   return (
     <div>
-      <audio
+      {/* <audio
                  id="finishSound"
                   src={finishSound}
-                ></audio>
+                ></audio> */}
 
 
 <audio
                  id="audio1"
-                  src={randomSelections[0]?.mp3}
+                  src={finishSound}
                   
+                  autoPlay="autoPlay" playsInline="playsInline" 
                 ></audio>
                 {/* <audio
                  id="correct"
@@ -445,13 +439,19 @@ useEffect(()=> {
 
                 
               </div>}
-              {randomSelections.length > 0 && (
+
+              {randomSelections[currentSongIndex]?.mp3 === null && (
+              <div className="audioUnavailable"><img src={muted} style={{width:'20px'}}/>{" "}Audio unavailable</div>)}
+
+
+              {randomSelections[currentSongIndex]?.mp3 !== null && randomSelections.length > 0 &&
                 <audio
                   ref={audioRef}
                   src={randomSelections[currentSongIndex]?.mp3}
                   autoPlay="autoPlay" playsInline="playsInline" 
                 ></audio>
-              )}
+              }
+              
 
               <div className="songImageDiv">
                 <img
