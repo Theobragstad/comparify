@@ -91,18 +91,27 @@ setSourceArrays([])
 
 
 
-  useEffect(()=> {
-  if( !endGame &&
-    !startGame) {
-  document.getElementById("playBtn").addEventListener("click", function() {
-    setTimeout(function() {
-      var audio = document.getElementById("audio1");
-      audio.play();
-    }, 3000); // Delay playback by 3 seconds (3000 milliseconds)
-  });
-}
-}, [startGame, endGame])
+//   useEffect(()=> {
+ 
+  
+//     if(counter === 1) {
+//       document.getElementById("audio1").play();
+//     }
 
+// }, [counter])
+
+
+
+useEffect(()=> {
+ 
+  
+  if(counter === 0 && currentSongIndex === 0) {
+    document.getElementById("audio1").play();
+  }else {
+    document.getElementById("audio1").pause();
+  }
+
+}, [counter, currentSongIndex])
 
  
   useEffect(() => {
@@ -255,7 +264,7 @@ setSourceArrays([])
 
     const handleCanPlay = () => {
       if (startClicked) {
-        audioElement.play();
+        //audioElement.play();
       }
     };
 
@@ -366,6 +375,13 @@ setSourceArrays([])
       <audio
                  id="finishSound"
                   src={finishSound}
+                ></audio>
+
+
+<audio
+                 id="audio1"
+                  src={randomSelections[0]?.mp3}
+                  
                 ></audio>
                 {/* <audio
                  id="correct"
