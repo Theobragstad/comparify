@@ -5,7 +5,6 @@ export const useGameModalState = () => {
 
   const openGameModal = () => {
     setGameModalIsOpen(true);
-    document.getElementById("audio1")?.play();
   };
 
   const closeGameModal = () => {

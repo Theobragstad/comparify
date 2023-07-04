@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
 
 import grayX from "./img/grayX.png";
 import x from "./img/x.png";
@@ -8,6 +9,7 @@ import { useGameModalState } from "./GameModalState";
 import replay from "./img/replay.png";
 import correctCheck from "./img/check.png";
 import muted from "./img/muted.png";
+import download from "./img/download.png";
 
 import incorrectX from "./img/redX.png";
 
@@ -52,7 +54,9 @@ const Game = (props) => {
   const [randomSelections, setRandomSelections] = useState([]);
   const [sourceArrays, setSourceArrays] = useState([]);
 
+  const [time, setTime] = useState(null)
   
+
 
 
   const playAgain = () => {
@@ -75,6 +79,66 @@ setRandomSelections([])
 setSourceArrays([])
   };
 
+
+  const saveScore = () => {
+    setTime(new Date());
+    const div = document.getElementById("scoreDiv");
+    div.removeAttribute("hidden");
+  
+    const visibleScoreDiv = document.getElementById("visibleScore");
+    visibleScoreDiv.setAttribute("hidden", true);
+  
+    if (div) {
+      html2canvas(div, {}).then((canvas) => {
+        const imageHeight = canvas.height;
+        const croppedHeight = imageHeight - 355; // Adjust the value to specify how much to cut off from the bottom
+  
+        // Create a new canvas with the same width as the original canvas but with the cropped height
+        const newCanvas = document.createElement("canvas");
+        newCanvas.width = canvas.width;
+        newCanvas.height = croppedHeight;
+  
+        // Get the rendering context of the new canvas
+        const context = newCanvas.getContext("2d");
+  
+        // Draw the cropped portion of the original canvas onto the new canvas
+        context.drawImage(
+          canvas,
+          0,
+          0,
+          canvas.width,
+          croppedHeight,
+          0,
+          0,
+          canvas.width,
+          croppedHeight
+        );
+  
+        // Convert the new canvas to a data URL
+        const image = newCanvas.toDataURL("image/png");
+        console.log(image, "image");
+  
+        var fileName =
+          "comparify game score for " +
+          props.name1.replace(/\./g, "") +
+          " (with " +
+          props.name1.replace(/\./g, "") +
+          ").png";
+        downloadPNG(image, fileName);
+      });
+    }
+  
+    div.setAttribute("hidden", true);
+    visibleScoreDiv.removeAttribute("hidden");
+  };
+  
+
+  function downloadPNG(url, filename) {
+    var anchorElement = document.createElement("a");
+    anchorElement.href = url;
+    anchorElement.download = filename;
+    anchorElement.click();
+  }
 
  
  
@@ -362,6 +426,7 @@ setSourceArrays([])
   };
 
 
+
   
   return (
     <div>
@@ -394,8 +459,8 @@ setSourceArrays([])
           {endGame ? (
             <>
             {/* <div className="finished gradient">game over</div> */}
-            <div className="scoreDiv">
-              {/* <h3>score:</h3> */}
+            <div className="scoreDiv" id="visibleScore">
+
               <span className="gradient" style={{ fontSize: "40px" }}>
                 {score}
               </span>{" "}
@@ -408,6 +473,40 @@ setSourceArrays([])
                   <img src={replay} style={{ width: "20px" }} />
                 </button>
               </div>
+              <div className="saveScoreBtnContainer">
+                <button className="saveScoreBtn" onClick={saveScore}>
+                  <img src={download} style={{ width: "15px" }} />
+                </button>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <div id="scoreDiv" hidden style={{width:'200px', height:'500px'}}>
+
+            <span className="scoreDivTitle"> comparify game score<br/><br/><span style={{color:'#1e90ff'}}>{props.name1}</span><br/><span style={{fontSize:'10px', color:'gray'}}>{"("}with{" "}<span style={{color:'#ffdf00'}}>{props.name2}</span>{")"}</span></span>
+
+            <div className="scoreDiv1" >
+             
+
+              <span className="" style={{ fontSize: "40px" }}>
+                {score}
+              </span>{" "}
+              <span style={{ color: "gray", fontSize: "16px" }}>
+                / {randomSelections?.length}
+              </span>
+              <div style={{ color: "DimGray", fontSize: "20px" ,paddingTop:'10px'}}>{((score/randomSelections?.length)*100).toFixed(1)}%</div>
+             
+             
+            </div>
+
+            <div className="timeDiv">{(new Date()).toLocaleString()}</div>
             </div>
             </>
           ) : startGame && !endGame ? (

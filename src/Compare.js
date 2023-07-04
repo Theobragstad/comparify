@@ -1971,12 +1971,7 @@ function Compare() {
         </div>
 
 
-<audio
-                 id="audio1"
-                  src={finishSound}
-                  muted
-                  // autoPlay="autoPlay" playsInline="playsInline" 
-                ></audio>
+
         {/* <div><button className="sun-button">Hover Me</button>
 </div> */}
       </div>
