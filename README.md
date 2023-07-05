@@ -5,4 +5,4 @@
 comparify.app
 
 <br/>
-<img src="src/img/beta.png" width="30px">
+<img src="src/img/beta.png" width="50px">
