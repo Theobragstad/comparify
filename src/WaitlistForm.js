@@ -52,7 +52,7 @@ function WaitlistForm() {
 
   const isFormValid =
     emailValidity.every((validity) => validity) &&
-    emails.some((email) => email.trim() !== "") &&
+    emails.some((email, index) => email.trim() !== "" && emailValidity[index]) &&
     !emails.some(
       (email, index) => emails.indexOf(email) !== index && email.trim() !== ""
     );
@@ -61,13 +61,13 @@ function WaitlistForm() {
     e.preventDefault();
 
     // Check if at least one email input is non-empty
-    const hasNonEmptyEmail = emails.some((email) => email.trim() !== "");
-    if (!hasNonEmptyEmail) {
-      // Focus on the first email input
-      const firstEmailInput = document.getElementById(`email-input-0`);
-      firstEmailInput.focus();
-      return;
-    }
+    // const hasNonEmptyEmail = emails.some((email) => email.trim() !== "");
+    // if (!hasNonEmptyEmail) {
+    //   // Focus on the first email input
+    //   const firstEmailInput = document.getElementById(`email-input-0`);
+    //   firstEmailInput.focus();
+    //   return;
+    // }
 
     // Check for duplicate emails
     const isDuplicate = emails.some(
@@ -89,7 +89,7 @@ function WaitlistForm() {
 
     if (isEmailsValid) {
       console.log(emails);
-      sendEmail(emails);
+    //   sendEmail(emails);
       setSubmitted(true);
 
       setEmails(["", "", "", "", ""]); 
@@ -97,7 +97,7 @@ function WaitlistForm() {
         form.current.reset();
         setSubmitted(false);
         setEmailValidity([true, true, true, true, true]);
-      }, 2500);
+      }, 3000);
     } else {
       // Focus on the first invalid email input
       const firstInvalidIndex = emailValidity.findIndex(
@@ -143,7 +143,7 @@ const navigate = useNavigate();
   return (
 
     <div className="container">
-        <h2 className="" style={{color:'gray'}}>waitlist signup</h2>
+        <h2 className="" style={{color:'gray'}}>get access</h2>
 
         <button
             title="Back"
@@ -151,7 +151,7 @@ const navigate = useNavigate();
             onClick={goBack}
            
           >
-      <img src={logoAlt} style={{ width: "75px" }} /></button>
+      <img src={logo} style={{ width: "75px" }} /></button>
    
 
       <div className="title">
@@ -196,7 +196,7 @@ const navigate = useNavigate();
                 type="email"
                 value={email}
                 onChange={(e) => handleChange(e, index)}
-                required={index === 0} // First input is required
+                // required={index === 0} // First input is required
                 className={emailValidity[index] ? "" : "invalid-email"}
                 id={`email-input-${index}`} // Add unique IDs to each input
                 autocomplete="new-password"
@@ -214,7 +214,7 @@ const navigate = useNavigate();
           ) : (
             <span className="submitted">
               <br />
-              <img src={check} style={{ width: "15px" }} /> Submitted.
+              <img src={check} style={{ width: "15px" }} /><span style={{color:'#18d860'}} > {" "}Submitted!</span>{" "}
               Notifications will be sent when access becomes available.
             </span>
           )}

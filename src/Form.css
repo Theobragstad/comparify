@@ -39,7 +39,8 @@
 
 .email-input {
   margin-bottom: 10px;
-  border: 2px solid #f6f6f6;
+
+
 }
 
 .email-input input {
@@ -97,17 +98,18 @@
 .email-input input:focus {
   outline: none;
   transform: scale(1.1);
-  border: 2px solid #f6f6f6;  
+  /* border: 2px solid #f6f6f6;   */
 }
 
 .email-input input:hover {
     outline: none;
     transform: scale(1.1);
-    border: 2px solid #f6f6f6;  }
+    /* border: 2px solid #f6f6f6;   */
+}
 
 .email-input input.valid {
   color: black;
-  border: 2px solid #f6f6f6;
+  /* border: 2px solid #f6f6f6; */
 }
 
 .email-input input:invalid {

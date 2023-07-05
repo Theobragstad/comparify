@@ -43,7 +43,7 @@ function Home() {
 
 
   const handleClickBETA = () => {
-   navigate("/waitlist")
+   navigate("/getaccess")
   };
 
 
