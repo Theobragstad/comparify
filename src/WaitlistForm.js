@@ -143,7 +143,6 @@ const navigate = useNavigate();
   return (
 
     <div className="container">
-        <h2 className="" style={{color:'gray'}}>get access</h2>
 
         <button
             title="Back"
@@ -156,19 +155,7 @@ const navigate = useNavigate();
 
       <div className="title">
         <div className="">
-          <button
-            className=""
-            style={{
-              border: "none",
-              borderRadius: "10px",
-              cursor: "auto",
-              backgroundColor: "#e4fae4",
-              fontWeight: "bold",
-              color: "#18d860",
-            }}
-          >
-            comparify is in beta mode
-          </button>
+        <div className="betaIcon" style={{width:'fit-content', margin:'5px auto'}}>beta</div>
           <br />
           <button
             style={{
@@ -177,11 +164,13 @@ const navigate = useNavigate();
               cursor: "auto",
               backgroundColor: "#f6f6f6",
               fontWeight: "bold",
-              color: "darkgray",
-              padding: "10px",
+              color: "gray",
+              padding: "10px 10px 10px 10px",
               marginTop:'10px'
             }}
           >
+                    <h2 className="gradient">get access</h2>
+
             enter up to five emails (you + friends + family) below and
             we will contact them when they have access. make sure the emails match their Spotify accounts (otherwise they won't be able to
             log in to their intended one).
