@@ -7,6 +7,7 @@ import Data from './Data';
 import Compare from './Compare';
 import NotFound from './NotFound';
 import Game from './Game';
+import WaitlistForm from './WaitlistForm';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/data" element={<Data/>}/>
         <Route path="/compare" element={<Compare/>}/>
         <Route path="/play" element={<Game/>}/>
+        <Route path="/waitlist" element={<WaitlistForm/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>

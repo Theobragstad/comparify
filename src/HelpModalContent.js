@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import spotify from "./img/spotify.png";
 import openai from "./img/openai.png";
-
+import logo from "./img/logo.png"
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
 
@@ -43,6 +43,7 @@ const HelpModalContent = () => {
   return (
     <div>
       <div className="helpModalContent">
+        <img src={logo} style={{width:'50px'}} className="pulse"/>
         {isHowToUseExpanded ? (
           <h3
             className="helpSection"

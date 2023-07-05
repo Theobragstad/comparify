@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
+import { useNavigate } from "react-router-dom";
+
 import Footer from "./Footer";
 import logo from "./img/logo.png";
 import logoAlt from "./img/logoAlt.png";
@@ -11,11 +13,13 @@ import logoOut from "./img/logoOut.gif"
 
 
 function Home() {
+
+  const navigate = useNavigate();
   document.title = "comparify - Explore and compare your music";
 
   const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  // const REDIRECT_URI = "http://localhost:3000/code";
-  const REDIRECT_URI = "https://comparify.app/code";
+  const REDIRECT_URI = "http://localhost:3000/code";
+  // const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
@@ -38,6 +42,10 @@ function Home() {
 
 
 
+  const handleClickBETA = () => {
+   navigate("/waitlist")
+  };
+
 
   
   return (
@@ -48,14 +56,16 @@ function Home() {
         </div>
       )}
       <button
-        // className={false ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
         className={zoomed ? "buttonZoom zoomed defaultBtn" : "defaultBtn"}
 
-        onClick={handleClick}
+        // onClick={handleClick}  //BETA
+        onClick={handleClickBETA}
         title="Log in"
       >
         <img src={logo} className="appLogo" alt="logo" />
       <div className="logoDiv">
+
+
       {/* <img src={rightArrowBlue} className="rightArrowBlue" alt="logo" />
       <img src={leftArrowYellow} className="leftArrowYellow" alt="logo" />
       <img src={greenArrow} className="greenArrow" alt="logo" /> */}
@@ -67,6 +77,7 @@ function Home() {
 
 
       <h1 className="logoName">comparify</h1>
+      <div className="betaIcon">beta</div>
       <div className="homeFooter">
         <Footer />
       </div>

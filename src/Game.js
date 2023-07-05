@@ -14,22 +14,15 @@ import download from "./img/download.png";
 import incorrectX from "./img/redX.png";
 
 import playBtn from "./img/play.png";
-import finishSound from "./finished.mp3"
-import correct from "./correct.mp3"
-import incorrect from "./incorrect.mp3"
+import finishSound from "./finished.mp3";
+import correct from "./correct.mp3";
+import incorrect from "./incorrect.mp3";
 
 import "./Game.css";
 import Footer from "./Footer";
 import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
-
-
-
-
-
-
 const Game = (props) => {
-
   const gameModalState = useGameModalState();
 
   const navigate = useNavigate();
@@ -43,7 +36,7 @@ const Game = (props) => {
 
   const [counter, setCounter] = useState(3);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(4); 
+  const [remainingTime, setRemainingTime] = useState(4);
 
   const [restart, setRestart] = useState(false);
 
@@ -54,10 +47,7 @@ const Game = (props) => {
   const [randomSelections, setRandomSelections] = useState([]);
   const [sourceArrays, setSourceArrays] = useState([]);
 
-  const [time, setTime] = useState(null)
-  
-
-
+  const [time, setTime] = useState((new Date()).toLocaleString());
 
   const playAgain = () => {
     setRestart(true);
@@ -71,53 +61,27 @@ const Game = (props) => {
     setCurrentSongIndex(0);
     setRemainingTime(4);
 
-
-
-setShowFeedback(false)
-setFeedbackTimer(null)
-setRandomSelections([])
-setSourceArrays([])
+    setShowFeedback(false);
+    setFeedbackTimer(null);
+    setRandomSelections([]);
+    setSourceArrays([]);
   };
 
-
   const saveScore = () => {
-    setTime(new Date());
+   
     const div = document.getElementById("scoreDiv");
-    div.removeAttribute("hidden");
-  
+    // div.removeAttribute("hidden");
+
     const visibleScoreDiv = document.getElementById("visibleScore");
     visibleScoreDiv.setAttribute("hidden", true);
-  
+
     if (div) {
-      html2canvas(div, {}).then((canvas) => {
-        const imageHeight = canvas.height;
-        const croppedHeight = imageHeight - 355; // Adjust the value to specify how much to cut off from the bottom
-  
-        // Create a new canvas with the same width as the original canvas but with the cropped height
-        const newCanvas = document.createElement("canvas");
-        newCanvas.width = canvas.width;
-        newCanvas.height = croppedHeight;
-  
-        // Get the rendering context of the new canvas
-        const context = newCanvas.getContext("2d");
-  
-        // Draw the cropped portion of the original canvas onto the new canvas
-        context.drawImage(
-          canvas,
-          0,
-          0,
-          canvas.width,
-          croppedHeight,
-          0,
-          0,
-          canvas.width,
-          croppedHeight
-        );
-  
+      html2canvas(div, {scale: 0.95}).then((canvas) => {
+      
         // Convert the new canvas to a data URL
-        const image = newCanvas.toDataURL("image/png");
+        const image = canvas.toDataURL("image/png");
         console.log(image, "image");
-  
+
         var fileName =
           "comparify game score for " +
           props.name1.replace(/\./g, "") +
@@ -127,11 +91,10 @@ setSourceArrays([])
         downloadPNG(image, fileName);
       });
     }
-  
-    div.setAttribute("hidden", true);
+
+    // div.setAttribute("hidden", true);
     visibleScoreDiv.removeAttribute("hidden");
   };
-  
 
   function downloadPNG(url, filename) {
     var anchorElement = document.createElement("a");
@@ -140,35 +103,20 @@ setSourceArrays([])
     anchorElement.click();
   }
 
- 
- 
-
   const handleStartGame = () => {
     setStartClicked(true);
-   
-
-
-
-
-
   };
 
+  // useEffect(()=> {
 
+  //   if(counter === 0 && currentSongIndex === 0) {
+  //     document.getElementById("audio1").play();
+  //   }else {
+  //     document.getElementById("audio1").pause();
+  //   }
 
+  // }, [counter, currentSongIndex])
 
-
-// useEffect(()=> {
- 
-  
-//   if(counter === 0 && currentSongIndex === 0) {
-//     document.getElementById("audio1").play();
-//   }else {
-//     document.getElementById("audio1").pause();
-//   }
-
-// }, [counter, currentSongIndex])
-
- 
   useEffect(() => {
     if (startClicked) {
       setRestart(false);
@@ -182,10 +130,7 @@ setSourceArrays([])
   useEffect(() => {
     if (startCountdown) {
       const countdownInterval = setInterval(() => {
-       
-
         setCounter((prevCounter) => {
-
           const updatedCounter = prevCounter - 1;
           if (updatedCounter === 0) {
             clearInterval(countdownInterval);
@@ -201,10 +146,6 @@ setSourceArrays([])
     }
   }, [startCountdown]);
 
-
-  
-
-
   useEffect(() => {
     let countdownInterval;
 
@@ -212,20 +153,7 @@ setSourceArrays([])
       countdownInterval = setInterval(() => {
         setRemainingTime((prevTime) => prevTime - 1);
       }, 1000);
-      
     }
-
-
-
-
-
-
-
-  
-
-
-
-
 
     return () => {
       clearInterval(countdownInterval);
@@ -240,8 +168,6 @@ setSourceArrays([])
   const sharedSongs = props.sharedSongs || [];
   const user1Songs = props.user1TopSongs || [];
   const user2Songs = props.user2TopSongs || [];
-
-  
 
   useEffect(() => {
     const chooseRandomSongs = (array, numSongs) =>
@@ -292,7 +218,7 @@ setSourceArrays([])
 
     setRandomSelections(randomSelections);
 
-    console.log(randomSelections)
+    console.log(randomSelections);
     setSourceArrays(sourceArrays);
   }, [restart]);
 
@@ -337,60 +263,40 @@ setSourceArrays([])
   function makeSelection(selection) {
     setShowFeedback(true);
 
-   
-    
     if (feedbackTimer) {
       clearTimeout(feedbackTimer);
     }
 
-
-   
-
-
     const currentSource = sourceArrays[currentSongIndex];
-
 
     let selectionCorrect = false;
 
-    
-  if (currentSource === "user1Songs" && selection === 1) {
-    setScore((prevScore) => prevScore + 1);
-    selectionCorrect = true;
-  } else if (currentSource === "sharedSongs" && selection === 3) {
-    setScore((prevScore) => prevScore + 1);
-    selectionCorrect = true;
-  } else if (currentSource === "user2Songs" && selection === 2) {
-    setScore((prevScore) => prevScore + 1);
-    selectionCorrect = true;
-  }
+    if (currentSource === "user1Songs" && selection === 1) {
+      setScore((prevScore) => prevScore + 1);
+      selectionCorrect = true;
+    } else if (currentSource === "sharedSongs" && selection === 3) {
+      setScore((prevScore) => prevScore + 1);
+      selectionCorrect = true;
+    } else if (currentSource === "user2Songs" && selection === 2) {
+      setScore((prevScore) => prevScore + 1);
+      selectionCorrect = true;
+    }
 
-
-  setSelectionCorrect(selectionCorrect)
+    setSelectionCorrect(selectionCorrect);
     if (currentSongIndex + 1 >= randomSelections.length) {
       setEndGame(true);
-
+      setTime((new Date()).toLocaleString());
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
       setRemainingTime(4); // Reset remaining time
-
-
     }
-
-   
 
     const newFeedbackTimer = setTimeout(() => {
       setShowFeedback(false);
       setFeedbackTimer(null);
     }, 3000);
     setFeedbackTimer(newFeedbackTimer);
-    
   }
-
-
-
-  
-
-
 
   useEffect(() => {
     // Clear the feedback timer when the component unmounts or the current song changes
@@ -400,7 +306,6 @@ setSourceArrays([])
       }
     };
   }, [feedbackTimer]);
-  
 
   // useEffect(() => {
   //   if(endGame) {
@@ -425,9 +330,6 @@ setSourceArrays([])
     imageElement.src = grayX; // Set the source of the image back to the gray version
   };
 
-
-
-  
   return (
     <div>
       {/* <audio
@@ -435,8 +337,7 @@ setSourceArrays([])
                   src={finishSound}
                 ></audio> */}
 
-
-                {/* <audio
+      {/* <audio
                  id="correct"
                   src={correct}
                 ></audio>
@@ -444,6 +345,46 @@ setSourceArrays([])
                  id="incorrect"
                   src={incorrect}
                 ></audio> */}
+
+
+
+
+
+
+
+
+
+<div style={{ width: "0", height: "0", overflow: "hidden"}}>                <div className="scoreImgDiv" id="scoreDiv">
+                  <div className="scoreImgDivTitle">
+                    <span>
+                      <span>comparify</span>
+                      <br />
+                      Game Score
+                    </span>
+                    <br />
+                    <br />
+                    <span style={{color:'#1e90ff', fontSize:'18px'}}>{props.name1}</span>
+                    <br />
+                    <br />
+                    <span style={{fontSize:'12px'}}>
+                      (with <span className="highlight" style={{color:'#ffdf00', fontSize:'16px'}}>{props.name2}</span>)
+                    </span>
+                  </div>
+
+                  <div className="scoreDivScore">
+                    <span style={{fontSize:'40px',color:'black'}}>{score}</span> <span>/ {randomSelections?.length}</span>
+                    <br />
+                    <br />
+                    {((score / randomSelections?.length) * 100).toFixed(1)}%
+                  </div>
+
+                  <div className="time">{time.toLocaleString()}</div>
+                </div>
+              </div>
+
+
+
+
       <div className="gamePage">
         <div className="gameDiv">
           {/* <div className="exitBtnDiv"> */}
@@ -456,58 +397,42 @@ setSourceArrays([])
             <img src={grayX} style={{ width: "10px" }} id="exitBtn"></img>
           </button>
           {/* </div> */}
-          {endGame ? (
+          {randomSelections?.length === 0 ?(<div className="notEnoughData" style={{color:'gray', fontWeight:'bold'}}>Not enough data for a game.<br/>Try comparing with someone else.</div>) : 
+          
+        
+        
+          endGame ? (
             <>
-            {/* <div className="finished gradient">game over</div> */}
-            <div className="scoreDiv" id="visibleScore">
-
-              <span className="gradient" style={{ fontSize: "40px" }}>
-                {score}
-              </span>{" "}
-              <span style={{ color: "gray", fontSize: "16px" }}>
-                / {randomSelections?.length}
-              </span>
-              <div style={{ color: "DimGray", fontSize: "20px" ,paddingTop:'10px'}}>{((score/randomSelections?.length)*100).toFixed(1)}%</div>
-              <div className="replayBtnContainer">
-                <button className="replayBtn gradient" onClick={playAgain}>
-                  <img src={replay} style={{ width: "20px" }} />
-                </button>
+              {/* <div className="finished gradient">game over</div> */}
+              <div className="scoreDiv" id="visibleScore">
+                <span className="gradient" style={{ fontSize: "40px" }}>
+                  {score}
+                </span>{" "}
+                <span style={{ color: "gray", fontSize: "16px" }}>
+                  / {randomSelections?.length}
+                </span>
+                <div
+                  style={{
+                    color: "DimGray",
+                    fontSize: "20px",
+                    paddingTop: "10px",
+                  }}
+                >
+                  {((score / randomSelections?.length) * 100).toFixed(1)}%
+                </div>
+                <div className="replayBtnContainer">
+                  <button className="replayBtn gradient" onClick={playAgain}>
+                    <img src={replay} style={{ width: "20px" }} />
+                  </button>
+                </div>
+                <div className="saveScoreBtnContainer">
+                  <button className="saveScoreBtn" onClick={saveScore}>
+                    <img src={download} style={{ width: "15px" }} />
+                  </button>
+                </div>
               </div>
-              <div className="saveScoreBtnContainer">
-                <button className="saveScoreBtn" onClick={saveScore}>
-                  <img src={download} style={{ width: "15px" }} />
-                </button>
-              </div>
-            </div>
 
-
-
-
-
-
-
-
-
-            <div id="scoreDiv" hidden style={{width:'200px', height:'500px'}}>
-
-            <span className="scoreDivTitle"> comparify game score<br/><br/><span style={{color:'#1e90ff'}}>{props.name1}</span><br/><span style={{fontSize:'10px', color:'gray'}}>{"("}with{" "}<span style={{color:'#ffdf00'}}>{props.name2}</span>{")"}</span></span>
-
-            <div className="scoreDiv1" >
-             
-
-              <span className="" style={{ fontSize: "40px" }}>
-                {score}
-              </span>{" "}
-              <span style={{ color: "gray", fontSize: "16px" }}>
-                / {randomSelections?.length}
-              </span>
-              <div style={{ color: "DimGray", fontSize: "20px" ,paddingTop:'10px'}}>{((score/randomSelections?.length)*100).toFixed(1)}%</div>
-             
-             
-            </div>
-
-            <div className="timeDiv">{(new Date()).toLocaleString()}</div>
-            </div>
+              
             </>
           ) : startGame && !endGame ? (
             <div>
@@ -521,30 +446,44 @@ setSourceArrays([])
                   </span>
                 </span>
               </div>
-              {showFeedback && 
-              <div>
-                
-              <div className={selectionCorrect ? "feedback correct" : (currentSongIndex !== 0) ? "feedback incorrect" : ""}>
-              {selectionCorrect ? (<img src={correctCheck}/>) : (currentSongIndex !== 0) ? (<img src={incorrectX}/>) : ("") 
-                
-              }
+              {showFeedback && (
+                <div>
+                  <div
+                    className={
+                      selectionCorrect
+                        ? "feedback correct"
+                        : currentSongIndex !== 0
+                        ? "feedback incorrect"
+                        : ""
+                    }
+                  >
+                    {selectionCorrect ? (
+                      <img src={correctCheck} />
+                    ) : currentSongIndex !== 0 ? (
+                      <img src={incorrectX} />
+                    ) : (
+                      ""
+                    )}
                   </div>
-
-                
-              </div>}
+                </div>
+              )}
 
               {randomSelections[currentSongIndex]?.mp3 === null && (
-              <div className="audioUnavailable"><img src={muted} style={{width:'20px'}}/>{" "}Audio unavailable</div>)}
+                <div className="audioUnavailable">
+                  <img src={muted} style={{ width: "20px" }} /> Audio
+                  unavailable
+                </div>
+              )}
 
-
-              {randomSelections[currentSongIndex]?.mp3 !== null && randomSelections.length > 0 &&
-                <audio
-                  ref={audioRef}
-                  src={randomSelections[currentSongIndex]?.mp3}
-                  autoPlay="autoPlay" playsInline="playsInline" 
-                ></audio>
-              }
-              
+              {randomSelections[currentSongIndex]?.mp3 !== null &&
+                randomSelections.length > 0 && (
+                  <audio
+                    ref={audioRef}
+                    src={randomSelections[currentSongIndex]?.mp3}
+                    autoPlay="autoPlay"
+                    playsInline="playsInline"
+                  ></audio>
+                )}
 
               <div className="songImageDiv">
                 <img
@@ -618,7 +557,7 @@ setSourceArrays([])
                   className="startGameBtn"
                   title="Start game"
                 >
-                  <img src={playBtn} id="playBtn"style={{ width: "20px" }} />
+                  <img src={playBtn} id="playBtn" style={{ width: "20px" }} />
                 </button>
               </div>
             )
@@ -626,6 +565,7 @@ setSourceArrays([])
         </div>
       </div>
       {/* <Footer /> */}
+      
     </div>
   );
 };

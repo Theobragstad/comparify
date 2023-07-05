@@ -1910,3 +1910,20 @@ img:active {
 
 
 
+
+
+
+
+.betaIcon {
+  border: none;
+  border-radius: 10px;
+  cursor: auto;
+  background-color: #e4fae4;
+  font-weight: bold;
+  color: #18d860;
+  font-style:oblique 60deg;
+  padding: 2px 5px;
+  margin-top: 30px;
+  font-size:16px
+
+}

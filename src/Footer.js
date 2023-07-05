@@ -62,7 +62,7 @@ const Footer = () => {
         <span>
           <Link to="/">
             <img
-              src={logoAlt}
+              src={logo}
               style={{ width: 20, pointerEvents: "cursor" }}
               title="Home"
               alt="comparify logo"

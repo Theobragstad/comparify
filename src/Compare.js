@@ -1885,6 +1885,7 @@ function Compare() {
               src={nameIdImgurlGenerationdate2[2]}
               style={{
                 width: "30px",
+                height: "30px",
                 borderRadius: "50%",
                 paddingLeft: "10px",
                 paddingRight: "10px",
@@ -2077,6 +2078,7 @@ function Compare() {
                             src={nameIdImgurlGenerationdate2[2]}
                             style={{
                               width: "30px",
+                              height: "30px",
                               borderRadius: "50%",
                               paddingLeft: "10px",
                               paddingRight: "10px",
@@ -2109,6 +2111,7 @@ function Compare() {
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
                         width: "30px",
+                        height: "30px",
                         borderRadius: "50%",
                         paddingLeft: "10px",
                         paddingRight: "10px",
@@ -4226,6 +4229,7 @@ function Compare() {
                       style={{
                         width: "30px",
                         borderRadius: "50%",
+                        height: "30px",
                         paddingLeft: "10px",
                         paddingRight: "10px",
                       }}
@@ -4250,6 +4254,7 @@ function Compare() {
                     src={nameIdImgurlGenerationdate2[2]}
                     style={{
                       width: "30px",
+                      height: "30px",
                       borderRadius: "50%",
                       paddingLeft: "10px",
                       paddingRight: "10px",
