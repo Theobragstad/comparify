@@ -4,10 +4,5 @@
 
 comparify.app
 
-
-
-
 <br/>
-<div style="border:none;border-radius:10px;cursor:auto;background-color:#ffb74d;color:white">BETA</div> 
-
-<img src="src/img/beta.png" width="15px">
+<img src="src/img/beta.png" width="30px">
