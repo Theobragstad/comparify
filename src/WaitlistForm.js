@@ -8,6 +8,9 @@ import logoAlt from "./img/logoAlt.png";
 import { useNavigate } from "react-router-dom";
 
 function WaitlistForm() {
+
+    document.title = "comparify - Join the waitlist";
+
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
     true,
@@ -138,6 +141,7 @@ const navigate = useNavigate();
   }
 
   return (
+
     <div className="container">
         <h2 className="" style={{color:'gray'}}>waitlist signup</h2>
 

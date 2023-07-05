@@ -138,3 +138,14 @@
     margin-top:50px;
   }
   
+
+
+  @media screen and (max-width: 1000px) {
+    .container, .email-form {
+        width:300px !important;
+    }
+
+    .title {
+        width:360px !important;
+    }
+  }
