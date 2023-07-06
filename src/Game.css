@@ -61,6 +61,7 @@
   .startGameBtn {
     transform: scale(1.6);
     margin-bottom: 30px !important;
+    margin-top:50px !important;
   }
 
   .scoreDiv {
@@ -643,6 +644,7 @@
   color: #ff4747;
   
   position: absolute;
+  margin:0 auto;
 top:10%;}
 
 

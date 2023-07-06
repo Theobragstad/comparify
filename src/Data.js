@@ -13,7 +13,7 @@ import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
 import logoAlt from "./img/logoAlt.png";
-
+import AudiofeatureModal from "./AudiofeatureModal";
 import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
 import Modal from "react-modal";
@@ -302,6 +302,7 @@ function Data() {
         });
 
         const topSongsData = data.tracks.map((track) => ({
+          id: track.id,
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
           img: track.album.images[0]?.url || missingImage,
@@ -1065,6 +1066,53 @@ function Data() {
     };
   }, [isPlaying]);
 
+
+
+
+
+
+  const [audiofeatureForModal, setAudiofeatureForModal] = useState(null)
+  const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null)
+
+
+  const [scrollPosition, setScrollPosition] = useState(null)
+
+  function openAudiofeatureModal(feature) {
+    setScrollPosition(document.documentElement.scrollTop)
+
+    setIsAudiofeatureModalOpen(true);
+    setAudiofeatureForModal(feature);
+    
+  }
+
+  function closeAudiofeatureModal(feature) {
+    setIsAudiofeatureModalOpen(false);
+    setAudiofeatureForModal(null);
+  }
+
+
+
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if(isAudiofeatureModalOpen) {
+  //       window.scrollTo({
+  //           top: document.documentElement.scrollHeight,
+  //           behavior: "smooth",
+  //         });
+  //   }
+
+ 
+  // }, [isAudiofeatureModalOpen]);
+
+
+ 
+
+ 
   return (
     <div className="dataPage">
       {/* <ScrollButton /> */}
@@ -1187,7 +1235,7 @@ function Data() {
             topSongs.map((song, index) => (
               <div key={index} className="item">
                 <div
-                  class={`primaryImage`}
+                  className={`primaryImage`}
                   onClick={() => togglePlayback(`audio-element${index}`)}
                 >
                   <audio id={`audio-element${index}`} src={song?.mp3}></audio>
@@ -1357,7 +1405,7 @@ function Data() {
             mostLeastPopSongs[0] && (
               <div className="item">
                 <div
-                  class={`primaryImage`}
+                  className={`primaryImage`}
                   onClick={() => togglePlayback("additional-audio-1")}
                 >
                   <audio
@@ -1408,7 +1456,7 @@ function Data() {
             mostLeastPopSongs[1] && (
               <div className="item">
                 <div
-                  class={`primaryImage`}
+                  className={`primaryImage`}
                   onClick={() => togglePlayback("additional-audio-2")}
                 >
                   <audio
@@ -1460,7 +1508,7 @@ function Data() {
             oldestNewestSongs[0] && (
               <div className="item">
                 <div
-                  class={`primaryImage`}
+                  className={`primaryImage`}
                   onClick={() => togglePlayback("additional-audio-3")}
                 >
                   <audio
@@ -1508,7 +1556,7 @@ function Data() {
             oldestNewestSongs[1] && (
               <div className="item">
                 <div
-                  class={`primaryImage`}
+                  className={`primaryImage`}
                   onClick={() => togglePlayback("additional-audio-4")}
                 >
                   <audio
@@ -1917,8 +1965,10 @@ function Data() {
                       className="audioFeaturesColumnLabel"
                       data-tooltip-id="dataPageTooltip1"
                       data-tooltip-content={featureExplanations[index]}
+                      onClick={e => {openAudiofeatureModal(feature)}}
                     >
                       {feature}
+                     
                     </span>
                   </td>
 
@@ -1984,7 +2034,7 @@ function Data() {
                     {highestSong && highestSong != "-" && (
                       <div className="cellOutline">
                         <div
-                          class={`primaryImage`}
+                          className={`primaryImage`}
                           onClick={() =>
                             togglePlayback(`highest-audio-${index}`)
                           }
@@ -2038,7 +2088,7 @@ function Data() {
                     {lowestSong && lowestSong != "-" && (
                       <div className="cellOutline">
                         <div
-                          class={`primaryImage`}
+                          className={`primaryImage`}
                           onClick={() =>
                             togglePlayback(`lowest-audio-${index}`)
                           }
@@ -2088,7 +2138,9 @@ function Data() {
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
         <Tooltip id="dataPageTooltip1" className="tooltip3" />
         <Tooltip id="gptTooltip" className="tooltip3">
-          <span className="gradient">comparify</span> &#10799;{" "}
+          {/* <span className="gradient">comparify</span> */}
+          <span><img src={logo} style={{width:'20px'}}/></span>{" "}
+           &#10799;{" "}
           <span style={{ color: "#75ac9d" }}>ChatGPT</span>
         </Tooltip>
       </div>
@@ -2102,11 +2154,13 @@ function Data() {
       >
         <div id="imgDiv" style={{ padding: "20px" }}>
           <h2 className="gptModalTitle">
-            {saveGptClicked ? (
+            {/* {saveGptClicked ? (
               <span style={{ fontWeight: "bold" }}>comparify</span>
             ) : (
               <span className="gradient">comparify</span>
-            )}{" "}
+            )} */}
+            <span><img src={logo} style={{width:'40px'}}/></span>
+            {" "}
             &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
             <br />
             <br />{" "}
@@ -2237,6 +2291,9 @@ function Data() {
           Close
         </button> */}
       </Modal>
+
+      <AudiofeatureModal  location={scrollPosition} audiofeatureForModal={audiofeatureForModal === "duration" ? "duration_ms" : audiofeatureForModal} songs={topSongs} token={token} isAudiofeatureModalOpen={isAudiofeatureModalOpen} closeAudiofeatureModal={closeAudiofeatureModal}/>
+      
 
       <Footer />
     </div>

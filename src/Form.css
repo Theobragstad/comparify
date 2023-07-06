@@ -132,19 +132,23 @@
   font-size: 12px;
 }
 
-.container {
+.containerMain {
     display: flex;
     flex-direction: column;
     /* width:50%; */
     width:500px;
     margin: 0 auto;
     margin-top:50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
 
 
   @media screen and (max-width: 1000px) {
-    .container, .email-form {
+    .containerMain, .email-form {
         width:260px !important;
     }
 

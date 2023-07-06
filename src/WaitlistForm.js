@@ -6,10 +6,10 @@ import logo from "./img/logo.png";
 import check from "./img/check.png";
 import logoAlt from "./img/logoAlt.png";
 import { useNavigate } from "react-router-dom";
-
+import Footer from "./Footer"
 function WaitlistForm() {
 
-    document.title = "comparify - Join the waitlist";
+    document.title = "comparify - Beta";
 
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
@@ -89,7 +89,7 @@ function WaitlistForm() {
 
     if (isEmailsValid) {
       console.log(emails);
-    //   sendEmail(emails);
+     sendEmail(emails);
       setSubmitted(true);
 
       setEmails(["", "", "", "", ""]); 
@@ -142,7 +142,7 @@ const navigate = useNavigate();
 
   return (
 
-    <div className="container">
+    <div className="containerMain">
 
         <button
             title="Back"
@@ -155,21 +155,22 @@ const navigate = useNavigate();
 
       <div className="title">
         <div className="">
-        <div className="betaIcon" style={{width:'fit-content', margin:'5px auto'}}>beta</div>
+        <div className="betaIcon" style={{width:'fit-content', margin:'5px auto'}}>beta access</div>
           <br />
           <button
             style={{
               border: "none",
               borderRadius: "10px",
               cursor: "auto",
-              backgroundColor: "#f6f6f6",
+            //   backgroundColor: "#f6f6f6",
+            backgroundColor:'white',
               fontWeight: "bold",
               color: "gray",
               padding: "10px 10px 10px 10px",
               marginTop:'10px'
             }}
           >
-                    <h2 className="gradient">get access</h2>
+                    {/* <h2 className="gradient">get access</h2> */}
 
             enter up to five emails (you + friends + family) below and
             we will contact them when they have access. make sure the emails match their Spotify accounts (otherwise they won't be able to
@@ -209,6 +210,7 @@ const navigate = useNavigate();
           )}
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
+import logo from "./img/logo.png";
 
 import grayX from "./img/grayX.png";
 import x from "./img/x.png";
@@ -14,9 +15,7 @@ import download from "./img/download.png";
 import incorrectX from "./img/redX.png";
 
 import playBtn from "./img/play.png";
-import finishSound from "./finished.mp3";
-import correct from "./correct.mp3";
-import incorrect from "./incorrect.mp3";
+
 
 import "./Game.css";
 import Footer from "./Footer";
@@ -36,7 +35,7 @@ const Game = (props) => {
 
   const [counter, setCounter] = useState(3);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(4);
+  const [remainingTime, setRemainingTime] = useState(7);
 
   const [restart, setRestart] = useState(false);
 
@@ -59,7 +58,7 @@ const Game = (props) => {
     setScore(0);
     setCounter(3);
     setCurrentSongIndex(0);
-    setRemainingTime(4);
+    setRemainingTime(7);
 
     setShowFeedback(false);
     setFeedbackTimer(null);
@@ -76,7 +75,7 @@ const Game = (props) => {
     visibleScoreDiv.setAttribute("hidden", true);
 
     if (div) {
-      html2canvas(div, {scale: 0.95}).then((canvas) => {
+      html2canvas(div, {}).then((canvas) => {
       
         // Convert the new canvas to a data URL
         const image = canvas.toDataURL("image/png");
@@ -288,7 +287,7 @@ const Game = (props) => {
       setTime((new Date()).toLocaleString());
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
-      setRemainingTime(4); // Reset remaining time
+      setRemainingTime(7); // Reset remaining time
     }
 
     const newFeedbackTimer = setTimeout(() => {
@@ -354,10 +353,10 @@ const Game = (props) => {
 
 
 
-<div style={{ width: "0", height: "0", overflow: "hidden"}}>                <div className="scoreImgDiv" id="scoreDiv">
+<div style={{ width: "0", height: "0", overflow: "hidden"}}>                <div className="scoreImgDiv" id="scoreDiv" style={{ width: "175px"}}>
                   <div className="scoreImgDivTitle">
                     <span>
-                      <span>comparify</span>
+                    <span><img src={logo} style={{width:'40px'}}/></span>
                       <br />
                       Game Score
                     </span>
@@ -470,7 +469,7 @@ const Game = (props) => {
 
               {randomSelections[currentSongIndex]?.mp3 === null && (
                 <div className="audioUnavailable">
-                  <img src={muted} style={{ width: "20px" }} /> Audio
+                  <img src={muted} style={{ width: "20px", verticalAlign:'middle' }} /> Audio
                   unavailable
                 </div>
               )}
@@ -533,6 +532,7 @@ const Game = (props) => {
                 }`}
               >
                 <div className="gameRulesDiv">
+                <span><img src={logo} style={{width:'40px'}}/></span>
                   <h3>see how well you know your music tastes!</h3>
 
                   <div className="gameRules">
@@ -556,6 +556,7 @@ const Game = (props) => {
                   onClick={() => handleStartGame()}
                   className="startGameBtn"
                   title="Start game"
+                  
                 >
                   <img src={playBtn} id="playBtn" style={{ width: "20px" }} />
                 </button>

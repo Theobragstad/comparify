@@ -9,7 +9,7 @@ import Big from "big.js";
 import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
 import logoAlt from "./img/logoAlt.png";
-import finishSound from "./finished.mp3"
+// import finishSound from "./finished.mp3"
 
 
 import { PieChart, Pie, Cell, Legend } from "recharts";
@@ -2027,6 +2027,7 @@ function Compare() {
                       src={nameIdImgurlGenerationdate1[2]}
                       style={{
                         width: "30px",
+                        height:'30px',
                         borderRadius: "50%",
                         paddingLeft: "10px",
                         paddingRight: "10px",
@@ -2059,6 +2060,7 @@ function Compare() {
                             src={nameIdImgurlGenerationdate1[2]}
                             style={{
                               width: "30px",
+                              height:'30px',
                               borderRadius: "50%",
                               paddingLeft: "10px",
                               paddingRight: "10px",
@@ -4182,6 +4184,7 @@ function Compare() {
                     src={nameIdImgurlGenerationdate1[2]}
                     style={{
                       width: "30px",
+                      height:'30px',
                       borderRadius: "50%",
                       paddingLeft: "10px",
                       paddingRight: "10px",
@@ -4209,6 +4212,7 @@ function Compare() {
                       src={nameIdImgurlGenerationdate1[2]}
                       style={{
                         width: "30px",
+                        height:'30px',
                         borderRadius: "50%",
                         paddingLeft: "10px",
                         paddingRight: "10px",
@@ -4228,8 +4232,8 @@ function Compare() {
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
                         width: "30px",
+                        height:'30px',
                         borderRadius: "50%",
-                        height: "30px",
                         paddingLeft: "10px",
                         paddingRight: "10px",
                       }}
@@ -4254,7 +4258,7 @@ function Compare() {
                     src={nameIdImgurlGenerationdate2[2]}
                     style={{
                       width: "30px",
-                      height: "30px",
+                      height:'30px',
                       borderRadius: "50%",
                       paddingLeft: "10px",
                       paddingRight: "10px",
