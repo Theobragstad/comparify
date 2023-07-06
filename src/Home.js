@@ -100,7 +100,7 @@ shared tastes and new music */}
 </div>
 
 <div style={{position:"relative",marginTop:'30px'}} className="fade3">
-<span className="match2">Learn</span> <span  style={{fontSize:'18px', color:'#18d860'}} className="fade4"><span style={{color:'darkgray'}} className="match2">about</span> other people's music</span>
+<span className="match2">Discover</span> <span  style={{fontSize:'18px', color:'#18d860'}} className="fade4"> shared tastes and new music</span>
 {/* Learn 
 Discover  */}
 
@@ -111,7 +111,7 @@ shared tastes and new music */}
 </div>
 
 <div style={{position:"relative",marginTop:'30px'}} className="fade5">
-<span className="match3">Discover</span> <span  style={{fontSize:'18px', color:'#ffdf00'}} className="fade6">shared tastes and new music</span>
+<span className="match3">Learn</span> <span  style={{fontSize:'18px', color:'#ffdf00'}} className="fade6"><span style={{color:'darkgray'}} className="match3">about</span> other people's music</span>
 {/* Learn 
 Discover  */}
 

@@ -59,7 +59,7 @@
   color: none;
   visibility: visible;
   border: none;
-  margin-top: 20px;
+  margin-top: 40px;
   padding: 2px 8px;
   cursor: pointer;
   font-weight: bold;
@@ -71,7 +71,7 @@
   opacity:1;
 }
 
-.defaultBtnForm:hover {
+.defaultBtnForm:hover:not(.disabled) {
   
   filter: brightness(96%);
 }
@@ -91,9 +91,10 @@
     }
   }
 
-.defaultBtnForm:disabled {
-    opacity: 0;
+.defaultBtnForm.disabled {
+    opacity: 0.5;
     cursor:auto;
+    pointer-events: none;
 }
 
 .email-input input:focus {

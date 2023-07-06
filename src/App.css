@@ -2060,7 +2060,7 @@ filter:brightness(90%)
 
 .match1 {
   animation: matchBlue 1s ease-out forwards;
-  animation-delay: 2100ms;
+  animation-delay: 2250ms;
 }
 
 @keyframes matchBlue {
@@ -2076,7 +2076,7 @@ filter:brightness(90%)
 
 .match2 {
   animation: matchGreen 1s ease-out forwards;
-  animation-delay: 2100ms;
+  animation-delay: 2250ms;
 }
 
 @keyframes matchGreen {
@@ -2093,7 +2093,7 @@ filter:brightness(90%)
 
 .match3 {
   animation: matchYellow 1s ease-out forwards;
-  animation-delay: 2100ms;
+  animation-delay: 2250ms;
 }
 
 @keyframes matchYellow {

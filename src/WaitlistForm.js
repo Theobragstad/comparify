@@ -158,7 +158,7 @@ const navigate = useNavigate();
 
       <div className="title">
         <div className="">
-        <div className="gray nohover" style={{width:'fit-content', margin:'5px auto', cursor:'auto'}}>get access</div>
+        <div className="gray nohover" style={{width:'fit-content', margin:'30px auto', cursor:'auto'}}>get access</div>
           <br />
           <div
             style={{
@@ -170,17 +170,16 @@ const navigate = useNavigate();
               fontWeight: "bold",
               color: "gray",
               padding: "10px 10px 10px 0px",
-              marginTop:'10px',
               textAlign:'left',
               fontSize:'14px', 
             }}
           >
                     {/* <h2 className="gradient">get access</h2> */}
 
-            <span style={{color:'black'}}>&#8594;</span> enter up to five emails (you + family + friends)<br/> <br/> 
-            <span style={{color:'black'}}>&#8594;</span> make sure the emails match their Spotify accounts<br/> <br/>
-            <span style={{color:'black'}}>&#8594;</span> we will contact them when they have access<br/> <br/> 
-            <span style={{color:'black'}}>&#8594;</span> we add users in groups so you can compare with people you know
+            <span className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> enter up to five emails (you + family + friends)<br/> <br/> 
+            <span className="gray nohover" style={{color:'black', cursor:'auto'}}>&#8594;</span> make sure the emails match their Spotify accounts<br/> <br/>
+            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we will contact them when they have access<br/> <br/> 
+            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we add users in groups so you can compare with people you know
             
           </div>
 
@@ -206,13 +205,15 @@ const navigate = useNavigate();
             </div>
           ))}
           {!submitted ? (
-            <button
+            <div style={{marginTop:'30px'}}
+>            <div
               type="submit"
-              className="defaultBtnForm"
-              disabled={!isFormValid}
+              className={!isFormValid ? "defaultBtnForm disabled":"defaultBtnForm"}
+              style={{width:'fit-content',margin:'0 auto '}}
+              onClick={handleSubmit}
             >
-              submit
-            </button>
+              submit &#8594;
+            </div></div>
           ) : (
             <span className="submitted">
               <br />

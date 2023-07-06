@@ -138,7 +138,7 @@ const HelpModalContent = () => {
             <ul>
               <li>
                 comparify is primarily intended for use on a computer. You can
-                still use it on mobile, but will have a more seamless experience
+                still use it on mobile, but you will have a more seamless experience
                 on a computer.
               </li>
               <li>
