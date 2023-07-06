@@ -5,7 +5,7 @@ import "./Form.css";
 import logo from "./img/logo.png";
 import check from "./img/check.png";
 import logoAlt from "./img/logoAlt.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer"
 function WaitlistForm() {
 
@@ -143,21 +143,24 @@ const navigate = useNavigate();
   return (
 
     <div className="containerMain">
-
+{/* <Link to="/eeee"> */}
         <button
             title="Back"
-            className="defaultBtn pulse"
-            onClick={goBack}
+            className="defaultBtn"
+            onClick={()=>navigate('/')}
            
           >
-      <img src={logo} style={{ width: "75px" }} /></button>
+             <img src={logo}  className="appLogo" alt="logo" style={{position:'absolute', top:'20px', left:'30px', width:'60px', pointerEvents:'all'}}/>
+</button>
+{/* </Link> */}
    
+<h1 className="logoName">comparify</h1>
 
       <div className="title">
         <div className="">
-        <div className="betaIcon" style={{width:'fit-content', margin:'5px auto'}}>beta access</div>
+        <div className="gray nohover" style={{width:'fit-content', margin:'5px auto', cursor:'auto'}}>get access</div>
           <br />
-          <button
+          <div
             style={{
               border: "none",
               borderRadius: "10px",
@@ -166,16 +169,25 @@ const navigate = useNavigate();
             backgroundColor:'white',
               fontWeight: "bold",
               color: "gray",
-              padding: "10px 10px 10px 10px",
-              marginTop:'10px'
+              padding: "10px 10px 10px 0px",
+              marginTop:'10px',
+              textAlign:'left',
+              fontSize:'14px', 
             }}
           >
                     {/* <h2 className="gradient">get access</h2> */}
 
-            enter up to five emails (you + friends + family) below and
-            we will contact them when they have access. make sure the emails match their Spotify accounts (otherwise they won't be able to
-            log in to their intended one).
-          </button>
+            <span style={{color:'black'}}>&#8594;</span> enter up to five emails (you + family + friends)<br/> <br/> 
+            <span style={{color:'black'}}>&#8594;</span> make sure the emails match their Spotify accounts<br/> <br/>
+            <span style={{color:'black'}}>&#8594;</span> we will contact them when they have access<br/> <br/> 
+            <span style={{color:'black'}}>&#8594;</span> we add users in groups so you can compare with people you know
+            
+          </div>
+
+
+          
+ 
+         
         </div>
       </div>
       <div className="email-form-container">
@@ -189,7 +201,7 @@ const navigate = useNavigate();
                 // required={index === 0} // First input is required
                 className={emailValidity[index] ? "" : "invalid-email"}
                 id={`email-input-${index}`} // Add unique IDs to each input
-                autocomplete="new-password"
+                autoComplete="new-password"
               />
             </div>
           ))}

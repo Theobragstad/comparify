@@ -74,7 +74,7 @@ function AudiofeatureModal(props) {
         const song = props.songs.find((song) => song.id === item.id);
         return {
           ...song,
-          audioValue: item[props.audiofeatureForModal], // New field for audio value
+          audioValue: props.audiofeatureForModal === "duration_ms" ? msToMinSec(item[props.audiofeatureForModal]): item[props.audiofeatureForModal], // New field for audio value
         };
       });
 
@@ -103,7 +103,11 @@ function AudiofeatureModal(props) {
 
 
 
-
+function msToMinSec(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }
 
 useEffect(() => {
     window.scrollTo({
@@ -163,7 +167,7 @@ useEffect(() => {
 
         <div className="primaryCard1" style={{ margin: 'auto', backgroundColor: "white" }}>
 
-          <div className="primaryTitle">top songs ranked by {props.audiofeatureForModal}</div>
+          <div className="primaryTitle">top songs ranked by {props.audiofeatureForModal === "duration_ms" ? "duration" : props.audiofeatureForModal}</div>
           {rankedSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (

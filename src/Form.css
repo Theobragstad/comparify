@@ -93,6 +93,7 @@
 
 .defaultBtnForm:disabled {
     opacity: 0;
+    cursor:auto;
 }
 
 .email-input input:focus {

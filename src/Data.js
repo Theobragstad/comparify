@@ -1980,7 +1980,7 @@ function Data() {
                         !twoAudioFeaturesHighestAvgs.includes(feature) &&
                         arrays.audioFeatureMeans[index] !== "-"
                           ? {
-                              border: "1px solid #ff0000",
+                              // border: "1px solid #ff0000",
                               backgroundColor: "#ffeded",
                               color: "#ff0000",
                             }
@@ -1988,7 +1988,7 @@ function Data() {
                             !twoAudioFeaturesLowestAvgs.includes(feature) &&
                             arrays.audioFeatureMeans[index] !== "-"
                           ? {
-                              border: "1px solid #17d475",
+                              // border: "1px solid #17d475",
                               backgroundColor: "#e8fcec",
                               color: "#17d475",
                             }
@@ -2007,7 +2007,7 @@ function Data() {
                         !twoAudioFeaturesHighestStdDevs.includes(feature) &&
                         arrays.audioFeatureStdDevs[index] !== "-"
                           ? {
-                              border: "1px solid #ff0000",
+                              // border: "1px solid #ff0000",
                               backgroundColor: "#ffeded",
                               color: "#ff0000",
                             }
@@ -2015,7 +2015,7 @@ function Data() {
                             !twoAudioFeaturesLowestStdDevs.includes(feature) &&
                             arrays.audioFeatureStdDevs[index] !== "-"
                           ? {
-                              border: "1px solid #17d475",
+                              // border: "1px solid #17d475",
                               backgroundColor: "#e8fcec",
                               color: "#17d475",
                             }

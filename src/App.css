@@ -9,8 +9,8 @@
   cursor: pointer;
 }
 .appLogo {
-  height: 10vmin;
-  animation: grow 4s infinite;
+  /* height: 10vmin; */
+  /* animation: grow 4s infinite; */
   cursor: pointer;
 }
 .pulse {
@@ -48,7 +48,8 @@
   }
 }
 .logoName {
-  font-size: calc(13px + 1vmin);
+  /* font-size: calc(13px + 1vmin); */
+  font-size: 20px;
   background: linear-gradient(
     to right,
     #1e90ff 0%,
@@ -62,6 +63,10 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   /* font-weight: bold; */
+
+  position:absolute;
+top:12px;
+left:100px;
 }
 .login-title {
   padding-top: 200px;
@@ -1403,11 +1408,11 @@ img:active {
   .helpModal,
   .codePage,
   .dataPage {
-    background-color: #121212;
+    background-color: #000000;
   }
   .cardOverlay,
   .navBtnContainer {
-    background-color: #222222;
+    background-color: #000000;
     color: white;
   }
 
@@ -1919,18 +1924,49 @@ img:active {
   border: none;
   border-radius: 10px;
   cursor: auto;
-  background-color: #e4fae4;
+  /* background-color: #e4fae4; */
+  background-color: #f6f6f6;
+
   font-weight: bold;
-  color: #18d860;
+  /* color: #18d860; */
+  color: gray;
+
   font-style:oblique 60deg;
   padding: 2px 5px;
-  margin-top: 30px;
-  font-size:16px
-
+  /* margin-top: 30px; */
+  font-size:14px;
+position:absolute;
+top:30px;
+left:210px;
 }
 
 
 
+.gray {
+  border: none;
+  border-radius: 10px;
+  cursor: auto;
+  /* background-color: #e4fae4; */
+  background-color: #f6f6f6;
+
+  font-weight: bold;
+  /* color: #18d860; */
+  color: gray;
+
+  /* font-style:oblique 60deg; */
+  padding: 2px 5px;
+  /* margin-top: 30px; */
+  font-size:14px;
+  cursor:pointer;
+/* position:absolute;
+
+top:30px;
+left:210px; */
+}
+
+.gray:hover:not(.nohover) {
+filter:brightness(90%)
+}
 
 .cellOutlineSmall {
   border-radius: 20px;
@@ -1949,3 +1985,157 @@ img:active {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+.fade1 {
+  animation: show 3s ease-out forwards;
+  /* animation-iteration-count: infinite; */
+  animation-delay: 250ms;
+  opacity: 0;
+}
+
+
+.fade2 {
+  animation: show 3s ease-out forwards;
+  /* animation-iteration-count: infinite; */
+  animation-delay: 500ms;
+  opacity: 0;
+}
+
+
+.fade3{
+  animation: show 3s ease-out forwards;
+  /* animation-iteration-count: infinite; */
+  animation-delay: 1000ms;
+  opacity: 0;
+}
+
+
+
+.fade4 {
+  animation: show 3s ease-out forwards;
+  /* animation-iteration-count: infinite; */
+  animation-delay: 1250ms;
+  opacity: 0;
+}
+
+
+
+.fade5 {
+  animation: show 3s ease-out forwards;
+  /* animation-iteration-count: infinite; */
+  animation-delay: 1750ms;
+  opacity: 0;
+}
+
+
+.fade6 {
+  animation: show 3s ease-out forwards;
+  /* animation-iteration-count: infinite; */
+  animation-delay: 2000ms;
+  opacity: 0;
+}
+
+
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+  
+}
+
+
+.match1 {
+  animation: matchBlue 1s ease-out forwards;
+  animation-delay: 2100ms;
+}
+
+@keyframes matchBlue {
+  0% {
+    color: darkgray;
+  }
+  100% {
+    color:#1e90ff;
+  }
+  
+}
+
+
+.match2 {
+  animation: matchGreen 1s ease-out forwards;
+  animation-delay: 2100ms;
+}
+
+@keyframes matchGreen {
+  0% {
+    color: darkgray;
+  }
+  100% {
+    color:#18d860;
+  }
+  
+}
+
+
+
+.match3 {
+  animation: matchYellow 1s ease-out forwards;
+  animation-delay: 2100ms;
+}
+
+@keyframes matchYellow {
+  0% {
+    color: darkgray;
+  }
+  100% {
+    color:#ffdf00;
+  }
+  
+}
+
+
+
+.animation {
+  /* width:300px;
+  height:300px; */
+  position:absolute;
+  top:-10%;
+  right:-20%;
+
+
+  transform:scale(0.8); 
+}
+
+
+@media screen and (max-width: 500px) {
+.animation {
+  top:20% !important;
+  transform:scale(0.6); 
+right:3%;
+}
+
+
+}
+
+@media screen and (max-width: 800px) {
+  .animation {
+    top:15% !important;
+    transform:scale(0.7); 
+  right:3%;
+  }
+  
+  
+  }

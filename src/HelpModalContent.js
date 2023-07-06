@@ -43,7 +43,7 @@ const HelpModalContent = () => {
   return (
     <div>
       <div className="helpModalContent">
-        <img src={logo} style={{width:'50px'}} className="pulse"/>
+        {/* <img src={logo} style={{width:'50px'}} className="pulse"/> */}
         {isHowToUseExpanded ? (
           <h3
             className="helpSection"
