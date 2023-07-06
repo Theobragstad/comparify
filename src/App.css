@@ -1,3 +1,14 @@
+body {
+  margin: 0;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+
+
+
 .App {
   text-align: center;
   user-select: none;
@@ -1610,9 +1621,63 @@ img:active {
 
 
 
-.gradientSimple {
+.gradientToBottom {
   background: linear-gradient(
     to bottom,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  width: fit-content;
+  /* margin: 0 auto 3vh; */
+}
+
+
+.gradientToRight {
+  background: linear-gradient(
+    to right,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  width: fit-content;
+  /* margin: 0 auto 3vh; */
+}
+
+
+.gradientToBottom {
+  background: linear-gradient(
+    to bottom,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  width: fit-content;
+  /* margin: 0 auto 3vh; */
+}
+
+
+.gradientToLeft {
+  background: linear-gradient(
+    to left,
     #1e90ff 0%,
     #1e90ff 40%,
     #18d860 40%,
@@ -2138,4 +2203,32 @@ right:3%;
   }
   
   
+  }
+
+
+
+
+
+
+  .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .separator::before,
+  .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #000;
+
+    
+  }
+  
+  .separator:not(:empty)::before {
+    margin-right: .25em;
+  }
+  
+  .separator:not(:empty)::after {
+    margin-left: .25em;
   }

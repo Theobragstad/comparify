@@ -1093,10 +1093,12 @@ function Code() {
           <button
             onClick={downloadCode}
             className="basicBtn downloadCodeBtnCodePage"
-            title="Download your code"
-            disabled={loadingDownload}
+            data-tooltip-id="codePageTooltip1"
+            data-tooltip-content="Download your code to share it"
+            disabled={loadingDownload || loadingView || loadingCompare1 || loadingCompare2}
+            style={{border:'none',width:'fit-content', padding:'2px 10px', fontSize:'18px'}}
           >
-            download your code
+            save code
           </button>
           {loadingDownload && (
             <div className="loadingDots">
@@ -1109,13 +1111,15 @@ function Code() {
         <div className="codeDiv ">
           <button
             className="basicBtn "
-            title="View your data"
-            disabled={loadingView}
+            data-tooltip-id="codePageTooltip1"
+            data-tooltip-content="View your data by itself"
+                        disabled={loadingView || loadingDownload || loadingCompare1 || loadingCompare2}
             onClick={() => {
               toDataPage();
             }}
+            style={{border:'none', width:'fit-content', padding:'2px 10px', fontSize:'18px'}}
           >
-            view your data
+            view data
           </button>
           {loadingView && (
             <div className="loadingDots">
@@ -1125,7 +1129,9 @@ function Code() {
             </div>
           )}
         </div>
-        <h4 className="grayText">or</h4>
+        {/* <h4 className="grayText">or</h4> */}
+        <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}>or</div>
+
         <div>
           <h2 className="gradient compareNameCodePage">compare</h2>
         </div>
@@ -1146,6 +1152,7 @@ function Code() {
                 onClick={() => {
                   toComparePage1();
                 }}
+                style={{border:'none'}}
               >
                 submit
               </button>
@@ -1190,6 +1197,7 @@ function Code() {
               onClick={() => {
                 toComparePage2();
               }}
+              style={{border:'none'}}
             >
               submit
             </button>

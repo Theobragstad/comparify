@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import logo from "./img/logo.png";
+import popoutIcon from "./img/popoutIcon.png"
 import x from "./img/x.png";
 import missingImage from "./img/missingImage.png";
 import "./App.css";
@@ -1965,11 +1966,12 @@ function Data() {
                       className="audioFeaturesColumnLabel"
                       data-tooltip-id="dataPageTooltip1"
                       data-tooltip-content={featureExplanations[index]}
-                      onClick={e => {openAudiofeatureModal(feature)}}
+                     
                     >
                       {feature}
                      
                     </span>
+                    <span  onClick={e => {openAudiofeatureModal(feature)}}><img src={popoutIcon} style={{width:'10px', marginLeft:'10px', cursor:'pointer', pointerEvents:'all'}}/></span>
                   </td>
 
                   <td>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import Spline from "@splinetool/react-spline";
-
+import Animation from "./Animation";
 import Footer from "./Footer";
 import logo from "./img/logo.png";
 
@@ -11,8 +11,8 @@ function Home() {
   document.title = "comparify - Explore and compare your music";
 
   const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  const REDIRECT_URI = "http://localhost:3000/code";
-  // const REDIRECT_URI = "https://comparify.app/code";
+  // const REDIRECT_URI = "http://localhost:3000/code";
+  const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
@@ -25,6 +25,47 @@ function Home() {
 
   const handleClickBETA = () => {
     navigate("/beta");
+  };
+
+
+
+  const [expirationTime, setExpirationTime] = useState("");
+  const [token, setToken] = useState("");
+
+
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem("expirationTime");
+    if (!expirationTime) {
+      return true;
+    }
+    return new Date().getTime() > parseInt(expirationTime);
+  };
+
+
+  useEffect(() => {
+   
+  if (isTokenExpired()) {
+    logout();
+  }
+  }, [handleClick]);
+
+  const logout = (error) => {
+    if (error === "apiError") {
+      // clearCookies();
+      setToken("");
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("expirationTime");
+      navigate("/", { state: { [error]: true } });
+    } else {
+      // clearCookies();
+      setToken("");
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("expirationTime");
+      // navigate("/", { state: { switchUser: true } });
+      navigate("/")
+    }
   };
 
   return (
@@ -117,6 +158,9 @@ function Home() {
         beta
       </div>
 
+
+      <Animation/>
+
       <div style={{ position: "absolute", bottom: "15%" }}>
         <span
           className="gray"
@@ -134,10 +178,7 @@ function Home() {
         <Footer />
       </div>
 
-      <div>
-      <Spline scene="https://prod.spline.design/9GnnxPg3NnntVq3C/scene.splinecode" />
-
-        </div>
+     
     </div>
   );
 }
