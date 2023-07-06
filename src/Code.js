@@ -9,7 +9,7 @@ import "./App.css";
 import back from "./img/back.png";
 import defaultProfile from "./img/defaultProfile.jpeg";
 import switchUserImg from "./img/switchUser.png";
-
+import logo from "./img/logo.png"
 function Code() {
   // const pageTitle = `${"hello"}`;
   document.title = "comparify - Get your code";
@@ -1008,6 +1008,33 @@ function Code() {
 
   return (
     <div className="codePage">
+      <button
+        className={"defaultBtn"}
+        onClick={()=>navigate('/')}
+        title="Log in"
+      >
+        <img
+          src={logo}
+          className="appLogo"
+          alt="logo"
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "30px",
+            width: "60px",
+            pointerEvents:'all'
+          }}
+        />
+        <div className="logoDiv"></div>
+      </button>
+      <h1 className="logoName">comparify</h1>
+      <div
+        className="betaIcon"
+        // onClick={handleClickBETA}
+        // style={{ cursor: "pointer" }}
+      >
+        beta
+      </div>
       {location.state?.error && location.state.error === 400 && (
         <div className="errorMessage2">
           code error. make sure the file you uploaded is a valid comparify code.

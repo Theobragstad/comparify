@@ -396,7 +396,7 @@ const Game = (props) => {
             <img src={grayX} style={{ width: "10px" }} id="exitBtn"></img>
           </button>
           {/* </div> */}
-          {randomSelections?.length === 0 ?(<div className="notEnoughData" style={{color:'gray', fontWeight:'bold'}}>Not enough data for a game.<br/>Try comparing with someone else.</div>) : 
+          {randomSelections?.length === 0 ?(<div className="notEnoughData" style={{color:'gray', fontWeight:'bold'}}>Not enough data for a game.<br/>Try another time range, or compare with someone else.</div>) : 
           
         
         

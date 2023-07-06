@@ -1857,7 +1857,8 @@ function Compare() {
             <img
               src={nameIdImgurlGenerationdate1[2]}
               style={{
-                width: "30px",
+                width: "30px ",
+                height: "30px",
                 borderRadius: "50%",
                 paddingLeft: "10px",
                 paddingRight: "10px",
@@ -1885,7 +1886,7 @@ function Compare() {
               src={nameIdImgurlGenerationdate2[2]}
               style={{
                 width: "30px",
-                height: "30px",
+                height: "30px !important",
                 borderRadius: "50%",
                 paddingLeft: "10px",
                 paddingRight: "10px",

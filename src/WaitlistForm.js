@@ -179,7 +179,7 @@ const navigate = useNavigate();
             <span className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> enter up to five emails (you + family + friends)<br/> <br/> 
             <span className="gray nohover" style={{color:'black', cursor:'auto'}}>&#8594;</span> make sure the emails match their Spotify accounts<br/> <br/>
             <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we will contact them when they have access<br/> <br/> 
-            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we add users in groups so you can compare with people you know
+            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we add users in groups so you can try it with people you know
             
           </div>
 
