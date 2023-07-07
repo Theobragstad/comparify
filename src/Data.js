@@ -169,13 +169,20 @@ function Data() {
     useState("last month");
   const timeRangesClean = ["last month", "last 6 months", "all time"];
 
+
+
+
+  const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(false);
+
   const selectButton = (index) => {
+    setIsTimeRangeLoading(true)
     setSelectedButton(index);
     setSelectedTimeRange(timeRanges[index - 1]);
 
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
 
     setApiResponse("");
+    setIsTimeRangeLoading(false)
   };
 
   const location = useLocation();
@@ -1119,7 +1126,7 @@ function Data() {
       {/* <ScrollButton /> */}
 
       <Link to="/" title="Home" style={{ display: "block" }}>
-        <img className="dataPageLogo" src={logoAlt}></img>
+        <img className="dataPageLogo" src={logo}></img>
       </Link>
 
       <div>
@@ -1206,6 +1213,12 @@ function Data() {
           </Link>
         </div>
         <div className="navBtnOverlay">
+          {isTimeRangeLoading ? (<div className="loadingDots" style={{marginBottom:'12px'}}>
+              <div className="loadingDots--dot"></div>
+              <div className="loadingDots--dot"></div>
+              <div className="loadingDots--dot"></div>
+            </div>) : (
+            <>
           <button
             className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
             onClick={() => selectButton(1)}
@@ -1224,6 +1237,8 @@ function Data() {
           >
             all time
           </button>
+          </>
+          )}
         </div>
       </div>
 

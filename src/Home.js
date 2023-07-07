@@ -106,6 +106,7 @@ function Home() {
           textAlign: "left",
           color: "darkgray",
           fontSize: "calc(15px + 2vmin)",
+          fontFamily: 'gothamMedium',
         }}
       >
         <div style={{ position: "relative", top: "0px" }} className="fade1">
@@ -128,7 +129,7 @@ function Home() {
             className="fade4"
           >
             {" "}
-            shared tastes and new music
+            shared tastes
           </span>
         </div>
 
@@ -144,7 +145,7 @@ function Home() {
             <span style={{ color: "darkgray" }} className="match3">
               about
             </span>{" "}
-            other people's music
+            new music
           </span>
         </div>
       </div>

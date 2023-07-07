@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  /* font-family: proximaNova; */
 }
 html,
 body,
@@ -23,6 +24,7 @@ body,
   /* height: 10vmin; */
   /* animation: grow 4s infinite; */
   cursor: pointer;
+  font-family: gothamMedium
 }
 .pulse {
   animation: grow 3s infinite;
@@ -74,6 +76,7 @@ body,
   background-clip: text;
   -webkit-text-fill-color: transparent;
   /* font-weight: bold; */
+  font-family: gothamMedium;
 
   position:absolute;
 top:12px;
@@ -237,9 +240,9 @@ left:100px;
   transition: transform 0.4s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.basicBtn:hover {
+/* .basicBtn:hover {
   transform: scale(1.1);
-}
+} */
 .downloadCodeBtn {
   background-color: #1e90ff;
   color: white;
@@ -842,6 +845,7 @@ left:100px;
   width: 80px;
   padding-top: 20px;
   pointer-events: none;
+  font-family: gothamMedium
 }
 .gradient {
   background: linear-gradient(
@@ -2034,6 +2038,12 @@ left:210px; */
 filter:brightness(90%)
 }
 
+
+.basicBtn:hover {
+  filter:brightness(90%)
+
+}
+
 .cellOutlineSmall {
   border-radius: 20px;
   padding: 1px 2px;
@@ -2234,4 +2244,17 @@ right:3%;
   
   .separator:not(:empty)::after {
     margin-left: .25em;
+  }
+
+
+
+  @font-face {
+    font-family: gothamMedium;
+    src: url("./Gotham\ Medium.otf") format("opentype");
+  }
+
+
+  @font-face {
+    font-family: proximaNova;
+    src: url("./Proxima\ Nova.otf") format("opentype");
   }

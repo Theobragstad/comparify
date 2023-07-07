@@ -1096,9 +1096,9 @@ function Code() {
             // data-tooltip-id="codePageTooltip1"
             // data-tooltip-content="Download your code to share it"
             disabled={loadingDownload || loadingView || loadingCompare1 || loadingCompare2}
-            style={{border:'none',width:'fit-content', padding:'2px 10px', fontSize:'18px'}}
+            style={{border:'none',width:'fit-content', padding:'2px 10px'}}
           >
-            save code
+            save your code
           </button>
           {loadingDownload && (
             <div className="loadingDots">
@@ -1117,9 +1117,9 @@ function Code() {
             onClick={() => {
               toDataPage();
             }}
-            style={{border:'none', width:'fit-content', padding:'2px 10px', fontSize:'18px'}}
+            style={{border:'none', width:'fit-content', padding:'2px 10px'}}
           >
-            view data
+            view your data
           </button>
           {loadingView && (
             <div className="loadingDots">

@@ -81,11 +81,10 @@ const HelpModalContent = () => {
             <ol>
               <li>Click on the button to log in.</li>
               <li>
-                If you want, download your unique code to share with friends and
-                family.
+                If you want, download your unique code to share it.
               </li>
               <li>
-                Then, you can view your listening data by itself (without
+                You can view your listening data by itself (without
                 comparing).
               </li>
               <li>You also have two comparison options:</li>
@@ -138,7 +137,7 @@ const HelpModalContent = () => {
             <ul>
               <li>
                 comparify is primarily intended for use on a computer. You can
-                still use it on mobile, but you will have a more seamless
+                still use it on mobile, but you will have a faster and more seamless
                 experience on a computer.
               </li>
               <li>
@@ -279,11 +278,6 @@ const HelpModalContent = () => {
               <li>
                 comparify is meant to provide unique and interesting insights
                 into your Spotify activity and music habits in general.
-              </li>
-              <li>
-                After logging in, you can either view your own data alone, or
-                upload a comparify code from a friend or family member to
-                compare your music.
               </li>
               <li>
                 The data is gathered based on your 'Top Content' as determined
@@ -448,11 +442,11 @@ const HelpModalContent = () => {
                 >
                   Spotify API
                 </a>{" "}
-                to gather data and handle user login.
+                to gather data.
               </li>
               <li>
                 No user data is used by this app for any other purposes than
-                shown, and no sensitive personal data visible to the app.
+                the features shown, and no sensitive personal data is visible to the app.
               </li>
               <li>
                 The only user data that is stored are temporary cookies which
@@ -461,7 +455,7 @@ const HelpModalContent = () => {
               <li>
                 <b>
                   You can use your browser settings to clear these cookies at
-                  any time. They are not saved on a server.
+                  any time.
                 </b>
               </li>
 
@@ -503,27 +497,27 @@ const HelpModalContent = () => {
                   </span> */}
                   OpenAI API
                 </a>{" "}
-                to use ChatGPT.
+                for ChatGPT.
               </li>
               <li>
                 comparify sends a prompt to ChatGPT containing a brief summary
-                of your music preferences. Due to size limits, the prompt is not
-                intended to provide a complete picture of the data, but rather a
-                brief overview.
+                of your music preferences. The prompt is not
+                intended to provide a complete picture of your data, but rather a
+                general overview.
               </li>
               <li>
                 No personal data is used in the prompt. None of your Spotify
-                account information is sent, and the prompt is anonymous beyond
-                your music taste.
+                account information is sent, and the prompt is anonymous (beyond
+                your music taste).
               </li>
               <li>
-                Use of the OpenAI API is voluntary. If you do not wish to use
-                it, simply do not press the button (indicated by the ChatGPT
+                Use of the OpenAI API is voluntary. If you don't want to use
+                it, just don't press the button (indicated by the ChatGPT
                 logo).
               </li>
               <br></br>
               <li>
-                <b>Note that comparify is in no way affiliated with Spotify.</b>
+                <b>Note that comparify is not affiliated with Spotify.</b>
               </li>
             </ul>
           </div>
