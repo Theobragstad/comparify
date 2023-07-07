@@ -1093,8 +1093,8 @@ function Code() {
           <button
             onClick={downloadCode}
             className="basicBtn downloadCodeBtnCodePage"
-            data-tooltip-id="codePageTooltip1"
-            data-tooltip-content="Download your code to share it"
+            // data-tooltip-id="codePageTooltip1"
+            // data-tooltip-content="Download your code to share it"
             disabled={loadingDownload || loadingView || loadingCompare1 || loadingCompare2}
             style={{border:'none',width:'fit-content', padding:'2px 10px', fontSize:'18px'}}
           >
@@ -1111,8 +1111,8 @@ function Code() {
         <div className="codeDiv ">
           <button
             className="basicBtn "
-            data-tooltip-id="codePageTooltip1"
-            data-tooltip-content="View your data by itself"
+            // data-tooltip-id="codePageTooltip1"
+            // data-tooltip-content="View your data by itself"
                         disabled={loadingView || loadingDownload || loadingCompare1 || loadingCompare2}
             onClick={() => {
               toDataPage();
@@ -1219,7 +1219,7 @@ function Code() {
           )}
         </div>
 
-        <Tooltip id="codePageTooltip1" className="tooltip1" />
+        <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow/>
       </div>
       <Footer />
     </div>

@@ -181,6 +181,7 @@ left:100px;
   z-index: 2 !important;
   font-weight: bold !important;
   font-size: 12px !important;
+  padding:3px 7px !important;
 }
 .tooltip2 {
   font-weight: bold !important;
@@ -2181,15 +2182,16 @@ filter:brightness(90%)
   right:-20%;
 
 
-  transform:scale(0.8); 
+  /* transform:scale(0.8);  */
 }
 
 
 @media screen and (max-width: 500px) {
 .animation {
   top:20% !important;
-  transform:scale(0.6); 
+  /* transform:scale(0.1);  */
 right:3%;
+
 }
 
 
@@ -2198,8 +2200,9 @@ right:3%;
 @media screen and (max-width: 800px) {
   .animation {
     top:15% !important;
-    transform:scale(0.7); 
-  right:3%;
+    /* transform:scale(0.5);  */
+    right:3%;
+
   }
   
   
