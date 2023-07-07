@@ -769,12 +769,13 @@ function Data() {
 
   useEffect(() => {
     resetAllAudio();
+    setIsTimeRangeLoading(true);
 
     if (isTokenExpired()) {
       logout();
     }
 
-    setTimeout(() => {
+    // setTimeout(() => {
       getTopSongs(arrays.songIds);
       getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
       getAudioFeatureValues(
@@ -795,7 +796,7 @@ function Data() {
       getTopArtists(arrays.artistIds);
       getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
       setIsTimeRangeLoading(false);
-    }, 3000);
+    // }, 3000);
   }, [selectedTimeRange]);
 
   const navigate = useNavigate();
