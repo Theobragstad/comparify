@@ -182,7 +182,6 @@ function Data() {
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
 
     setApiResponse("");
-    setIsTimeRangeLoading(false)
   };
 
   const location = useLocation();
@@ -793,6 +792,7 @@ function Data() {
     getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
     getTopArtists(arrays.artistIds);
     getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
+    setIsTimeRangeLoading(false)
   }, [selectedTimeRange]);
 
   const navigate = useNavigate();

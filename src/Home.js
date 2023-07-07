@@ -155,7 +155,7 @@ function Home() {
       <div
         className="betaIcon"
         // onClick={handleClickBETA}
-        // style={{ cursor: "pointer" }}
+        style={{ marginLeft:'20px' }}
       >
         beta
       </div>
