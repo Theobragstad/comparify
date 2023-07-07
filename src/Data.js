@@ -172,10 +172,9 @@ function Data() {
 
 
 
-  const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(false);
+  const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
 
   const selectButton = (index) => {
-    setIsTimeRangeLoading(true);
     setSelectedButton(index);
     setSelectedTimeRange(timeRanges[index - 1]);
 
@@ -768,8 +767,6 @@ function Data() {
   const [saveGptClicked, setSaveGptClicked] = useState(false);
 
   useEffect(() => {
-    setIsTimeRangeLoading(true)
-
     resetAllAudio();
 
     if (isTokenExpired()) {
@@ -1222,19 +1219,19 @@ function Data() {
             </div>) : (
             <>
           <button
-            className={`navBtn ${selectedButton === 1 && !isTimeRangeLoading ? "selected" : ""}`}
+            className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
             onClick={() => selectButton(1)}
           >
             last month
           </button>
           <button
-            className={`navBtn ${selectedButton === 2 && !isTimeRangeLoading ? "selected" : ""}`}
+            className={`navBtn ${selectedButton === 2 ? "selected" : ""}`}
             onClick={() => selectButton(2)}
           >
             last 6 months
           </button>
           <button
-            className={`navBtn ${selectedButton === 3 && !isTimeRangeLoading ? "selected" : ""}`}
+            className={`navBtn ${selectedButton === 3 ? "selected" : ""}`}
             onClick={() => selectButton(3)}
           >
             all time
