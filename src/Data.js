@@ -775,7 +775,7 @@ function Data() {
       logout();
     }
 
-    // setTimeout(() => {
+    setTimeout(() => {
       getTopSongs(arrays.songIds);
       getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
       getAudioFeatureValues(
@@ -796,7 +796,7 @@ function Data() {
       getTopArtists(arrays.artistIds);
       getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
       setIsTimeRangeLoading(false);
-    // }, 3000);
+    }, 500);
   }, [selectedTimeRange]);
 
   const navigate = useNavigate();
