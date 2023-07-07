@@ -6,10 +6,10 @@ import logo from "./img/logo.png";
 import check from "./img/check.png";
 import logoAlt from "./img/logoAlt.png";
 import { useNavigate, Link } from "react-router-dom";
-import Footer from "./Footer"
+import Footer from "./Footer";
+import sideArrowRight from "./img/sideArrowRight.png";
 function WaitlistForm() {
-
-    document.title = "comparify - Beta";
+  document.title = "comparify - Beta";
 
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
@@ -52,7 +52,9 @@ function WaitlistForm() {
 
   const isFormValid =
     emailValidity.every((validity) => validity) &&
-    emails.some((email, index) => email.trim() !== "" && emailValidity[index]) &&
+    emails.some(
+      (email, index) => email.trim() !== "" && emailValidity[index]
+    ) &&
     !emails.some(
       (email, index) => emails.indexOf(email) !== index && email.trim() !== ""
     );
@@ -89,10 +91,10 @@ function WaitlistForm() {
 
     if (isEmailsValid) {
       console.log(emails);
-     sendEmail(emails);
+      sendEmail(emails);
       setSubmitted(true);
 
-      setEmails(["", "", "", "", ""]); 
+      setEmails(["", "", "", "", ""]);
       setTimeout(() => {
         form.current.reset();
         setSubmitted(false);
@@ -134,59 +136,73 @@ function WaitlistForm() {
         }
       );
   };
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const goBack = () => {
-    navigate("/")
-  }
+    navigate("/");
+  };
 
   return (
-
     <div className="containerMain">
-{/* <Link to="/eeee"> */}
-        <button
-            title="Back"
-            className="defaultBtn"
-            onClick={()=>navigate('/')}
-           
-          >
-             <img src={logo}  className="appLogo" alt="logo" style={{position:'absolute', top:'20px', left:'30px', width:'60px', pointerEvents:'all'}}/>
-</button>
-{/* </Link> */}
-   
-<h1 className="logoName">comparify</h1>
+      {/* <Link to="/eeee"> */}
+      <button title="Back" className="defaultBtn" onClick={() => navigate("/")}>
+        <img
+          src={logo}
+          className="appLogo"
+          alt="logo"
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "30px",
+            width: "60px",
+            pointerEvents: "all",
+          }}
+        />
+      </button>
+      {/* </Link> */}
+
+      <h1 className="logoName">comparify</h1>
 
       <div className="title">
         <div className="">
-        <div className="gray nohover" style={{width:'fit-content', margin:'30px auto', cursor:'auto'}}>get access</div>
+          <div
+            className="gray nohover"
+            style={{
+              width: "fit-content",
+              margin: "30px auto",
+              cursor: "auto",
+            }}
+          >
+            get access
+          </div>
           <br />
           <div
             style={{
               border: "none",
               borderRadius: "10px",
               cursor: "auto",
-            //   backgroundColor: "#f6f6f6",
-            backgroundColor:'white',
+              //   backgroundColor: "#f6f6f6",
+              backgroundColor: "white",
               fontWeight: "bold",
               color: "gray",
               padding: "10px 10px 10px 0px",
-              textAlign:'left',
-              fontSize:'14px', 
+              textAlign: "left",
+              fontSize: "14px",
             }}
           >
-                    {/* <h2 className="gradient">get access</h2> */}
+            {/* <h2 className="gradient">get access</h2> */}
 
-            <span className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> enter up to five emails (you + family + friends)<br/> <br/> 
+            <span className="gray nohover"style={{color:'black', cursor:'auto'}}><img src={sideArrowRight} style={{ width: "8px" }}></img></span> enter up to five emails (you + family + friends)<br/> <br/> 
+            <span className="gray nohover" style={{color:'black', cursor:'auto'}}><img src={sideArrowRight} style={{ width: "8px" }}></img></span> make sure the emails match their Spotify accounts<br/> <br/>
+            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}><img src={sideArrowRight} style={{ width: "8px" }}></img></span> we will contact them when they have access<br/> <br/> 
+            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}><img src={sideArrowRight} style={{ width: "8px" }}></img></span> we add users in groups so you can try it with people you know
+
+            {/* <span className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> enter up to five emails (you + family + friends)<br/> <br/> 
             <span className="gray nohover" style={{color:'black', cursor:'auto'}}>&#8594;</span> make sure the emails match their Spotify accounts<br/> <br/>
             <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we will contact them when they have access<br/> <br/> 
-            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we add users in groups so you can try it with people you know
+            <span  className="gray nohover"style={{color:'black', cursor:'auto'}}>&#8594;</span> we add users in groups so you can try it with people you know */}
             
           </div>
-
-
-          
- 
-         
         </div>
       </div>
       <div className="email-form-container">
@@ -205,25 +221,30 @@ const navigate = useNavigate();
             </div>
           ))}
           {!submitted ? (
-            <div style={{marginTop:'30px'}}
->            <div
-              type="submit"
-              className={!isFormValid ? "defaultBtnForm disabled":"defaultBtnForm"}
-              style={{width:'fit-content',margin:'0 auto '}}
-              onClick={handleSubmit}
-            >
-              submit &#8594;
-            </div></div>
+            <div style={{ marginTop: "30px" }}>
+              {" "}
+              <div
+                type="submit"
+                className={
+                  !isFormValid ? "defaultBtnForm disabled" : "defaultBtnForm"
+                }
+                style={{ width: "fit-content", margin: "0 auto " }}
+                onClick={handleSubmit}
+              >
+                submit &#8594;
+              </div>
+            </div>
           ) : (
             <span className="submitted">
               <br />
-              <img src={check} style={{ width: "15px" }} /><span style={{color:'#18d860'}} > {" "}Submitted!</span>{" "}
+              <img src={check} style={{ width: "15px" }} />
+              <span style={{ color: "#18d860" }}> Submitted!</span>{" "}
               Notifications will be sent when access becomes available.
             </span>
           )}
         </form>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

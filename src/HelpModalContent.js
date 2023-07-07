@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import spotify from "./img/spotify.png";
 import openai from "./img/openai.png";
-import logo from "./img/logo.png"
+import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
 
@@ -79,7 +79,7 @@ const HelpModalContent = () => {
         {isHowToUseExpanded && (
           <div className="helpModalText">
             <ol>
-              <li>Click on the logo to log in.</li>
+              <li>Click on the button to log in.</li>
               <li>
                 If you want, download your unique code to share with friends and
                 family.
@@ -88,7 +88,7 @@ const HelpModalContent = () => {
                 Then, you can view your listening data by itself (without
                 comparing).
               </li>
-              <li>Then, you have two options:</li>
+              <li>You also have two comparison options:</li>
               <ul>
                 <li>
                   Upload another code to compare with your own data. (You can
@@ -138,8 +138,13 @@ const HelpModalContent = () => {
             <ul>
               <li>
                 comparify is primarily intended for use on a computer. You can
-                still use it on mobile, but you will have a more seamless experience
-                on a computer.
+                still use it on mobile, but you will have a more seamless
+                experience on a computer.
+              </li>
+              <li>
+                Some mobile browsers, including Chrome, require double taps to
+                activate some buttons. If a button is not pressing on the first
+                tap, try double tapping it.
               </li>
               <li>
                 The general fix to many issues is to clear your cookies. To get
@@ -163,6 +168,11 @@ const HelpModalContent = () => {
                   Note that the Spotify login session expires after one hour.
                 </li>
               </ul>
+              <li>
+                If you try to log in and are redirected back home, this means
+                that your previous session has expired and you must log in
+                again.
+              </li>
               <li>
                 To have another user log in to their account on the same
                 computer, click the switch user button on the code page.

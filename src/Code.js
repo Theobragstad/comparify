@@ -809,7 +809,7 @@ function Code() {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
 
-    const formattedDateTime = `${year}-${month}-${day} ${hours}.${minutes}.${seconds} ${ampm}`;
+    const formattedDateTime = `$${month}-${day}-${year} ${hours}.${minutes}.${seconds} ${ampm}`;
 
     return formattedDateTime;
   }
@@ -839,10 +839,10 @@ function Code() {
 
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.download = `comparify code for ${displayName.replace(
+    link.download = `[comparify code] [${displayName.replace(
       /[<>:"\\|?*]/g,
       ""
-    )} at ${getCurrentDateTime()}.txt`;
+    )}] @ ${getCurrentDateTime()}.txt`;
     link.click();
   };
 

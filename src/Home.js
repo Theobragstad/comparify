@@ -75,7 +75,7 @@ function Home() {
           API error. Make sure you're logged in and and/or try again later.
         </div>
       )}
-      <button
+      <div
         className={"defaultBtn"}
         onClick={()=>navigate('/')}
         title="Log in"
@@ -93,7 +93,9 @@ function Home() {
           }}
         />
         <div className="logoDiv"></div>
-      </button>
+        <h1 className="logoName">comparify</h1>
+
+      </div>
 
       <div
         style={{
@@ -149,7 +151,6 @@ function Home() {
 
 
       
-      <h1 className="logoName">comparify</h1>
       <div
         className="betaIcon"
         // onClick={handleClickBETA}
