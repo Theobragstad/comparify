@@ -175,6 +175,7 @@ function Data() {
   const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
 
   const selectButton = (index) => {
+    setIsTimeRangeLoading(true)
     setSelectedButton(index);
     setSelectedTimeRange(timeRanges[index - 1]);
 
@@ -772,26 +773,29 @@ function Data() {
     if (isTokenExpired()) {
       logout();
     }
-    getTopSongs(arrays.songIds);
-    getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
-    getAudioFeatureValues(
-      arrays.highestAudioFeatureSongIds,
-      setHighestAudioFeatureValues
-    );
 
-    getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
-    getAudioFeatureValues(
-      arrays.lowestAudioFeatureSongIds,
-      setLowestAudioFeatureValues
-    );
-
-    getMostLeastPopSongs(arrays.mostLeastPopSongIds);
-    getOldestNewestSongs(arrays.oldestNewestSongIds);
-    getTopAlbums(arrays.albumIds);
-    getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
-    getTopArtists(arrays.artistIds);
-    getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
-    setIsTimeRangeLoading(false)
+    setTimeout(() => {
+      getTopSongs(arrays.songIds);
+      getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
+      getAudioFeatureValues(
+        arrays.highestAudioFeatureSongIds,
+        setHighestAudioFeatureValues
+      );
+  
+      getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
+      getAudioFeatureValues(
+        arrays.lowestAudioFeatureSongIds,
+        setLowestAudioFeatureValues
+      );
+  
+      getMostLeastPopSongs(arrays.mostLeastPopSongIds);
+      getOldestNewestSongs(arrays.oldestNewestSongIds);
+      getTopAlbums(arrays.albumIds);
+      getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
+      getTopArtists(arrays.artistIds);
+      getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
+      setIsTimeRangeLoading(false);
+    }, 3000);
   }, [selectedTimeRange]);
 
   const navigate = useNavigate();
