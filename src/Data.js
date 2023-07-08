@@ -796,7 +796,7 @@ function Data() {
       getTopArtists(arrays.artistIds);
       getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
       setIsTimeRangeLoading(false);
-    }, 500);
+    }, 1000);
   }, [selectedTimeRange]);
 
   const navigate = useNavigate();

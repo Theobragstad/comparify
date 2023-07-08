@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+
 import spotify from "./img/spotify.png";
 import openai from "./img/openai.png";
 import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
+import { DarkModeContext } from './App';
+
 
 const HelpModalContent = () => {
+
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
   const [isHowToUseExpanded, setIsHowToUseExpanded] = useState(false);
   const [isTroubleshootingExpanded, setIsTroubleshootingExpanded] =
     useState(false);
@@ -42,7 +49,8 @@ const HelpModalContent = () => {
 
   return (
     <div>
-      <div className="helpModalContent">
+      <div className={darkMode ? "helpModalContent dark" : "helpModalContent"}>
+        <div style={{fontWeight:'bold',fontSize:'13px',color:'gray'}}>comparify is in beta. only select users can log in. fill out the <Link to="/beta" style={{textDecoration:'none', fontWeight:'bold', color:'#1e90ff'}}>form</Link> to join the waitlist.</div>
         {/* <img src={logo} style={{width:'50px'}} className="pulse"/> */}
         {isHowToUseExpanded ? (
           <h3

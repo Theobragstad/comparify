@@ -10,6 +10,9 @@ import back from "./img/back.png";
 import defaultProfile from "./img/defaultProfile.jpeg";
 import switchUserImg from "./img/switchUser.png";
 import logo from "./img/logo.png"
+import downloadBlue from "./img/downloadBlue.png"
+import dashboard from "./img/dashboard.png"
+
 function Code() {
   // const pageTitle = `${"hello"}`;
   document.title = "comparify - Get your code";
@@ -1032,6 +1035,7 @@ function Code() {
         className="betaIcon"
         // onClick={handleClickBETA}
         // style={{ cursor: "pointer" }}
+        style={{ marginLeft:'20px' }}
       >
         beta
       </div>
@@ -1060,6 +1064,7 @@ function Code() {
               src={back}
               className="backImgCodePage"
               alt="Home button arrow"
+              style={{cursor:'pointer'}}
             ></img>
           </button>
 
@@ -1074,6 +1079,7 @@ function Code() {
               src={switchUserImg}
               className="backImgCodePage"
               alt=""
+              style={{cursor:'pointer'}}
             ></img>
           </button>
         </div>
@@ -1089,40 +1095,48 @@ function Code() {
           )}
         </div>
 
-        <div className="codeDiv">
+        <div className="codeDiv" style={{ display: 'flex', justifyContent: 'center'}}>
+        {!loadingDownload ? (
           <button
             onClick={downloadCode}
             className="basicBtn downloadCodeBtnCodePage"
             // data-tooltip-id="codePageTooltip1"
-            // data-tooltip-content="Download your code to share it"
+            title = "Download your code to share it"
             disabled={loadingDownload || loadingView || loadingCompare1 || loadingCompare2}
-            style={{border:'none',width:'fit-content', padding:'2px 10px'}}
+            style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
           >
-            save your code
+            <img src={downloadBlue} style={{width:'20px'}}/>  <span style={{ marginLeft: '5px' }}>save your code</span>
           </button>
-          {loadingDownload && (
-            <div className="loadingDots">
+           ): (
+            <>
+            <div style={{height: '25px'}}>
+              </div>
+            <div className="loadingDots" style={{marginTop: '80px'}}>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
-            </div>
+            </div></>
           )}
         </div>
-        <div className="codeDiv ">
-          <button
-            className="basicBtn "
-            // data-tooltip-id="codePageTooltip1"
-            // data-tooltip-content="View your data by itself"
-                        disabled={loadingView || loadingDownload || loadingCompare1 || loadingCompare2}
-            onClick={() => {
-              toDataPage();
-            }}
-            style={{border:'none', width:'fit-content', padding:'2px 10px'}}
-          >
-            view your data
-          </button>
-          {loadingView && (
-            <div className="loadingDots">
+        <div className="codeDiv " style={{ display: 'flex', justifyContent: 'center' }}>
+          {!loadingView ? (
+        <button
+  className="basicBtn"
+  // data-tooltip-id="codePageTooltip1"
+  title="View your data by itself"
+  disabled={loadingView || loadingDownload || loadingCompare1 || loadingCompare2}
+  onClick={() => {
+    toDataPage();
+  }}
+  style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
+>
+  <img src={dashboard} style={{ width: '20px' }} />
+  <span style={{ marginLeft: '5px' }}>view your data</span>
+</button>
+) : (
+
+          
+            <div className="loadingDots" >
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
@@ -1133,7 +1147,7 @@ function Code() {
         <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}>or</div>
 
         <div>
-          <h2 className="gradient compareNameCodePage">compare</h2>
+          <h2 className="gradient compareNameCodePage" style={{fontFamily:'gothamMedium'}}>compare</h2>
         </div>
         <div className="uploadBtn1">
           <input
@@ -1145,17 +1159,17 @@ function Code() {
           />
           <span className="codeDiv">
             {!loadingCompare1 && (
-              <button
+              <span
                 title="Submit"
-                className="submitBtn "
-                disabled={!file2}
+                className={!file2 ? "submitBtn disabled": "submitBtn"}
+                // disabled={!file2}
                 onClick={() => {
                   toComparePage1();
                 }}
-                style={{border:'none'}}
+               
               >
-                submit
-              </button>
+                submit  &#8594;
+              </span>
             )}
             {loadingCompare1 && (
               <button
@@ -1189,18 +1203,19 @@ function Code() {
             data-tooltip-content="upload the code for the second user you want to compare with"
             accept=".txt"
             onChange={addFile2TwoComp}
+            style={{marginLeft:'20px'}}
           />
           {!loadingCompare2 && (
-            <button
-              className="submitBtn"
-              disabled={!file1TwoComp || !file2TwoComp}
+            <span
+              className={!file1TwoComp || !file2TwoComp ? "submitBtn disabled" : "submitBtn"}
+              // disabled=
               onClick={() => {
                 toComparePage2();
               }}
-              style={{border:'none'}}
+              style={{}}
             >
-              submit
-            </button>
+              submit  &#8594;
+            </span>
           )}
           {loadingCompare2 && (
             <button

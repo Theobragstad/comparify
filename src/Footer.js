@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import logo from "./img/logo.png";
@@ -6,8 +6,17 @@ import x from "./img/x.png";
 import HelpModalContent from "./HelpModalContent";
 import Modal from "react-modal";
 import logoAlt from "./img/logoAlt.png";
+import light from "./img/light.png";
+import dark from "./img/dark.png";
+
+import { DarkModeContext } from './App';
+
+
+
 
 const Footer = () => {
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
   const [footerModalIsOpen, setFooterModalIsOpen] = useState(false);
 
   const openFooterModal = async () => {
@@ -17,6 +26,34 @@ const Footer = () => {
   const closeFooterModal = () => {
     setFooterModalIsOpen(false);
   };
+
+
+
+
+ 
+  const darkModalStyles = {
+    overlay: {
+      zIndex: 9999,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+      zIndex: 9999,
+      width: "30%",
+      height: "fit-content",
+      margin: "auto",
+      borderRadius: "10px",
+      outline: "none",
+      padding: "20px",
+      maxHeight: "600px",
+      overflowY: "auto",
+      backgroundColor: "rgba(31,31,31,255)",
+      color:'white'
+    },
+  };
+
 
   const customStyles = {
     overlay: {
@@ -81,6 +118,13 @@ const Footer = () => {
         >
           Help
         </span>
+        <span
+          onClick={()=>setDarkMode(!darkMode)}
+          style={{ cursor: "pointer" }}
+          className="hoverGray"
+        >
+          &emsp;&emsp; <img src={darkMode ? dark : light} style={{width:'20px', verticalAlign:'middle'}} className={darkMode ? "darkImg" : ""}/>
+        </span>
         <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
           <div>
             comparify uses a variety of data points from multiple time spans to
@@ -102,8 +146,9 @@ const Footer = () => {
           isOpen={footerModalIsOpen}
           onRequestClose={closeFooterModal}
           contentLabel="Popup Window"
-          style={customStyles}
+          style={darkMode ? darkModalStyles : customStyles}
           className="helpModal"
+
         >
           <span>
             <button className="xBtn" onClick={closeFooterModal}>
@@ -119,6 +164,9 @@ const Footer = () => {
 
           <HelpModalContent />
         </Modal>
+
+
+
       </div>
     </div>
   );
