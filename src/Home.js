@@ -5,23 +5,29 @@ import Spline from "@splinetool/react-spline";
 import Animation from "./Animation";
 import Footer from "./Footer";
 import logo from "./img/logo.png";
+import x from "./img/x.png"
 
-import { DarkModeContext } from './App';
+// import { DarkModeContext } from './App';
+import Cookies from 'js-cookie';
+import { useDarkMode } from "./DarkMode";
+
 
 
 function Home() {
-  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  const darkMode = useDarkMode();
+
+  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   const navigate = useNavigate();
 
   document.title = "comparify - Explore and compare your music";
 
   const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  const REDIRECT_URI = "http://localhost:3000/code";
-  // const REDIRECT_URI = "https://comparify.app/code";
+  // const REDIRECT_URI = "http://localhost:3000/code";
+  const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
-  const SCOPES = "user-top-read playlist-modify-public ugc-image-upload";
+  const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing";
 
   const location = useLocation();
 
@@ -113,11 +119,34 @@ function Home() {
   //     clearInterval(interval);
   //   };
   // }, []);
+const [agreeCookieNotice, setAgreeCookieNotice] = useState(false);
+  useEffect(() => {
+    if(agreeCookieNotice) {
+      Cookies.set('agreeCookieNotice', true)
 
+    }
+  },[agreeCookieNotice])
+
+
+  
+
+
+
+const handleCookieNoticeClose = () => {
+  setAgreeCookieNotice(true);
  
+};
+
+
 
   return (
-    <div className={darkMode ? "appHeader dark" : "appHeader"} >
+    <div className={darkMode.darkModeOn ? "appHeader dark" : "appHeader"} >
+    {/* <div > */}
+
+
+{!Cookies.get('agreeCookieNotice') &&
+      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>By using this app, you agree to our use of cookies.<span style={{fontSize:'13px'}}><br/>For more info, see the help page.<br/></span><button className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+      }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">
           API error. Make sure you're logged in and and/or try again later.
@@ -216,7 +245,7 @@ function Home() {
 
       <Animation/>
 
-      <div style={{ position: "absolute", bottom: "15%" }}>
+      <div style={{ position: "absolute", bottom: "15%",margin:'0 auto',right:'0',left:'0' }}>
         <span
           className="gray"
           style={{ marginRight: "20px" }}

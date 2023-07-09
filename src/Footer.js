@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext , useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import logo from "./img/logo.png";
@@ -9,13 +9,16 @@ import logoAlt from "./img/logoAlt.png";
 import light from "./img/light.png";
 import dark from "./img/dark.png";
 
-import { DarkModeContext } from './App';
+// import { DarkModeContext } from './App';
+import Cookies from 'js-cookie';
+import { useDarkMode } from "./DarkMode";
+
 
 
 
 
 const Footer = () => {
-  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   const [footerModalIsOpen, setFooterModalIsOpen] = useState(false);
 
@@ -49,7 +52,7 @@ const Footer = () => {
       padding: "20px",
       maxHeight: "600px",
       overflowY: "auto",
-      backgroundColor: "rgba(31,31,31,255)",
+      backgroundColor: "#333333",
       color:'white'
     },
   };
@@ -93,6 +96,44 @@ const Footer = () => {
   }
   `;
 
+
+//   const [darkModeOn, setDarkModeOn] = useState(false);
+// if( Cookies.get('darkModeOn') === true) {
+//   setDarkModeOn(true);
+// }
+//   useEffect(() => {
+    
+//     if(darkModeOn) {
+//       Cookies.set('darkModeOn', true)
+
+//     }
+//     else {
+// Cookies.set('darkModeOn', false)
+//     }
+//   },[darkModeOn])
+
+// const [darkModeOn, setDarkModeOn] = useState(Cookies.get('darkModeOn') === 'true');
+
+const darkMode = useDarkMode();
+
+const toggleDarkMode = () => {
+  const updatedDarkModeOn = !darkMode.darkModeOn;
+  Cookies.set('darkModeOn', updatedDarkModeOn.toString());
+  darkMode.setDarkModeOn(updatedDarkModeOn);
+  window.location.reload()
+};
+
+
+useEffect(() => {
+  // Perform actions when darkModeOn changes
+  // This code will run whenever darkModeOn changes
+  console.log('darkModeOn changed:', darkMode.darkModeOn);
+
+  // Update other variables or trigger rerendering logic here
+  // ...
+
+}, [darkMode.darkModeOn]);
+
   return (
     <div>
       <div className="footer">
@@ -119,11 +160,11 @@ const Footer = () => {
           Help
         </span>
         <span
-          onClick={()=>setDarkMode(!darkMode)}
+          onClick={toggleDarkMode}
           style={{ cursor: "pointer" }}
           className="hoverGray"
         >
-          &emsp;&emsp; <img src={darkMode ? dark : light} style={{width:'20px', verticalAlign:'middle'}} className={darkMode ? "darkImg" : ""}/>
+          &emsp;&emsp; <img src={darkMode.darkModeOn ? dark : light} style={{width:'20px', verticalAlign:'middle'}} className={darkMode.darkModeOn ? "darkImg" : ""}/>
         </span>
         <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
           <div>
@@ -146,7 +187,7 @@ const Footer = () => {
           isOpen={footerModalIsOpen}
           onRequestClose={closeFooterModal}
           contentLabel="Popup Window"
-          style={darkMode ? darkModalStyles : customStyles}
+          style={darkMode.darkModeOn ? darkModalStyles : customStyles}
           className="helpModal"
 
         >

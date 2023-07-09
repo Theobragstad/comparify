@@ -6,12 +6,16 @@ import openai from "./img/openai.png";
 import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
-import { DarkModeContext } from './App';
+// import { DarkModeContext } from './App';
+import Cookies from "js-cookie"
+
+import { useDarkMode } from "./DarkMode";
 
 
 const HelpModalContent = () => {
+  const darkMode = useDarkMode()
 
-  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   const [isHowToUseExpanded, setIsHowToUseExpanded] = useState(false);
   const [isTroubleshootingExpanded, setIsTroubleshootingExpanded] =
@@ -49,7 +53,7 @@ const HelpModalContent = () => {
 
   return (
     <div>
-      <div className={darkMode ? "helpModalContent dark" : "helpModalContent"}>
+      <div className={darkMode.darkModeOn ? "helpModalContent darkGray" : "helpModalContent"}>
         <div style={{fontWeight:'bold',fontSize:'13px',color:'gray'}}>comparify is in beta. only select users can log in. fill out the <Link to="/beta" style={{textDecoration:'none', fontWeight:'bold', color:'#1e90ff'}}>form</Link> to join the waitlist.</div>
         {/* <img src={logo} style={{width:'50px'}} className="pulse"/> */}
         {isHowToUseExpanded ? (
@@ -280,7 +284,7 @@ const HelpModalContent = () => {
               </li>
               <li>
                 Then, it generates a code in the form of a text file that serves
-                as a "Musical Fingerprint" or snapshot of your taste at that
+                as a "Music Fingerprint" or snapshot of your taste at that
                 moment in time.
               </li>
               <li>
@@ -532,13 +536,13 @@ const HelpModalContent = () => {
         )}
       </div>
       <div className="helpModalFooter">
-        <div style={{ fontWeight: "500", fontSize: "12px" }}>
-          Contact:{" "}
+        <div style={{ fontWeight: "500", fontSize: "12px" ,fontWeight:'bold'}}>
+        
           <a
             style={{ textDecoration: "none", color: "#1e90ff" }}
-            href="mailto:theobragstad2@gmail.com"
+            href="mailto:contact@comparify.app"
           >
-            Theo Bragstad
+            contact@comparify.app
           </a>
         </div>
       </div>

@@ -8,8 +8,8 @@ import Compare from './Compare';
 import NotFound from './NotFound';
 import Game from './Game';
 import WaitlistForm from './WaitlistForm';
-
-export const DarkModeContext = React.createContext(null);
+import MoreData from './MoreData';
+// export const DarkModeContext = React.createContext(null);
 
 
 
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-       <DarkModeContext.Provider value={{ darkMode: darkMode, setDarkMode: setDarkMode }}>
+       {/* <DarkModeContext.Provider value={{ darkMode: darkMode, setDarkMode: setDarkMode }}> */}
       <Routes>
         <Route exact path="/" element={<Home/>}/>
         <Route path="/code" element={<Code/>}/>
@@ -26,9 +26,10 @@ function App() {
         <Route path="/compare" element={<Compare/>}/>
         <Route path="/play" element={<Game/>}/>
         <Route path="/beta" element={<WaitlistForm/>}/>
+        <Route path="/moredata" element={<MoreData/>}/>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      </DarkModeContext.Provider>
+      {/* </DarkModeContext.Provider> */}
     </div>
   );
 }

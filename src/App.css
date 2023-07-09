@@ -1425,8 +1425,22 @@ img:active {
 
 
 .dark {
-  background-color: #000000;
-  color:white;
+  background-color: #000000 !important;
+  color:white !important;
+  
+}
+
+.dark2 {
+  background-color: #000000 !important;
+  color:white !important;
+  padding:10px !important;
+
+}
+
+.darkGray {
+  background-color: #333333 !important;
+  color:white !important;
+  padding:10px !important;
   
 }
 
@@ -1439,7 +1453,7 @@ img:active {
   background-color: #1f1f1f;
 }
 
-.helpModalContent.dark .helpModalText {
+.helpModalContent.darkGray .helpModalText {
 background-color: #000000;
 color:white;
 }
@@ -1533,8 +1547,7 @@ color:white;
   padding: 5px 10px;
 }
 .helpSection:hover {
-  /* background-color: #fafafa; */
-  background: linear-gradient(
+  /* background: linear-gradient(
     to right,
     #1e90ff 0%,
     #1e90ff 40%,
@@ -1545,7 +1558,86 @@ color:white;
   );
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
+  color:gray;
+}
+
+.cookieNotice {
+  border-radius: 10px;
+  color:white;
+  /* border:1px solid gray; */
+  background-color: #333333;
+  font-size: 16px;
+  font-weight: bold;
+  position:absolute;
+  /* bottom:50px;
+  
+  left:50px; */
+  padding:4px 8px;
+  width:250px;
+  text-align: left;
+  z-index: 99999;
+  animation: slideUp 3s forwards;
+  transform-origin: center;
+  transition: transform 0.4s;
+opacity: 1;
+}
+
+
+
+.fullPageContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.cookieNotice:hover {
+  transform: scale(1.01);
+}
+
+@keyframes slideUp {
+  0% {
+   bottom:-200px;
+   left:100px;
+  }
+  100%{
+    bottom:20px;
+   left:100px;
+  }
+}
+
+
+
+.hide {
+  animation: slideDown 3s forwards !important;
+}
+@keyframes slideDown {
+  0% {
+    bottom:20px;
+   left:100px;
+  }
+  100%{
+    bottom:-200px;
+    left:100px;
+  }
+}
+
+.cookieNoticeClose {
+ border:none;
+ border-radius: 10px;
+ background-color: #defade;
+ font-weight: bold;
+ cursor:pointer;
+ color:#18d860;
+ font-size: 16px;
+ margin-top:5px;
+ padding:3px 4px;
+}
+
+.cookieNoticeClose:hover {
+  filter:brightness(90%)
 }
 
 .xBtn {
@@ -2286,6 +2378,11 @@ right:3%;
   @font-face {
     font-family: gothamMedium;
     src: url("./Gotham\ Medium.otf") format("opentype");
+  }
+
+
+  .gothamMedium {
+    font-family: gothamMedium;
   }
 
 

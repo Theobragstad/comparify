@@ -12,14 +12,14 @@ import Footer from "./Footer";
 import sideArrowRight from "./img/sideArrowRight.png";
 
 
-import { DarkModeContext } from './App';
-
+// import { DarkModeContext } from './App';
+import { useDarkMode } from "./DarkMode";
 
 function WaitlistForm() {
   document.title = "comparify - Beta";
+const darkMode = useDarkMode()
 
-
-  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
@@ -154,7 +154,9 @@ function WaitlistForm() {
   };
 
   return (
-    <>
+    // <>
+        <div className={darkMode.darkModeOn ? "fullPageContainer dark": "fullPageContainer"} >
+
     {/* <div className={darkMode ? "dark" : ""}></div> */}
       <h1 className="logoName">comparify</h1>
       <button title="Back" className="defaultBtn" onClick={() => navigate("/")}>
@@ -202,6 +204,7 @@ function WaitlistForm() {
                 textAlign: "left",
                 fontSize: "14px",
               }}
+              className={darkMode.darkModeOn && "dark2"}
             >
               <span
                 className="gray nohover"
@@ -238,7 +241,7 @@ function WaitlistForm() {
           </div>
         </div>
         <div className="email-form-container bottom">
-          <form ref={form} className="email-form" onSubmit={handleSubmit}>
+          <form ref={form} className={darkMode.darkModeOn ? "email-form darkGray":"email-form"}  onSubmit={handleSubmit}>
             {emails.map((email, index) => (
               <div key={index} className="email-input">
                 <input
@@ -251,6 +254,7 @@ function WaitlistForm() {
                 />
               </div>
             ))}
+            
             {!submitted ? (
               <div style={{ marginTop: "30px" }}>
                 {" "}
@@ -265,6 +269,8 @@ function WaitlistForm() {
                   submit &#8594;
                 </div>
               </div>
+              
+         
             ) : (
               <span className="submitted">
                 <br />
@@ -274,10 +280,19 @@ function WaitlistForm() {
               </span>
             )}
           </form>
+          
         </div>
+        <span
+          className="gray"
+          style={{ marginTop: "40px" }}
+          onClick={()=>navigate("/")}
+        >
+          &#8592; home 
+        </span>
       </div>
       <Footer />
-    </>
+      </div>
+    /* </> */
   );
 }
 

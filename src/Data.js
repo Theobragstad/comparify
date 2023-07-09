@@ -19,7 +19,7 @@ import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
 import Modal from "react-modal";
 import DataPageRecommendations from "./DataPageRecommendations";
-
+import range from "./img/range.png"
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
@@ -775,7 +775,7 @@ function Data() {
       logout();
     }
 
-    setTimeout(() => {
+    // setTimeout(() => {
       getTopSongs(arrays.songIds);
       getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
       getAudioFeatureValues(
@@ -796,7 +796,7 @@ function Data() {
       getTopArtists(arrays.artistIds);
       getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
       setIsTimeRangeLoading(false);
-    }, 1000);
+    // }, 1000);
   }, [selectedTimeRange]);
 
   const navigate = useNavigate();
@@ -1123,7 +1123,18 @@ function Data() {
 
 
  
-
+  function durationDiff(duration1, duration2) {
+    const ms1 = durationToMs(duration1); // Convert duration1 to milliseconds
+    const ms2 = durationToMs(duration2); // Convert duration2 to milliseconds
+  
+    const diffInMs = Math.abs(ms1 - ms2); // Get the absolute difference in milliseconds
+    return msToMinSec(diffInMs); // Convert the difference to the desired format
+  }
+  
+  function durationToMs(duration) {
+    const [minutes, seconds] = duration.split(':').map(Number);
+    return minutes * 60000 + seconds * 1000;
+  }
  
   return (
     <div className="dataPage">
@@ -1193,7 +1204,7 @@ function Data() {
           marginBottom: "20px",
         }}
       >
-        <div
+        {/* <div
           className="recommendationsBtn"
           onClick={openRecModal}
           style={{
@@ -1206,7 +1217,26 @@ function Data() {
           }}
         >
           Get recommendations
+        </div> */}
+
+<div className="recommendationsBtn" onClick={openRecModal}>
+          Get recommendations
         </div>
+        {/* <div className="recommendationsBtn"  onClick={() => {
+              toPlayPage();
+            }}>
+          Play
+        </div> */}
+        <div
+          className="recommendationsBtn border"
+          onClick={()=>navigate('/moredata', { state: { data: location.state.data, token: token } })}     
+
+        >
+          More data &#8594;
+        </div>
+        
+
+        
       </div>
       <div className="navBtnContainer">
         <div className="leftNavBtnContainer">
@@ -1964,6 +1994,11 @@ function Data() {
                 </span>
               </th>
               <th>
+                <span className="">
+                  {/* range */}
+                </span>
+              </th>
+              <th>
                 <span className="audioFeaturesColumnLabel">
                   song with lowest value
                 </span>
@@ -2099,6 +2134,9 @@ function Data() {
                         {/* } */}
                       </div>
                     )}
+                  </td>
+                  <td>
+                  <img src={range} style={{width:'20px'}} data-tooltip-content={Math.abs(highestSongValue-lowestSongValue)} data-tooltip-id="dataPageTooltip1"/>
                   </td>
                   <td>
                     {lowestSong == "-" && (

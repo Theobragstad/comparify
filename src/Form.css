@@ -14,6 +14,9 @@
   width:300px;
 }
 
+.email-form.dark {
+  background-color: #333333;
+}
 .title {
   /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
   border-radius: 10px;
@@ -34,6 +37,10 @@
   transform: translateX(-50%); */
 }
 
+.title.dark {
+  background-color: #333333;
+  color:white;
+}
 
 
 .email-input {
@@ -153,6 +160,10 @@
   right: 0;
   }
   
+
+  /* .containerMain.dark {
+    background-color: #333333;
+  } */
 
 
   @media screen and (max-width: 1000px) {
