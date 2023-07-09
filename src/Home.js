@@ -11,6 +11,8 @@ import x from "./img/x.png"
 import Cookies from 'js-cookie';
 import { useDarkMode } from "./DarkMode";
 
+import rightArrow from "./img/rightArrow.png"
+
 
 
 function Home() {
@@ -27,7 +29,7 @@ function Home() {
   const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
-  const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing";
+  const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
 
   const location = useLocation();
 
@@ -145,7 +147,7 @@ const handleCookieNoticeClose = () => {
 
 
 {!Cookies.get('agreeCookieNotice') &&
-      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>By using this app, you agree to our use of cookies.<span style={{fontSize:'13px'}}><br/>For more info, see the help page.<br/></span><button className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>By using this app, you agree to our use of cookies. For more info, see the help page.<button className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
       }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">
@@ -245,18 +247,14 @@ const handleCookieNoticeClose = () => {
 
       <Animation/>
 
-      <div style={{ position: "absolute", bottom: "15%",margin:'0 auto',right:'0',left:'0' }}>
-        <span
-          className="gray"
-          style={{ marginRight: "20px" }}
-          onClick={handleClickBETA}
-        >
-          get access &#8594;
-        </span>{" "}
-        <span className="gray" onClick={handleClick}>
-          authorized users &#8594;
-        </span>
-      </div>
+      <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
+  <span className="gray" style={{ marginRight: "20px" }} onClick={handleClickBETA}>
+    get access <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
+  </span>{" "}
+  <span className="gray" onClick={handleClick}>
+    authorized users <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
+  </span>
+</div>
 
       <div className="homeFooter">
         <Footer />

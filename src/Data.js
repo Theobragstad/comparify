@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import logo from "./img/logo.png";
-import popoutIcon from "./img/popoutIcon.png"
+import popoutIcon from "./img/popoutIcon.png";
 import x from "./img/x.png";
 import missingImage from "./img/missingImage.png";
 import "./App.css";
@@ -19,11 +19,26 @@ import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
 import Modal from "react-modal";
 import DataPageRecommendations from "./DataPageRecommendations";
-import range from "./img/range.png"
+import range from "./img/range.png";
+import rightArrow from "./img/rightArrow.png";
+import arrowRight from "./img/sideArrowRight.png";
+import arrowDown from "./img/downBtn.png";
+import spotifysmall from "./img/spotifysmall.png"
+import greenArrow from "./img/greenArrow.png"
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
   document.title = "comparify - Your data";
+
+  const handleMouseOver = () => {
+    document.getElementById("arrow").setAttribute("src", arrowDown);
+    document.getElementById("arrow").style.width = "20px";
+  };
+
+  const handleMouseOut = () => {
+    document.getElementById("arrow").setAttribute("src", arrowRight);
+    document.getElementById("arrow").style.width = "10px";
+  };
 
   Modal.setAppElement("#root");
   window.scrollTo(0, 0);
@@ -169,13 +184,10 @@ function Data() {
     useState("last month");
   const timeRangesClean = ["last month", "last 6 months", "all time"];
 
-
-
-
   const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
 
   const selectButton = (index) => {
-    setIsTimeRangeLoading(true)
+    setIsTimeRangeLoading(true);
     setSelectedButton(index);
     setSelectedTimeRange(timeRanges[index - 1]);
 
@@ -776,26 +788,26 @@ function Data() {
     }
 
     // setTimeout(() => {
-      getTopSongs(arrays.songIds);
-      getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
-      getAudioFeatureValues(
-        arrays.highestAudioFeatureSongIds,
-        setHighestAudioFeatureValues
-      );
-  
-      getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
-      getAudioFeatureValues(
-        arrays.lowestAudioFeatureSongIds,
-        setLowestAudioFeatureValues
-      );
-  
-      getMostLeastPopSongs(arrays.mostLeastPopSongIds);
-      getOldestNewestSongs(arrays.oldestNewestSongIds);
-      getTopAlbums(arrays.albumIds);
-      getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
-      getTopArtists(arrays.artistIds);
-      getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
-      setIsTimeRangeLoading(false);
+    getTopSongs(arrays.songIds);
+    getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
+    getAudioFeatureValues(
+      arrays.highestAudioFeatureSongIds,
+      setHighestAudioFeatureValues
+    );
+
+    getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
+    getAudioFeatureValues(
+      arrays.lowestAudioFeatureSongIds,
+      setLowestAudioFeatureValues
+    );
+
+    getMostLeastPopSongs(arrays.mostLeastPopSongIds);
+    getOldestNewestSongs(arrays.oldestNewestSongIds);
+    getTopAlbums(arrays.albumIds);
+    getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
+    getTopArtists(arrays.artistIds);
+    getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
+    setIsTimeRangeLoading(false);
     // }, 1000);
   }, [selectedTimeRange]);
 
@@ -1078,37 +1090,22 @@ function Data() {
     };
   }, [isPlaying]);
 
+  const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
+  const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null);
 
-
-
-
-
-  const [audiofeatureForModal, setAudiofeatureForModal] = useState(null)
-  const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null)
-
-
-  const [scrollPosition, setScrollPosition] = useState(null)
+  const [scrollPosition, setScrollPosition] = useState(null);
 
   function openAudiofeatureModal(feature) {
-    setScrollPosition(document.documentElement.scrollTop)
+    setScrollPosition(document.documentElement.scrollTop);
 
     setIsAudiofeatureModalOpen(true);
     setAudiofeatureForModal(feature);
-    
   }
 
   function closeAudiofeatureModal(feature) {
     setIsAudiofeatureModalOpen(false);
     setAudiofeatureForModal(null);
   }
-
-
-
-
-
-
-
-
 
   // useEffect(() => {
   //   if(isAudiofeatureModalOpen) {
@@ -1118,127 +1115,195 @@ function Data() {
   //         });
   //   }
 
- 
   // }, [isAudiofeatureModalOpen]);
 
-
- 
   function durationDiff(duration1, duration2) {
     const ms1 = durationToMs(duration1); // Convert duration1 to milliseconds
     const ms2 = durationToMs(duration2); // Convert duration2 to milliseconds
-  
+
     const diffInMs = Math.abs(ms1 - ms2); // Get the absolute difference in milliseconds
     return msToMinSec(diffInMs); // Convert the difference to the desired format
   }
-  
+
   function durationToMs(duration) {
-    const [minutes, seconds] = duration.split(':').map(Number);
+    const [minutes, seconds] = duration.split(":").map(Number);
     return minutes * 60000 + seconds * 1000;
   }
- 
+
+  const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+
+
+
+
+  // 
+
+  const openDropdownMenu = () => {
+    document.getElementById("dropdownMenuArrow").style.transform = "rotate(90deg)";
+    setShowDropdownMenu(true)  };
+
+  const closeDropdownMenu = () => {
+    document.getElementById("dropdownMenuArrow").style.transform = "rotate(0deg)";
+
+    setShowDropdownMenu(false)  };
+
+
+
+
   return (
     <div className="dataPage">
-      {/* <ScrollButton /> */}
+      
+      <button title="Back" className="defaultBtn" onClick={() => navigate("/code")} >
+        <img
+          src={logo}
+          className="appLogo"
+          alt="logo"
+          style={{
+            position: "absolute",
+            top: "20px",
+            left: "30px",
+            width: "60px",
+            pointerEvents: "all",
+          }}>
 
-      <Link to="/" title="Home" style={{ display: "block" }}>
-        <img className="dataPageLogo" src={logo}></img>
-      </Link>
 
-      <div>
-        <div style={{ display: "inline-block", marginTop: "20px" }}>
-          <span>
-            <h4 style={{ display: "inline" }}>comparify data for&nbsp;</h4>
-          </span>
-          <a
+          </img>
+
+          <h1 className="logoName">comparify</h1>
+
+          
+        
+       
+      </button>
+      <span className="pageHeader">Your data</span>
+
+      <div
+        className="dataPageDropdownMenuTrigger"
+        onMouseOver={openDropdownMenu }
+        onMouseOut={closeDropdownMenu}
+       
+      >
+        {/* <a
+          href={
+            "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
+          }
+          style={{ textDecoration: "none" }}
+        > */}
+          <img
+            src={nameIdImgurlGenerationdate[2]}
+            style={{
+              width: "30px",
+              borderRadius: "50%",
+              paddingLeft: "10px",
+              paddingRight: "10px",
+              verticalAlign: "middle",
+             
+            }}
+            alt="Image 1"
+          />
+        {/* </a> */}
+        <div
+          style={{
+            color: "#1e90ff",
+            fontWeight: "bold",
+            display: "inline",
+          }}
+        >
+          {nameIdImgurlGenerationdate[0]}
+          <img
+          id="dropdownMenuArrow"
+            src={rightArrow}
+            style={{
+              width: "15px",
+              verticalAlign: "middle",
+              marginLeft: "10px",
+              transform:'rotate(0deg)'
+            }}
+          />
+        </div>
+      </div>
+
+      {showDropdownMenu && 
+      <div className="dropdownMenuContainer" onMouseOver={openDropdownMenu }
+      onMouseOut={closeDropdownMenu}>
+        <div className="dropdownMenu">
+        <a
             href={
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
             }
-            style={{ textDecoration: "none" }}
-            data-tooltip-id="dataPageTooltip1"
-            data-tooltip-content="Open Spotify profile"
-          >
-            <img
-              src={nameIdImgurlGenerationdate[2]}
-              style={{
-                width: "30px",
-                borderRadius: "50%",
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                verticalAlign: "middle",
-              }}
-              alt="Image 1"
-            />
-
-            <div
-              style={{
-                color: "#1e90ff",
-                fontWeight: "bold",
-                display: "inline",
-              }}
-            >
-              {nameIdImgurlGenerationdate[0]}
-            </div>
-          </a>
-          <span>
-            &emsp;
-            <button
-              data-tooltip-id="gptTooltip"
-              onClick={openModal}
-              className="gptBtn"
-            >
-              <img
-                className="zoom"
+            style={{ textDecoration: "none",color:'#18d860' }}><img src={spotifysmall} style={{width:'20px',marginRight:'10px', verticalAlign:'middle'}}></img>Profile<img src={greenArrow} style={{width:'10px',marginLeft:'10px', verticalAlign:'middle'}}></img></a>
+        
+        
+        
+        
+        <div onClick={openModal} style={{marginTop:'20px',cursor:'pointer',fontSize:'20px'}}>
+            <span>
+            <img src={logo} style={{ width: "30px" , verticalAlign:'middle'}} className="zoom"/>
+          </span>{" "}
+          &#10799; <span style={{ color: "#75ac9d" }}><img
+                className="spin"
                 src={gptBtn}
-                style={{ width: "15px", cursor: "pointer" }}
-              />
-            </button>
-          </span>
-        </div>
-      </div>
-      <div className="generationDateTime">Generated {generationDateTime}</div>
+                style={{ width: "20px", cursor: "pointer" , verticalAlign:'middle'}}
+              />  </span>
+       </div>
 
-      <div
+
+       <div className="recommendationsBtn" onClick={openRecModal} style={{fontSize:'13px',marginTop:'20px'}}>
+          Get recommendations
+        </div>
+
+
+        <div
+          className="recommendationsBtn border"
+          onClick={() =>
+            navigate("/moredata", {
+              state: { data: location.state.data, token: token },
+            })
+
+          }
+          style={{fontSize:'13px',marginTop:'20px'}}
+        >
+          More data{" "}
+          <img
+            src={rightArrow}
+            style={{ width: "10px", verticalAlign: "middle" }}
+          />
+        </div>
+
+       <div className="generationDateTime" style={{marginTop:'30px'}}>Data generated {generationDateTime}</div>
+
+        
+        
+        
+        
+        
+        </div>
+
+
+        </div>
+      }
+
+
+
+      
+
+     
+    
+
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
           marginBottom: "20px",
         }}
       >
-        {/* <div
-          className="recommendationsBtn"
-          onClick={openRecModal}
-          style={{
-            width: "fit-content",
-            cursor: "pointer",
-            fontSize: "11px",
-            fontWeight: "bold",
-            margin: "auto",
-            padding: "2px 5px",
-          }}
-        >
-          Get recommendations
-        </div> */}
-
-<div className="recommendationsBtn" onClick={openRecModal}>
-          Get recommendations
-        </div>
-        {/* <div className="recommendationsBtn"  onClick={() => {
-              toPlayPage();
-            }}>
-          Play
-        </div> */}
-        <div
-          className="recommendationsBtn border"
-          onClick={()=>navigate('/moredata', { state: { data: location.state.data, token: token } })}     
-
-        >
-          More data &#8594;
-        </div>
         
 
-        
-      </div>
-      <div className="navBtnContainer">
+       
+      </div>  */}
+
+
+
+      <div className="navBtnContainer" >
         <div className="leftNavBtnContainer">
           <Link to="/code" title="Back">
             <button className="leftNavBtn">
@@ -1247,36 +1312,38 @@ function Data() {
           </Link>
         </div>
         <div className="navBtnOverlay">
-          {isTimeRangeLoading ? (<div className="loadingDots" style={{marginBottom:'12px'}}>
+          {isTimeRangeLoading ? (
+            <div className="loadingDots" style={{ marginBottom: "12px" }}>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
-            </div>) : (
+            </div>
+          ) : (
             <>
-          <button
-            className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
-            onClick={() => selectButton(1)}
-          >
-            last month
-          </button>
-          <button
-            className={`navBtn ${selectedButton === 2 ? "selected" : ""}`}
-            onClick={() => selectButton(2)}
-          >
-            last 6 months
-          </button>
-          <button
-            className={`navBtn ${selectedButton === 3 ? "selected" : ""}`}
-            onClick={() => selectButton(3)}
-          >
-            all time
-          </button>
-          </>
+              <button
+                className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
+                onClick={() => selectButton(1)}
+              >
+                last month
+              </button>
+              <button
+                className={`navBtn ${selectedButton === 2 ? "selected" : ""}`}
+                onClick={() => selectButton(2)}
+              >
+                last 6 months
+              </button>
+              <button
+                className={`navBtn ${selectedButton === 3 ? "selected" : ""}`}
+                onClick={() => selectButton(3)}
+              >
+                all time
+              </button>
+            </>
           )}
         </div>
       </div>
 
-      <div className="card-row">
+      <div className="card-row" style={{marginTop:'120px'}}>
         <div className="primaryCard1">
           <div className="primaryTitle">top songs</div>
           {topSongs.length === 0 ? (
@@ -1962,7 +2029,32 @@ function Data() {
         {/* </div> */}
       </div>
 
-      <div className="audioFeaturesHeader">audio features</div>
+      <div className="audioFeaturesHeader">
+        {" "}
+        <div
+          style={{
+            cursor: "pointer",
+            margin: "0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          data-tooltip-id="dataPageTooltip1"
+          data-tooltip-content="Dive even deeper with detailed stats on the audio features for your top songs this period."
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >
+          audio features{" "}
+          <img
+            id="arrow"
+            src={arrowRight}
+            style={{
+              marginLeft: "10px",
+              width: "10px",
+            }}
+          />
+        </div>
+      </div>
 
       <div className="table-container">
         <table>
@@ -1970,15 +2062,31 @@ function Data() {
             <tr>
               <th style={{ wordWrap: "break-word" }}>
                 <div style={{ maxWidth: "140px", margin: "0 auto" }}>
-                  <span style={{ fontSize: "10px" }}>
-                    &#9432;&ensp;You can hover over select labels for more
-                    information.
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRop: "10px",
+                    }}
+                  >
+                    <img
+                      src={rightArrow}
+                      style={{ width: "10px", verticalAlign: "middle" }}
+                    />
+                    &ensp;Hover/tap select labels for more information.
                   </span>
                 </div>
               </th>
 
               <th>
-                <span className="audioFeaturesColumnLabel">average</span>
+                <span
+                  className="audioFeaturesColumnLabel"
+                  style={{ cursor: "auto" }}
+                >
+                  average
+                </span>
               </th>
               <th
                 data-tooltip-id="dataPageTooltip1"
@@ -1989,17 +2097,21 @@ function Data() {
                 </span>
               </th>
               <th>
-                <span className="audioFeaturesColumnLabel">
+                <span
+                  className="audioFeaturesColumnLabel"
+                  style={{ cursor: "auto" }}
+                >
                   song with highest value
                 </span>
               </th>
               <th>
-                <span className="">
-                  {/* range */}
-                </span>
+                <span className="">{/* range */}</span>
               </th>
               <th>
-                <span className="audioFeaturesColumnLabel">
+                <span
+                  className="audioFeaturesColumnLabel"
+                  style={{ cursor: "auto" }}
+                >
                   song with lowest value
                 </span>
               </th>
@@ -2020,12 +2132,24 @@ function Data() {
                       className="audioFeaturesColumnLabel"
                       data-tooltip-id="dataPageTooltip1"
                       data-tooltip-content={featureExplanations[index]}
-                     
                     >
                       {feature}
-                     
                     </span>
-                    <span  onClick={e => {openAudiofeatureModal(feature)}}><img src={popoutIcon} style={{width:'10px', marginLeft:'10px', cursor:'pointer', pointerEvents:'all'}}/></span>
+                    <span
+                      onClick={(e) => {
+                        openAudiofeatureModal(feature);
+                      }}
+                    >
+                      <img
+                        src={popoutIcon}
+                        style={{
+                          width: "10px",
+                          marginLeft: "10px",
+                          cursor: "pointer",
+                          pointerEvents: "all",
+                        }}
+                      />
+                    </span>
                   </td>
 
                   <td>
@@ -2136,7 +2260,14 @@ function Data() {
                     )}
                   </td>
                   <td>
-                  <img src={range} style={{width:'20px'}} data-tooltip-content={Math.abs(highestSongValue-lowestSongValue)} data-tooltip-id="dataPageTooltip1"/>
+                    <img
+                      src={range}
+                      style={{ width: "20px" }}
+                      data-tooltip-content={Math.abs(
+                        highestSongValue - lowestSongValue
+                      )}
+                      data-tooltip-id="dataPageTooltip1"
+                    />
                   </td>
                   <td>
                     {lowestSong == "-" && (
@@ -2198,9 +2329,10 @@ function Data() {
         <Tooltip id="dataPageTooltip1" className="tooltip3" />
         <Tooltip id="gptTooltip" className="tooltip3">
           {/* <span className="gradient">comparify</span> */}
-          <span><img src={logo} style={{width:'20px'}}/></span>{" "}
-           &#10799;{" "}
-          <span style={{ color: "#75ac9d" }}>ChatGPT</span>
+          <span>
+            <img src={logo} style={{ width: "20px" }} />
+          </span>{" "}
+          &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
         </Tooltip>
       </div>
 
@@ -2218,8 +2350,9 @@ function Data() {
             ) : (
               <span className="gradient">comparify</span>
             )} */}
-            <span><img src={logo} style={{width:'40px'}}/></span>
-            {" "}
+            <span>
+              <img src={logo} style={{ width: "40px" }} />
+            </span>{" "}
             &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
             <br />
             <br />{" "}
@@ -2351,10 +2484,20 @@ function Data() {
         </button> */}
       </Modal>
 
-      <AudiofeatureModal  location={scrollPosition} audiofeatureForModal={audiofeatureForModal === "duration" ? "duration_ms" : audiofeatureForModal} songs={topSongs} token={token} isAudiofeatureModalOpen={isAudiofeatureModalOpen} closeAudiofeatureModal={closeAudiofeatureModal}/>
-      
+      <AudiofeatureModal
+        location={scrollPosition}
+        audiofeatureForModal={
+          audiofeatureForModal === "duration"
+            ? "duration_ms"
+            : audiofeatureForModal
+        }
+        songs={topSongs}
+        token={token}
+        isAudiofeatureModalOpen={isAudiofeatureModalOpen}
+        closeAudiofeatureModal={closeAudiofeatureModal}
+      />
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

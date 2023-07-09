@@ -10,7 +10,7 @@ import logoAlt from "./img/logoAlt.png";
 import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer";
 import sideArrowRight from "./img/sideArrowRight.png";
-
+import rightArrow from "./img/rightArrow.png"
 
 // import { DarkModeContext } from './App';
 import { useDarkMode } from "./DarkMode";
@@ -266,11 +266,12 @@ const darkMode = useDarkMode()
                   style={{ width: "fit-content", margin: "0 auto " }}
                   onClick={handleSubmit}
                 >
-                  submit &#8594;
+                  submit <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
                 </div>
               </div>
               
          
+              
             ) : (
               <span className="submitted">
                 <br />
@@ -287,7 +288,7 @@ const darkMode = useDarkMode()
           style={{ marginTop: "40px" }}
           onClick={()=>navigate("/")}
         >
-          &#8592; home 
+         <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }} /> home 
         </span>
       </div>
       <Footer />
