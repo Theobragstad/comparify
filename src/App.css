@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  z-index: 1;
   /* font-family: proximaNova; */
 }
 html,
@@ -1656,41 +1657,47 @@ opacity: 1;
     transform: translateX(-50%);
     opacity: 1;
     visibility: hidden;
+    position: absolute; /* Add position: absolute */
   }
   100% {
     bottom: 22%;
-    /* Adjust the value to set the desired final position */
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;
     visibility: visible;
+    position: absolute; /* Add position: absolute */
   }
 }
 
 
+
 .hide {
-  animation: dismiss 2s forwards !important;
+  animation: slideDown 3s forwards !important;
+
+  /* animation: dismiss 2s forwards !important; */
   /* position: fixed; */
   z-index: 9999; /* Optional: Increase the z-index if needed */
 }
 
-/* @keyframes slideDown {
+@keyframes slideDown {
+  
   0% {
     bottom: 22%;
-
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;
     visibility: visible;
+    position: absolute; /* Add position: absolute */
   }
   100% {
-    bottom: -20%;
+    bottom: -10%;
     left: 50%;
     transform: translateX(-50%);
-    opacity: 1;
-    visibility: visible;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute; /* Add position: absolute */
   }
-} */
+}
 
 @keyframes dismiss {
   0% {
@@ -2405,7 +2412,7 @@ filter:brightness(90%)
   position:absolute;
   top:-10%;
   right:-20%;
-
+z-index:0;
 
   /* transform:scale(0.8);  */
 }
