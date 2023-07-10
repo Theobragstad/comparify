@@ -23,8 +23,10 @@ import range from "./img/range.png";
 import rightArrow from "./img/rightArrow.png";
 import arrowRight from "./img/sideArrowRight.png";
 import arrowDown from "./img/downBtn.png";
-import spotifysmall from "./img/spotifysmall.png"
-import greenArrow from "./img/greenArrow.png"
+import spotifysmall from "./img/spotifysmall.png";
+import greenArrow from "./img/greenArrow.png";
+import time from "./img/time.png";
+import fullLogo from "./img/fullLogo.png";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
@@ -186,6 +188,19 @@ function Data() {
 
   const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
 
+
+
+
+
+
+
+
+  const [sliderPosition, setSliderPosition] = useState(1000);
+  const [sliderWidth, setSliderWidth] = useState(20);
+
+ 
+
+
   const selectButton = (index) => {
     setIsTimeRangeLoading(true);
     setSelectedButton(index);
@@ -194,7 +209,22 @@ function Data() {
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
 
     setApiResponse("");
+
+
+    setSliderPosition(document.getElementById(`time${index}`).offsetLeft)
+    setSliderWidth(document.getElementById(`time${index}`).offsetWidth)
+   console.log(sliderPosition)
+   
+
   };
+
+
+  useEffect(() => {
+
+  }, [sliderPosition,sliderWidth])
+
+
+  
 
   const location = useLocation();
   let token = location.state.token;
@@ -1117,42 +1147,57 @@ function Data() {
 
   // }, [isAudiofeatureModalOpen]);
 
-  function durationDiff(duration1, duration2) {
-    const ms1 = durationToMs(duration1); // Convert duration1 to milliseconds
-    const ms2 = durationToMs(duration2); // Convert duration2 to milliseconds
-
-    const diffInMs = Math.abs(ms1 - ms2); // Get the absolute difference in milliseconds
-    return msToMinSec(diffInMs); // Convert the difference to the desired format
-  }
-
-  function durationToMs(duration) {
-    const [minutes, seconds] = duration.split(":").map(Number);
-    return minutes * 60000 + seconds * 1000;
+  function getTimeDifference(time1, time2) {
+    if (time1 && time2) {
+      const [minutes1, seconds1] = time1.split(":").map(Number);
+      const [minutes2, seconds2] = time2.split(":").map(Number);
+      const difference = Math.abs(
+        minutes1 * 60 + seconds1 - (minutes2 * 60 + seconds2)
+      );
+      return `${String(Math.floor(difference / 60))}:${String(
+        difference % 60
+      ).padStart(2, "0")}`;
+    }
+    return null;
   }
 
   const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
-
-
-
-  // 
+  //
 
   const openDropdownMenu = () => {
-    document.getElementById("dropdownMenuArrow").style.transform = "rotate(90deg)";
-    setShowDropdownMenu(true)  };
+    document.getElementById("dropdownMenuArrow").style.transform =
+      "rotate(90deg)";
+    setShowDropdownMenu(true);
+  };
 
   const closeDropdownMenu = () => {
-    document.getElementById("dropdownMenuArrow").style.transform = "rotate(0deg)";
+    document.getElementById("dropdownMenuArrow").style.transform =
+      "rotate(0deg)";
 
-    setShowDropdownMenu(false)  };
+    setShowDropdownMenu(false);
+  };
 
+  const toggleDropdownMenu = () => {
+    if (showDropdownMenu) {
+      document.getElementById("dropdownMenuArrow").style.transform =
+        "rotate(0deg)";
 
-
+      setShowDropdownMenu(false);
+    } else {
+      document.getElementById("dropdownMenuArrow").style.transform =
+        "rotate(90deg)";
+      setShowDropdownMenu(true);
+    }
+  };
 
   return (
     <div className="dataPage">
-      
-      <button title="Back" className="defaultBtn" onClick={() => navigate("/code")} >
+      {/* <button
+        title="Back"
+        className="defaultBtn"
+        onClick={() => navigate("/code")}
+      >
         <img
           src={logo}
           className="appLogo"
@@ -1163,24 +1208,32 @@ function Data() {
             left: "30px",
             width: "60px",
             pointerEvents: "all",
-          }}>
+          }}
+        ></img>
 
+        <h1 className="logoName">comparify</h1>
+      </button> */}
+      <img
+        src={fullLogo}
+        onClick={() => navigate("/code")}
+        style={{
+          width: "150px",
+          position: "absolute",
+          top: "20px",
+          left: "30px",
+          pointerEvents: "all",
+          cursor: "pointer",
+        }}
+        title="/code"
+      />
 
-          </img>
-
-          <h1 className="logoName">comparify</h1>
-
-          
-        
-       
-      </button>
       <span className="pageHeader">Your data</span>
 
       <div
         className="dataPageDropdownMenuTrigger"
-        onMouseOver={openDropdownMenu }
+        onMouseOver={openDropdownMenu}
         onMouseOut={closeDropdownMenu}
-       
+        onClick={toggleDropdownMenu}
       >
         {/* <a
           href={
@@ -1188,18 +1241,17 @@ function Data() {
           }
           style={{ textDecoration: "none" }}
         > */}
-          <img
-            src={nameIdImgurlGenerationdate[2]}
-            style={{
-              width: "30px",
-              borderRadius: "50%",
-              paddingLeft: "10px",
-              paddingRight: "10px",
-              verticalAlign: "middle",
-             
-            }}
-            alt="Image 1"
-          />
+        <img
+          src={nameIdImgurlGenerationdate[2]}
+          style={{
+            width: "30px",
+            borderRadius: "50%",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            verticalAlign: "middle",
+          }}
+          alt="Image 1"
+        />
         {/* </a> */}
         <div
           style={{
@@ -1210,100 +1262,115 @@ function Data() {
         >
           {nameIdImgurlGenerationdate[0]}
           <img
-          id="dropdownMenuArrow"
+            id="dropdownMenuArrow"
             src={rightArrow}
             style={{
               width: "15px",
               verticalAlign: "middle",
               marginLeft: "10px",
-              transform:'rotate(0deg)'
+              transform: "rotate(0deg)",
             }}
           />
         </div>
       </div>
 
-      {showDropdownMenu && 
-      <div className="dropdownMenuContainer" onMouseOver={openDropdownMenu }
-      onMouseOut={closeDropdownMenu}>
-        <div className="dropdownMenu">
-        <a
-            href={
-              "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
-            }
-            style={{ textDecoration: "none",color:'#18d860' }}><img src={spotifysmall} style={{width:'20px',marginRight:'10px', verticalAlign:'middle'}}></img>Profile<img src={greenArrow} style={{width:'10px',marginLeft:'10px', verticalAlign:'middle'}}></img></a>
-        
-        
-        
-        
-        <div onClick={openModal} style={{marginTop:'20px',cursor:'pointer',fontSize:'20px'}}>
-            <span>
-            <img src={logo} style={{ width: "30px" , verticalAlign:'middle'}} className="zoom"/>
-          </span>{" "}
-          &#10799; <span style={{ color: "#75ac9d" }}><img
-                className="spin"
-                src={gptBtn}
-                style={{ width: "20px", cursor: "pointer" , verticalAlign:'middle'}}
-              />  </span>
-       </div>
-
-
-       <div className="recommendationsBtn" onClick={openRecModal} style={{fontSize:'13px',marginTop:'20px'}}>
-          Get recommendations
-        </div>
-
-
+      {showDropdownMenu && (
         <div
-          className="recommendationsBtn border"
-          onClick={() =>
-            navigate("/moredata", {
-              state: { data: location.state.data, token: token },
-            })
-
-          }
-          style={{fontSize:'13px',marginTop:'20px'}}
+          className="dropdownMenuContainer"
+          onMouseOver={openDropdownMenu}
+          onMouseOut={closeDropdownMenu}
         >
-          More data{" "}
-          <img
-            src={rightArrow}
-            style={{ width: "10px", verticalAlign: "middle" }}
-          />
+          <div className="dropdownMenu">
+            <a
+              href={
+                "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
+              }
+              style={{ textDecoration: "none", color: "#18d860" }}
+              className="darkenHover"
+            >
+              <img
+                src={spotifysmall}
+                style={{
+                  width: "20px",
+                  marginRight: "10px",
+                  verticalAlign: "middle",
+                }}
+              ></img>
+              Profile
+              <img
+                src={greenArrow}
+                style={{
+                  width: "10px",
+                  marginLeft: "10px",
+                  verticalAlign: "middle",
+                }}
+              ></img>
+            </a>
+
+            <div
+              onClick={openModal}
+              style={{ marginTop: "20px", cursor: "pointer", fontSize: "20px" }}
+            >
+              <span>
+                <img
+                  src={logo}
+                  style={{ width: "30px", verticalAlign: "middle" }}
+                  className="zoom"
+                />
+              </span>{" "}
+              &#10799;{" "}
+              <span style={{ color: "#75ac9d" }}>
+                <img
+                  className="spin"
+                  src={gptBtn}
+                  style={{
+                    width: "20px",
+                    cursor: "pointer",
+                    verticalAlign: "middle",
+                  }}
+                />{" "}
+              </span>
+            </div>
+
+            <div
+              className="recommendationsBtn"
+              onClick={openRecModal}
+              style={{ fontSize: "13px", marginTop: "20px" }}
+            >
+              Get recommendations
+            </div>
+
+            <div
+              className="recommendationsBtn border"
+              onClick={() =>
+                navigate("/moredata", {
+                  state: { data: location.state.data, token: token },
+                })
+              }
+              style={{ fontSize: "13px", marginTop: "20px" }}
+            >
+              More data{" "}
+              <img
+                src={rightArrow}
+                style={{ width: "10px", verticalAlign: "middle" }}
+              />
+            </div>
+
+            <div className="generationDateTime" style={{ marginTop: "30px" }}>
+              Data generated {generationDateTime}
+            </div>
+          </div>
         </div>
-
-       <div className="generationDateTime" style={{marginTop:'30px'}}>Data generated {generationDateTime}</div>
-
-        
-        
-        
-        
-        
-        </div>
-
-
-        </div>
-      }
+      )}
 
 
 
-      
-
-     
-    
-
-      {/* <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "20px",
-        }}
-      >
-        
-
-       
-      </div>  */}
+<div className="selectedSlider"  style={{position:'absolute',left:`${sliderPosition+70}px`, transition:'left 1s', width:`${sliderWidth}px`
+   }}></div>
 
 
 
-      <div className="navBtnContainer" >
+      <div className="navBtnContainer">
         <div className="leftNavBtnContainer">
           <Link to="/code" title="Back">
             <button className="leftNavBtn">
@@ -1312,7 +1379,14 @@ function Data() {
           </Link>
         </div>
         <div className="navBtnOverlay">
-          {isTimeRangeLoading ? (
+          {/* <img src={time} style={{width:'20px',marginRight:'20px'}}/> */}
+
+
+
+
+          {/* {isTimeRangeLoading ? ( */}
+          {false ? (
+
             <div className="loadingDots" style={{ marginBottom: "12px" }}>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
@@ -1320,21 +1394,28 @@ function Data() {
             </div>
           ) : (
             <>
+            
               <button
                 className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
-                onClick={() => selectButton(1)}
+                onClick={() => selectButton(1)
+               
+                
+                }
+                id="time1"
               >
                 last month
               </button>
               <button
                 className={`navBtn ${selectedButton === 2 ? "selected" : ""}`}
                 onClick={() => selectButton(2)}
+                id="time2"
               >
                 last 6 months
               </button>
               <button
                 className={`navBtn ${selectedButton === 3 ? "selected" : ""}`}
                 onClick={() => selectButton(3)}
+                id="time3"
               >
                 all time
               </button>
@@ -1343,7 +1424,7 @@ function Data() {
         </div>
       </div>
 
-      <div className="card-row" style={{marginTop:'120px'}}>
+      <div className="card-row" style={{ marginTop: "120px" }}>
         <div className="primaryCard1">
           <div className="primaryTitle">top songs</div>
           {topSongs.length === 0 ? (
@@ -2259,22 +2340,20 @@ function Data() {
                       </div>
                     )}
                   </td>
-                  <td >
-
-<span
+                  <td>
+                    <span
                       className="audioFeaturesColumnLabel"
-                      data-tooltip-content={Math.abs(
-                        highestSongValue - lowestSongValue
-                      )}
+                      data-tooltip-content={
+                        feature !== "duration"
+                          ? Math.abs(
+                              highestSongValue - lowestSongValue
+                            ).toFixed(2)
+                          : getTimeDifference(highestSongValue, lowestSongValue)
+                      }
                       data-tooltip-id="rangeTooltip"
                     >
-                       <img
-                      src={range}
-                      style={{ width: "20px" }}
-                      
-                    />
+                      <img src={range} style={{ width: "20px" }} />
                     </span>
-                   
                   </td>
                   <td>
                     {lowestSong == "-" && (
@@ -2334,7 +2413,7 @@ function Data() {
 
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
         <Tooltip id="dataPageTooltip1" className="tooltip3" />
-        <Tooltip clickable="true" id="rangeTooltip" className="tooltip3"/>
+        <Tooltip clickable="true" id="rangeTooltip" className="tooltip3" />
 
         <Tooltip id="gptTooltip" className="tooltip3">
           {/* <span className="gradient">comparify</span> */}

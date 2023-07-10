@@ -12,6 +12,7 @@ import switchUserImg from "./img/switchUser.png";
 import logo from "./img/logo.png"
 import downloadBlue from "./img/downloadBlue.png"
 import dashboard from "./img/dashboard.png"
+import fullLogo from "./img/fullLogo.png"
 
 function Code() {
   // const pageTitle = `${"hello"}`;
@@ -1011,7 +1012,7 @@ function Code() {
 
   return (
     <div className="codePage">
-      <button
+      {/* <button
         className={"defaultBtn"}
         onClick={()=>navigate('/')}
         title="Log in"
@@ -1030,7 +1031,20 @@ function Code() {
         />
         <div className="logoDiv"></div>
       </button>
-      <h1 className="logoName">comparify</h1>
+      <h1 className="logoName">comparify</h1> */}
+      <img
+        src={fullLogo}
+        onClick={() => navigate("/")}
+        style={{
+          width: "150px" ,
+          position: "absolute",
+          top: "20px",
+          left: "30px",
+          pointerEvents: "all",
+          cursor: "pointer",
+        }}
+        title="/home"
+      />
       <div
         className="betaIcon"
         // onClick={handleClickBETA}
@@ -1082,6 +1096,9 @@ function Code() {
               style={{cursor:'pointer'}}
             ></img>
           </button>
+        </div>
+        <div className="grayHeader titleDiv">
+          Dashboard
         </div>
         <div className="profilePicDivCodePage">
           {profilePicUrl && (

@@ -9,6 +9,8 @@ import check from "./img/check.png";
 import logoAlt from "./img/logoAlt.png";
 import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer";
+import fullLogo from "./img/fullLogo.png"
+
 import sideArrowRight from "./img/sideArrowRight.png";
 import rightArrow from "./img/rightArrow.png"
 
@@ -158,7 +160,7 @@ const darkMode = useDarkMode()
         <div className={darkMode.darkModeOn ? "fullPageContainer dark": "fullPageContainer"} >
 
     {/* <div className={darkMode ? "dark" : ""}></div> */}
-      <h1 className="logoName">comparify</h1>
+      {/* <h1 className="logoName">comparify</h1>
       <button title="Back" className="defaultBtn" onClick={() => navigate("/")}>
         <img
           src={logo}
@@ -172,7 +174,20 @@ const darkMode = useDarkMode()
             pointerEvents: "all",
           }}
         />
-      </button>
+      </button> */}
+      <img
+        src={fullLogo}
+        onClick={() => navigate("/")}
+        style={{
+          width: "175px" ,
+          position: "absolute",
+          top: "20px",
+          left: "30px",
+          pointerEvents: "all",
+          cursor: "pointer",
+        }}
+        title="/"
+      />
 
       <div className="containerMain">
         {/* <Link to="/eeee"> */}
@@ -189,7 +204,7 @@ const darkMode = useDarkMode()
                 cursor: "auto",
               }}
             >
-              get access
+              beta
             </div>
             <br />
             <div

@@ -6,7 +6,7 @@ import Animation from "./Animation";
 import Footer from "./Footer";
 import logo from "./img/logo.png";
 import x from "./img/x.png"
-
+import fullLogo from "./img/fullLogo.png"
 // import { DarkModeContext } from './App';
 import Cookies from 'js-cookie';
 import { useDarkMode } from "./DarkMode";
@@ -25,8 +25,8 @@ function Home() {
   document.title = "comparify - Explore and compare your music";
 
   const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  // const REDIRECT_URI = "http://localhost:3000/code";
-  const REDIRECT_URI = "https://comparify.app/code";
+  const REDIRECT_URI = "http://localhost:3000/code";
+  // const REDIRECT_URI = "https://comparify.app/code";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
@@ -154,7 +154,7 @@ const handleCookieNoticeClose = () => {
           API error. Make sure you're logged in and and/or try again later.
         </div>
       )}
-      <div
+      {/* <div
         className={"defaultBtn"}
         onClick={()=>navigate('/')}
         title="Log in"
@@ -174,7 +174,21 @@ const handleCookieNoticeClose = () => {
         <div className="logoDiv"></div>
         <h1 className="logoName">comparify</h1>
 
-      </div>
+      </div> */}
+
+<img
+        src={fullLogo}
+        onClick={() => navigate("/")}
+        style={{
+          width: "175px" ,
+          position: "absolute",
+          top: "20px",
+          left: "30px",
+          pointerEvents: "all",
+          cursor: "pointer",
+        }}
+        title="/"
+      />
 
 
       
