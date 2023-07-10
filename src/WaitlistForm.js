@@ -285,14 +285,17 @@ const darkMode = useDarkMode()
         </div>
         <span
           className="gray"
-          style={{ marginTop: "40px" }}
+          style={{ marginTop: "30px" }}
           onClick={()=>navigate("/")}
         >
          <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }} /> home 
         </span>
       </div>
+      
       <Footer />
+      
       </div>
+      
     /* </> */
   );
 }

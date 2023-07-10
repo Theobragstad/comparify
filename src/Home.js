@@ -256,9 +256,9 @@ const handleCookieNoticeClose = () => {
   </span>
 </div>
 
-      {/* <div className="homeFooter">
+      {/* <div className="homeFooter"> */}
         <Footer />
-      </div> */}
+      {/* </div> */}
 
      
     </div>

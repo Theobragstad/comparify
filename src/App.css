@@ -241,11 +241,12 @@ padding: 2px 5px;
   font-size: 12px;
   margin: 0 auto;
   z-index: 3;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   left: 0;
   right: 0;
 }
+
 
 .basicBtn {
   background-color: #e6f6fe;
