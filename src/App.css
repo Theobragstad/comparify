@@ -86,6 +86,7 @@ left:100px;
 @media screen and (max-width: 700px) {
   .pageHeader {
     top:80px !important;
+    margin: 0 auto;
   }
 }
 
@@ -337,6 +338,13 @@ padding: 2px 5px;
   margin-right: 10px;
   margin-left: 10px;
 }
+@media screen and (max-width: 1200px) {
+  .cardOverlay {
+    margin-top: 70px;
+  }
+  
+}
+
 .codePage {
   min-height: 100vh;
 }

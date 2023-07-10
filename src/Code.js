@@ -1236,7 +1236,7 @@ function Code() {
 
         <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow/>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
