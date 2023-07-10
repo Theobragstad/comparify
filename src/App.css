@@ -1659,12 +1659,12 @@ opacity: 1;
 
 
 .hide {
-  animation: slideDown 3s forwards !important;
+  animation: dismiss 2s forwards !important;
   position: fixed;
   z-index: 9999; /* Optional: Increase the z-index if needed */
 }
 
-@keyframes slideDown {
+/* @keyframes slideDown {
   0% {
     bottom: 22%;
 
@@ -1675,11 +1675,23 @@ opacity: 1;
   }
   100% {
     bottom: -20%;
-    /* Adjust the value to set the desired final position */
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;
     visibility: visible;
+  }
+} */
+
+@keyframes dismiss {
+  0% {
+    
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+   
+    opacity: 0;
+    visibility: hidden;
   }
 }
 
