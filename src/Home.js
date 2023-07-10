@@ -124,7 +124,7 @@ function Home() {
 const [agreeCookieNotice, setAgreeCookieNotice] = useState(false);
   useEffect(() => {
     if(agreeCookieNotice) {
-      Cookies.set('agreeCookieNotice', true)
+      // Cookies.set('agreeCookieNotice', true)
 
     }
   },[agreeCookieNotice])

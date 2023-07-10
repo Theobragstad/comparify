@@ -87,6 +87,8 @@ left:100px;
   .pageHeader {
     top:80px !important;
     margin: 0 auto;
+    right:0;
+    left:0;
   }
 }
 
@@ -1653,7 +1655,7 @@ opacity: 1;
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;
-    visibility: visible;
+    visibility: hidden;
   }
   100% {
     bottom: 22%;
@@ -1668,7 +1670,7 @@ opacity: 1;
 
 .hide {
   animation: dismiss 2s forwards !important;
-  position: fixed;
+  /* position: fixed; */
   z-index: 9999; /* Optional: Increase the z-index if needed */
 }
 
@@ -1692,14 +1694,21 @@ opacity: 1;
 
 @keyframes dismiss {
   0% {
-    
+    bottom: 22%;
+    /* Adjust the value to set the desired final position */
+    left: 50%;
+    transform: translateX(-50%);
     opacity: 1;
-    visibility: visible;
+    /* visibility: visible; */
+    /* visibility: visible; */
   }
   100% {
-   
+    bottom: 22%;
+    /* Adjust the value to set the desired final position */
+    left: 50%;
+    transform: translateX(-50%);
     opacity: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
   }
 }
 
