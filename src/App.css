@@ -87,9 +87,8 @@ left:100px;
 @media screen and (max-width: 700px) {
   .pageHeader {
     top:80px !important;
-    margin: 0 auto;
-    right:0;
-    left:0;
+    left: 50%;
+  transform: translateX(-50%);
   }
 }
 
@@ -1616,6 +1615,24 @@ color:white;
   color:gray;
 }
 
+
+
+
+
+.fullPageContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.cookieNotice:hover {
+  transform: scale(1.01);
+}
+
+
+
 .cookieNotice {
   border-radius: 10px;
   color:black;
@@ -1637,47 +1654,35 @@ opacity: 1;
 }
 
 
+.hide {
+  animation: slideDown 3s forwards !important;
 
-.fullPageContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.cookieNotice:hover {
-  transform: scale(1.01);
+  
+  z-index: 9999; 
 }
 
 @keyframes slideUp {
   0% {
-    bottom: -10%;
+    bottom: 0%;
     left: 50%;
     transform: translateX(-50%);
-    opacity: 1;
+    opacity: 0;
     visibility: hidden;
-    position: absolute; /* Add position: absolute */
+    position: absolute; 
   }
+ 
   100% {
     bottom: 22%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;
     visibility: visible;
-    position: absolute; /* Add position: absolute */
+    position: absolute; 
   }
 }
 
 
 
-.hide {
-  animation: slideDown 3s forwards !important;
-
-  /* animation: dismiss 2s forwards !important; */
-  /* position: fixed; */
-  z-index: 9999; /* Optional: Increase the z-index if needed */
-}
 
 @keyframes slideDown {
   
@@ -1687,35 +1692,16 @@ opacity: 1;
     transform: translateX(-50%);
     opacity: 1;
     visibility: visible;
-    position: absolute; /* Add position: absolute */
+    position: absolute; 
   }
+  
   100% {
-    bottom: -10%;
+    bottom: 0%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
     visibility: hidden;
-    position: absolute; /* Add position: absolute */
-  }
-}
-
-@keyframes dismiss {
-  0% {
-    bottom: 22%;
-    /* Adjust the value to set the desired final position */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 1;
-    /* visibility: visible; */
-    /* visibility: visible; */
-  }
-  100% {
-    bottom: 22%;
-    /* Adjust the value to set the desired final position */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    /* visibility: hidden; */
+    position: absolute; 
   }
 }
 
