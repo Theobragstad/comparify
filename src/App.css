@@ -1628,9 +1628,9 @@ color:white;
 }
 
 .cookieNotice:hover {
-  transform: scale(1.01);
+ 
+  transform: translateX(-50%) scale(1.025) !important;
 }
-
 
 
 .cookieNotice {
@@ -1641,15 +1641,16 @@ color:white;
 text-align: left !important;
   font-size: 12px;
   font-weight: bold;
-  position:absolute;
+  /* position:absolute; */
   
   padding:4px 8px;
   width:175px;
   z-index: 99999;
   animation: slideUp 3s forwards;
-  transform-origin: center;
-  transition: transform 0.4s;
+  transition: transform 5s ease; 
+
 opacity: 1;
+transform-origin: center;
 
 }
 
