@@ -2259,15 +2259,22 @@ function Data() {
                       </div>
                     )}
                   </td>
-                  <td>
-                    <img
-                      src={range}
-                      style={{ width: "20px" }}
+                  <td >
+
+<span
+                      className="audioFeaturesColumnLabel"
                       data-tooltip-content={Math.abs(
                         highestSongValue - lowestSongValue
                       )}
-                      data-tooltip-id="dataPageTooltip1"
+                      data-tooltip-id="rangeTooltip"
+                    >
+                       <img
+                      src={range}
+                      style={{ width: "20px" }}
+                      
                     />
+                    </span>
+                   
                   </td>
                   <td>
                     {lowestSong == "-" && (
@@ -2327,6 +2334,8 @@ function Data() {
 
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
         <Tooltip id="dataPageTooltip1" className="tooltip3" />
+        <Tooltip clickable="true" id="rangeTooltip" className="tooltip3"/>
+
         <Tooltip id="gptTooltip" className="tooltip3">
           {/* <span className="gradient">comparify</span> */}
           <span>
