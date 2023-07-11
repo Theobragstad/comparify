@@ -7,13 +7,12 @@ import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
 // import { DarkModeContext } from './App';
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 
 import { useDarkMode } from "./DarkMode";
 
-
 const HelpModalContent = () => {
-  const darkMode = useDarkMode()
+  const darkMode = useDarkMode();
 
   // const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
@@ -23,11 +22,21 @@ const HelpModalContent = () => {
   const [isHowItWorksExpanded, setIsHowItWorksExpanded] = useState(false);
   const [isPrivacyExpanded, setIsPrivacyExpanded] = useState(false);
 
+  const [isBugReportsExpanded, setIsBugReportsExpanded] = useState(false);
+  const toggleBugReports = () => {
+    setIsBugReportsExpanded(!isBugReportsExpanded);
+    setIsPrivacyExpanded(false);
+    setIsTroubleshootingExpanded(false);
+    setIsHowItWorksExpanded(false);
+    setIsHowToUseExpanded(false);
+  };
+
   const toggleHowToUse = () => {
     setIsHowToUseExpanded(!isHowToUseExpanded);
     setIsTroubleshootingExpanded(false);
     setIsHowItWorksExpanded(false);
     setIsPrivacyExpanded(false);
+    setIsBugReportsExpanded(false);
   };
 
   const toggleTroubleshooting = () => {
@@ -35,6 +44,7 @@ const HelpModalContent = () => {
     setIsHowToUseExpanded(false);
     setIsHowItWorksExpanded(false);
     setIsPrivacyExpanded(false);
+    setIsBugReportsExpanded(false);
   };
 
   const toggleHowItWorks = () => {
@@ -42,6 +52,7 @@ const HelpModalContent = () => {
     setIsTroubleshootingExpanded(false);
     setIsHowToUseExpanded(false);
     setIsPrivacyExpanded(false);
+    setIsBugReportsExpanded(false);
   };
 
   const togglePrivacy = () => {
@@ -49,12 +60,30 @@ const HelpModalContent = () => {
     setIsTroubleshootingExpanded(false);
     setIsHowItWorksExpanded(false);
     setIsHowToUseExpanded(false);
+    setIsBugReportsExpanded(false);
   };
 
   return (
     <div>
-      <div className={darkMode.darkModeOn ? "helpModalContent darkGray" : "helpModalContent"}>
-        <div style={{fontWeight:'bold',fontSize:'13px',color:'gray'}}>comparify is in beta. only select users can log in. fill out the <Link to="/beta" style={{textDecoration:'none', fontWeight:'bold', color:'#1e90ff'}}>form</Link> to join the waitlist.</div>
+      <div
+        className={
+          darkMode.darkModeOn ? "helpModalContent darkGray" : "helpModalContent"
+        }
+      >
+        <div style={{ fontWeight: "bold", fontSize: "13px", color: "gray" }}>
+          comparify is in beta. only select users can log in. fill out the{" "}
+          <Link
+            to="/beta"
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "#1e90ff",
+            }}
+          >
+            form
+          </Link>{" "}
+          to join the waitlist.
+        </div>
         {/* <img src={logo} style={{width:'50px'}} className="pulse"/> */}
         {isHowToUseExpanded ? (
           <h3
@@ -92,12 +121,9 @@ const HelpModalContent = () => {
           <div className="helpModalText">
             <ol>
               <li>Click on the button to log in.</li>
+              <li>If you want, download your unique code to share it.</li>
               <li>
-                If you want, download your unique code to share it.
-              </li>
-              <li>
-                You can view your listening data by itself (without
-                comparing).
+                You can view your listening data by itself (without comparing).
               </li>
               <li>You also have two comparison options:</li>
               <ul>
@@ -149,8 +175,8 @@ const HelpModalContent = () => {
             <ul>
               <li>
                 comparify is primarily intended for use on a computer. You can
-                still use it on mobile, but you will have a faster and more seamless
-                experience on a computer.
+                still use it on mobile, but you will have a faster and more
+                seamless experience on a computer.
               </li>
               <li>
                 Some mobile browsers, including Chrome, require double taps to
@@ -277,7 +303,7 @@ const HelpModalContent = () => {
                   style={{ textDecoration: "none", color: "#1e90ff" }}
                   href="https://developer.spotify.com/documentation/web-api"
                 >
-                  Spotify API
+                  Spotify Web API
                 </a>{" "}
                 to gather and analyze a large amount of Spotify user data about
                 your music preferences from different time periods.
@@ -452,13 +478,14 @@ const HelpModalContent = () => {
                   style={{ textDecoration: "none", color: "#1e90ff" }}
                   href="https://developer.spotify.com/documentation/web-api"
                 >
-                  Spotify API
+                  Spotify Web API
                 </a>{" "}
                 to gather data.
               </li>
               <li>
-                No user data is used by this app for any other purposes than
-                the features shown, and no sensitive personal data is visible to the app.
+                No user data is used by this app for any other purposes than the
+                features shown, and no sensitive personal data is visible to the
+                app.
               </li>
               <li>
                 The only user data that is stored are temporary cookies which
@@ -513,9 +540,8 @@ const HelpModalContent = () => {
               </li>
               <li>
                 comparify sends a prompt to ChatGPT containing a brief summary
-                of your music preferences. The prompt is not
-                intended to provide a complete picture of your data, but rather a
-                general overview.
+                of your music preferences. The prompt is not intended to provide
+                a complete picture of your data, but rather a general overview.
               </li>
               <li>
                 No personal data is used in the prompt. None of your Spotify
@@ -523,21 +549,107 @@ const HelpModalContent = () => {
                 your music taste).
               </li>
               <li>
-                Use of the OpenAI API is voluntary. If you don't want to use
-                it, just don't press the button (indicated by the ChatGPT
-                logo).
+                Use of the OpenAI API is voluntary. If you don't want to use it,
+                just don't press the button (indicated by the ChatGPT logo).
+              </li>
+              <br></br>
+              <li>
+                Credit goes to the{" "}
+                <a
+                  href="https://developer.spotify.com/documentation/web-api"
+                  className="link"
+                >
+                  Spotify Web API
+                </a>{" "}
+                for the audio feature descriptions on the data and compare
+                pages.
               </li>
               <br></br>
               <li>
                 <b>Note that comparify is not affiliated with Spotify.</b>
               </li>
+              <br></br>
+              <h3>Cookies</h3>
+              <li>
+                comparify generates and saves cookies (small pieces of text) to
+                improve your experience. By using the website you agree to our
+                use of them.{" "}
+              </li>
+              <li>
+                The cookies we store are limited to ones that are essential to
+                the app. They are: your dark/light mode setting, and whether or
+                not you have dismissed the cookie notice. No personal or private
+                data is stored.
+              </li>
+              <li>
+                Spotify also uses cookies to handle the login session. See the{" "}
+                <a
+                  className="link"
+                  href="https://www.spotify.com/us/legal/cookies-policy/"
+                >
+                  Spotify cookie policy
+                </a>{" "}
+                for more info.
+              </li>
+              <li>
+                You can clear any or all of these at any time through your
+                browser settings.
+              </li>
+              
+            </ul>
+          </div>
+        )}
+
+        {isBugReportsExpanded ? (
+          <h5
+            className="helpSection"
+            onClick={toggleBugReports}
+            title="Collapse section"
+          >
+            Bugs + suggestions{" "}
+            <span>
+              <img
+                src={downBtn}
+                style={{ height: "10px" }}
+                alt="Collapse section button"
+                onClick={toggleBugReports}
+              ></img>
+            </span>
+          </h5>
+        ) : (
+          <h5
+            className="helpSection"
+            onClick={toggleBugReports}
+            title="Expand section"
+          >
+            Bugs + suggestions{" "}
+            <span>
+              <img
+                src={sideArrowRight}
+                style={{ width: "10px" }}
+                alt="Expand section button"
+                onClick={toggleBugReports}
+              ></img>
+            </span>
+          </h5>
+        )}
+        {isBugReportsExpanded && (
+          <div className="helpModalText">
+            <ul>
+              <li>
+                Since comparify is still in beta, you may run into bugs or other
+                errors. We're always working on improving the app, so you can
+                send these to the email below.
+              </li>
+              <li>We also welcome general suggestions for improvements.</li>
             </ul>
           </div>
         )}
       </div>
       <div className="helpModalFooter">
-        <div style={{ fontWeight: "500", fontSize: "12px" ,fontWeight:'bold'}}>
-        
+        <div
+          style={{ fontWeight: "500", fontSize: "12px", fontWeight: "bold" }}
+        >
           <a
             style={{ textDecoration: "none", color: "#1e90ff" }}
             href="mailto:contact@comparify.app"

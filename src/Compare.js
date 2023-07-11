@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
@@ -10,7 +10,13 @@ import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
 import logoAlt from "./img/logoAlt.png";
 // import finishSound from "./finished.mp3"
+import rightArrow from "./img/rightArrow.png";
 
+import spotifysmall from "./img/spotifysmall.png";
+
+import greenArrow from "./img/greenArrow.png";
+
+import fullLogo from "./img/fullLogo.png";
 
 import { PieChart, Pie, Cell, Legend } from "recharts";
 
@@ -1750,6 +1756,7 @@ function Compare() {
   const generationDateTime2 = date2.toLocaleString(undefined, {
     timeZone: localTimeZone,
   });
+  console.log(generationDateTime1)
 
   const [state, setState] = useState({
     view1: true,
@@ -1824,10 +1831,129 @@ function Compare() {
     }
   };
 
+  const [generationDateTime, setGenerationDateTime] = useState(null);
+
+
+  const [animatedValue, setAnimatedValue] = useState(0);
+  const animationRef = useRef(null);
+  const increment = 0.001;
+
+  useEffect(() => {
+    let startTimestamp = null;
+
+    if(animatedValue === 0) {
+      const date = new Date();
+
+
+
+      setGenerationDateTime (date.toLocaleString(undefined, {
+        timeZone: localTimeZone,
+      }))
+    }
+
+    const animate = (timestamp) => {
+      if (!startTimestamp) {
+        startTimestamp = timestamp;
+      }
+
+      const elapsed = timestamp - startTimestamp;
+      const progress = Math.min(elapsed/50, similarityPct);
+
+      setAnimatedValue(progress);
+
+      if (progress < similarityPct) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, [similarityPct]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+
+  //
+
+  const openDropdownMenu = () => {
+    document.getElementById("dropdownMenuArrow").style.transform =
+      "rotate(90deg)";
+    setShowDropdownMenu(true);
+  };
+
+  const closeDropdownMenu = () => {
+    document.getElementById("dropdownMenuArrow").style.transform =
+      "rotate(0deg)";
+
+    setShowDropdownMenu(false);
+  };
+
+  const toggleDropdownMenu = () => {
+    if (showDropdownMenu) {
+      document.getElementById("dropdownMenuArrow").style.transform =
+        "rotate(0deg)";
+
+      setShowDropdownMenu(false);
+    } else {
+      document.getElementById("dropdownMenuArrow").style.transform =
+        "rotate(90deg)";
+      setShowDropdownMenu(true);
+    }
+  };
+
+
+
+  const featureExplanations = [
+    "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.",
+    "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
+    "",
+    "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
+    `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
+    "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
+    "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
+    "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
+    "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
+    "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
+  ];
+
   return (
     <div>
-      {/* <ScrollButton /> */}
-      <Link to="/" title="Home" style={{ display: "block" }}>
+      <img
+        src={fullLogo}
+        onClick={() => navigate("/code")}
+        style={{
+          width: "150px",
+          position: "absolute",
+          top: "20px",
+          left: "30px",
+          pointerEvents: "all",
+          cursor: "pointer",
+        }}
+        title="/code"
+      />
+
+      <span className="pageHeader1">Results</span>
+      {/* <Link to="/" title="Home" style={{ display: "block" }}>
         <img
           src={logoAlt}
           style={{ width: 80, paddingTop: "20px", pointerEvents: "none" }}
@@ -1912,7 +2038,7 @@ function Compare() {
             WebkitTextFillColor: "transparent",
           }}
         >
-          {similarityPct.toFixed(3)}%
+          {animatedValue.toFixed(3)}%
         </span>
 
         <span style={{ fontSize: "16px" }}>&ensp;similar&emsp;</span>
@@ -1960,11 +2086,7 @@ function Compare() {
         <div className="recommendationsBtn" onClick={openRecModal}>
           Get recommendations
         </div>
-        {/* <div className="recommendationsBtn"  onClick={() => {
-              toPlayPage();
-            }}>
-          Play
-        </div> */}
+     
         <div
           className="recommendationsBtn border"
           onClick={gameModalState.openGameModal}
@@ -1974,11 +2096,144 @@ function Compare() {
 
 
 
-        {/* <div><button className="sun-button">Hover Me</button>
-</div> */}
+       
+      </div> */}
+
+
+{/* <div class="vlc">
+    <div class="vertical-line"></div>
+  </div> */}
+
+<div className="comparisonBg">
+<div className="comparisonContainer">
+
+        <div className="image">
+          <a
+            id="SpotifyProfileLink"
+            href={
+              "https://open.spotify.com/user/" + nameIdImgurlGenerationdate1[1]
+            }
+          >
+            <img
+              src={nameIdImgurlGenerationdate1[2]}
+              style={{
+                width: "30px ",
+                height: "30px",
+                borderRadius: "50%",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+              }}
+              alt="Image 1"
+            ></img>
+          </a>
+          <div
+            id="generationDateTooltip1"
+            className="text"
+            style={{ color: "#1e90ff", fontWeight: "bold" }}
+          >
+            {nameIdImgurlGenerationdate1[0]}
+          </div>
+        </div>
+        <span style={{ color: "#18d860", fontWeight: "bold" }}>vs.</span>
+        <div className="image">
+          <a
+            id="SpotifyProfileLink"
+            href={
+              "https://open.spotify.com/user/" + nameIdImgurlGenerationdate2[1]
+            }
+          >
+            <img
+              src={nameIdImgurlGenerationdate2[2]}
+              style={{
+                width: "30px",
+                height: "30px !important",
+                borderRadius: "50%",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+              }}
+              alt="Image 2"
+            ></img>
+          </a>
+          <div
+            id="generationDateTooltip2"
+            className="text"
+            style={{ color: "#FFDF00", fontWeight: "bold" }}
+          >
+            {nameIdImgurlGenerationdate2[0]}
+          </div>
+        </div>
       </div>
 
-      <div className="navBtnContainer">
+      <div className="pctAnimation">
+      <h2>
+        <span
+          style={{
+            background:
+              "linear-gradient(to right, #1e90ff 0%, #1e90ff 40%, #18d860 40%, #18d860 60%, #FFDF00 60%, #FFDF00 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",cursor:'pointer'
+          }}
+          onClick={handleConvertToImage}
+          data-tooltip-id="downloadScoreImageTooltip"
+          data-tooltip-content="Click to save as an image"
+        >
+          {animatedValue.toFixed(3)}%
+        </span>
+
+        {/* <span style={{ fontSize: "16px" }}>&ensp;similar&emsp;</span> */}
+
+        {/* <button
+          className="saveImg"
+          onClick={handleConvertToImage}
+          data-tooltip-id="downloadScoreImageTooltip"
+          data-tooltip-content="Save percent as image"
+        >
+          <img src={download} style={{ width: "10px" }}></img>
+        </button> */}
+      </h2>
+      </div>
+      </div>
+      
+
+      <div style={{ width: "0", height: "0", overflow: "hidden" }}>
+        <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
+          <img src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
+          <h3>comparify score</h3>
+          <h4>
+            <span style={{ color: "#1e90ff" }}>
+              {nameIdImgurlGenerationdate1[0]}
+            </span>{" "}
+            <span style={{ color: "#18d860" }}>vs.</span>{" "}
+            <span style={{ color: "#FFDF00" }}>
+              {nameIdImgurlGenerationdate2[0]}
+            </span>
+          </h4>
+          <span className="timeRange">{selectedTimeRangeClean}</span>
+
+          <h2>
+            <span>{similarityPct.toFixed(3)}&nbsp;%</span>
+
+            <span style={{ fontSize: "16px" }}>&ensp;similar</span>
+          </h2>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div className="navBtnContainerCompare">
         <div className="leftNavBtnContainer">
           <Link to="/code" title="Back">
             <button className="leftNavBtn">
@@ -2008,8 +2263,156 @@ function Compare() {
         </div>
       </div>
 
+
+
+
+      <div
+        className="dataPageDropdownMenuTrigger"
+        onMouseOver={openDropdownMenu}
+        onMouseOut={closeDropdownMenu}
+        onClick={toggleDropdownMenu}
+      >
+        {/* <a
+          href={
+            "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
+          }
+          style={{ textDecoration: "none" }}
+        > */}
+        <img
+          src={nameIdImgurlGenerationdate1[2]}
+          style={{
+            width: "30px",
+            borderRadius: "50%",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            verticalAlign: "middle",
+          }}
+          alt="Image 1"
+        />
+        {/* </a> */}
+        <div
+          style={{
+            color: "#1e90ff",
+            fontWeight: "bold",
+            display: "inline",
+          }}
+        >
+          {nameIdImgurlGenerationdate1[0]}
+          <img
+            id="dropdownMenuArrow"
+            src={rightArrow}
+            style={{
+              width: "15px",
+              verticalAlign: "middle",
+              marginLeft: "10px",
+              transform: "rotate(0deg)",
+            }}
+          />
+        </div>
+      </div>
+
+      {showDropdownMenu && (
+        <div
+          className="dropdownMenuContainer"
+          onMouseOver={openDropdownMenu}
+          onMouseOut={closeDropdownMenu}
+      
+        >
+          <div className="dropdownMenu"   >
+            <a
+              href={
+                "https://open.spotify.com/user/" + nameIdImgurlGenerationdate1[1]
+              }
+              style={{ textDecoration: "none", color: "#18d860" }}
+              className="darkenHover"
+            >
+              <img
+                src={spotifysmall}
+                style={{
+                  width: "20px",
+                  marginRight: "10px",
+                  verticalAlign: "middle",
+                }}
+              ></img>
+              Profile
+              <img
+                src={greenArrow}
+                style={{
+                  width: "10px",
+                  marginLeft: "10px",
+                  verticalAlign: "middle",
+                }}
+              ></img>
+            </a>
+
+            <div
+              onClick={openModal}
+              style={{ marginTop: "20px", cursor: "pointer", fontSize: "20px" }}
+            >
+              <span>
+                <img
+                  src={logo}
+                  style={{ width: "30px", verticalAlign: "middle" }}
+                  className="zoom"
+                />
+              </span>{" "}
+              &#10799;{" "}
+              <span style={{ color: "#75ac9d" }}>
+                <img
+                  className="spin"
+                  src={gptBtn}
+                  style={{
+                    width: "20px",
+                    cursor: "pointer",
+                    verticalAlign: "middle",
+                  }}
+                />{" "}
+              </span>
+            </div>
+
+            <div
+              className="recommendationsBtn"
+              onClick={openRecModal}
+              style={{ fontSize: "13px", marginTop: "20px" }}
+            >
+              Get recommendations
+            </div>
+
+            <div
+              className="recommendationsBtn border"
+              onClick={gameModalState.openGameModal}
+    
+              style={{ fontSize: "13px", marginTop: "20px" }}
+            >
+              Play{" "}
+              <img
+                src={rightArrow}
+                style={{ width: "10px", verticalAlign: "middle" }}
+              />
+            </div>
+
+            {/* <div className="generationDateTime" style={{ marginTop: "30px" }}>
+            {nameIdImgurlGenerationdate1[0]}'s code generated {generationDateTime1}
+            </div>
+            <div className="generationDateTime" style={{ marginTop: "10px" }}>
+            {nameIdImgurlGenerationdate2[0]}'s code generated {generationDateTime2}
+            </div> */}
+            {generationDateTime &&
+            <div className="generationDateTime" style={{ marginTop: "10px" }}>
+            comparison generated {generationDateTime}
+            </div>}
+          </div>
+        </div>
+      )}
+
+
+
+
+
+
+
       {isSmallScreen ? (
-        <div>
+        <div  style={{marginTop:'220px'}}>
           <table>
             <tbody>
               <tr>
@@ -4180,6 +4583,7 @@ function Compare() {
                   className="image"
                   data-tooltip-id="column1"
                   data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate1[0]} only`}
+                  style={{marginTop:'200px'}}
                 >
                   <img
                     src={nameIdImgurlGenerationdate1[2]}
@@ -4204,7 +4608,7 @@ function Compare() {
               <th>
                 <div
                   className="container"
-                  style={{ color: "#18d860", fontWeight: "bold" }}
+                  style={{ color: "#18d860", fontWeight: "bold",marginTop:'200px' }}
                   data-tooltip-id="column2"
                   data-tooltip-content={`Overlapping (shared) data for both ${nameIdImgurlGenerationdate1[0]} and ${nameIdImgurlGenerationdate2[0]}`}
                 >
@@ -4254,6 +4658,7 @@ function Compare() {
                   className="image"
                   data-tooltip-id="column3"
                   data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate2[0]} only`}
+                  style={{marginTop:'200px'}}
                 >
                   <img
                     src={nameIdImgurlGenerationdate2[2]}
@@ -5298,7 +5703,10 @@ function Compare() {
             <tr style={{ height: "40px" }}></tr>
             <tr>
               <td></td>
-              <td className="differencesLabel">differences</td>
+              <td className="differencesLabel">differences<div> <img
+                      src={rightArrow}
+                      style={{ width: "20px", verticalAlign: "middle",transform:'rotate(90deg)' }}
+                    /></div></td>
               <td></td>
             </tr>
 
@@ -5331,7 +5739,13 @@ function Compare() {
                   )}
                 </div>
               </td>
-              <td></td>
+              <td>
+
+              <div className="compareCardSmall2 pieCard" style={{  boxShadow:' 0 2px 5px rgba(186, 186, 186, 1)'}}>
+                <br/> <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/><br/> <br/><br/> <br/><br/>
+             
+                </div>
+              </td>
               <td>
                 <div className="compareCardSmall3 pieCard">
                   <div className="primaryTitle">
@@ -5968,11 +6382,22 @@ function Compare() {
         <table>
           <thead>
             <tr>
-              <th style={{ textAlign: "left", wordWrap: "break-word" }}>
+            <th style={{ wordWrap: "break-word" }}>
                 <div style={{ maxWidth: "140px", margin: "0 auto" }}>
-                  <span style={{ fontSize: "10px" }}>
-                    &#9432;&ensp;You can hover over select labels for more
-                    information.
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRop: "10px",
+                    }}
+                  >
+                    <img
+                      src={rightArrow}
+                      style={{ width: "10px", verticalAlign: "middle" }}
+                    />
+                    &ensp;Hover/tap select labels for more information.
                   </span>
                 </div>
               </th>
@@ -6032,7 +6457,9 @@ function Compare() {
               return (
                 <tr key={feature}>
                   <td id={feature}>
-                    <span className="audioFeaturesColumnLabel">{feature}</span>
+                    <span className="audioFeaturesColumnLabel"
+                     data-tooltip-id="featureTooltip"
+                     data-tooltip-content={featureExplanations[index]}>{feature}</span>
                   </td>
                   <td>
                     <span className="cellOutline1">
@@ -6546,6 +6973,11 @@ function Compare() {
           </div>
         </div>
       </div>
+      
+
+
+      <ReactTooltip id="featureTooltip" className="tooltip3" noArrow  clickable={"true"}/>
+
 
       <ReactTooltip
         anchorSelect="#generationDateTooltip1"
@@ -6562,6 +6994,8 @@ function Compare() {
           padding: "2px 5px",
         }}
         clickable={"true"}
+        noArrow
+        
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6579,6 +7013,7 @@ function Compare() {
           padding: "2px 5px",
         }}
         clickable={"true"}
+        noArrow
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6594,6 +7029,7 @@ function Compare() {
           width: "fit-content",
         }}
         clickable={"true"}
+        noArrow
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6609,6 +7045,7 @@ function Compare() {
           width: "fit-content",
         }}
         clickable={"true"}
+        noArrow
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6622,6 +7059,7 @@ function Compare() {
           wordBreak: "break-word",
           width: "fit-content",
         }}
+        noArrow
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6635,6 +7073,8 @@ function Compare() {
           wordBreak: "break-word",
           width: "fit-content",
         }}
+        clickable="true"
+        noArrow
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6648,6 +7088,8 @@ function Compare() {
           wordBreak: "break-word",
           width: "fit-content",
         }}
+        clickable="true"
+        noArrow
       ></ReactTooltip>
 
       <ReactTooltip
@@ -6661,9 +7103,11 @@ function Compare() {
           wordBreak: "break-word",
           width: "fit-content",
         }}
+        clickable="true"
+        noArrow
       ></ReactTooltip>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

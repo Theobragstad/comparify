@@ -43,7 +43,7 @@ function Data() {
   };
 
   Modal.setAppElement("#root");
-  window.scrollTo(0, 0);
+  // window.scrollTo(0, 0);
 
   const configuration = new Configuration({
     organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
@@ -195,9 +195,7 @@ function Data() {
 
 
 
-  const [sliderPosition, setSliderPosition] = useState(1000);
-  const [sliderWidth, setSliderWidth] = useState(20);
-
+  
  
 
 
@@ -211,20 +209,11 @@ function Data() {
     setApiResponse("");
 
 
-    setSliderPosition(document.getElementById(`time${index}`).offsetLeft)
-    setSliderWidth(document.getElementById(`time${index}`).offsetWidth)
-   console.log(sliderPosition)
    
 
   };
 
 
-  useEffect(() => {
-
-  }, [sliderPosition,sliderWidth])
-
-
-  
 
   const location = useLocation();
   let token = location.state.token;
@@ -1365,8 +1354,7 @@ function Data() {
 
 
 
-<div className="selectedSlider"  style={{position:'absolute',left:`${sliderPosition+70}px`, transition:'left 1s', width:`${sliderWidth}px`
-   }}></div>
+
 
 
 
@@ -1384,15 +1372,14 @@ function Data() {
 
 
 
-          {/* {isTimeRangeLoading ? ( */}
-          {false ? (
+          {/* {isTimeRangeLoading ? (
 
             <div className="loadingDots" style={{ marginBottom: "12px" }}>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
             </div>
-          ) : (
+          ) : ( */}
             <>
             
               <button
@@ -1420,9 +1407,22 @@ function Data() {
                 all time
               </button>
             </>
-          )}
+          {/* )} */}
         </div>
       </div>
+
+
+
+ {isTimeRangeLoading && (
+<div style={{position:'relative', top:'100px',left:'50%', 
+  transform: 'translateX(-50%)'}}>
+            <div className="loadingDots" style={{ marginBottom: "12px" }}>
+              <div className="loadingDots--dot"></div>
+              <div className="loadingDots--dot"></div>
+              <div className="loadingDots--dot"></div>
+            </div></div>
+          )}
+
 
       <div className="card-row" style={{ marginTop: "120px" }}>
         <div className="primaryCard1">
@@ -2412,10 +2412,10 @@ function Data() {
         </table>
 
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
-        <Tooltip id="dataPageTooltip1" className="tooltip3" />
-        <Tooltip clickable="true" id="rangeTooltip" className="tooltip3" />
+        <Tooltip id="dataPageTooltip1" className="tooltip3" noArrow  clickable={"true"}/>
+        <Tooltip clickable="true" id="rangeTooltip" className="tooltip3" noArrow />
 
-        <Tooltip id="gptTooltip" className="tooltip3">
+        <Tooltip id="gptTooltip" className="tooltip3"noArrow clickable={"true"}>
           {/* <span className="gradient">comparify</span> */}
           <span>
             <img src={logo} style={{ width: "20px" }} />

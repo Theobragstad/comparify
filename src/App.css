@@ -95,6 +95,12 @@ left:100px;
 
 
   }
+
+  .pageHeader1 {
+    transform: scale(0.75) !important;
+    transform-origin: center;
+    left: 190px !important;
+  }
 }
 
 .pageHeader {
@@ -102,6 +108,16 @@ left:100px;
 font-family: gothamMedium;
  position:absolute;
 top:27px;
+left:240px;
+color:gray;
+font-weight:bold;
+}
+
+.pageHeader1 {
+  font-size: 18px;
+font-family: gothamMedium;
+ position:absolute;
+top:29px;
 left:240px;
 color:gray;
 font-weight:bold;
@@ -336,6 +352,7 @@ padding: 2px 5px;
   text-decoration: none;
   color: #1e90ff;
 }
+
 .link2 {
   text-decoration: none;
   color: inherit;
@@ -447,6 +464,30 @@ padding: 2px 5px;
   z-index:1;
   top: 100px;
 }
+
+
+
+
+.navBtnContainerCompare{
+  position: relative;
+  width: 90%;
+  height: 30px;
+  margin: 0 auto;
+  background-color: #f3f3f3;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  
+  z-index:1;
+  top: 220px;
+}
+
+
+
+
+
 .leftNavBtnContainer {
   margin-right: auto;
   z-index: 1;
@@ -488,28 +529,19 @@ padding: 2px 5px;
 .backBtn:active {
   background-color: #f3f3f3;
 }
-/* .navBtn:hover:not(.selected) {
-  color: grey;
-  background-color: white;
-  transition: color 0.3s ease-out;
-} */
+.navBtn:hover:not(.selected), .leftNavBtn:hover {
+  /* color: grey; */
+  /* background-color: white; */
+  border-radius: 20px;
+  transition: filter 0.25s ease-out;
+  filter: brightness(90%);
+}
 /* .navBtn {
   border-radius: 20px;
 } */
-/* .selected {
+.selected {
   background-color: #fff !important;
   border-radius: 20px;
-} */
-.selectedSlider {
-  /* background-color: white !important; */
-  background-color: transparent;
-  border: 5px solid white;
-  border-radius: 20px;
-  z-index: 2;
-  position:absolute;
-  top:102px;
-  width:72px;
-  height:15px;
 }
 
 
@@ -1249,6 +1281,48 @@ img:active {
   justify-content: center;
   align-items: center;
 }
+
+
+
+.comparisonContainer {
+  top: 80px !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+position:absolute;
+background-color: #f6f6f6;
+border-radius: 20px;
+width:fit-content
+}
+
+
+
+
+.pctAnimation {
+  top: 150px !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+position:absolute;
+}
+
+/* .comparisonBg {
+  background-color: #f6f6f6;
+  border-radius:10px;
+} */
+
+
 .image {
   margin: 10px;
 }
@@ -1272,6 +1346,8 @@ img:active {
   width: fit-content;
   margin-top: 10px;
   animation: hide 3s linear 2s 1 forwards;
+  z-index:99999;
+
 }
 .errorMessage2 {
   /* background-color: #ffd6d6;
@@ -1280,9 +1356,13 @@ img:active {
   /* color: #41dc8e; */
   /* border: 1px solid #64e3a1;
   background-color: #cbf5dd; */
-  color: #ff8b3d;
+  /* color: #ff8b3d;
   border: 1px solid #ff8b3d;
-  background-color: #ffeace;
+  background-color: #ffeace; */
+
+  background-color: #ffd6d6;
+  border: 1px solid #ff4747;
+  color: #ff4747;
   font-weight: bold;
   font-size: 12px;
   position: absolute;
@@ -1294,12 +1374,16 @@ img:active {
   margin-top: 10px;
   animation: hide 5s linear 2s 1 forwards;
   top: 0;
+  z-index:99999;
 }
 
 .errorMessage3 {
-  color: #41dc8e;
+  /* color: #41dc8e;
   border: 1px solid #64e3a1;
-  background-color: #defade;
+  background-color: #defade; */
+  color: #1e90ff;
+  border: 1px solid #1e90ff;
+  background-color: #e6f6fe;
 
   font-weight: bold;
   font-size: 12px;
@@ -1310,8 +1394,10 @@ img:active {
   border-radius: 10px;
   width: fit-content;
   margin-top: 10px;
-  animation: hide 8s linear 3s 1 forwards;
+  animation: hide 8s linear 5s 1 forwards;
   top: 0;
+  z-index:99999;
+
 }
 
 @keyframes hide {
@@ -2444,8 +2530,8 @@ filter:brightness(90%)
 
 
 .animation {
-  /* width:300px;
-  height:300px; */
+  width:300px;
+  height:300px;
   position:absolute;
   top:-10%;
   right:-20%;

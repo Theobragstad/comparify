@@ -1053,7 +1053,7 @@ function Code() {
       >
         beta
       </div>
-      {location.state?.error && location.state.error === 400 && (
+      {location.state?.error && location.state.error === 400  && (
         <div className="errorMessage2">
           code error. make sure the file you uploaded is a valid comparify code.
         </div>
