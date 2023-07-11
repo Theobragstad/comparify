@@ -190,9 +190,9 @@ const HelpModalContent = () => {
                 bar), you may have to go to the{" "}
                 <a
                   style={{ textDecoration: "none", color: "#1e90ff" }}
-                  href="https://comparify.app/code"
+                  href="https://comparify.app/dashboard"
                 >
-                  code
+                  dashboard
                 </a>{" "}
                 page of comparify. Then, go to the home page and try again.
               </li>

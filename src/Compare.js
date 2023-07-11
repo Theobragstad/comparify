@@ -89,7 +89,7 @@ function Compare() {
     nameIdImgurlGenerationdate1[2].substring(0, 8) !== "https://" ||
     nameIdImgurlGenerationdate2[2].substring(0, 8) !== "https://"
   ) {
-    navigate("/code", { state: { error: 400 } });
+    navigate("/dashboard", { state: { error: 400 } });
   }
 
   const file1StartIndex = file1.indexOf(selectedTimeRange) + 1;
@@ -207,7 +207,7 @@ function Compare() {
       countOccurrences(data1, labels[i]) !== 1 ||
       countOccurrences(data2, labels[i]) !== 1
     ) {
-      navigate("/code", { state: { error: 400 } });
+      navigate("/dashboard", { state: { error: 400 } });
     }
   }
 
@@ -1940,7 +1940,7 @@ function Compare() {
     <div>
       <img
         src={fullLogo}
-        onClick={() => navigate("/code")}
+        onClick={() => navigate("/dashboard")}
         style={{
           width: "150px",
           position: "absolute",
@@ -1949,7 +1949,7 @@ function Compare() {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/code"
+        title="/dashboard"
       />
 
       <span className="pageHeader1">Results</span>
@@ -2235,7 +2235,7 @@ function Compare() {
 
       <div className="navBtnContainerCompare">
         <div className="leftNavBtnContainer">
-          <Link to="/code" title="Back">
+          <Link to="/dashboard" title="Back">
             <button className="leftNavBtn">
               <img src={back} style={{ width: "13px" }}></img>
             </button>

@@ -1185,7 +1185,7 @@ function Data() {
       {/* <button
         title="Back"
         className="defaultBtn"
-        onClick={() => navigate("/code")}
+        onClick={() => navigate("/dashboard")}
       >
         <img
           src={logo}
@@ -1204,7 +1204,7 @@ function Data() {
       </button> */}
       <img
         src={fullLogo}
-        onClick={() => navigate("/code")}
+        onClick={() => navigate("/dashboard")}
         style={{
           width: "150px",
           position: "absolute",
@@ -1213,7 +1213,7 @@ function Data() {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/code"
+        title="/dashboard"
       />
 
       <span className="pageHeader">Your data</span>
@@ -1360,7 +1360,7 @@ function Data() {
 
       <div className="navBtnContainer">
         <div className="leftNavBtnContainer">
-          <Link to="/code" title="Back">
+          <Link to="/dashboard" title="Back">
             <button className="leftNavBtn">
               <img src={back} style={{ width: "13px" }}></img>
             </button>
