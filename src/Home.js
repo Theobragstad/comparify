@@ -25,6 +25,7 @@ function Home() {
   document.title = "comparify - Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   // const REDIRECT_URI = "http://localhost:3000/dashboard";
+  //
   const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
