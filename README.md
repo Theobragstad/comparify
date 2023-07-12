@@ -1,8 +1,18 @@
 # comparify
 
-<img src="src/img/logo.png" width="50px"/>comparify uses a variety of data points from multiple time spans to generate a code or "Music Fingerprint" based on your Spotify listening activity, which you can then use to explore and compare your music.
+<img src="src/img/logo.png" style="vertical-align:middle;width:50px;margin-right:10px"/><span style="background: linear-gradient(
+    to right,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;font-weight:bold">comparify</span><img src="src/img/beta.png" style="margin-left:10px;width:25px;vertical-align:middle">
+<br><br>
+Explore and compare your music
 
-comparify.app
-
-<br/>
-<img src="src/img/beta.png" width="50px">
+<a style="color:#1e90ff;text-decoration:none" href="https://comparify.app">comparify.app</a>
