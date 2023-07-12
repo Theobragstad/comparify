@@ -56,7 +56,7 @@ function Code() {
 
 
   const switchUser = () => {
-    const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
+    const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   // const REDIRECT_URI = "http://localhost:3000/dashboard";
   const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
