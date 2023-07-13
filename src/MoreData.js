@@ -10,6 +10,9 @@ import axios from "axios";
 
 import arrowRight from "./img/sideArrowRight.png";
 import arrowDown from "./img/downBtn.png";
+import fullLogo from "./img/fullLogo.png";
+import refreshIcon from "./img/refresh.png";
+
 import rightArrow from "./img/rightArrow.png"
 const MoreData = () => {
   document.title = "comparify - More data";
@@ -141,7 +144,7 @@ const MoreData = () => {
           url: data.item.external_urls.spotify,
           img: data.item.images[0].url,
           name: data.item.name,
-          publisher: data.item.show.publisher,
+          podcast: data.item.show.name,
         });
       }
 
@@ -357,13 +360,22 @@ const MoreData = () => {
     } catch (error) {
       console.log(error);
     }
+    
   };
-  //   const [showInfo, setShowInfo] = useState(!Cookies.get("shownInfo"));
+  
 
-  //   const toggleShowInfo = () => {
-  //     setShowInfo((prevShowInfo) => !prevShowInfo);
-  //   };
+  const [refresh, setRefresh] = useState(false);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRefresh(true);
+    }, 3 * 60 * 1000); // 4 minutes in milliseconds
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  
   useEffect(() => {
     getSavedShows();
     getFollowedArtists();
@@ -375,17 +387,16 @@ const MoreData = () => {
     getQueue();
     getRecentlyPlayed();
     getYourPlaylists();
-  }, []);
+    if(refresh) {
+      setRefresh(false);
+    }
+  }, [refresh]);
 
-  //   useEffect(() => {
-  //     const timeout = setTimeout(() => {
-  //         if(!Cookies.get("shownInfo")) {
-  //       setShowInfo(false);}
-  //     Cookies.set("shownInfo", "true");
-  //     }, 5000);
 
-  //     return () => clearTimeout(timeout);
-  //   }, []);
+  
+
+
+  
 
   const [arrowSrc, setArrowSrc] = useState(arrowRight);
 
@@ -396,9 +407,31 @@ const MoreData = () => {
   const handleMouseOut = () => {
     setArrowSrc(arrowRight);
   };
+
+
+  const handleRefresh = () => {
+    setRefresh(true);
+  };
+  
+  
+ 
   return (
     <div>
+
       <div className={"moreDataContainer"}>
+      <img
+        src={fullLogo}
+        onClick={() => navigate("/dashboard")}
+        style={{
+          width: "150px",
+          position: "absolute",
+          top: "20px",
+          left: "30px",
+          pointerEvents: "all",
+          cursor: "pointer",
+        }}
+        title="/dashboard"
+      />
         <div
           className="titleDiv"
           style={{
@@ -416,8 +449,9 @@ const MoreData = () => {
                 state: { data: location.state.data, token: token },
               })
             }
+            title="Your data"
           >
-             <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }} /> back
+             <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }}/> back
           </div>
           {/* <div style={{ cursor: 'pointer', margin: '0', display: 'flex', alignItems: 'center', justifyContent: 'center'}} onClick={toggleShowInfo}> */}
           <div
@@ -442,7 +476,9 @@ const MoreData = () => {
               }}
             />
           </div>
+          <img data-tooltip-id="tooltip2" data-tooltip-content={"Refresh"} onClick={handleRefresh} src={refreshIcon} style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
         </div>
+        
 
         {/* {showInfo && 
         <div className="subtitle">
@@ -532,7 +568,9 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-            <div className="primaryTitle">currently playing</div>
+          <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>currently playing</div>
+
+            {/* <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>currently playing <img src={refreshIcon} style={{cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'10px'}}/></div> */}
             {!currentObject ? (
               <div className="noData">No data</div>
             ) : currentObject.type === "track" ? (
@@ -585,9 +623,9 @@ const MoreData = () => {
                     </a>
                   </span>
                   <span className="primaryArtists">
-                    {currentObject.publisher.length > 30
-                      ? currentObject.publisher.substring(0, 30) + "..."
-                      : currentObject.publisher}
+                    {currentObject.podcast.length > 30
+                      ? currentObject.podcast.substring(0, 30) + "..."
+                      : currentObject.podcast}
                   </span>
                 </div>
               </div>
@@ -821,7 +859,7 @@ const MoreData = () => {
         </div>
       </div>
 
-      <Tooltip id="tooltip1" className="tooltip3">
+      <Tooltip id="tooltip1" className="tooltip3" noArrow >
         Your comparify code is meant to only include information that provides a
         pure indication of your listening habits.
         <br />
@@ -834,6 +872,10 @@ const MoreData = () => {
         However, they are still an interesting and valuable part of your music
         profile.
       </Tooltip>
+
+
+      <Tooltip id="tooltip2" className="tooltip3" noArrow  clickable={"true"}/>
+
     </div>
   );
 };

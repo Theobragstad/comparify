@@ -259,7 +259,7 @@ const handleCookieNoticeClose = () => {
       </div>
 
 
-      <Animation/>
+      {/* <Animation/> */}
 
       <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
   <span className="gray" style={{ marginRight: "20px" }} onClick={handleClickBETA}>

@@ -16,7 +16,7 @@ import fullLogo from "./img/fullLogo.png"
 
 function Code() {
   // const pageTitle = `${"hello"}`;
-  document.title = "comparify - Get your code";
+  document.title = "comparify - Dashboard";
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -1100,7 +1100,7 @@ function Code() {
         <div className="grayHeader titleDiv">
           Dashboard
         </div>
-        <div className="profilePicDivCodePage">
+        <div className="profilePicDivCodePage" >
           {profilePicUrl && (
             <img
               src={profilePicUrl}
@@ -1179,7 +1179,7 @@ function Code() {
             {!loadingCompare1 && (
               <span
                 title="Submit"
-                className={!file2 ? "submitBtn disabled": "submitBtn"}
+                className={loadingDownload || loadingView  || !file2 ? "submitBtn disabled": "submitBtn"}
                 // disabled={!file2}
                 onClick={() => {
                   toComparePage1();
@@ -1225,7 +1225,7 @@ function Code() {
           />
           {!loadingCompare2 && (
             <span
-              className={!file1TwoComp || !file2TwoComp ? "submitBtn disabled" : "submitBtn"}
+              className={loadingDownload || loadingView || !file1TwoComp || !file2TwoComp ? "submitBtn disabled" : "submitBtn"}
               // disabled=
               onClick={() => {
                 toComparePage2();

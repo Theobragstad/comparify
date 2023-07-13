@@ -86,7 +86,7 @@ left:100px;
 
 @media screen and (max-width: 700px) {
   .pageHeader {
-    top: 80px !important;
+    top: 60px !important;
     left: 0 !important;
     right: 0 !important;
     margin: 0 auto !important;
@@ -143,11 +143,13 @@ font-weight:bold;
 }
 .profilePicDivCodePage {
   position: relative;
-  top: -30px;
+  top: -75px;
   padding: 4px 5px;
 margin: 5px;
 height: 20px;
-vertical-align: middle;
+/* vertical-align: middle; */
+display: block;
+
 }
 
 /* 
@@ -984,7 +986,7 @@ padding: 2px 5px;
 .dataPageLogo {
   width: 80px;
   padding-top: 20px;
-  pointer-events: none;
+  /* pointer-events: none; */
   font-family: gothamMedium
 }
 .gradient {
@@ -1226,7 +1228,7 @@ tr:last-child td:last-child {
   transform: scale(1.1);
 }
 img:active {
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 .helpModalText {
   font-size: 15px;
@@ -1345,9 +1347,10 @@ position:absolute;
   padding: 3px 10px;
   border-radius: 10px;
   width: fit-content;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   animation: hide 3s linear 2s 1 forwards;
   z-index:99999;
+  margin:10px;
 
 }
 .errorMessage2 {
@@ -1372,10 +1375,11 @@ position:absolute;
   padding: 3px 10px;
   border-radius: 10px;
   width: fit-content;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   animation: hide 5s linear 2s 1 forwards;
   top: 0;
   z-index:99999;
+  margin:10px;
 }
 
 .errorMessage3 {
@@ -1394,7 +1398,8 @@ position:absolute;
   padding: 3px 10px;
   border-radius: 10px;
   width: fit-content;
-  margin-top: 10px;
+  /* margin-top: 10px; */
+  margin:10px;
   animation: hide 8s linear 5s 1 forwards;
   top: 0;
   z-index:99999;
@@ -1937,6 +1942,7 @@ transform-origin: center;
   border-radius: 20px;
   width: fit-content;
   transition: transform 0.3s;
+  z-index: 3;
 }
 
 .homeBtn {
@@ -2530,19 +2536,19 @@ filter:brightness(90%)
 
 
 
-.animation {
+/* .animation {
   width:200px;
   height:100px;
   position:absolute;
   top:-50px;
-  /* top:-10%;
-  right:-20%;
-z-index:0; */
-/* top:10px; */
-/* right:10px; */
-/* z-index:0; */
+ 
 left:200px;
-  /* transform:scale(0.8);  */
+} */
+
+.animation {
+ position:absolute;
+ right:10px;
+ top:10px;
 }
 
 

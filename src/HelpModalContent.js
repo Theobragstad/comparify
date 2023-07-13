@@ -595,7 +595,6 @@ const HelpModalContent = () => {
                 You can clear any or all of these at any time through your
                 browser settings.
               </li>
-              
             </ul>
           </div>
         )}
@@ -637,9 +636,9 @@ const HelpModalContent = () => {
           <div className="helpModalText">
             <ul>
               <li>
-                Since comparify is still in beta, you may run into bugs or other
-                errors. We're always working on improving the app, so you can
-                send these to the email below.
+                Since comparify is still in beta, you may run into bugs. We're
+                always working on improving the app, so you can send these to
+                the email below.
               </li>
               <li>We also welcome general suggestions for improvements.</li>
             </ul>
