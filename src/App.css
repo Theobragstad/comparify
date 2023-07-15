@@ -2360,22 +2360,17 @@ left:210px;
   border: none;
   border-radius: 10px;
   cursor: auto;
-  /* background-color: #e4fae4; */
   background-color: #f6f6f6;
 
   font-weight: bold;
-  /* color: #18d860; */
   color: gray;
 
-  /* font-style:oblique 60deg; */
   padding: 2px 5px;
-  /* margin-top: 30px; */
   font-size:14px;
   cursor:pointer;
-/* position:absolute;
 
-top:30px;
-left:210px; */
+
+ 
 }
 
 .gray:hover:not(.nohover) {

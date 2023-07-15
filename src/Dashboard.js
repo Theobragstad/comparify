@@ -35,20 +35,15 @@ function Code() {
   };
 
   const logout = (error) => {
+    setToken("");
+    setExpirationTime("");
+    window.localStorage.removeItem("token");
     if (error === "apiError") {
-      // clearCookies();
-      setToken("");
-      setExpirationTime("");
-      window.localStorage.removeItem("token");
+     
       // window.localStorage.removeItem("expirationTime"); //
       navigate("/", { state: { [error]: true } });
     } else {
-      // clearCookies();
-      setToken("");
-      setExpirationTime("");
-      window.localStorage.removeItem("token");
       window.localStorage.removeItem("expirationTime");
-      // navigate("/", { state: { switchUser: true } });
       navigate("/")
     }
   };
@@ -813,7 +808,7 @@ function Code() {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
 
-    const formattedDateTime = `$${month}-${day}-${year} ${hours}.${minutes}.${seconds} ${ampm}`;
+    const formattedDateTime = `${month}-${day}-${year} ${hours}.${minutes}.${seconds} ${ampm}`;
 
     return formattedDateTime;
   }
@@ -852,7 +847,7 @@ function Code() {
 
   const toDataPage = async () => {
     if (isTokenExpired()) {
-      logout();
+      logout("apiError");
     } else {
       setLoadingView(true);
 
@@ -994,7 +989,7 @@ function Code() {
     setExpirationTime(expirationTime);
 
     if (isTokenExpired()) {
-      logout();
+      logout("apiError");
     }
   }, [downloadCode, toDataPage, toComparePage1, toComparePage2]);
 
@@ -1119,7 +1114,7 @@ function Code() {
             onClick={downloadCode}
             className="basicBtn downloadCodeBtnCodePage"
             // data-tooltip-id="codePageTooltip1"
-            title = "Download your code to share it"
+            title = "Download your code for sharing"
             disabled={loadingDownload || loadingView || loadingCompare1 || loadingCompare2}
             style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
           >

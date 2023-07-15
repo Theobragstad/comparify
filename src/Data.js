@@ -1213,7 +1213,7 @@ function Data() {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/dashboard"
+        title="Dashboard"
       />
 
       <span className="pageHeader">Your data</span>
@@ -1360,7 +1360,7 @@ function Data() {
 
       <div className="navBtnContainer">
         <div className="leftNavBtnContainer">
-          <Link to="/dashboard" title="Back">
+          <Link to="/dashboard" title="Dashboard">
             <button className="leftNavBtn">
               <img src={back} style={{ width: "13px" }}></img>
             </button>
