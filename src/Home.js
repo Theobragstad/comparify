@@ -7,7 +7,6 @@ import Footer from "./Footer";
 import logo from "./img/logo.png";
 import x from "./img/x.png"
 import fullLogo from "./img/fullLogo.png"
-// import { DarkModeContext } from './App';
 import Cookies from 'js-cookie';
 import { useDarkMode } from "./DarkMode";
 

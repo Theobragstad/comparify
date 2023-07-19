@@ -1778,7 +1778,7 @@ color:white;
 .cookieNotice {
   border-radius: 10px;
   color:black;
-  background-color: #f6f6f6;
+  /* background-color: #f6f6f6; */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 text-align: left !important;
   font-size: 12px;

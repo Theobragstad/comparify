@@ -369,7 +369,7 @@ const MoreData = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setRefresh(true);
-    }, 3 * 60 * 1000); // 4 minutes in milliseconds
+    }, 1 * 30 * 1000); // 4 minutes in milliseconds
 
     return () => {
       clearInterval(interval);
@@ -391,6 +391,40 @@ const MoreData = () => {
       setRefresh(false);
     }
   }, [refresh]);
+
+
+
+
+  // useEffect(() => {
+  //   getCurrentObject();
+  // }, [currentObject]);
+  // useEffect(() => {
+  //   getQueue();
+  // }, [queue]);
+  // useEffect(() => {
+  //   getSavedSongs();
+  // }, [savedSongs]);
+  // useEffect(() => {
+  //   getSavedAlbums();
+  // }, [savedAlbums]);
+  // useEffect(() => {
+  //   getSavedShows();
+  // }, [savedShows]);
+  // useEffect(() => {
+  //   getFollowedArtists();
+  // }, [followedArtists]);
+  // useEffect(() => {
+  //   getSavedEpisodes();
+  // }, [savedEpisodes]);
+  // useEffect(() => {
+  //   getSavedAudiobooks();
+  // }, [savedAudiobooks]);
+  // useEffect(() => {
+  //   getYourPlaylists();
+  // }, [yourPlaylists]);
+  // useEffect(() => {
+  //   getRecentlyPlayed();
+  // }, [recentlyPlayed]);
 
 
   
@@ -476,7 +510,7 @@ const MoreData = () => {
               }}
             />
           </div>
-          <img data-tooltip-id="tooltip2" data-tooltip-content={"Refresh"} onClick={handleRefresh} src={refreshIcon} style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
+          <img data-tooltip-id="tooltip2" data-tooltip-content={"Refresh now (data auto-refreshes every 30s)"} onClick={handleRefresh} src={refreshIcon} style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
         </div>
         
 
@@ -568,7 +602,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-          <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>currently playing</div>
+          <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>now playing</div>
 
             {/* <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>currently playing <img src={refreshIcon} style={{cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'10px'}}/></div> */}
             {!currentObject ? (

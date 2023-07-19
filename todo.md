@@ -172,11 +172,14 @@ Fetching errors disclose
 Data ordering
 Link titles
 Compare page val stacking
+Logo and content overlaps
 Popularity ranges?
 Recs, similarity algos
 Footer fix
 Side view mobile
 Get random users playlists
-Reload to see new data? Auto reload
 Animation scrolling etc
 Scroll not always to bottom for extra modals if scroll up
+
+
+Reload to see new data? Auto reload
