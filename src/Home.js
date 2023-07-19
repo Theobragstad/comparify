@@ -24,9 +24,9 @@ function Home() {
 
   document.title = "comparify - Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/dashboard";
+  const REDIRECT_URI = "http://localhost:3000/dashboard";
   //
-  const REDIRECT_URI = "https://comparify.app/dashboard";
+  // const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";

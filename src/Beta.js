@@ -1,27 +1,23 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, {useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 
-import "./Form.css";
+import "./Beta.css";
 import "./App.css";
 
-import logo from "./img/logo.png";
 import check from "./img/check.png";
-import logoAlt from "./img/logoAlt.png";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import fullLogo from "./img/fullLogo.png"
 
 import sideArrowRight from "./img/sideArrowRight.png";
 import rightArrow from "./img/rightArrow.png"
 
-// import { DarkModeContext } from './App';
 import { useDarkMode } from "./DarkMode";
 
-function WaitlistForm() {
+function Beta() {
   document.title = "comparify - Beta";
 const darkMode = useDarkMode()
 
-  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
 
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
@@ -75,16 +71,7 @@ const darkMode = useDarkMode()
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if at least one email input is non-empty
-    // const hasNonEmptyEmail = emails.some((email) => email.trim() !== "");
-    // if (!hasNonEmptyEmail) {
-    //   // Focus on the first email input
-    //   const firstEmailInput = document.getElementById(`email-input-0`);
-    //   firstEmailInput.focus();
-    //   return;
-    // }
-
-    // Check for duplicate emails
+   
     const isDuplicate = emails.some(
       (email, index) => email !== "" && emails.indexOf(email) !== index
     );
@@ -99,7 +86,6 @@ const darkMode = useDarkMode()
       return;
     }
 
-    // Check if all email inputs are valid
     const isEmailsValid = emailValidity.every((validity) => validity);
 
     if (isEmailsValid) {
@@ -142,10 +128,8 @@ const darkMode = useDarkMode()
       )
       .then(
         (result) => {
-          // show the user a success message
         },
         (error) => {
-          // show the user an error
         }
       );
   };
@@ -156,25 +140,9 @@ const darkMode = useDarkMode()
   };
 
   return (
-    // <>
         <div className={darkMode.darkModeOn ? "fullPageContainer dark": "fullPageContainer"} >
 
-    {/* <div className={darkMode ? "dark" : ""}></div> */}
-      {/* <h1 className="logoName">comparify</h1>
-      <button title="Back" className="defaultBtn" onClick={() => navigate("/")}>
-        <img
-          src={logo}
-          className="appLogo"
-          alt="logo"
-          style={{
-            position: "absolute",
-            top: "20px",
-            left: "30px",
-            width: "60px",
-            pointerEvents: "all",
-          }}
-        />
-      </button> */}
+ 
       <img
         src={fullLogo}
         onClick={() => navigate("/")}
@@ -190,9 +158,7 @@ const darkMode = useDarkMode()
       />
 
       <div className="containerMain">
-        {/* <Link to="/eeee"> */}
-
-        {/* </Link> */}
+      
 
         <div className="title">
           <div className="">
@@ -264,7 +230,7 @@ const darkMode = useDarkMode()
                   value={email}
                   onChange={(e) => handleChange(e, index)}
                   className={emailValidity[index] ? "" : "invalid-email"}
-                  id={`email-input-${index}`} // Add unique IDs to each input
+                  id={`email-input-${index}`} 
                   autoComplete="new-password"
                 />
               </div>
@@ -310,9 +276,8 @@ const darkMode = useDarkMode()
       <Footer />
       
       </div>
-      
-    /* </> */
+  
   );
 }
 
-export default WaitlistForm;
+export default Beta;

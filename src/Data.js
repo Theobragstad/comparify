@@ -13,7 +13,7 @@ import back from "./img/back.png";
 import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
-import logoAlt from "./img/logoAlt.png";
+import ScrollButton from "./ScrollButton"
 import AudiofeatureModal from "./AudiofeatureModal";
 import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
@@ -25,7 +25,6 @@ import arrowRight from "./img/sideArrowRight.png";
 import arrowDown from "./img/downBtn.png";
 import spotifysmall from "./img/spotifysmall.png";
 import greenArrow from "./img/greenArrow.png";
-import time from "./img/time.png";
 import fullLogo from "./img/fullLogo.png";
 const { Configuration, OpenAIApi } = require("openai");
 
@@ -1182,6 +1181,7 @@ function Data() {
 
   return (
     <div className="dataPage">
+      <ScrollButton/>
       {/* <button
         title="Back"
         className="defaultBtn"

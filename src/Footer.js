@@ -5,7 +5,6 @@ import logo from "./img/logo.png";
 import x from "./img/x.png";
 import HelpModalContent from "./HelpModalContent";
 import Modal from "react-modal";
-import logoAlt from "./img/logoAlt.png";
 import light from "./img/light.png";
 import dark from "./img/dark.png";
 

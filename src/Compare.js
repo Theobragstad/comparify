@@ -8,7 +8,6 @@ import "./App.css";
 import Big from "big.js";
 import back from "./img/back.png";
 import ScrollButton from "./ScrollButton";
-import logoAlt from "./img/logoAlt.png";
 // import finishSound from "./finished.mp3"
 import rightArrow from "./img/rightArrow.png";
 
@@ -2197,7 +2196,7 @@ function Compare() {
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
-          <img src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
+          <img src={logo} style={{ width: 80, paddingTop: "20px" }}></img>
           <h3>comparify score</h3>
           <h4>
             <span style={{ color: "#1e90ff" }}>

@@ -6,9 +6,13 @@ Font sizing
 Tooltips styling
 Long content cut off
 Modal sizing
+Align cookie notice
+Handle all warnings
 Hovering mobile
+Scroll button
 Google ads
 Login session expired message
+Center messages
 Button not disabled
 Image profile pic rounded
 Image events
@@ -17,6 +21,7 @@ Links to all content
 Animation sizing
 Check if unauthorized
 Support
+Click playlist to see songs opened
 Paid tier
 Turn off hovers on disable
 Ads
@@ -56,7 +61,6 @@ Blank song in game
 Swipe music discovery, tinder-like
 Game random choosing algo
 Time of day
-security
 First song no audio
 Replaying without asking??
 Logouts
@@ -65,12 +69,15 @@ Allow permissions spotify
 Code cleaning
 Cache opened things so no request repeated.
 Page loadings
+Scrolling
 Dark mode no reload
 Data page offers more info
 Play song loading time notice
 Button to expand each section
 Your data padding
 Results padding
+Scrolling background position
+Beta tag position Beta page
 Button time range hovers
 Dashboard pfp align
 Names longer cut off 
@@ -104,7 +111,6 @@ Rec modals issues
 No data issues
 Do not count zeroes in calculations
 Track samples
-Links to data on spotify
 Check for undefined/empty at all stages, show no data if null
 Compare page stats stacking table
 Highest and lowest averages and standard deviations
@@ -145,7 +151,6 @@ Genre, pie chart ,popularity ranges pie charts
 Time of day listen
 Compare multiple users (3+)
 Top song times played
-Public profiles–share link to page
 playlist cover sizing, names, etc
 Number of streams, mins streamed
 Compare ranges
@@ -167,6 +172,7 @@ Fetching errors disclose
 Data ordering
 Link titles
 Compare page val stacking
+Popularity ranges?
 Recs, similarity algos
 Footer fix
 Side view mobile

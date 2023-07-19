@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import spotify from "./img/spotify.png";
-import openai from "./img/openai.png";
 import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
