@@ -1120,6 +1120,19 @@ function Data() {
     setAudiofeatureForModal(feature);
   }
 
+
+  function handleScroll() {
+    setScrollPosition(document.documentElement.scrollTop);
+  }
+  useEffect(() => {
+    setScrollPosition(document.documentElement.scrollTop);
+    window.addEventListener("scroll", handleScroll);
+  
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   function closeAudiofeatureModal(feature) {
     setIsAudiofeatureModalOpen(false);
     setAudiofeatureForModal(null);

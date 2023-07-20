@@ -13,6 +13,8 @@ import logo from "./img/logo.png"
 import downloadBlue from "./img/downloadBlue.png"
 import dashboard from "./img/dashboard.png"
 import fullLogo from "./img/fullLogo.png"
+import uploadYellow from "./img/uploadYellow.png"
+import uploadBlue from "./img/uploadBlue.png"
 
 function Code() {
   // const pageTitle = `${"hello"}`;
@@ -901,9 +903,28 @@ function Code() {
     });
   };
 
+
+  const [filename1, setFilename1] = useState(null);
+  const [filename2, setFilename2] = useState(null);
+  const [filename3, setFilename3] = useState(null);
+
   const [file2, setFile2] = useState("");
 
   const addFile2 = (event) => {
+    const fileInput = event.target;
+    const isValid = fileInput.files.length > 0; // Check if there is at least one file selected
+
+    const labelElement = document.getElementById("inputLabel1");
+    if (isValid) {
+      labelElement.classList.add('valid');
+      setFilename1(fileInput.files[0].name);
+    } else {
+      labelElement.classList.remove('valid');
+      setFilename1(null);
+    }
+
+
+
     if (event.target.files.length === 0) {
       setFile2(null);
     } else {
@@ -922,6 +943,21 @@ function Code() {
   const [file2TwoComp, setFile2TwoComp] = useState("");
 
   const addFile1TwoComp = (event) => {
+    const fileInput = event.target;
+    const isValid = fileInput.files.length > 0; // Check if there is at least one file selected
+
+    const labelElement = document.getElementById("inputLabel2");
+    if (isValid) {
+      labelElement.classList.add('valid');
+      setFilename2(fileInput.files[0].name);
+    } else {
+      labelElement.classList.remove('valid');
+      setFilename2(null);
+
+    }
+
+
+
     if (event.target.files.length === 0) {
       setFile1TwoComp(null);
     } else {
@@ -937,6 +973,23 @@ function Code() {
   };
 
   const addFile2TwoComp = (event) => {
+
+
+    const fileInput = event.target;
+    const isValid = fileInput.files.length > 0; // Check if there is at least one file selected
+
+    const labelElement = document.getElementById("inputLabel3");
+    if (isValid) {
+      labelElement.classList.add('valid');
+      setFilename3(fileInput.files[0].name);
+    } else {
+      labelElement.classList.remove('valid');
+      setFilename3(null);
+
+    }
+
+
+
     if (event.target.files.length === 0) {
       setFile2TwoComp(null);
     } else {
@@ -1005,6 +1058,14 @@ function Code() {
     }
   }
 
+
+
+
+  // const handleFileChange = (event) => {
+  //   const fileName = event.target.files[0]?.name;
+  //   const label = document.querySelector("label[for=files]");
+  //   label.innerText = fileName ?? "Browse Files";
+  // };
   return (
     <div className="codePage">
       {/* <button
@@ -1038,7 +1099,7 @@ function Code() {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/home"
+        title="Home"
       />
       <div
         className="betaIcon"
@@ -1063,7 +1124,7 @@ function Code() {
       <div className="cardOverlay">
         <div className="homeBtnDiv">
           <button
-            title="Back"
+            title="Home"
             className="homeBtn"
             onClick={logout}
             data-tooltip-id="codePageTooltip1"
@@ -1092,7 +1153,8 @@ function Code() {
             ></img>
           </button>
         </div>
-        <div className="grayHeader titleDiv">
+        <div className="grayHeader titleDiv"  data-tooltip-id="dashboardTitleTooltip"
+            >
           Dashboard
         </div>
         <div className="profilePicDivCodePage" >
@@ -1115,7 +1177,7 @@ function Code() {
             className="basicBtn downloadCodeBtnCodePage"
             // data-tooltip-id="codePageTooltip1"
             title = "Download your code for sharing"
-            disabled={loadingDownload || loadingView || loadingCompare1 || loadingCompare2}
+            disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
             style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
           >
             <img src={downloadBlue} style={{width:'20px'}}/>  <span style={{ marginLeft: '5px' }}>save your code</span>
@@ -1137,7 +1199,7 @@ function Code() {
   className="basicBtn"
   // data-tooltip-id="codePageTooltip1"
   title="View your data by itself"
-  disabled={loadingView || loadingDownload || loadingCompare1 || loadingCompare2}
+  disabled={(loadingView || loadingDownload || loadingCompare1 || loadingCompare2)}
   onClick={() => {
     toDataPage();
   }}
@@ -1163,18 +1225,33 @@ function Code() {
           <h2 className="gradient compareNameCodePage" style={{fontFamily:'gothamMedium'}}>compare</h2>
         </div>
         <div className="uploadBtn1">
-          <input
+          {/* <input
             data-tooltip-id="codePageTooltip1"
             data-tooltip-content="upload the code for the user you want to compare with"
             type="file"
             accept=".txt"
             onChange={addFile2}
-          />
+            className="yellowUpload"
+           
+          /> */}
+
+<label htmlFor="input1" className="custom-file-upload " id="inputLabel1" data-tooltip-id="codePageTooltip1"
+            data-tooltip-content={filename1? filename1 : "upload the code for the user you want to compare with"}>
+  <img src={uploadYellow} alt="" className="upload-icon"/>
+</label>
+<input
+  id="input1"
+  type="file"
+  accept=".txt"
+  onChange={addFile2}
+  style={{display: 'none'}}
+/>
+        
           <span className="codeDiv">
             {!loadingCompare1 && (
               <span
                 title="Submit"
-                className={loadingDownload || loadingView  || !file2 ? "submitBtn disabled": "submitBtn"}
+                className={(loadingDownload || loadingView  || !file2) ? "submitBtn disabled": "submitBtn"}
                 // disabled={!file2}
                 onClick={() => {
                   toComparePage1();
@@ -1203,24 +1280,37 @@ function Code() {
           </span>
         </div>
         <div className="uploadBtn2">
+        <label htmlFor="input2" className="custom-file-upload blue" id="inputLabel2"  data-tooltip-id="codePageTooltip1"
+            data-tooltip-content={filename2? filename2 :"upload the code for the first user you want to compare with"}>
+  <img src={uploadBlue} alt="" className="upload-icon"/>
+</label>
           <input
             type="file"
-            data-tooltip-id="codePageTooltip1"
-            data-tooltip-content="upload the code for the first user you want to compare with"
+           
             accept=".txt"
             onChange={addFile1TwoComp}
+
+            id="input2"
+style={{display: 'none'}}
           />
+
+<label htmlFor="input3" className="custom-file-upload " id="inputLabel3" data-tooltip-id="codePageTooltip1"
+            data-tooltip-content={filename3? filename3 :"upload the code for the second user you want to compare with"}>
+  <img src={uploadYellow} alt="" className="upload-icon"/>
+</label>
           <input
             type="file"
-            data-tooltip-id="codePageTooltip1"
-            data-tooltip-content="upload the code for the second user you want to compare with"
+            
             accept=".txt"
             onChange={addFile2TwoComp}
-            style={{marginLeft:'20px'}}
+            // style={{marginLeft:'20px'}}
+
+            id="input3"
+style={{display: 'none',marginLeft:'20px'}}
           />
           {!loadingCompare2 && (
             <span
-              className={loadingDownload || loadingView || !file1TwoComp || !file2TwoComp ? "submitBtn disabled" : "submitBtn"}
+              className={(loadingDownload || loadingView || !file1TwoComp || !file2TwoComp) ? "submitBtn disabled" : "submitBtn"}
               // disabled=
               onClick={() => {
                 toComparePage2();
@@ -1248,6 +1338,29 @@ function Code() {
         </div>
 
         <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow/>
+
+
+        <Tooltip id="dashboardTitleTooltip" className="tooltip1"  style={{width:'150px',zIndex:'999 !important'}}noArrow clickable={true}>
+         
+                <div style={{marginTop:'10px'}}>
+                  Here, you can:
+                  <div style={{textAlign:'left', margin:'10px'}}>
+                    <div>
+                  Save your unique comparify code to share with other users, or keep for yourself.</div>
+                  <br/> <div>
+                  View detailed stats about your listening habits.</div>
+                  <br/> <div>
+                  Compare your taste with someone else.</div>
+                  <br/> <div>
+                  Compare any two users' tastes.</div>
+                  </div>
+                </div>
+
+
+          
+        </Tooltip>
+
+        
       </div>
       {/* <Footer /> */}
     </div>

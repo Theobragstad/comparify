@@ -6,12 +6,7 @@ Font sizing
 Tooltips styling
 Long content cut off
 Modal sizing
-Align cookie notice
 Handle all warnings
-Hovering mobile
-Scroll button
-Google ads
-Login session expired message
 Center messages
 Button not disabled
 Image profile pic rounded
@@ -19,10 +14,9 @@ Image events
 More data explanations
 Links to all content
 Animation sizing
+File names- dashes
 Check if unauthorized
-Support
 Click playlist to see songs opened
-Paid tier
 Turn off hovers on disable
 Ads
 Clean up css and code
@@ -64,6 +58,7 @@ Time of day
 First song no audio
 Replaying without asking??
 Logouts
+public logo white bg
 3d interaction sizing, do not allow scroll
 Allow permissions spotify
 Code cleaning
@@ -179,7 +174,5 @@ Footer fix
 Side view mobile
 Get random users playlists
 Animation scrolling etc
-Scroll not always to bottom for extra modals if scroll up
-
-
-Reload to see new data? Auto reload
+AF rankings on compare pg too
+Scroll btn

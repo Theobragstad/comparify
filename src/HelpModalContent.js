@@ -78,6 +78,7 @@ const HelpModalContent = () => {
               fontWeight: "bold",
               color: "#1e90ff",
             }}
+            title="Request beta access"
           >
             form
           </Link>{" "}
@@ -651,6 +652,7 @@ const HelpModalContent = () => {
           <a
             style={{ textDecoration: "none", color: "#1e90ff" }}
             href="mailto:contact@comparify.app"
+            title="Email us"
           >
             contact@comparify.app
           </a>

@@ -233,6 +233,7 @@ padding: 2px 5px;
   filter: grayscale(75%);
   cursor: default;
   /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0); */
+  pointer-events: none;
 }
 .grayText {
   color: #aaaaaa;
@@ -392,10 +393,14 @@ padding: 2px 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: inline-block;
   padding: 20px;
-  margin-top: 50px;
+  margin-top: 20px;
   height: fit-content;
   margin-right: 10px;
   margin-left: 10px;
+  
+
+  width:800px;
+  /* margin-bottom: 100px; */
 }
 @media screen and (max-width: 1200px) {
   .cardOverlay {
@@ -1778,7 +1783,7 @@ color:white;
 .cookieNotice {
   border-radius: 10px;
   color:black;
-  /* background-color: #f6f6f6; */
+  background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 text-align: left !important;
   font-size: 12px;
@@ -2663,4 +2668,104 @@ right:3%;
     font-weight: bold;
     font-size:13px;
 
+  }
+
+
+
+
+
+
+
+
+
+  
+
+
+  input.yellowUpload[type=file]::file-selector-button {
+    /* Styles for the default state */
+    font-weight: bold;
+    background-color:#fffec8;
+    border: 3px solid #ffdf00;
+    color:#ffdf00;
+    border-radius: 10px;
+    padding:5px;
+    cursor:pointer;
+    /* font-family: proximaNova; */
+  }
+  
+  input.yellowUpload[type=file]::file-selector-button:hover {
+    /* Styles for the hover state */
+    background-color:#ffdf00;
+  }
+  
+
+
+
+  input.blueUpload[type=file]::file-selector-button {
+    /* Styles for the default state */
+    font-weight: bold;
+    background-color: #e6f6fe;
+    color: #1e90ff;
+    border: 3px solid #1e90ff;
+    border-radius: 10px;
+    padding:5px;
+    cursor:pointer;
+    /* font-family: proximaNova; */
+  }
+  
+  input.blueUpload[type=file]::file-selector-button:hover {
+    /* Styles for the hover state */
+    background-color:#1e90ff;
+  }
+  
+
+
+  .custom-file-upload {
+    display: inline-block;
+    cursor: pointer;
+    background-color:#fffec8;
+    border: 3px solid #ffdf00;
+    color:#ffdf00;
+    border-radius: 50%;
+    padding:5px;
+    cursor:pointer;
+    transition:background-color 3s;
+    box-shadow: 0 0 20px #ffdf00;
+
+  }
+  
+  .upload-icon {
+   
+    width: 20px;
+    vertical-align: middle;
+  }
+
+  .custom-file-upload.valid {
+    background-color: #ffdf00;
+  }
+
+
+
+
+
+  .custom-file-upload.blue {
+    display: inline-block;
+    cursor: pointer;
+    background-color:#e6f6fe;
+    border: 3px solid #1e90ff;
+    color:#1e90ff;
+    border-radius: 50%;
+    padding:5px;
+    cursor:pointer;
+    transition:background-color 3s;
+    margin-right: 50px;
+    box-shadow: 0 0 20px #1e90ff;
+
+  }
+  
+  
+
+  .custom-file-upload.blue.valid {
+    background-color: #1e90ff;
+    
   }

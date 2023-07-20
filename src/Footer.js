@@ -8,6 +8,9 @@ import Modal from "react-modal";
 import light from "./img/light.png";
 import dark from "./img/dark.png";
 
+import sun from "./img/sun.png";
+import moon from "./img/moon.png";
+
 // import { DarkModeContext } from './App';
 import Cookies from 'js-cookie';
 import { useDarkMode } from "./DarkMode";
@@ -155,6 +158,7 @@ useEffect(() => {
           onClick={openFooterModal}
           style={{ cursor: "pointer" }}
           className="hoverGray"
+          title="Open help menu"
         >
           Help
         </span>
@@ -162,8 +166,11 @@ useEffect(() => {
           onClick={toggleDarkMode}
           style={{ cursor: "pointer" }}
           className="hoverGray"
+          title={darkMode.darkModeOn ? "Toggle light mode" : "Toggle dark mode"}
         >
-          &emsp;&emsp; <img src={darkMode.darkModeOn ? dark : light} style={{width:'20px', verticalAlign:'middle'}} className={darkMode.darkModeOn ? "darkImg" : ""}/>
+                    &emsp;&emsp; <img src={darkMode.darkModeOn ? sun : moon} style={{width:'10px', verticalAlign:'middle'}}/>
+
+          {/* &emsp;&emsp; <img src={darkMode.darkModeOn ? sun : moon} style={{width:'20px', verticalAlign:'middle'}} className={darkMode.darkModeOn ? "darkImg" : ""}/> */}
         </span>
         <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
           <div>
@@ -176,6 +183,7 @@ useEffect(() => {
                 className="link"
                 title="theobragstad.com"
                 href="https://theobragstad.com"
+                title="theobragstad.com"
               >
                 &nbsp;&nbsp;Theo Bragstad
               </a>

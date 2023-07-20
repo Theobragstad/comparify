@@ -154,7 +154,7 @@ const darkMode = useDarkMode()
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/"
+        title="Home"
       />
 
       <div className="containerMain">
@@ -191,7 +191,7 @@ const darkMode = useDarkMode()
                 className="gray nohover"
                 style={{ color: "black", cursor: "auto" }}
               >
-                <img src={sideArrowRight} style={{ width: "8px" }}></img>
+                {/* <img src={sideArrowRight} style={{ width: "8px" }}></img> */}&nbsp;&nbsp;&nbsp;
               </span>{" "}
               enter up to five emails (you + family + friends)
               <br /> <br />
@@ -199,7 +199,7 @@ const darkMode = useDarkMode()
                 className="gray nohover"
                 style={{ color: "black", cursor: "auto" }}
               >
-                <img src={sideArrowRight} style={{ width: "8px" }}></img>
+               &nbsp;&nbsp;&nbsp;
               </span>{" "}
               make sure the emails match their Spotify accounts
               <br /> <br />
@@ -207,7 +207,7 @@ const darkMode = useDarkMode()
                 className="gray nohover"
                 style={{ color: "black", cursor: "auto" }}
               >
-                <img src={sideArrowRight} style={{ width: "8px" }}></img>
+               &nbsp;&nbsp;&nbsp;
               </span>{" "}
               we add users in groups so you can try with people you know
               <br /> <br />
@@ -215,14 +215,14 @@ const darkMode = useDarkMode()
                 className="gray nohover"
                 style={{ color: "black", cursor: "auto" }}
               >
-                <img src={sideArrowRight} style={{ width: "8px" }}></img>
+               &nbsp;&nbsp;&nbsp;
               </span>{" "}
               we will contact the group when it has access
             </div>
           </div>
         </div>
         <div className="email-form-container bottom">
-          <form ref={form} className={darkMode.darkModeOn ? "email-form darkGray":"email-form"}  onSubmit={handleSubmit}>
+          <form ref={form} className={darkMode.darkModeOn ? "email-form darkGray":"email-form"}  onSubmit={handleSubmit} title="Submit">
             {emails.map((email, index) => (
               <div key={index} className="email-input">
                 <input
@@ -268,6 +268,7 @@ const darkMode = useDarkMode()
           className="gray"
           style={{ marginTop: "30px" }}
           onClick={()=>navigate("/")}
+          title="Home"
         >
          <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }} /> home 
         </span>
