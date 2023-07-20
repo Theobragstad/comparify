@@ -193,8 +193,7 @@ const HelpModalContent = () => {
                   href="https://comparify.app/dashboard"
                 >
                   dashboard
-                </a>{" "}
-                page of comparify. Then, go to the home page and try again.
+                </a>. Then, go to the home page and try again.
               </li>
               <ul>
                 <li>
@@ -212,7 +211,7 @@ const HelpModalContent = () => {
               </li>
               <li>
                 To have another user log in to their account on the same
-                computer, click the switch user button on the code page.
+                computer, click the switch user button on the dashboard page.
               </li>
               <li>
                 The OpenAI API is quite rate-limited, so you may encounter
@@ -594,6 +593,9 @@ const HelpModalContent = () => {
               <li>
                 You can clear any or all of these at any time through your
                 browser settings.
+              </li>
+              <li>
+                The ChatGPT plugin via OpenAI does not store any cookies.
               </li>
             </ul>
           </div>

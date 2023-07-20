@@ -1101,14 +1101,14 @@ function Code() {
         }}
         title="Home"
       />
-      <div
+      {/* <div
         className="betaIcon"
         // onClick={handleClickBETA}
         // style={{ cursor: "pointer" }}
         style={{ marginLeft:'20px' }}
       >
         beta
-      </div>
+      </div> */}
       {location.state?.error && location.state.error === 400  && (
         <div className="errorMessage2">
           code error. make sure the file you uploaded is a valid comparify code.

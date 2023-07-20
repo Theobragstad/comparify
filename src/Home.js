@@ -23,9 +23,9 @@ function Home() {
 
   document.title = "comparify - Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const REDIRECT_URI = "http://localhost:3000/dashboard";
+  // const REDIRECT_URI = "http://localhost:3000/dashboard";
   //
-  // const REDIRECT_URI = "https://comparify.app/dashboard";
+  const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
@@ -144,9 +144,12 @@ const handleCookieNoticeClose = () => {
     <div className={darkMode.darkModeOn ? "appHeader dark" : "appHeader"} >
     {/* <div > */}
 
+    <Animation/>
+
+
 
 {!Cookies.get('agreeCookieNotice') &&
-      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>By using this app, you agree to our use of cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}><span style={{fontSize:'20px'}}>🍪 </span>This website uses cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
       }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">
@@ -258,19 +261,20 @@ const handleCookieNoticeClose = () => {
       </div>
 
 
-      {/* <Animation/> */}
 
       <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
   <span className="gray" style={{ marginRight: "20px" }} onClick={handleClickBETA} title="Request beta access">
     get access <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>{" "}
-  <span className="gray" onClick={handleClick} title="Login">
+  <span className="gray" onClick={handleClick} title="Log in">
     authorized users <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>
 </div>
 
       {/* <div className="homeFooter"> */}
         <Footer />
+
+
       {/* </div> */}
 
      

@@ -11,14 +11,20 @@ Center messages
 Button not disabled
 Image profile pic rounded
 Image events
+Null if not def from API
+save every stat as image separately, or select which to save
+align cards better
 More data explanations
 Links to all content
+Dashboard sizing/alignment
+if data is null, say so
+do not count zero values for mins
 Animation sizing
-File names- dashes
+page labels
+img File names- dashes
 Check if unauthorized
 Click playlist to see songs opened
 Turn off hovers on disable
-Ads
 Clean up css and code
 Disabled-no click, no hover effects
 Limit pointer events
@@ -47,7 +53,6 @@ Feature modal on compare page
 Message padding
 Tracknack
 Logo header
-Privacy policy
 Cross platform/compatibility
 3d interactive can pull apart
 Playlist title, details size limit (100 char)
@@ -79,7 +84,6 @@ Names longer cut off
 Logout btn
 Message position
 Tooltip can't close off
-Email service paid
 Api costs and limits
 Help modal tips section, add modal notice
 Playing audio reloads page
@@ -175,4 +179,7 @@ Side view mobile
 Get random users playlists
 Animation scrolling etc
 AF rankings on compare pg too
-Scroll btn
+match pages
+lazy loading
+
+ email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles

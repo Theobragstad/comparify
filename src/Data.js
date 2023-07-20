@@ -509,6 +509,7 @@ function Data() {
             name: album.name,
             artists: album.artists.map((artist) => artist.name),
             img: album.images[0]?.url || missingImage,
+            url: album.external_urls.spotify
           }));
 
           topAlbumData.push(...chunkAlbumsData);
@@ -541,6 +542,7 @@ function Data() {
           pop: album.popularity,
           artists: album.artists.map((artist) => artist.name),
           img: album.images[0]?.url || missingImage,
+          url: album.external_urls.spotify
         }));
 
         setMostLeastPopAlbums(mostLeastPopAlbumsData);
@@ -568,6 +570,7 @@ function Data() {
         const topArtistsData = data.artists.map((artist) => ({
           name: artist.name,
           img: artist.images[0]?.url || missingImage,
+          url: artist.external_urls.spotify
         }));
 
         setTopArtists(topArtistsData);
@@ -596,6 +599,7 @@ function Data() {
           name: artist.name,
           pop: artist.popularity,
           img: artist.images[0]?.url || missingImage,
+          url: artist.external_urls.spotify
         }));
 
         setMostLeastPopArtists(mostLeastPopArtistsData);
@@ -1289,6 +1293,7 @@ function Data() {
               }
               style={{ textDecoration: "none", color: "#18d860" }}
               className="darkenHover"
+              title="Open your Spotify profile"
             >
               <img
                 src={spotifysmall}
@@ -1312,6 +1317,7 @@ function Data() {
             <div
               onClick={openModal}
               style={{ marginTop: "20px", cursor: "pointer", fontSize: "20px" }}
+              title={`Try comparify \u2A2F ChatGPT`}
             >
               <span>
                 <img
@@ -1338,6 +1344,7 @@ function Data() {
               className="recommendationsBtn"
               onClick={openRecModal}
               style={{ fontSize: "13px", marginTop: "20px" }}
+              title="Get music recommendations"
             >
               Get recommendations
             </div>
@@ -1350,6 +1357,7 @@ function Data() {
                 })
               }
               style={{ fontSize: "13px", marginTop: "20px" }}
+              title="See more data"
             >
               More data{" "}
               <img
@@ -1488,9 +1496,11 @@ function Data() {
               <div key={index} className="item">
                 <img src={artist.img} className="primaryImage" />
                 <div className="primaryText">
+                <a className="link2" href={artist.url}>
                   <span className="primaryName">
                     {artist.name ? artist.name : artist}
                   </span>
+                  </a>
                 </div>
               </div>
             ))
@@ -1512,9 +1522,10 @@ function Data() {
               <div key={index} className="item">
                 <img src={album?.img} className="primaryImage" />
                 <div className="primaryText">
+                <a className="link2" href={album.url}>
                   <span className="primaryName">
                     {album.name ? album.name : album}
-                  </span>
+                  </span></a>
                   <span className="primaryArtists">
                     {album.artists?.join(", ")}
                   </span>
@@ -1639,9 +1650,12 @@ function Data() {
                 </div>
 
                 <div className="primaryText">
+                <a className="link2" href={mostLeastPopSongs[0].url}>
+                     
+                   
                   <span className="primaryName">
                     {mostLeastPopSongs[0]?.name}
-                  </span>
+                  </span> </a>
                   <span className="primaryArtists">
                     {mostLeastPopSongs[0]?.artists?.join(", ")}
                   </span>
@@ -1691,9 +1705,10 @@ function Data() {
 
                 {/* <img src={mostLeastPopSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
+                <a className="link2" href={mostLeastPopSongs[1].url}>
                   <span className="primaryName">
                     {mostLeastPopSongs[1]?.name}
-                  </span>
+                  </span></a>
                   <span className="primaryArtists">
                     {mostLeastPopSongs[1]?.artists?.join(", ")}
                   </span>
@@ -1743,9 +1758,10 @@ function Data() {
 
                 {/* <img src={oldestNewestSongs[0]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
+                <a className="link2" href={oldestNewestSongs[0].url}>
                   <span className="primaryName">
                     {oldestNewestSongs[0]?.name}
-                  </span>
+                  </span></a>
                   <span className="primaryArtists">
                     {oldestNewestSongs[0]?.artists?.join(", ")}
                   </span>
@@ -1791,9 +1807,10 @@ function Data() {
 
                 {/* <img src={oldestNewestSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
+                <a className="link2" href={oldestNewestSongs[1].url}>
                   <span className="primaryName">
                     {oldestNewestSongs[1]?.name}
-                  </span>
+                  </span></a>
                   <span className="primaryArtists">
                     {oldestNewestSongs[1]?.artists?.join(", ")}
                   </span>
@@ -1819,9 +1836,10 @@ function Data() {
                   className="primaryImage"
                 />
                 <div className="primaryText">
+                <a className="link2" href={mostLeastPopArtists[0].url}>
                   <span className="primaryName">
                     {mostLeastPopArtists[0]?.name}
-                  </span>
+                  </span></a>
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
@@ -1848,9 +1866,10 @@ function Data() {
                   className="primaryImage"
                 />
                 <div className="primaryText">
+                <a className="link2" href={mostLeastPopArtists[1].url}>
                   <span className="primaryName">
                     {mostLeastPopArtists[1]?.name}
-                  </span>
+                  </span></a>
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
@@ -1877,9 +1896,10 @@ function Data() {
                   className="primaryImage"
                 />
                 <div className="primaryText">
+                <a className="link2" href={mostLeastPopAlbums[0].url}>
                   <span className="primaryName">
                     {mostLeastPopAlbums[0]?.name}
-                  </span>
+                  </span></a>
                   <span className="primaryArtists">
                     {mostLeastPopAlbums[0]?.artists?.join(", ")}
                   </span>
@@ -1909,9 +1929,10 @@ function Data() {
                   className="primaryImage"
                 />
                 <div className="primaryText">
+                <a className="link2" href={mostLeastPopAlbums[1].url}>
                   <span className="primaryName">
                     {mostLeastPopAlbums[1]?.name}
-                  </span>
+                  </span></a>
                   <span className="primaryArtists">
                     {mostLeastPopAlbums[1]?.artists?.join(", ")}
                   </span>
@@ -2169,7 +2190,7 @@ function Data() {
                       src={rightArrow}
                       style={{ width: "10px", verticalAlign: "middle" }}
                     />
-                    &ensp;Hover/tap select labels for more information.
+                    &ensp;Hover/tap select labels for more information. Click the arrow for rankings.
                   </span>
                 </div>
               </th>
@@ -2185,8 +2206,9 @@ function Data() {
               <th
                 data-tooltip-id="dataPageTooltip1"
                 data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+               
               >
-                <span className="audioFeaturesColumnLabel">
+                <span className="audioFeaturesColumnLabel" >
                   standard deviation
                 </span>
               </th>
@@ -2226,6 +2248,7 @@ function Data() {
                       className="audioFeaturesColumnLabel"
                       data-tooltip-id="dataPageTooltip1"
                       data-tooltip-content={featureExplanations[index]}
+                      style={{cursor:'zoom-in'}}
                     >
                       {feature}
                     </span>
@@ -2233,13 +2256,15 @@ function Data() {
                       onClick={(e) => {
                         openAudiofeatureModal(feature);
                       }}
+                      title={`Open ${feature} rankings`}
+                     
                     >
                       <img
                         src={popoutIcon}
                         style={{
                           width: "10px",
                           marginLeft: "10px",
-                          cursor: "pointer",
+                          cursor: "ne-resize",
                           pointerEvents: "all",
                         }}
                       />
@@ -2338,7 +2363,8 @@ function Data() {
                           src={highestSong?.img}
                           alt={""}
                         /> */}
-                        <p className="primaryName"> {highestSong?.name}</p>
+                          <a className="link2" href={highestSong.url}>
+                        <p className="primaryName"> {highestSong?.name}</p></a>
                         &emsp;
                         <p className="primaryArtists">
                           {highestSong?.artists?.join(", ")}
@@ -2404,7 +2430,8 @@ function Data() {
                           src={lowestSong.img}
                           alt={lowestSong?.name}
                         /> */}
-                        <p className="primaryName">{lowestSong?.name}</p>&emsp;
+                          <a className="link2" href={lowestSong.url}>
+                        <p className="primaryName">{lowestSong?.name}</p></a>&emsp;
                         <p className="primaryArtists">
                           {lowestSong.artists?.join(", ")}
                         </p>

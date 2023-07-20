@@ -1870,7 +1870,7 @@ function Compare() {
     return () => {
       cancelAnimationFrame(animationRef.current);
     };
-  }, [similarityPct]);
+  }, [similarityPct, selectedTimeRange]);
 
 
 
@@ -1937,6 +1937,7 @@ function Compare() {
 
   return (
     <div>
+      <ScrollButton/>
       <img
         src={fullLogo}
         onClick={() => navigate("/dashboard")}
@@ -1948,7 +1949,7 @@ function Compare() {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/dashboard"
+        title="Dashboard"
       />
 
       <span className="pageHeader1">Results</span>
@@ -2174,7 +2175,7 @@ function Compare() {
           }}
           onClick={handleConvertToImage}
           data-tooltip-id="downloadScoreImageTooltip"
-          data-tooltip-content="Click to save as an image"
+          data-tooltip-content="Your similarity percent (click to save)"
         >
           {animatedValue.toFixed(3)}%
         </span>
@@ -2324,6 +2325,7 @@ function Compare() {
               }
               style={{ textDecoration: "none", color: "#18d860" }}
               className="darkenHover"
+              title="Open your Spotify profile"
             >
               <img
                 src={spotifysmall}
@@ -2347,6 +2349,7 @@ function Compare() {
             <div
               onClick={openModal}
               style={{ marginTop: "20px", cursor: "pointer", fontSize: "20px" }}
+              title={`Try comparify \u2A2F ChatGPT`}
             >
               <span>
                 <img
@@ -2373,6 +2376,7 @@ function Compare() {
               className="recommendationsBtn"
               onClick={openRecModal}
               style={{ fontSize: "13px", marginTop: "20px" }}
+              title="Get music recommendations"
             >
               Get recommendations
             </div>
@@ -2382,6 +2386,7 @@ function Compare() {
               onClick={gameModalState.openGameModal}
     
               style={{ fontSize: "13px", marginTop: "20px" }}
+              title="Test your knowledge!"
             >
               Play{" "}
               <img

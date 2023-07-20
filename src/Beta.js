@@ -15,7 +15,7 @@ import rightArrow from "./img/rightArrow.png"
 import { useDarkMode } from "./DarkMode";
 
 function Beta() {
-  document.title = "comparify - Beta";
+  document.title = "comparify - Beta Access";
 const darkMode = useDarkMode()
 
 
@@ -168,9 +168,11 @@ const darkMode = useDarkMode()
                 width: "fit-content",
                 margin: "10px auto",
                 cursor: "auto",
+                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
+
               }}
             >
-              beta
+              beta access
             </div>
             <br />
             <div
@@ -182,41 +184,21 @@ const darkMode = useDarkMode()
                 fontWeight: "bold",
                 color: "gray",
                 padding: "10px 10px 10px 0px",
-                textAlign: "left",
+                textAlign: "center",
                 fontSize: "14px",
               }}
               className={darkMode.darkModeOn && "dark2"}
             >
-              <span
-                className="gray nohover"
-                style={{ color: "black", cursor: "auto" }}
-              >
-                {/* <img src={sideArrowRight} style={{ width: "8px" }}></img> */}&nbsp;&nbsp;&nbsp;
-              </span>{" "}
+               <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
               enter up to five emails (you + family + friends)
               <br /> <br />
-              <span
-                className="gray nohover"
-                style={{ color: "black", cursor: "auto" }}
-              >
-               &nbsp;&nbsp;&nbsp;
-              </span>{" "}
-              make sure the emails match their Spotify accounts
+              <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
+              make sure they match their Spotify accounts
               <br /> <br />
-              <span
-                className="gray nohover"
-                style={{ color: "black", cursor: "auto" }}
-              >
-               &nbsp;&nbsp;&nbsp;
-              </span>{" "}
+              <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
               we add users in groups so you can try with people you know
               <br /> <br />
-              <span
-                className="gray nohover"
-                style={{ color: "black", cursor: "auto" }}
-              >
-               &nbsp;&nbsp;&nbsp;
-              </span>{" "}
+              <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
               we will contact the group when it has access
             </div>
           </div>
