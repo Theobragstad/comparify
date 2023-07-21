@@ -163,7 +163,7 @@ const handleCookieNoticeClose = () => {
 
 
   return (
-    <div className={darkMode ? "appHeader dark" : "appHeader"}  >
+    <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
     {/* <div > */}
 
     <Animation/>

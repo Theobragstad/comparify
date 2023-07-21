@@ -2570,6 +2570,8 @@ left:200px;
  position:absolute;
  /* left:800px; */
  top:100px;
+ height:100px !important;
+ width:100px !important;
 }
 
 
