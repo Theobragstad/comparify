@@ -1,60 +1,27 @@
-.email-form-container {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; */
-   /* margin-bottom: 20px; */
+.emailFormContainer {
+  position: relative;
+  margin-bottom: 20px;
 }
 
-.email-form {
-  /* width: 20%; */
+.emailForm {
   padding: 30px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  width:300px;
 }
 
-.email-form.dark {
-  background-color: #333333;
-}
 .title {
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
-  border-radius: 10px;
-  /* width: 20%; */
-  opacity: 1;
   font-weight: 600;
   font-size: 8px;
-  /* position: absolute;
-  top: 100px; */
-  /* padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px; */
-  margin-top: 10px;
+
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+.emailInput {
   margin-bottom: 10px;
-  width:360px;
-  /* left: 50%;
-  transform: translateX(-50%); */
 }
 
-.title.dark {
-  background-color: #333333;
-  color:white;
-}
-
-
-.email-input {
-  margin-bottom: 10px;
-
-
-}
-
-/* .email-form-container.bottom {
-  margin-bottom: -40px;
-} */
-
-.email-input input {
-  width: 80%;
+.emailInput input {
   padding: 8px;
   font-size: 14px;
   border-radius: 10px;
@@ -65,7 +32,7 @@
   font-weight: bold;
 }
 
-.defaultBtnForm{
+.defaultBtnForm {
   background-color: transparent;
   color: none;
   visibility: visible;
@@ -78,54 +45,35 @@
   font-size: 16px;
   background-color: #f6f6f6;
   color: darkgray;
-  transition: opacity 0.3s ;
-  opacity:1;
+  transition: opacity 0.3s;
+  opacity: 1;
 }
 
 .defaultBtnForm:hover:not(.disabled) {
-  
   filter: brightness(96%);
 }
 
-.pulse {
-    animation: grow 3s infinite;
-  }
-  @keyframes grow {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
 .defaultBtnForm.disabled {
-    opacity: 0.5;
-    cursor:auto;
-    pointer-events: none;
+  opacity: 0.5;
+  cursor: auto;
+  pointer-events: none;
 }
 
-.email-input input:focus {
+.emailInput input:focus {
   outline: none;
   transform: scale(1.1);
-  /* border: 2px solid #f6f6f6;   */
 }
 
-.email-input input:hover {
-    outline: none;
-    transform: scale(1.1);
-    /* border: 2px solid #f6f6f6;   */
+.emailInput input:hover {
+  outline: none;
+  transform: scale(1.1);
 }
 
-.email-input input.valid {
+.emailInput input.valid {
   color: black;
-  /* border: 2px solid #f6f6f6; */
 }
 
-.email-input input:invalid {
+.emailInput input:invalid {
   color: gray;
 }
 
@@ -133,7 +81,6 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: white;
   border-radius: 10px;
-  width: fit-content;
   padding: 10px;
   margin: auto;
   opacity: 1;
@@ -146,32 +93,57 @@
 }
 
 .containerMain {
-    display: flex;
-    flex-direction: column;
-    width:500px;
-    margin: 50px auto;
-    /* margin-top:20px; */
-
-    justify-content: center;
-    align-items: center;
-    /* position: absolute; */
-    /* top:50px; */
-    /* left: 0; */
-  /* right: 0; */
-  }
-  
-
-  /* .containerMain.dark {
-    background-color: #333333;
-  } */
+  /* display: flex;
+  flex-direction: column;
+  margin: 50px auto 0px auto;
+  justify-content: center;
+  align-items: center; */
+}
 
 
-  @media screen and (max-width: 1000px) {
-    .containerMain, .email-form {
-        width:260px !important;
-    }
+.logoHeader {
+  width: 175px;
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  pointer-events: all;
+  cursor: pointer;
+}
 
-    .title {
-        width:320px !important;
-    }
-  }
+.beta {
+  border: none;
+  border-radius: 10px;
+  cursor: auto;
+  background-color: #f6f6f6;
+
+  font-weight: bold;
+  color: gray;
+
+  padding: 2px 5px;
+  font-size:14px;
+  width: fit-content;
+margin: 0 auto;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+
+.info {
+  border: none;
+border-radius: 10px;
+cursor: auto;
+background-color: white;
+/* font-weight: bold; */
+padding: 10px 10px 10px 0;
+text-align: center;
+font-size: 11px;
+margin: 20px auto;
+width:150px;
+
+}
+
+
+.arrow {
+  width: 8px;
+  margin-right: 10px;
+}

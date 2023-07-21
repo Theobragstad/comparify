@@ -5,6 +5,8 @@ import { Tooltip } from "react-tooltip";
 import "./MoreData.css";
 import "./App.css";
 
+import Footer from "./Footer"
+
 import axios from "axios";
 // import Cookies from 'js-cookie';
 
@@ -892,6 +894,8 @@ const MoreData = () => {
           </div>
         </div>
       </div>
+      <Footer />
+
 
       <Tooltip id="tooltip1" className="tooltip3" noArrow >
         Your comparify code is meant to only include information that provides a

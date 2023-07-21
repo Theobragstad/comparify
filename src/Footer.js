@@ -137,7 +137,7 @@ useEffect(() => {
 }, [darkMode.darkModeOn]);
 
   return (
-    <div>
+    <div >
       <div className="footer">
         <span>
           <Link to="/">

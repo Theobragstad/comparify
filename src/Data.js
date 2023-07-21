@@ -2625,7 +2625,7 @@ function Data() {
         closeAudiofeatureModal={closeAudiofeatureModal}
       />
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

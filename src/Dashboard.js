@@ -1193,7 +1193,7 @@ function Code() {
             </div></>
           )}
         </div>
-        <div className="codeDiv " style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="codeDiv " style={{ display: 'flex', justifyContent: 'center',marginTop:'-25px' }}>
           {!loadingView ? (
         <button
   className="basicBtn"
@@ -1340,29 +1340,10 @@ style={{display: 'none',marginLeft:'20px'}}
         <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow/>
 
 
-        <Tooltip id="dashboardTitleTooltip" className="tooltip1"  style={{width:'150px',zIndex:'999 !important'}}noArrow clickable={true}>
-         
-                <div style={{marginTop:'10px'}}>
-                  Here, you can:
-                  <div style={{textAlign:'left', margin:'10px'}}>
-                    <div>
-                  Save your unique comparify code to share with other users, or keep for yourself.</div>
-                  <br/> <div>
-                  View detailed stats about your listening habits.</div>
-                  <br/> <div>
-                  Compare your taste with someone else.</div>
-                  <br/> <div>
-                  Compare any two users' tastes.</div>
-                  </div>
-                </div>
-
-
-          
-        </Tooltip>
 
         
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

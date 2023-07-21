@@ -1,23 +1,20 @@
-import React, {useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 import emailjs from "@emailjs/browser";
 
 import "./Beta.css";
 import "./App.css";
 
-import check from "./img/check.png";
-import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
-import fullLogo from "./img/fullLogo.png"
 
-import sideArrowRight from "./img/sideArrowRight.png";
-import rightArrow from "./img/rightArrow.png"
-
-import { useDarkMode } from "./DarkMode";
+import fullLogo from "./img/fullLogo.png";
+import greenCheck from "./img/check.png";
+import arrow1 from "./img/sideArrowRight.png";
+import arrow2 from "./img/rightArrow.png";
 
 function Beta() {
   document.title = "comparify - Beta Access";
-const darkMode = useDarkMode()
-
 
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
@@ -53,25 +50,24 @@ const darkMode = useDarkMode()
   };
 
   const validateEmail = (email) => {
-    // Regular expression to validate email format
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return emailRegex.test(email);
   };
 
   const isFormValid =
-  emails.some((email, index) => email.trim() !== "" && emailValidity[index]) &&
-  !emails.some(
-    (email, index) =>
-      email.trim() !== "" &&
-      emails.indexOf(email) !== index &&
-      emailValidity[index]
-  );
-
+    emails.some(
+      (email, index) => email.trim() !== "" && emailValidity[index]
+    ) &&
+    !emails.some(
+      (email, index) =>
+        email.trim() !== "" &&
+        emails.indexOf(email) !== index &&
+        emailValidity[index]
+    );
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   
     const isDuplicate = emails.some(
       (email, index) => email !== "" && emails.indexOf(email) !== index
     );
@@ -100,12 +96,11 @@ const darkMode = useDarkMode()
         setEmailValidity([true, true, true, true, true]);
       }, 3000);
     } else {
-      // Focus on the first invalid email input
       const firstInvalidIndex = emailValidity.findIndex(
         (validity) => !validity
       );
       const firstInvalidInput = document.getElementById(
-        `email-input-${firstInvalidIndex}`
+        `emailInput${firstInvalidIndex}`
       );
       firstInvalidInput.focus();
     }
@@ -127,49 +122,131 @@ const darkMode = useDarkMode()
         "hpyZw_CcV3bioW9ke"
       )
       .then(
-        (result) => {
-        },
-        (error) => {
-        }
+        (result) => {},
+        (error) => {}
       );
   };
   const navigate = useNavigate();
 
-  const goBack = () => {
-    navigate("/");
-  };
-
   return (
-        <div className={darkMode.darkModeOn ? "fullPageContainer dark": "fullPageContainer"} >
-
- 
+    <div>
       <img
+        className="logoHeader"
         src={fullLogo}
         onClick={() => navigate("/")}
-        style={{
-          width: "175px" ,
-          position: "absolute",
-          top: "20px",
-          left: "30px",
-          pointerEvents: "all",
-          cursor: "pointer",
-        }}
         title="Home"
+        alt="Logo"
       />
 
-      <div className="containerMain">
-      
+      <div className="">
+        <div className="title">
+          <div className="beta">beta access</div>
+          <div className="info">
+            <img
+              src={arrow1}
+              className="arrow"
+              
+              alt="Arrow"
+            ></img>
+            enter up to five emails (you + family + friends)
+            <br /> <br />
+            <img
+              src={arrow1}
+              className="arrow"
+              alt="Arrow"
+            ></img>
+            make sure they match their Spotify accounts
+            <br /> <br />
+            <img
+              src={arrow1}
+              className="arrow"
+              alt="Arrow"
+            ></img>
+            we add users in groups so you can try with people you know
+            <br /> <br />
+            <img
+              src={arrow1}
+              className="arrow"
+              alt="Arrow"
+            ></img>
+            we will contact the group when it has access
+          </div>
+        </div>
+      </div>
 
+
+      <div className="emailFormContainer">
+          <form
+            ref={form}
+            className="email-form"
+            onSubmit={handleSubmit}
+            title="Submit"
+          >
+            {emails.map((email, index) => (
+              <div key={index} className="emailInput">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => handleChange(e, index)}
+                  className={emailValidity[index] ? "" : "invalidEmail"}
+                  id={`email-input-${index}`}
+                  autoComplete="new-password"
+                />
+              </div>
+            ))}
+
+            {!submitted ? (
+              <div >
+                {" "}
+                <div
+                  type="submit"
+                  className={
+                    !isFormValid ? "defaultBtnForm disabled" : "defaultBtnForm"
+                  }
+                  // style={{ width: "fit-content", margin: "0 auto " }}
+                  onClick={handleSubmit}
+                >
+                  submit{" "}
+                  {/* <img
+                    src={arrow2}
+                    style={{ width: "15px", verticalAlign: "middle" }}
+                  /> */}
+                </div>
+              </div>
+            ) : (
+              <span className="submitted">
+                {/* <img src={greenCheck} style={{ width: "15px" }} /> */}
+                {/* <span style={{ color: "#18d860" }}> Submitted!</span>{" "}
+                Notifications will be sent when access becomes available. */}
+              </span>
+            )}
+          </form>
+        </div>
+        <span className="gray" onClick={() => navigate("/")} title="Home">
+          {/* <img
+            src={arrow2}
+            style={{
+              width: "15px",
+              verticalAlign: "middle",
+              transform: "rotate(180deg)",
+            }}
+          />{" "} */}
+          home
+        </span>
+
+      <Footer />
+      {/* 
+
+      <div className="containerMain">
         <div className="title">
           <div className="">
             <div
               className="gray nohover"
               style={{
                 width: "fit-content",
-                margin: "10px auto",
+                margin: "0 auto",
                 cursor: "auto",
-                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
-
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
               }}
             >
               beta access
@@ -187,24 +264,42 @@ const darkMode = useDarkMode()
                 textAlign: "center",
                 fontSize: "14px",
               }}
-              className={darkMode.darkModeOn && "dark2"}
             >
-               <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
+              <img
+                src={sideArrowRight}
+                style={{ width: "8px", marginRight: "10px" }}
+              ></img>
               enter up to five emails (you + family + friends)
               <br /> <br />
-              <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
+              <img
+                src={sideArrowRight}
+                style={{ width: "8px", marginRight: "10px" }}
+              ></img>
               make sure they match their Spotify accounts
               <br /> <br />
-              <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
+              <img
+                src={sideArrowRight}
+                style={{ width: "8px", marginRight: "10px" }}
+              ></img>
               we add users in groups so you can try with people you know
               <br /> <br />
-              <img src={sideArrowRight} style={{ width: "8px",marginRight:'10px' }}></img>
+              <img
+                src={sideArrowRight}
+                style={{ width: "8px", marginRight: "10px" }}
+              ></img>
               we will contact the group when it has access
             </div>
           </div>
         </div>
-        <div className="email-form-container bottom">
-          <form ref={form} className={darkMode.darkModeOn ? "email-form darkGray":"email-form"}  onSubmit={handleSubmit} title="Submit">
+        <div className="email-form-container">
+          <form
+            ref={form}
+            className={
+              darkMode.darkModeOn ? "email-form darkGray" : "email-form"
+            }
+            onSubmit={handleSubmit}
+            title="Submit"
+          >
             {emails.map((email, index) => (
               <div key={index} className="email-input">
                 <input
@@ -212,12 +307,12 @@ const darkMode = useDarkMode()
                   value={email}
                   onChange={(e) => handleChange(e, index)}
                   className={emailValidity[index] ? "" : "invalid-email"}
-                  id={`email-input-${index}`} 
+                  id={`email-input-${index}`}
                   autoComplete="new-password"
                 />
               </div>
             ))}
-            
+
             {!submitted ? (
               <div style={{ marginTop: "30px" }}>
                 {" "}
@@ -229,37 +324,38 @@ const darkMode = useDarkMode()
                   style={{ width: "fit-content", margin: "0 auto " }}
                   onClick={handleSubmit}
                 >
-                  submit <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
+                  submit{" "}
+                  <img
+                    src={rightArrow}
+                    style={{ width: "15px", verticalAlign: "middle" }}
+                  />
                 </div>
               </div>
-              
-         
-              
             ) : (
               <span className="submitted">
                 <br />
-                <img src={check} style={{ width: "15px" }} />
+                <img src={greenCheck} style={{ width: "15px" }} />
                 <span style={{ color: "#18d860" }}> Submitted!</span>{" "}
                 Notifications will be sent when access becomes available.
               </span>
             )}
           </form>
-          
         </div>
-        <span
-          className="gray"
-          style={{ marginTop: "30px" }}
-          onClick={()=>navigate("/")}
-          title="Home"
-        >
-         <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }} /> home 
+        <span className="gray" onClick={() => navigate("/")} title="Home">
+          <img
+            src={rightArrow}
+            style={{
+              width: "15px",
+              verticalAlign: "middle",
+              transform: "rotate(180deg)",
+            }}
+          />{" "}
+          home
         </span>
       </div>
-      
-      <Footer />
-      
-      </div>
-  
+
+      <Footer /> */}
+    </div>
   );
 }
 

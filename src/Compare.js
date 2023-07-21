@@ -2145,8 +2145,8 @@ function Compare() {
             <img
               src={nameIdImgurlGenerationdate2[2]}
               style={{
-                width: "30px",
-                height: "30px !important",
+                width: "30px ",
+                height: "30px ",
                 borderRadius: "50%",
                 paddingLeft: "10px",
                 paddingRight: "10px",
@@ -2487,8 +2487,8 @@ function Compare() {
                           <img
                             src={nameIdImgurlGenerationdate2[2]}
                             style={{
-                              width: "30px",
-                              height: "30px",
+                              width: "30px ",
+                              height: "30px ",
                               borderRadius: "50%",
                               paddingLeft: "10px",
                               paddingRight: "10px",
@@ -4640,7 +4640,7 @@ function Compare() {
                     <img
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
-                        width: "30px",
+                        width: "30px ",
                         height:'30px',
                         borderRadius: "50%",
                         paddingLeft: "10px",
@@ -7111,7 +7111,7 @@ function Compare() {
         noArrow
       ></ReactTooltip>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

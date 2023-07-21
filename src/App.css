@@ -167,7 +167,7 @@ background-color: white;
 border-radius: 20px;
 color: white; */
 .downloadCodeBtnCodePage {
-  margin-top: 10vh;
+  margin-top: 20px;
 }
 .profilePicImgCodePage {
   width: 30px;
@@ -290,17 +290,19 @@ padding: 2px 5px;
 /* .submitBtn:hover {
   transform: scale(1.2);
 } */
+
 .footer {
-  border-radius: 20px;
   width: 300px;
+  padding: 10px;
   font-weight: bold;
   font-size: 12px;
-  margin: 0 auto;
-  z-index: 3;
+  margin: 20px auto 5px auto; /* 20px margin above the footer */
+  border-radius: 20px;
   position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
 }
 
 
@@ -393,18 +395,19 @@ padding: 2px 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: inline-block;
   padding: 20px;
-  margin-top: 20px;
+  margin: 20px 10px;
   height: fit-content;
-  margin-right: 10px;
-  margin-left: 10px;
+  
   
 
-  width:800px;
+  width:45%;
   /* margin-bottom: 100px; */
 }
 @media screen and (max-width: 1200px) {
   .cardOverlay {
     margin-top: 70px;
+    width:80%;
+
   }
   
 }
@@ -447,7 +450,8 @@ padding: 2px 5px;
   transition: background-color 0.5s ease;
   z-index: 3;
 
-
+/* background-color: white; */
+border-radius: 15px;
 }
 
 
@@ -462,7 +466,7 @@ padding: 2px 5px;
   width: 90%;
   height: 30px;
   margin: 0 auto;
-  background-color: #f3f3f3;
+  background-color: #f6f6f6;
   border-radius: 25px;
   display: flex;
   align-items: center;
@@ -476,12 +480,14 @@ padding: 2px 5px;
 
 
 
-.navBtnContainerCompare{
+.navBtnContainerCompare {
   position: relative;
   width: 90%;
   height: 30px;
   margin: 0 auto;
-  background-color: #f3f3f3;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
   border-radius: 25px;
   display: flex;
   align-items: center;
@@ -540,16 +546,22 @@ padding: 2px 5px;
 .navBtn:hover:not(.selected), .leftNavBtn:hover {
   /* color: grey; */
   /* background-color: white; */
-  border-radius: 20px;
+  /* border-radius: 20px; */
   transition: filter 0.25s ease-out;
   filter: brightness(90%);
+  
 }
 /* .navBtn {
   border-radius: 20px;
 } */
 .selected {
-  background-color: #fff !important;
-  border-radius: 20px;
+  /* background-color: black !important;
+  border-radius: 15px;
+  color:white; */
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+background-color: white;
+
 }
 
 
@@ -1303,9 +1315,12 @@ img:active {
     justify-content: center;
     align-items: center;
 position:absolute;
-background-color: #f6f6f6;
+/* background-color: #f6f6f6; */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
 border-radius: 20px;
 width:fit-content
+
 }
 
 
@@ -1867,6 +1882,7 @@ transform-origin: center;
  padding:3px 4px;
  display: block; /* Ensures the button takes up the full width of the div */
  margin: 5px 0px 1px 0px; 
+ color:gray;
 }
 
 .cookieNoticeClose:hover, .darkenHover:hover {
@@ -2671,13 +2687,15 @@ right:3%;
    text-align: left;
     margin-top: 10px;
     border-radius: 20px;
-    background-color: #f6f6f6;
+    background-color: white;
     opacity:1;
     height:200px;
     width:175px;
     padding:20px 10px;
     font-weight: bold;
     font-size:13px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 
   }
 
@@ -2742,6 +2760,7 @@ right:3%;
     cursor:pointer;
     transition:background-color 3s;
     box-shadow: 0 0 20px #ffdf00;
+    margin-right: 30px;
 
   }
   

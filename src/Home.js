@@ -141,15 +141,15 @@ const handleCookieNoticeClose = () => {
 
 
   return (
-    <div className={darkMode.darkModeOn ? "appHeader dark" : "appHeader"} >
+    <div className={darkMode.darkModeOn ? "appHeader dark" : "appHeader"}  >
     {/* <div > */}
 
-    <Animation/>
+    {/* <Animation/> */}
 
 
 
 {!Cookies.get('agreeCookieNotice') &&
-      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}><span style={{fontSize:'20px'}}>🍪 </span>This website uses cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>This website uses cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
       }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">
@@ -271,12 +271,8 @@ const handleCookieNoticeClose = () => {
   </span>
 </div>
 
-      {/* <div className="homeFooter"> */}
-        <Footer />
-
-
-      {/* </div> */}
-
+      
+<Footer/>
      
     </div>
   );

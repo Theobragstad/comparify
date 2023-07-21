@@ -11,6 +11,8 @@ Center messages
 Button not disabled
 Image profile pic rounded
 Image events
+hide emailjs info env
+support page
 Null if not def from API
 save every stat as image separately, or select which to save
 align cards better
@@ -175,11 +177,17 @@ Logo and content overlaps
 Popularity ranges?
 Recs, similarity algos
 Footer fix
+Modal scrolling limit
+Game modal stying sizing text cut off
+Modal when sideways
 Side view mobile
 Get random users playlists
 Animation scrolling etc
+Profile pic sizing circle 
 AF rankings on compare pg too
 match pages
 lazy loading
-
- email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles
+google analytics
+ email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
+ Dashboard sizing
+Upload btn styling
