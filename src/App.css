@@ -1800,7 +1800,7 @@ color:white;
   color:black;
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-text-align: left !important;
+text-align: center !important;
   font-size: 12px;
   font-weight: bold;
   /* position:absolute; */
@@ -1881,7 +1881,7 @@ transform-origin: center;
  font-size: 12px;
  padding:3px 4px;
  display: block; /* Ensures the button takes up the full width of the div */
- margin: 5px 0px 1px 0px; 
+ margin: 10px auto 1px auto; 
  color:gray;
 }
 

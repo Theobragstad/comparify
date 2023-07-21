@@ -8,16 +8,38 @@ import logo from "./img/logo.png";
 import x from "./img/x.png"
 import fullLogo from "./img/fullLogo.png"
 import Cookies from 'js-cookie';
-import { useDarkMode } from "./DarkMode";
 
 import rightArrow from "./img/rightArrow.png"
 
 
 
 function Home() {
-  const darkMode = useDarkMode();
+  
+  
 
-  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
+  
+
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+    setDarkMode(storedDarkMode);
+
+    const handleDarkModeChange = () => {
+      setDarkMode(localStorage.getItem('darkMode') === 'true');
+    };
+
+    window.addEventListener('darkModeChanged', handleDarkModeChange);
+
+    return () => {
+      window.removeEventListener('darkModeChanged', handleDarkModeChange);
+    };
+  }, []);
+
+
+
+
+
 
   const navigate = useNavigate();
 
@@ -141,15 +163,15 @@ const handleCookieNoticeClose = () => {
 
 
   return (
-    <div className={darkMode.darkModeOn ? "appHeader dark" : "appHeader"}  >
+    <div className={darkMode ? "appHeader dark" : "appHeader"}  >
     {/* <div > */}
 
-    {/* <Animation/> */}
+    <Animation/>
 
 
 
 {!Cookies.get('agreeCookieNotice') &&
-      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>This website uses cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>We use cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
       }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">

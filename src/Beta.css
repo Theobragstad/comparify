@@ -7,19 +7,36 @@
   padding: 30px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
+  width: 300px;
+  margin: 0 auto;
 }
+
+
+.emailForm.dark {
+  box-shadow: inset 8px 12px 20px #000000, 0px 1px 1px #333 !important;
+}
+
+.emailForm.dark input {
+  
+  background-color: white !important;
+  border:none;
+
+}
+
+
 
 .title {
   font-weight: 600;
   font-size: 8px;
 
-  margin-top: 100px;
-  margin-bottom: 20px;
+  margin: 100px auto 20px auto;
 }
 
 .emailInput {
   margin-bottom: 10px;
 }
+
+
 
 .emailInput input {
   padding: 8px;
@@ -30,30 +47,19 @@
   transition: transform 1s;
   border: 2px solid #f6f6f6;
   font-weight: bold;
+  width: 90%;
 }
 
-.defaultBtnForm {
-  background-color: transparent;
-  color: none;
-  visibility: visible;
-  border: none;
-  margin-top: 40px;
-  padding: 2px 8px;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 15px;
-  font-size: 16px;
-  background-color: #f6f6f6;
-  color: darkgray;
-  transition: opacity 0.3s;
-  opacity: 1;
+.submitArrow {
+  width: 15px;
+  vertical-align: middle;
 }
 
-.defaultBtnForm:hover:not(.disabled) {
+.submitFormBtn:hover:not(.disabled) {
   filter: brightness(96%);
 }
 
-.defaultBtnForm.disabled {
+.submitFormBtn.disabled {
   opacity: 0.5;
   cursor: auto;
   pointer-events: none;
@@ -90,16 +96,37 @@
 .submitted {
   font-weight: bold;
   font-size: 12px;
+  color: #18d860;
 }
 
-.containerMain {
-  /* display: flex;
-  flex-direction: column;
-  margin: 50px auto 0px auto;
-  justify-content: center;
-  align-items: center; */
+.homeArrow {
+  width: 15px;
+  vertical-align: middle;
+  transform: rotate(180deg);
 }
 
+.submitFormBtn {
+  width: fit-content;
+  margin: 0 auto;
+  background-color: transparent;
+  color: none;
+  visibility: visible;
+  border: none;
+  margin-top: 40px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 15px;
+  font-size: 16px;
+  background-color: #f6f6f6;
+  color: darkgray;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+.submitted img {
+  width: 15px;
+}
 
 .logoHeader {
   width: 175px;
@@ -120,28 +147,21 @@
   color: gray;
 
   padding: 2px 5px;
-  font-size:14px;
+  font-size: 14px;
   width: fit-content;
-margin: 0 auto;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 
 .info {
   border: none;
-border-radius: 10px;
-cursor: auto;
-background-color: white;
-/* font-weight: bold; */
-padding: 10px 10px 10px 0;
-text-align: center;
-font-size: 11px;
-margin: 20px auto;
-width:150px;
-
+  cursor: auto;
+  padding: 10px 10px 10px 0;
+  text-align: center;
+  font-size: 11px;
+  margin: 20px auto;
+  width: 300px;
 }
-
 
 .arrow {
   width: 8px;

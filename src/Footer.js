@@ -20,7 +20,25 @@ import { useDarkMode } from "./DarkMode";
 
 
 const Footer = () => {
-  // const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem('darkMode', String(newDarkMode));
+    // Dispatch a custom event to notify other components of the change
+    window.dispatchEvent(new Event('darkModeChanged'));
+  };
+
+
+
+
+
+
+
+
+
 
   const [footerModalIsOpen, setFooterModalIsOpen] = useState(false);
 
@@ -116,25 +134,25 @@ const Footer = () => {
 
 // const [darkModeOn, setDarkModeOn] = useState(Cookies.get('darkModeOn') === 'true');
 
-const darkMode = useDarkMode();
+// const darkMode = useDarkMode();
 
-const toggleDarkMode = () => {
-  const updatedDarkModeOn = !darkMode.darkModeOn;
-  Cookies.set('darkModeOn', updatedDarkModeOn.toString());
-  darkMode.setDarkModeOn(updatedDarkModeOn);
-  window.location.reload()
-};
+// const toggleDarkMode = () => {
+//   const updatedDarkModeOn = !darkMode.darkModeOn;
+//   Cookies.set('darkModeOn', updatedDarkModeOn.toString());
+//   darkMode.setDarkModeOn(updatedDarkModeOn);
+//   window.location.reload()
+// };
 
 
-useEffect(() => {
-  // Perform actions when darkModeOn changes
-  // This code will run whenever darkModeOn changes
-  console.log('darkModeOn changed:', darkMode.darkModeOn);
+// useEffect(() => {
+//   // Perform actions when darkModeOn changes
+//   // This code will run whenever darkModeOn changes
+//   console.log('darkModeOn changed:', darkMode.darkModeOn);
 
-  // Update other variables or trigger rerendering logic here
-  // ...
+//   // Update other variables or trigger rerendering logic here
+//   // ...
 
-}, [darkMode.darkModeOn]);
+// }, [darkMode.darkModeOn]);
 
   return (
     <div >
@@ -145,7 +163,7 @@ useEffect(() => {
               src={logo}
               style={{ width: 20, pointerEvents: "cursor" }}
               title="Home"
-              alt="comparify logo"
+              alt="Logo"
             ></img>
           </Link>
           &emsp;&copy; 2023&emsp;&emsp;
@@ -166,11 +184,10 @@ useEffect(() => {
           onClick={toggleDarkMode}
           style={{ cursor: "pointer" }}
           className="hoverGray"
-          title={darkMode.darkModeOn ? "Toggle light mode" : "Toggle dark mode"}
+          title={darkMode ? "Toggle light mode" : "Toggle dark mode"}
         >
-                    &emsp;&emsp; <img src={darkMode.darkModeOn ? sun : moon} style={{width:'10px', verticalAlign:'middle'}}/>
+                    &emsp;&emsp; <img src={darkMode ? sun : moon} style={{width:'10px', verticalAlign:'middle'}} alt={darkMode ? "sun" : "moon"} className="spin"/>
 
-          {/* &emsp;&emsp; <img src={darkMode.darkModeOn ? sun : moon} style={{width:'20px', verticalAlign:'middle'}} className={darkMode.darkModeOn ? "darkImg" : ""}/> */}
         </span>
         <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
           <div>
@@ -194,7 +211,7 @@ useEffect(() => {
           isOpen={footerModalIsOpen}
           onRequestClose={closeFooterModal}
           contentLabel="Popup Window"
-          style={darkMode.darkModeOn ? darkModalStyles : customStyles}
+          style={darkMode ? darkModalStyles : customStyles}
           className="helpModal"
 
         >
