@@ -188,6 +188,8 @@ AF rankings on compare pg too
 match pages
 lazy loading
 google analytics
+footer position
+animation sizig position
  email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
  Dashboard sizing
 Upload btn styling
