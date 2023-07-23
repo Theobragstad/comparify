@@ -36,7 +36,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 function Compare() {
 
-  document.title = "comparify - Results";
+  document.title = "comparify | Results";
 
   const gameModalState = useGameModalState();
 
@@ -2292,7 +2292,6 @@ function Compare() {
         {/* </a> */}
         <div
           style={{
-            color: "#1e90ff",
             fontWeight: "bold",
             display: "inline",
           }}
@@ -2402,7 +2401,7 @@ function Compare() {
             {nameIdImgurlGenerationdate2[0]}'s code generated {generationDateTime2}
             </div> */}
             {generationDateTime &&
-            <div className="generationDateTime" style={{ marginTop: "10px" }}>
+            <div className="generationDateTime" style={{ marginTop: "30px" }}>
             comparison generated {generationDateTime}
             </div>}
           </div>
@@ -5745,7 +5744,8 @@ function Compare() {
               </td>
               <td>
 
-              <div className="compareCardSmall2 pieCard" style={{  boxShadow:' 0 2px 5px rgba(186, 186, 186, 1)'}}>
+              <div className="compareCardSmall2 pieCard" style={{  boxShadow:' 0 2px 5px rgba(200, 200, 200, .8)'}}>
+                
                 <br/> <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/><br/> <br/><br/> <br/><br/>
              
                 </div>

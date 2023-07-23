@@ -7,6 +7,9 @@ import Footer from "./Footer";
 import logo from "./img/logo.png";
 import x from "./img/x.png"
 import fullLogo from "./img/fullLogo.png"
+
+import bg from "./img/bg.png"
+
 import Cookies from 'js-cookie';
 
 import rightArrow from "./img/rightArrow.png"
@@ -43,11 +46,11 @@ function Home() {
 
   const navigate = useNavigate();
 
-  document.title = "comparify - Explore and compare your music";
+  document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const REDIRECT_URI = "http://localhost:3000/dashboard";
+  // const REDIRECT_URI = "http://localhost:3000/dashboard";
   //
-  // const REDIRECT_URI = "https://comparify.app/dashboard";
+  const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
@@ -163,7 +166,7 @@ const handleCookieNoticeClose = () => {
 
 
   return (
-    <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
+    <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") ` }}  >
     {/* <div > */}
 
     <Animation/>
@@ -171,11 +174,17 @@ const handleCookieNoticeClose = () => {
 
 
 {!Cookies.get('agreeCookieNotice') &&
-      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>We use cookies. For more info, see the help page.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>comparify uses cookies. See the help page for more info.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
       }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">
           Spotify timeout or error. Try logging in again, or try later.
+        </div>
+      )}
+
+{location.state && location.state.directAccessError && (
+        <div className="errorMessage2">
+          Data processing error. Please try again.
         </div>
       )}
       {/* <div
@@ -206,17 +215,19 @@ const handleCookieNoticeClose = () => {
         style={{
           width: "175px" ,
           position: "absolute",
-          top: "20px",
+          top: "5px",
           left: "30px",
           pointerEvents: "all",
           cursor: "pointer",
+          backgroundColor:'white',
+          padding:'25px'
         }}
         title="Home"
       />
 
 
       
-      <div
+      {/* <div
         style={{
           position: "absolute",
           left: "5%",
@@ -268,7 +279,59 @@ const handleCookieNoticeClose = () => {
             new music
           </span>
         </div>
-      </div>
+      </div> */}
+       {/* <div
+        style={{
+          position: "absolute",
+          left: "5%",
+          top: "20%",
+          fontWeight: "bold",
+          textAlign: "left",
+          color: "darkgray",
+          fontSize: "calc(15px + 2vmin)",
+          fontFamily: 'gothamMedium',
+        }}
+        
+      >
+        <div style={{ position: "relative", top: "0px" }} >
+          <span className="" style={{color:'black'}}>Explore</span>{" "}
+          <span
+            style={{ fontSize: "18px", color: "#1e90ff" }}
+            className=""
+          >
+            your music
+          </span>
+        </div>
+
+        <div
+          style={{ position: "relative", marginTop: "30px" }}
+        >
+          <span  style={{color:'black'}}>Discover</span>{" "}
+          <span
+            style={{ fontSize: "18px", color: "#18d860" }}
+            className=""
+          >
+            {" "}
+            shared tastes
+          </span>
+        </div>
+
+        <div
+          style={{ position: "relative", marginTop: "30px" }}
+        >
+          <span className=""  style={{color:'black'}}>Learn</span>{" "}
+          <span
+            style={{ fontSize: "18px", color: "#ffdf00" }}
+            className=""
+          >
+            <span style={{ color: "#ffdf00" }} className="">
+              about
+            </span>{" "}
+            new music
+          </span>
+        </div>
+      </div> */}
+
 
 
 
@@ -277,7 +340,7 @@ const handleCookieNoticeClose = () => {
       <div
         className="betaIcon"
         // onClick={handleClickBETA}
-        style={{ marginLeft:'20px' }}
+        style={{ marginLeft:'60px',top:'40px' }}
       >
         beta
       </div>

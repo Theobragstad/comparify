@@ -133,6 +133,7 @@ top:27px;
 left:240px; */
 color:gray;
 font-weight:bold;
+width:fit-content;
 }
 .login-title {
   padding-top: 200px;
@@ -466,7 +467,8 @@ border-radius: 15px;
   width: 90%;
   height: 30px;
   margin: 0 auto;
-  background-color: #f6f6f6;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  
   border-radius: 25px;
   display: flex;
   align-items: center;
@@ -1800,7 +1802,7 @@ color:white;
   color:black;
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-text-align: center !important;
+text-align: left !important;
   font-size: 12px;
   font-weight: bold;
   /* position:absolute; */
@@ -1813,6 +1815,7 @@ text-align: center !important;
 
 opacity: 1;
 transform-origin: center;
+/* color: #f85084; */
 
 
 
@@ -1874,14 +1877,14 @@ transform-origin: center;
 .cookieNoticeClose {
  border:none;
  border-radius: 10px;
- /* background-color: #defade; */
  font-weight: bold;
  cursor:pointer;
- /* color:#18d860; */
  font-size: 12px;
  padding:3px 4px;
- display: block; /* Ensures the button takes up the full width of the div */
- margin: 10px auto 1px auto; 
+ display: block; 
+  margin-top: 4px; 
+
+ /* margin: 10px auto 1px auto;  */
  color:gray;
 }
 
@@ -2567,11 +2570,13 @@ left:200px;
 } */
 
 .animation {
- position:absolute;
- /* left:800px; */
- top:100px;
+  /* position:absolute; */
+
+  /* top:100px;
  height:100px !important;
- width:100px !important;
+ width:100px !important; */
+ margin:0 auto;
+ transform:scale(2)
 }
 
 
@@ -2579,10 +2584,10 @@ left:200px;
 
 @media screen and (max-width: 500px) {
 .animation {
-  top:20% !important;
+  /* top:20% !important; */
 
-  transform:scale(0.5); 
-right:3%;
+  transform:scale(1.5); 
+/* right:3%; */
 
 }
 
@@ -2604,10 +2609,10 @@ right:3%;
 
   @media screen and (max-width: 1000px) {
     .animation {
-      top:20% !important;
+      /* top:20% !important; */
     
-      transform:scale(0.6); 
-    right:3%;
+      transform:scale(1.5); 
+    /* right:3%; */
     
     }
 
@@ -2737,9 +2742,8 @@ right:3%;
     font-weight: bold;
     background-color: #e6f6fe;
     color: #1e90ff;
-    border: 3px solid #1e90ff;
+    border: 2px solid #1e90ff;
     border-radius: 10px;
-    padding:5px;
     cursor:pointer;
     /* font-family: proximaNova; */
   }
@@ -2755,13 +2759,13 @@ right:3%;
     display: inline-block;
     cursor: pointer;
     background-color:#fffec8;
-    border: 3px solid #ffdf00;
+    border: 2px solid #ffdf00;
     color:#ffdf00;
     border-radius: 50%;
-    padding:5px;
+    padding:3px;
     cursor:pointer;
     transition:background-color 3s;
-    box-shadow: 0 0 20px #ffdf00;
+    /* box-shadow: 0 0 20px #ffdf00; */
     margin-right: 30px;
 
   }
@@ -2772,7 +2776,7 @@ right:3%;
     vertical-align: middle;
   }
 
-  .custom-file-upload.valid {
+  .custom-file-upload.valid,  .custom-file-upload:hover {
     background-color: #ffdf00;
   }
 
@@ -2784,20 +2788,19 @@ right:3%;
     display: inline-block;
     cursor: pointer;
     background-color:#e6f6fe;
-    border: 3px solid #1e90ff;
+    border: 2px solid #1e90ff;
     color:#1e90ff;
     border-radius: 50%;
-    padding:5px;
+    /* padding:5px; */
     cursor:pointer;
     transition:background-color 3s;
     margin-right: 50px;
-    box-shadow: 0 0 20px #1e90ff;
 
   }
   
   
 
-  .custom-file-upload.blue.valid {
+  .custom-file-upload.blue.valid, .custom-file-upload.blue:hover {
     background-color: #1e90ff;
     
   }

@@ -190,6 +190,11 @@ lazy loading
 google analytics
 footer position
 animation sizig position
+APP ANIMATIONS images-rotate
+footer
  email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
  Dashboard sizing
 Upload btn styling
+links to artwork
+round values ALL
+restrict path if typed

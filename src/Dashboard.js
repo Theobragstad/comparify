@@ -15,10 +15,11 @@ import dashboard from "./img/dashboard.png"
 import fullLogo from "./img/fullLogo.png"
 import uploadYellow from "./img/uploadYellow.png"
 import uploadBlue from "./img/uploadBlue.png"
+import arrow from "./img/rightArrow.png"
 
 function Code() {
   // const pageTitle = `${"hello"}`;
-  document.title = "comparify - Dashboard";
+  document.title = "comparify | Dashboard";
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -1219,7 +1220,7 @@ function Code() {
           )}
         </div>
         {/* <h4 className="grayText">or</h4> */}
-        <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}>or</div>
+        <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}><img src={arrow} style={{width:'20px', transform:'rotate(90deg)', verticalAlign:'middle'}}/></div>
 
         <div>
           <h2 className="gradient compareNameCodePage" style={{fontFamily:'gothamMedium'}}>compare</h2>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { PieChart, Pie, Cell, Legend } from "recharts";
@@ -29,7 +29,146 @@ import fullLogo from "./img/fullLogo.png";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
-  document.title = "comparify - Your data";
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
+  const [apiResponse, setApiResponse] = useState("");
+
+  const [gptLoading, setGptLoading] = useState(false);
+const [isOpen, setIsOpen] = useState(false);
+ const [selectedButton, setSelectedButton] = useState(1);
+  const [selectedTimeRange, setSelectedTimeRange] = useState("short_term");
+  const timeRanges = ["short_term", "medium_term", "long_term"];
+
+  const [selectedTimeRangeClean, setSelectedTimeRangeClean] =
+    useState("last month");
+  const timeRangesClean = ["last month", "last 6 months", "all time"];
+
+  const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
+const [topSongs, setTopSongs] = useState([]);
+  const [highestAudioFeatureSongs, setHighestAudioFeatureSongs] = useState([]);
+  const [lowestAudioFeatureSongs, setLowestAudioFeatureSongs] = useState([]);
+  const [mostLeastPopSongs, setMostLeastPopSongs] = useState([]);
+  const [oldestNewestSongs, setOldestNewestSongs] = useState([]);
+  const [topAlbums, setTopAlbums] = useState([]);
+  const [mostLeastPopAlbums, setMostLeastPopAlbums] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
+  const [mostLeastPopArtists, setMostLeastPopArtists] = useState([]);
+
+  const [highestAudioFeatureValues, setHighestAudioFeatureValues] = useState(
+    []
+  );
+  const [lowestAudioFeatureValues, setLowestAudioFeatureValues] = useState([]);
+const [saveGptClicked, setSaveGptClicked] = useState(false);
+const [expirationTime, setExpirationTime] = useState("");
+
+const [recModalIsOpen, setRecModalIsOpen] = useState(false);
+const [isPlaying, setIsPlaying] = useState({});
+const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
+  const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null);
+
+  const [scrollPosition, setScrollPosition] = useState(null);
+const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+
+
+  
+
+
+useEffect(() => {
+  resetAllAudio();
+  setIsTimeRangeLoading(true);
+
+  if (isTokenExpired()) {
+    logout();
+  }
+
+  // setTimeout(() => {
+  getTopSongs(arrays.songIds);
+  getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
+  getAudioFeatureValues(
+    arrays.highestAudioFeatureSongIds,
+    setHighestAudioFeatureValues
+  );
+
+  getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
+  getAudioFeatureValues(
+    arrays.lowestAudioFeatureSongIds,
+    setLowestAudioFeatureValues
+  );
+
+  getMostLeastPopSongs(arrays.mostLeastPopSongIds);
+  getOldestNewestSongs(arrays.oldestNewestSongIds);
+  getTopAlbums(arrays.albumIds);
+  getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
+  getTopArtists(arrays.artistIds);
+  getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
+  setIsTimeRangeLoading(false);
+  // }, 1000);
+}, [selectedTimeRange]);
+
+
+
+useEffect(() => {
+  const audioElements = document.querySelectorAll("audio");
+  const updatedIsPlaying = Array.from(isPlaying);
+
+  const handleAudioEnded = (index) => {
+    updatedIsPlaying[index] = false;
+    setIsPlaying(updatedIsPlaying);
+  };
+
+  audioElements.forEach((audioElement, i) => {
+    audioElement.addEventListener("ended", () => handleAudioEnded(i));
+  });
+
+  return () => {
+    audioElements.forEach((audioElement, i) => {
+      audioElement.removeEventListener("ended", () => handleAudioEnded(i));
+    });
+  };
+}, [isPlaying]);
+
+
+useEffect(() => {
+  setScrollPosition(document.documentElement.scrollTop);
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
+
+
+if (!location?.state) {
+  navigate("/")
+  return;
+ }
+
+
+  const token = location.state?.token;
+
+  const allData = location.state?.data?.split(",");
+
+
+
+ 
+
+
+
+
+   
+
+
+
+
+
+  document.title = "comparify | Your data";
+
+
+
+  
 
   const handleMouseOver = () => {
     document.getElementById("arrow").setAttribute("src", arrowDown);
@@ -42,7 +181,6 @@ function Data() {
   };
 
   Modal.setAppElement("#root");
-  // window.scrollTo(0, 0);
 
   const configuration = new Configuration({
     organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
@@ -52,9 +190,7 @@ function Data() {
   delete configuration.baseOptions.headers["User-Agent"];
 
   const openai = new OpenAIApi(configuration);
-  const [apiResponse, setApiResponse] = useState("");
-
-  const [gptLoading, setGptLoading] = useState(false);
+ 
 
   const handleGptSumbit = async () => {
     setGptLoading(true);
@@ -111,7 +247,7 @@ function Data() {
     setSaveGptClicked(false);
   }
 
-  const [isOpen, setIsOpen] = useState(false);
+  
 
   const openModal = async () => {
     setIsOpen(true);
@@ -177,15 +313,7 @@ function Data() {
     },
   };
 
-  const [selectedButton, setSelectedButton] = useState(1);
-  const [selectedTimeRange, setSelectedTimeRange] = useState("short_term");
-  const timeRanges = ["short_term", "medium_term", "long_term"];
-
-  const [selectedTimeRangeClean, setSelectedTimeRangeClean] =
-    useState("last month");
-  const timeRangesClean = ["last month", "last 6 months", "all time"];
-
-  const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
+ 
 
 
 
@@ -214,19 +342,18 @@ function Data() {
 
 
 
-  const location = useLocation();
-  let token = location.state.token;
-  const allData = location.state.data.split(",");
-  const nameIdImgurlGenerationdate = allData.slice(1, 5);
+  
+  
+  const nameIdImgurlGenerationdate = allData?.slice(1, 5);
 
-  const dataStartIndex = allData.indexOf(selectedTimeRange) + 1;
+  const dataStartIndex = allData?.indexOf(selectedTimeRange) + 1;
   const dataEndIndex =
     selectedTimeRange === "long_term"
-      ? allData.length - 1
-      : allData.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) -
+      ? allData?.length - 1
+      : allData?.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) -
         1;
 
-  const data = allData.slice(dataStartIndex, dataEndIndex + 1);
+  const data = allData?.slice(dataStartIndex, dataEndIndex + 1);
 
   const labels = [
     "songIds[<=50]",
@@ -612,20 +739,7 @@ function Data() {
     }
   };
 
-  const [topSongs, setTopSongs] = useState([]);
-  const [highestAudioFeatureSongs, setHighestAudioFeatureSongs] = useState([]);
-  const [lowestAudioFeatureSongs, setLowestAudioFeatureSongs] = useState([]);
-  const [mostLeastPopSongs, setMostLeastPopSongs] = useState([]);
-  const [oldestNewestSongs, setOldestNewestSongs] = useState([]);
-  const [topAlbums, setTopAlbums] = useState([]);
-  const [mostLeastPopAlbums, setMostLeastPopAlbums] = useState([]);
-  const [topArtists, setTopArtists] = useState([]);
-  const [mostLeastPopArtists, setMostLeastPopArtists] = useState([]);
-
-  const [highestAudioFeatureValues, setHighestAudioFeatureValues] = useState(
-    []
-  );
-  const [lowestAudioFeatureValues, setLowestAudioFeatureValues] = useState([]);
+  
 
   function formatGptPrompt(
     topSong,
@@ -799,41 +913,10 @@ function Data() {
     return prompt;
   }
 
-  const [saveGptClicked, setSaveGptClicked] = useState(false);
+  
 
-  useEffect(() => {
-    resetAllAudio();
-    setIsTimeRangeLoading(true);
+  
 
-    if (isTokenExpired()) {
-      logout();
-    }
-
-    // setTimeout(() => {
-    getTopSongs(arrays.songIds);
-    getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
-    getAudioFeatureValues(
-      arrays.highestAudioFeatureSongIds,
-      setHighestAudioFeatureValues
-    );
-
-    getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
-    getAudioFeatureValues(
-      arrays.lowestAudioFeatureSongIds,
-      setLowestAudioFeatureValues
-    );
-
-    getMostLeastPopSongs(arrays.mostLeastPopSongIds);
-    getOldestNewestSongs(arrays.oldestNewestSongIds);
-    getTopAlbums(arrays.albumIds);
-    getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
-    getTopArtists(arrays.artistIds);
-    getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
-    setIsTimeRangeLoading(false);
-    // }, 1000);
-  }, [selectedTimeRange]);
-
-  const navigate = useNavigate();
 
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem("expirationTime");
@@ -873,8 +956,7 @@ function Data() {
     }
   };
 
-  const [expirationTime, setExpirationTime] = useState("");
-
+  
   const features = [
     "acousticness",
     "danceability",
@@ -981,7 +1063,7 @@ function Data() {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
 
-  const [recModalIsOpen, setRecModalIsOpen] = useState(false);
+  
   const openRecModal = async () => {
     setRecModalIsOpen(true);
   };
@@ -1045,7 +1127,7 @@ function Data() {
   ];
 
   // const [isPlaying, setIsPlaying] = useState([]);
-  const [isPlaying, setIsPlaying] = useState({});
+  
 
   const togglePlayback = (id) => {
     const thisElement = document.getElementById(id);
@@ -1092,30 +1174,9 @@ function Data() {
     setIsPlaying(updatedIsPlaying);
   };
 
-  useEffect(() => {
-    const audioElements = document.querySelectorAll("audio");
-    const updatedIsPlaying = Array.from(isPlaying);
+  
 
-    const handleAudioEnded = (index) => {
-      updatedIsPlaying[index] = false;
-      setIsPlaying(updatedIsPlaying);
-    };
-
-    audioElements.forEach((audioElement, i) => {
-      audioElement.addEventListener("ended", () => handleAudioEnded(i));
-    });
-
-    return () => {
-      audioElements.forEach((audioElement, i) => {
-        audioElement.removeEventListener("ended", () => handleAudioEnded(i));
-      });
-    };
-  }, [isPlaying]);
-
-  const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
-  const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null);
-
-  const [scrollPosition, setScrollPosition] = useState(null);
+  
 
   function openAudiofeatureModal(feature) {
     setScrollPosition(document.documentElement.scrollTop);
@@ -1128,34 +1189,19 @@ function Data() {
   function handleScroll() {
     setScrollPosition(document.documentElement.scrollTop);
   }
-  useEffect(() => {
-    setScrollPosition(document.documentElement.scrollTop);
-    window.addEventListener("scroll", handleScroll);
-  
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+ 
 
   function closeAudiofeatureModal(feature) {
     setIsAudiofeatureModalOpen(false);
     setAudiofeatureForModal(null);
   }
 
-  // useEffect(() => {
-  //   if(isAudiofeatureModalOpen) {
-  //       window.scrollTo({
-  //           top: document.documentElement.scrollHeight,
-  //           behavior: "smooth",
-  //         });
-  //   }
-
-  // }, [isAudiofeatureModalOpen]);
+  
 
   function getTimeDifference(time1, time2) {
     if (time1 && time2) {
-      const [minutes1, seconds1] = time1.split(":").map(Number);
-      const [minutes2, seconds2] = time2.split(":").map(Number);
+      const [minutes1, seconds1] = time1?.split(":").map(Number);
+      const [minutes2, seconds2] = time2?.split(":").map(Number);
       const difference = Math.abs(
         minutes1 * 60 + seconds1 - (minutes2 * 60 + seconds2)
       );
@@ -1166,7 +1212,7 @@ function Data() {
     return null;
   }
 
-  const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+  
 
   //
 
@@ -1196,9 +1242,10 @@ function Data() {
     }
   };
 
+    
   return (
     <div className="dataPage">
-      <ScrollButton/>
+      {/* <ScrollButton/> */}
       {/* <button
         title="Back"
         className="defaultBtn"
@@ -1261,7 +1308,6 @@ function Data() {
         {/* </a> */}
         <div
           style={{
-            color: "#1e90ff",
             fontWeight: "bold",
             display: "inline",
           }}
@@ -2581,8 +2627,8 @@ function Data() {
           target_acousticness={arrays.audioFeatureMeans[0]}
           target_danceability={arrays.audioFeatureMeans[1]}
           target_duration_ms={
-            parseInt(arrays.audioFeatureMeans[2].split(":")[0]) * 60000 +
-            parseInt(arrays.audioFeatureMeans[2].split(":")[1]) * 1000
+            parseInt(arrays.audioFeatureMeans[2]?.split(":")[0]) * 60000 +
+            parseInt(arrays.audioFeatureMeans[2]?.split(":")[1]) * 1000
           }
           target_energy={arrays.audioFeatureMeans[3]}
           target_instrumentalness={arrays.audioFeatureMeans[4]}
