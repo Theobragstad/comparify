@@ -169,6 +169,17 @@ Compare page val stacking
 Logo and content overlaps
 Popularity ranges?
 Recs, similarity algos
+scrolling
+dashboard padding margin mobile
+gradient text display errror line
+dahsboard positioning
+name menu size smaller
+table margin
+pie chrt click to show
+song rank modal scrolling
+side arrow animations
+data page alignments
+dont disable highlight etc ptr events
 Modal scrolling limit
 Game modal stying sizing text cut off
 Modal when sideways

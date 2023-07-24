@@ -1237,12 +1237,13 @@ function Code() {
   " className=""/>)} */}
 
 </label>
-<input
+<input 
   id="input1"
   type="file"
   accept=".txt"
   onChange={addFile2}
   style={{display: 'none'}}
+  disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
 />
         
           <span className="codeDiv">
@@ -1287,6 +1288,8 @@ function Code() {
   <img src={uploadBlue} alt="" className="upload-icon"/>
 </label>
           <input
+            disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
+
             type="file"
            
             accept=".txt"
@@ -1310,6 +1313,8 @@ style={{display: 'none'}}
 
 </label>
           <input
+            disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
+
             type="file"
             
             accept=".txt"

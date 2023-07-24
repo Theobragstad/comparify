@@ -49,6 +49,8 @@ function Home() {
   document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   // const REDIRECT_URI = "http://localhost:3000/dashboard";
+
+  
   //
   const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -169,12 +171,17 @@ const handleCookieNoticeClose = () => {
     <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
     {/* <div > */}
 
-    <Animation/>
+    {/* <Animation/> */}
 
 
 
 {!Cookies.get('agreeCookieNotice') &&
-      <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>comparify uses cookies. See the help page for more info.<button title="Dismiss"className="cookieNoticeClose"onClick={handleCookieNoticeClose}>Dismiss</button></div>
+<div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>
+  <div className="cookieNoticeText">
+    comparify uses cookies (see the help page for more info)
+  </div>
+  <button title="Dismiss" className="cookieNoticeClose" onClick={handleCookieNoticeClose}><img src={x} style={{width:'10px'}}></img></button>
+</div>
       }
       {location.state && location.state.apiError && (
         <div className="errorMessage2">
@@ -243,10 +250,10 @@ const handleCookieNoticeClose = () => {
 
 
       <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
-  <span className="gray" style={{ marginRight: "20px",boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)' }} onClick={handleClickBETA} title="Get access">
+  <span className="primaryBtn" style={{ marginRight: "20px",boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)' }} onClick={handleClickBETA} title="Get access">
     get access <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>{" "}
-  <span className="gray" onClick={handleClick} title="Log in" style={{boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
+  <span className="primaryBtn" onClick={handleClick} title="Log in" style={{boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
     authorized users <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>
 </div>

@@ -13,9 +13,21 @@ body,
 
 .App {
   text-align: center;
-  user-select: none;
+  /* user-select: none; */
+  
 
 }
+
+
+::selection {
+  background: #e4fae4; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #e4fae4; /* Gecko Browsers */
+}
+
+
+
 .viewToggle {
   border: none;
   background-color: white;
@@ -1818,7 +1830,8 @@ transform-origin: center;
 /* color: #f85084; */
 
 
-
+display: flex;
+  align-items: center;
 }
 
 
@@ -1876,17 +1889,19 @@ transform-origin: center;
 
 .cookieNoticeClose {
  border:none;
- border-radius: 10px;
- font-weight: bold;
- cursor:pointer;
- font-size: 12px;
- padding:3px 4px;
- display: block; 
-  margin-top: 4px; 
 
- /* margin: 10px auto 1px auto;  */
- color:gray;
+
+cursor: pointer;
+background-color: #f6f6f6;
+border-radius: 50%;
+height:20px;
+width:20px;
+display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
+
 
 .cookieNoticeClose:hover, .darkenHover:hover {
   filter:brightness(90%)
@@ -2368,7 +2383,7 @@ transform-origin: center;
   background-color: #f6f6f6;
 
   font-weight: bold;
-  color: gray;
+  /* color: gray; */
 
   font-style:oblique 60deg;
   padding: 2px 5px;
@@ -2382,6 +2397,28 @@ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
 
 }
+
+.primaryBtn {
+  border: none;
+  border-radius: 10px;
+  cursor: auto;
+  background-color: #f6f6f6;
+
+  font-weight: bold;
+  color: black;
+
+  padding: 2px 5px;
+  font-size:14px;
+  cursor:pointer;
+
+
+ 
+}
+
+.primaryBtn:hover:not(.nohover) {
+filter:brightness(90%)
+}
+
 
 
 
@@ -2584,13 +2621,29 @@ left:200px;
 }
 
 
+
+
+
+.cookieNotice {
+ 
+}
+
+.cookieNoticeText {
+  flex-grow: 1; /* This will make the text take up all available space */
+}
+
+
+
+
+
 .cookieNotice {
   text-align: center; 
    left: 50%; /* Add left: 50% */
    transform: translateX(-50%); 
 
 
-
+   display: flex;
+   align-items: center;
 
 
 

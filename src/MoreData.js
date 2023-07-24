@@ -379,6 +379,17 @@ const MoreData = () => {
   }, []);
   
   useEffect(() => {
+
+    if (refresh) {
+      const timeout = setTimeout(() => {
+        setRefresh(false);
+      }, 1 * 30 * 1000); // 4 minutes in milliseconds
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+
     getSavedShows();
     getFollowedArtists();
     getSavedAlbums();

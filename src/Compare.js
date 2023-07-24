@@ -2175,7 +2175,7 @@ function Compare() {
           }}
           onClick={handleConvertToImage}
           data-tooltip-id="downloadScoreImageTooltip"
-          data-tooltip-content="Your similarity percent (click to save)"
+          data-tooltip-content="Your similarity percent. Click to save."
         >
           {animatedValue.toFixed(3)}%
         </span>
@@ -2385,7 +2385,7 @@ function Compare() {
               onClick={gameModalState.openGameModal}
     
               style={{ fontSize: "13px", marginTop: "20px" }}
-              title="Test your knowledge!"
+              title="See how well you know each other's music"
             >
               Play{" "}
               <img

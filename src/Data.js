@@ -2176,8 +2176,8 @@ if (!location?.state) {
         onMouseOver={()=>setSongReleaseDecadeDistrHover(true)}
         onMouseOut={()=>setSongReleaseDecadeDistrHover(false)}
 
-        onClick={handleTapPie}
-      onTouchStart={handleTapPie}
+      //   onClick={handleTapPie}
+      // onTouchStart={handleTapPie}
         >
           <div className="primaryTitle">song release decade distribution  <img
                 src={rightArrow}
