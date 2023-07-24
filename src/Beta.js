@@ -120,10 +120,13 @@ function Beta() {
 
     emailjs
       .send(
-        "service_6sehby6",
-        "template_5zxl5ze",
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         emailObject,
-        "hpyZw_CcV3bioW9ke"
+        process.env.REACT_APP_EMAILJS_KEY,
+       
+       
+        
       )
       .then(
         (result) => {},

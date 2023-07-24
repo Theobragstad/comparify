@@ -432,17 +432,25 @@ const MoreData = () => {
   
 
 
-  
-
-  const [arrowSrc, setArrowSrc] = useState(arrowRight);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseOver = () => {
-    setArrowSrc(arrowDown);
+    setIsHovered(true);
   };
 
   const handleMouseOut = () => {
-    setArrowSrc(arrowRight);
+    setIsHovered(false);
   };
+
+  // const [arrowSrc, setArrowSrc] = useState(arrowRight);
+
+  // const handleMouseOver = () => {
+  //   setArrowSrc(arrowDown);
+  // };
+
+  // const handleMouseOut = () => {
+  //   setArrowSrc(arrowRight);
+  // };
 
 
   const handleRefresh = () => {
@@ -487,7 +495,7 @@ const MoreData = () => {
             }
             title="Your data"
           >
-             <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)' }}/> back
+             <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back
           </div>
           {/* <div style={{ cursor: 'pointer', margin: '0', display: 'flex', alignItems: 'center', justifyContent: 'center'}} onClick={toggleShowInfo}> */}
           <div
@@ -501,18 +509,23 @@ const MoreData = () => {
             data-tooltip-id="tooltip1"
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}
+            className="tooltipArrowHover"
           >
             More data{" "}
             <img
               id="arrow"
-              src={arrowSrc}
+              // src={arrowSrc}
+              src={arrowRight}
+              // className="tooltipArrow"
+              className={`tooltipArrow ${isHovered ? "rotateRight" : "rotateBack"}`}
+
               style={{
-                marginLeft: "10px",
-                width: arrowSrc === arrowDown ? "20px" : "10px",
+              //   marginLeft: "10px",
+                  // width: arrowSrc === arrowDown ? "20px" : "10px",
               }}
             />
           </div>
-          <img data-tooltip-id="tooltip2" data-tooltip-content={"Refresh now (data auto-refreshes every 30s)"} onClick={handleRefresh} src={refreshIcon} style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
+          <img data-tooltip-id="tooltip2" data-tooltip-content={"Refresh now (data auto-refreshes every 30s)"} onClick={handleRefresh} src={refreshIcon} className="spin"style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
         </div>
         
 
@@ -897,7 +910,7 @@ const MoreData = () => {
       <Footer />
 
 
-      <Tooltip id="tooltip1" className="tooltip3" noArrow >
+      <Tooltip id="tooltip1" className="tooltip3" noArrow>
         Your comparify code is meant to only include information that provides a
         pure indication of your listening habits.
         <br />

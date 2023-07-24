@@ -72,8 +72,12 @@ const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
   const [scrollPosition, setScrollPosition] = useState(null);
 const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
-
+const [songReleaseDecadeDistrHover, setSongReleaseDecadeDistrHover] = useState(false);
   
+
+const handleTapPie = () => {
+  setSongReleaseDecadeDistrHover(!songReleaseDecadeDistrHover); // Toggle the value of isHovered
+};
 
 
 useEffect(() => {
@@ -1217,14 +1221,17 @@ if (!location?.state) {
   //
 
   const openDropdownMenu = () => {
-    document.getElementById("dropdownMenuArrow").style.transform =
-      "rotate(90deg)";
+    // document.getElementById("dropdownMenuArrow").style.transform =
+    //   "rotate(90deg)";    
+       
+
     setShowDropdownMenu(true);
   };
 
   const closeDropdownMenu = () => {
-    document.getElementById("dropdownMenuArrow").style.transform =
-      "rotate(0deg)";
+    // document.getElementById("dropdownMenuArrow").style.transform =
+    //   "rotate(0deg)";
+    
 
     setShowDropdownMenu(false);
   };
@@ -1288,12 +1295,6 @@ if (!location?.state) {
         onMouseOut={closeDropdownMenu}
         onClick={toggleDropdownMenu}
       >
-        {/* <a
-          href={
-            "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
-          }
-          style={{ textDecoration: "none" }}
-        > */}
         <img
           src={nameIdImgurlGenerationdate[2]}
           style={{
@@ -1320,8 +1321,10 @@ if (!location?.state) {
               width: "15px",
               verticalAlign: "middle",
               marginLeft: "10px",
-              transform: "rotate(0deg)",
+              // transform: "rotate(0deg)",
             }}
+            className={`${showDropdownMenu ? "menuArrowRotateDown" : "menuArrowRotateUp"}`}
+
           />
         </div>
       </div>
@@ -1641,26 +1644,7 @@ if (!location?.state) {
     <Legend />
   </PieChart> */}
 
-        <div className="pieCard">
-          <div className="primaryTitle">song release decade distribution</div>
-          {arrays.decadesAndPcts && arrays.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            <PieChart width={200} height={200}>
-              <Pie
-                data={pieData}
-                outerRadius={30}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name }) => name} // Set the label to display the name property
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={index} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          )}
-        </div>
+       
         {/* </div> */}
 
         {/* <div className="card-row"> */}
@@ -2187,6 +2171,40 @@ if (!location?.state) {
             </div>
           )}
         </div>
+
+        <div className="pieCard"
+        onMouseOver={()=>setSongReleaseDecadeDistrHover(true)}
+        onMouseOut={()=>setSongReleaseDecadeDistrHover(false)}
+
+        onClick={handleTapPie}
+      onTouchStart={handleTapPie}
+        >
+          <div className="primaryTitle">song release decade distribution  <img
+                src={rightArrow}
+                style={{ width: "15px", verticalAlign: "middle" }}
+              /></div>
+          {songReleaseDecadeDistrHover ? (
+          arrays.decadesAndPcts && arrays.decadesAndPcts[0] === "No data" ? (
+            <div className="noData">No data</div>
+          ) : (
+            <PieChart width={200} height={200}>
+              <Pie
+                data={pieData}
+                outerRadius={30}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name }) => name} // Set the label to display the name property
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={index} fill={colors[index % colors.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          ))
+        
+        
+          :(null)}
+        </div>
         {/* </div> */}
       </div>
 
@@ -2671,7 +2689,7 @@ if (!location?.state) {
         closeAudiofeatureModal={closeAudiofeatureModal}
       />
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -44,6 +44,7 @@ body,
 .appHeader {
   background-color: #ffffff;
   min-height: 100vh;
+  height:100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -392,23 +393,20 @@ padding: 2px 5px;
   transform: scale(1.2);
 }
 .cardOverlay {
+  
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: inline-block;
   padding: 20px;
-  margin: 20px 10px;
-  height: fit-content;
-  
-  
-
-  width:45%;
-  /* margin-bottom: 100px; */
+  width: 45%;
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
 }
 @media screen and (max-width: 1200px) {
   .cardOverlay {
-    margin-top: 70px;
     width:80%;
-
+margin-top: 30px;
   }
   
 }
@@ -477,6 +475,7 @@ border-radius: 15px;
   
   z-index:1;
   top: 100px;
+  /* background-image: url(./img/bg.png); */
 }
 
 
@@ -494,6 +493,7 @@ border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* background-image: url(./img/bg.png); */
 
   
   z-index:1;
@@ -2570,13 +2570,8 @@ left:200px;
 } */
 
 .animation {
-  /* position:absolute; */
-
-  /* top:100px;
- height:100px !important;
- width:100px !important; */
+ 
  margin:0 auto;
- transform:scale(2)
 }
 
 
@@ -2584,10 +2579,7 @@ left:200px;
 
 @media screen and (max-width: 500px) {
 .animation {
-  /* top:20% !important; */
 
-  transform:scale(1.5); 
-/* right:3%; */
 
 }
 
@@ -2609,10 +2601,6 @@ left:200px;
 
   @media screen and (max-width: 1000px) {
     .animation {
-      /* top:20% !important; */
-    
-      transform:scale(1.5); 
-    /* right:3%; */
     
     }
 
@@ -2633,7 +2621,6 @@ left:200px;
     content: '';
     flex: 1;
     border-bottom: 2px solid darkgray;
-
     
   }
   
@@ -2720,9 +2707,9 @@ left:200px;
   input.yellowUpload[type=file]::file-selector-button {
     /* Styles for the default state */
     font-weight: bold;
-    background-color:#fffec8;
+    /* background-color:#fffec8;
     border: 3px solid #ffdf00;
-    color:#ffdf00;
+    color:#ffdf00; */
     border-radius: 10px;
     padding:5px;
     cursor:pointer;
@@ -2731,7 +2718,7 @@ left:200px;
   
   input.yellowUpload[type=file]::file-selector-button:hover {
     /* Styles for the hover state */
-    background-color:#ffdf00;
+    /* background-color:#ffdf00; */
   }
   
 
@@ -2740,9 +2727,9 @@ left:200px;
   input.blueUpload[type=file]::file-selector-button {
     /* Styles for the default state */
     font-weight: bold;
-    background-color: #e6f6fe;
+    /* background-color: #e6f6fe;
     color: #1e90ff;
-    border: 2px solid #1e90ff;
+    border: 2px solid #1e90ff; */
     border-radius: 10px;
     cursor:pointer;
     /* font-family: proximaNova; */
@@ -2750,25 +2737,38 @@ left:200px;
   
   input.blueUpload[type=file]::file-selector-button:hover {
     /* Styles for the hover state */
-    background-color:#1e90ff;
+    /* background-color:#1e90ff; */
   }
   
 
 
   .custom-file-upload {
     display: inline-block;
-    cursor: pointer;
+    /* cursor: pointer;
     background-color:#fffec8;
     border: 2px solid #ffdf00;
-    color:#ffdf00;
-    border-radius: 50%;
+    color:#ffdf00; */
+    /* border-radius: 50%; */
     padding:3px;
     cursor:pointer;
-    transition:background-color 3s;
+    /* transition:background-color 3s; */
     /* box-shadow: 0 0 20px #ffdf00; */
     margin-right: 30px;
 
   }
+
+
+  @keyframes rotateRight {
+    from {
+        transform: rotate(0deg);
+    }
+    to { 
+        transform: rotate(90deg);
+    }
+}
+
+
+
   
   .upload-icon {
    
@@ -2776,9 +2776,10 @@ left:200px;
     vertical-align: middle;
   }
 
-  .custom-file-upload.valid,  .custom-file-upload:hover {
-    background-color: #ffdf00;
+  .custom-file-upload.yellow.valid{
+    animation: rotateRight 1s ease-in-out forwards;
   }
+
 
 
 
@@ -2787,20 +2788,55 @@ left:200px;
   .custom-file-upload.blue {
     display: inline-block;
     cursor: pointer;
-    background-color:#e6f6fe;
+    /* background-color:#e6f6fe;
     border: 2px solid #1e90ff;
     color:#1e90ff;
-    border-radius: 50%;
-    /* padding:5px; */
+    border-radius: 50%; */
     cursor:pointer;
-    transition:background-color 3s;
+    /* transition:background-color 3s; */
     margin-right: 50px;
 
   }
   
   
 
-  .custom-file-upload.blue.valid, .custom-file-upload.blue:hover {
-    background-color: #1e90ff;
+  .custom-file-upload.blue.valid {
+    animation: rotateRight 1s ease-in-out forwards;
     
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .menuArrowRotateDown {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .menuArrowRotateUp {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,8 +11,8 @@ Center messages
 Button not disabled
 Image profile pic rounded
 Image events
-hide emailjs info env
 support page
+dark mode bg color transition
 Null if not def from API
 save every stat as image separately, or select which to save
 align cards better
@@ -34,13 +34,10 @@ Invalid txt upload handle
 Animation sizing, divs
 Song clip loading animation?? Or message/note?
 Playing audio reloads page
-Whole logo clickable
 Class and variable names
-Text upload overlap file
 Small screen resizing
 Filename dates etc
 Image saves use prof pic instead of names
-No scroll vert or horiz
 2 Day access, keep list of those who have already tried it, send emails, what to put for names?
 Terms of use
 Lazy or partial loading
@@ -49,7 +46,6 @@ Highlight highest in compare page
 Ranges audio feature vals
 App website icon in bottom of pics
 Padding, scrolling, zooms
-Cannot go to pages
 Album recalculation top
 Feature modal on compare page
 Message padding
@@ -132,7 +128,6 @@ Copy link on both, or button to go to it
 Color gradient weird error
 Fit window view, no scroll
 Long loading times
-Footer positoning
 Responsiveness
 Game error
 Game choose randoms
@@ -143,7 +138,6 @@ Code tagging, refactoring, reordering, variable naming
 Improve grid layout
 Time streamed
 MOBILE LOADING TIMES
-Catch errors
 Playlists contents
 Instructions div cut off
 Make x btn bigger
@@ -171,29 +165,23 @@ Time to update things note(following artist doesnt show immed)
 Show pct explicit
 Fetching errors disclose
 Data ordering
-Link titles
 Compare page val stacking
 Logo and content overlaps
 Popularity ranges?
 Recs, similarity algos
-Footer fix
 Modal scrolling limit
 Game modal stying sizing text cut off
 Modal when sideways
 Side view mobile
 Get random users playlists
 Animation scrolling etc
-Profile pic sizing circle 
 AF rankings on compare pg too
 match pages
 lazy loading
 google analytics
-footer position
 animation sizig position
 APP ANIMATIONS images-rotate
-footer
  email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
- Dashboard sizing
 Upload btn styling
 links to artwork
 round values ALL

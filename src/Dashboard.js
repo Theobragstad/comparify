@@ -16,6 +16,8 @@ import fullLogo from "./img/fullLogo.png"
 import uploadYellow from "./img/uploadYellow.png"
 import uploadBlue from "./img/uploadBlue.png"
 import arrow from "./img/rightArrow.png"
+import bg from "./img/bg.png"
+import Spline from '@splinetool/react-spline';
 
 function Code() {
   // const pageTitle = `${"hello"}`;
@@ -1068,48 +1070,33 @@ function Code() {
   //   label.innerText = fileName ?? "Browse Files";
   // };
   return (
-    <div className="codePage">
-      {/* <button
-        className={"defaultBtn"}
-        onClick={()=>navigate('/')}
-        title="Log in"
-      >
-        <img
-          src={logo}
-          className="appLogo"
-          alt="logo"
-          style={{
-            position: "absolute",
-            top: "20px",
-            left: "30px",
-            width: "60px",
-            pointerEvents:'all'
-          }}
-        />
-        <div className="logoDiv"></div>
-      </button>
-      <h1 className="logoName">comparify</h1> */}
-      <img
+    // <div className="codePage" style={{ backgroundImage: `url("${bg}") `}}>
+    <div className="codePage" >
+
+     <img
         src={fullLogo}
         onClick={() => navigate("/")}
         style={{
-          width: "150px" ,
+          width: "175px" ,
           position: "absolute",
-          top: "20px",
-          left: "30px",
+          top: "10px",
+          left: "10px",
           pointerEvents: "all",
           cursor: "pointer",
+          backgroundColor:'white',
+          padding:'4px',
+          boxShadow:' 0 2px 10px rgba(0, 0, 0, 0.3)',
+          borderRadius:'20px'
+
         }}
         title="Home"
       />
-      {/* <div
-        className="betaIcon"
-        // onClick={handleClickBETA}
-        // style={{ cursor: "pointer" }}
-        style={{ marginLeft:'20px' }}
-      >
-        beta
-      </div> */}
+
+
+
+
+      
+    
       {location.state?.error && location.state.error === 400  && (
         <div className="errorMessage2">
           code error. make sure the file you uploaded is a valid comparify code.
@@ -1122,7 +1109,7 @@ function Code() {
           people you are comfortable with having that information.
         </div>
       )}
-      <div className="cardOverlay">
+      <div className="cardOverlay" style={{background:'white'}}>
         <div className="homeBtnDiv">
           <button
             title="Home"
@@ -1154,9 +1141,10 @@ function Code() {
             ></img>
           </button>
         </div>
-        <div className="grayHeader titleDiv"  data-tooltip-id="dashboardTitleTooltip"
+        <div className="grayHeader titleDiv"  data-tooltip-id="dashboardTitleTooltip" 
             >
-          Dashboard
+              Dashboard
+          
         </div>
         <div className="profilePicDivCodePage" >
           {profilePicUrl && (
@@ -1236,9 +1224,18 @@ function Code() {
            
           /> */}
 
-<label htmlFor="input1" className="custom-file-upload " id="inputLabel1" data-tooltip-id="codePageTooltip1"
+<label htmlFor="input1" className="custom-file-upload yellow" id="inputLabel1" data-tooltip-id="codePageTooltip1"
             data-tooltip-content={filename1? filename1 : "upload the code for the user you want to compare with"}>
+    <img src={uploadYellow} alt="" className="upload-icon"/>
+
+
+         {/* {!filename1 ?(
   <img src={uploadYellow} alt="" className="upload-icon"/>
+  ): (
+
+  <Spline scene="  https://prod.spline.design/9ZMBMIvwXQbw3nge/scene.splinecode
+  " className=""/>)} */}
+
 </label>
 <input
   id="input1"
@@ -1283,6 +1280,10 @@ function Code() {
         <div className="uploadBtn2">
         <label htmlFor="input2" className="custom-file-upload blue" id="inputLabel2"  data-tooltip-id="codePageTooltip1"
             data-tooltip-content={filename2? filename2 :"upload the code for the first user you want to compare with"}>
+              {/* {!filename2 ?(
+  <img src={uploadBlue} alt="" className="upload-icon"/>): (
+
+  <Spline scene="https://prod.spline.design/VoTdUUTH5eD1FEIg/scene.splinecode" className=""/>)} */}
   <img src={uploadBlue} alt="" className="upload-icon"/>
 </label>
           <input
@@ -1295,9 +1296,18 @@ function Code() {
 style={{display: 'none'}}
           />
 
-<label htmlFor="input3" className="custom-file-upload " id="inputLabel3" data-tooltip-id="codePageTooltip1"
+<label htmlFor="input3" className="custom-file-upload yellow" id="inputLabel3" data-tooltip-id="codePageTooltip1"
             data-tooltip-content={filename3? filename3 :"upload the code for the second user you want to compare with"}>
+
+<img src={uploadYellow} alt="" className="upload-icon"/>
+{/* {!filename3 ?(
   <img src={uploadYellow} alt="" className="upload-icon"/>
+  ): (
+
+  <Spline scene="  https://prod.spline.design/9ZMBMIvwXQbw3nge/scene.splinecode
+  " className=""/>)} */}
+
+
 </label>
           <input
             type="file"
@@ -1344,7 +1354,7 @@ style={{display: 'none',marginLeft:'20px'}}
 
         
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
