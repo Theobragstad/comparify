@@ -415,7 +415,7 @@ const [nonblendURL, setNonblendURL] = useState(false)
                   color: "#18d860",
                 }}
               >
-                Added <img src={check} style={{ width: "10px" }}></img><span style={{color:'#1e90ff', marginLeft:'20px',cursor:'pointer'}} onClick={()=>handleCopy(setCopiedBlend, blendURL)}>{copiedBlend ? (<span style={{cursor:"auto"}}>Copied <img src={checkBlue} style={{ width: "10px" }}></img></span>):(<span>Copy URL</span>)}</span>
+                Added <img alt="" src={check} style={{ width: "10px" }}></img><span style={{color:'#1e90ff', marginLeft:'20px',cursor:'pointer'}} onClick={()=>handleCopy(setCopiedBlend, blendURL)}>{copiedBlend ? (<span style={{cursor:"auto"}}>Copied <img alt="" src={checkBlue} style={{ width: "10px" }}></img></span>):(<span>Copy URL</span>)}</span>
               </span>
             ) : (
               <button
@@ -431,10 +431,9 @@ const [nonblendURL, setNonblendURL] = useState(false)
                 disabled={blendSongs.length === 0}
               >
                 add to{" "}
-                <img
+                <img alt=""
                   src={spotifysmall}
                   style={{ width: "15px", verticalAlign: "middle" }}
-                  alt="Spotify"
                 />
               </button>
             )}
@@ -480,7 +479,7 @@ const [nonblendURL, setNonblendURL] = useState(false)
             ) : (
               blendSongs.map((song, index) => (
                 <div key={index} className="item">
-                  <img src={song.img} className="primaryImage" />
+                  <img alt="" src={song.img} className="primaryImage" />
                   <div className="primaryText">
                     <span className="primaryName">{song.name}</span>
                     <span className="primaryArtists">
@@ -521,7 +520,7 @@ const [nonblendURL, setNonblendURL] = useState(false)
                 }}
               >
 
-                Added <img src={check} style={{ width: "10px" }}></img>{"  "}<span style={{color:'#1e90ff', marginLeft:'20px', cursor:'pointer'}} onClick={() => handleCopy(setCopiedNonblend, nonblendURL)}>{copiedNonblend ? (<span style={{cursor:"none"}}>Copied <img src={checkBlue} style={{ width: "10px" }}></img></span>):(<span>Copy URL</span>)}</span>
+                Added <img alt="" src={check} style={{ width: "10px" }}></img>{"  "}<span style={{color:'#1e90ff', marginLeft:'20px', cursor:'pointer'}} onClick={() => handleCopy(setCopiedNonblend, nonblendURL)}>{copiedNonblend ? (<span style={{cursor:"none"}}>Copied <img alt="" src={checkBlue} style={{ width: "10px" }}></img></span>):(<span>Copy URL</span>)}</span>
               </span>
             ) : (
               <button
@@ -538,7 +537,7 @@ const [nonblendURL, setNonblendURL] = useState(false)
                 disabled={nonblendSongs.length === 0}
               >
                 add to{" "}
-                <img
+                <img alt=""
                   src={spotifysmall}
                   style={{ width: "15px", verticalAlign: "middle" }}
                 ></img>
@@ -579,7 +578,7 @@ const [nonblendURL, setNonblendURL] = useState(false)
             ) : (
               nonblendSongs.map((song, index) => (
                 <div key={index} className="item">
-                  <img src={song.img} className="primaryImage" />
+                  <img alt="" src={song.img} className="primaryImage" />
                   <div className="primaryText">
                     <span className="primaryName">{song.name}</span>
                     <span className="primaryArtists">

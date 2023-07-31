@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import Spline from "@splinetool/react-spline";
 import Animation from "./Animation";
 import Footer from "./Footer";
-import logo from "./img/logo.png";
+// import logo from "./img/logo.png";
 import x from "./img/x.png"
 import fullLogo from "./img/fullLogo.png"
 
-import bg from "./img/bg.png"
+// import bg from "./img/bg.png"
 
 import Cookies from 'js-cookie';
 
@@ -111,9 +111,9 @@ function Home() {
 
  
 
-  const [dim1, setDim1] = useState(false);
-  const [dim2, setDim2] = useState(false);
-  const [dim3, setDim3] = useState(false);
+  // const [dim1, setDim1] = useState(false);
+  // const [dim2, setDim2] = useState(false);
+  // const [dim3, setDim3] = useState(false);
 
 
   // useEffect(() => {
@@ -180,7 +180,7 @@ const handleCookieNoticeClose = () => {
   <div className="cookieNoticeText">
     comparify uses cookies. See the help page for more info.
   </div>
-  <button title="Dismiss" className="cookieNoticeClose" onClick={handleCookieNoticeClose}><img src={x} style={{width:'10px'}}></img></button>
+  <button title="Dismiss" className="cookieNoticeClose" onClick={handleCookieNoticeClose}><img alt="" src={x} style={{width:'10px'}}></img></button>
 </div>
       }
       {((location.state && location.state.apiError) || true) && (
@@ -199,7 +199,7 @@ const handleCookieNoticeClose = () => {
         onClick={()=>navigate('/')}
         title="Log in"
       >
-        <img
+        <img alt=""
           src={logo}
           className="appLogo"
           alt="logo"
@@ -216,7 +216,7 @@ const handleCookieNoticeClose = () => {
 
       </div> */}
 
-<img
+<img alt=""
         src={fullLogo}
         onClick={() => navigate("/")}
         style={{
@@ -251,10 +251,10 @@ const handleCookieNoticeClose = () => {
 
       <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
   <span className="primaryBtn" style={{ marginRight: "20px"}} onClick={handleClickBETA} title="Get access">
-    get access <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
+    get access <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>{" "}
   <span className="primaryBtn" onClick={handleClick} title="Log in" style={{}}>
-    authorized users <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
+    authorized users <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>
 </div>
 

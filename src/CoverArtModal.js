@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Modal from "react-modal";
-import axios from "axios";
 import "./App.css";
 
 function CoverArtModal(props) {
@@ -51,7 +50,7 @@ function CoverArtModal(props) {
 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
 
         {/* <div className="primaryCard1" style={{ margin: 'auto', backgroundColor: "white" }}> */}
-<img src={props.urlForCoverArtModal} style={{borderRadius:'10px'}}></img>
+<img alt="" src={props.urlForCoverArtModal} style={{borderRadius:'10px'}}></img>
         
         {/* </div> */}
         </div>

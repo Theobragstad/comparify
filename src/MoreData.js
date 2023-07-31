@@ -11,7 +11,6 @@ import axios from "axios";
 // import Cookies from 'js-cookie';
 
 import arrowRight from "./img/sideArrowRight.png";
-import arrowDown from "./img/downBtn.png";
 import fullLogo from "./img/fullLogo.png";
 import refreshIcon from "./img/refresh.png";
 
@@ -474,7 +473,7 @@ const MoreData = () => {
     <div>
 
       <div className={"moreDataContainer"}>
-      <img
+      <img alt=""
         src={fullLogo}
         onClick={() => navigate("/")}
         style={{
@@ -506,7 +505,7 @@ const MoreData = () => {
             }
             title="Your data"
           >
-             <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back
+             <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back
           </div>
           {/* <div style={{ cursor: 'pointer', margin: '0', display: 'flex', alignItems: 'center', justifyContent: 'center'}} onClick={toggleShowInfo}> */}
           <div
@@ -523,7 +522,7 @@ const MoreData = () => {
             className="tooltipArrowHover"
           >
             More data{" "}
-            <img
+            <img alt=""
               id="arrow"
               // src={arrowSrc}
               src={arrowRight}
@@ -536,7 +535,7 @@ const MoreData = () => {
               }}
             />
           </div>
-          <img data-tooltip-id="tooltip2" data-tooltip-content={"Refresh now (data auto-refreshes every 30s)"} onClick={handleRefresh} src={refreshIcon} className="spin"style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
+          <img alt="" data-tooltip-id="tooltip2" data-tooltip-content={"Refresh now (data auto-refreshes every 30s)"} onClick={handleRefresh} src={refreshIcon} className="spin"style={{pointerEvents:'all',cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'50px'}}/>
         </div>
         
 
@@ -564,7 +563,7 @@ const MoreData = () => {
               savedShows.map((show, index) => (
                 <div key={index} className="item">
                   <div className={`primaryImage`}>
-                    <img src={show.img} className="primaryImage" />
+                    <img alt="" src={show.img} className="primaryImage" />
                   </div>
 
                   <div className="primaryText">
@@ -591,7 +590,7 @@ const MoreData = () => {
             ) : (
               followedArtists.map((artist, index) => (
                 <div key={index} className="item">
-                  <img src={artist.img} className="primaryImage" />
+                  <img alt="" src={artist.img} className="primaryImage" />
                   <div className="primaryText">
                     <span className="primaryName">
                       <a className="link2" href={artist.url}>
@@ -611,7 +610,7 @@ const MoreData = () => {
             ) : (
               savedAlbums.map((album, index) => (
                 <div key={index} className="item">
-                  <img src={album?.img} className="primaryImage" />
+                  <img alt="" src={album?.img} className="primaryImage" />
                   <div className="primaryText">
                     <span className="primaryName">
                       <a className="link2" href={album.url}>
@@ -630,7 +629,7 @@ const MoreData = () => {
           <div className="primaryCard1">
           <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>now playing</div>
 
-            {/* <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>currently playing <img src={refreshIcon} style={{cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'10px'}}/></div> */}
+            {/* <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your currently playing song or podcast episode"}>currently playing <img alt="" src={refreshIcon} style={{cursor:'pointer',width:'15px',verticalAlign:'middle',marginLeft:'10px'}}/></div> */}
             {!currentObject ? (
               <div className="noData">No data</div>
             ) : currentObject.type === "track" ? (
@@ -642,7 +641,7 @@ const MoreData = () => {
                 >
                   {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
 
-                  <img src={currentObject.img} className="primaryImage" />
+                  <img alt="" src={currentObject.img} className="primaryImage" />
 
                   {/* {currentObject.mp3 && (
                       <div
@@ -671,7 +670,7 @@ const MoreData = () => {
 
               <div className="item">
                 <div className={`primaryImage`}>
-                  <img src={currentObject.img} className="primaryImage" />
+                  <img alt="" src={currentObject.img} className="primaryImage" />
                 </div>
 
                 <div className="primaryText">
@@ -704,7 +703,7 @@ const MoreData = () => {
               savedEpisodes.map((episode, index) => (
                 <div key={index} className="item">
                   <div className={`primaryImage`}>
-                    <img src={episode.img} className="primaryImage" />
+                    <img alt="" src={episode.img} className="primaryImage" />
                   </div>
 
                   <div className="primaryText">
@@ -733,7 +732,7 @@ const MoreData = () => {
                   >
                     {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
 
-                    <img src={song?.img} className="primaryImage" />
+                    <img alt="" src={song?.img} className="primaryImage" />
 
                     {/* {song?.mp3 && (
                     <div
@@ -769,7 +768,7 @@ const MoreData = () => {
               savedAudiobooks.map((audiobook, index) => (
                 <div key={index} className="item">
                   <div className={`primaryImage`}>
-                    <img src={audiobook.img} className="primaryImage" />
+                    <img alt="" src={audiobook.img} className="primaryImage" />
                   </div>
 
                   <div className="primaryText">
@@ -800,7 +799,7 @@ const MoreData = () => {
                   >
                     {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
 
-                    <img src={item?.img} className="primaryImage" />
+                    <img alt="" src={item?.img} className="primaryImage" />
 
                     {/* {song?.mp3 && (
                     <div
@@ -843,7 +842,7 @@ const MoreData = () => {
                   >
                     {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
 
-                    <img src={item?.img} className="primaryImage" />
+                    <img alt="" src={item?.img} className="primaryImage" />
 
                     {/* {item?.mp3 && (
                     <div
@@ -887,7 +886,7 @@ const MoreData = () => {
                   >
                     {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
 
-                    <img src={playlist?.img} className="primaryImage" />
+                    <img alt="" src={playlist?.img} className="primaryImage" />
 
                     {/* {playlist?.mp3 && (
                     <div

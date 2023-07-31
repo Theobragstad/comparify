@@ -171,7 +171,7 @@ useEffect(() => {
                 >
                   <audio id={`audio-element-modal${index}`} src={song?.mp3}></audio>
 
-                  <img src={song?.img} className="primaryImage" />
+                  <img src={song?.img} className="primaryImage" alt="Cover art"/>
 
                   {song?.mp3 && (
                     <div

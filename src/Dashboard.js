@@ -9,14 +9,14 @@ import "./App.css";
 import back from "./img/back.png";
 import defaultProfile from "./img/defaultProfile.jpeg";
 import switchUserImg from "./img/switchUser.png";
-import logo from "./img/logo.png"
+// import logo from "./img/logo.png"
 import downloadBlue from "./img/downloadBlue.png"
 import dashboard from "./img/dashboard.png"
 import fullLogo from "./img/fullLogo.png"
 import uploadYellow from "./img/uploadYellow.png"
 import uploadBlue from "./img/uploadBlue.png"
 import arrow from "./img/rightArrow.png"
-import bg from "./img/bg.png"
+// import bg from "./img/bg.png"
 import Spline from '@splinetool/react-spline';
 
 function Code() {
@@ -1090,6 +1090,8 @@ function Code() {
 
         }}
         title="Home"
+        alt=""
+
       />
 
 
@@ -1097,7 +1099,7 @@ function Code() {
 
       
     
-      {location.state?.error && location.state.error === 400  && (
+      {((location.state?.error && location.state.error === 400) || true) && (
         <div className="errorMessage2">
           code error. make sure the file you uploaded is a valid comparify code.
         </div>
@@ -1168,7 +1170,7 @@ function Code() {
             disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
             style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
           >
-            <img src={downloadBlue} style={{width:'20px'}}/>  <span style={{ marginLeft: '5px' }}>save your code</span>
+            <img alt="" src={downloadBlue} style={{width:'20px'}}/>  <span style={{ marginLeft: '5px' }}>save your code</span>
           </button>
            ): (
             <>
@@ -1193,7 +1195,7 @@ function Code() {
   }}
   style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
 >
-  <img src={dashboard} style={{ width: '20px' }} />
+  <img src={dashboard} style={{ width: '20px' }} alt=""/>
   <span style={{ marginLeft: '5px' }}>view your data</span>
 </button>
 ) : (
@@ -1207,7 +1209,7 @@ function Code() {
           )}
         </div>
         {/* <h4 className="grayText">or</h4> */}
-        <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}><img src={arrow} style={{width:'20px', transform:'rotate(90deg)', verticalAlign:'middle'}}/></div>
+        <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}><img alt="" src={arrow} style={{width:'20px', transform:'rotate(90deg)', verticalAlign:'middle'}}/></div>
 
         <div>
           <h2 className="gradient compareNameCodePage" style={{fontFamily:'gothamMedium'}}>compare</h2>

@@ -18,8 +18,7 @@ import playBtn from "./img/play.png";
 
 
 import "./Game.css";
-import Footer from "./Footer";
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
+// import Footer from "./Footer";
 
 const Game = (props) => {
   const gameModalState = useGameModalState();
@@ -356,7 +355,7 @@ const Game = (props) => {
 <div style={{ width: "0", height: "0", overflow: "hidden"}}>                <div className="scoreImgDiv" id="scoreDiv" style={{ width: "175px"}}>
                   <div className="scoreImgDivTitle">
                     <span>
-                    <span><img src={logo} style={{width:'40px'}}/></span>
+                    <span><img alt="" src={logo} style={{width:'40px'}}/></span>
                       <br />
                       Game Score
                     </span>
@@ -393,7 +392,7 @@ const Game = (props) => {
             onMouseOut={handleMouseOut}
             onClick={props.closeGameModal}
           >
-            <img src={grayX} style={{ width: "10px" }} id="exitBtn"></img>
+            <img alt="" src={grayX} style={{ width: "10px" }} id="exitBtn"></img>
           </button>
           {/* </div> */}
           {randomSelections?.length === 0 ?(<div className="notEnoughData" style={{color:'gray', fontWeight:'bold'}}>Not enough data for a game.<br/>Try another time range, or compare with someone else.</div>) : 
@@ -421,12 +420,12 @@ const Game = (props) => {
                 </div>
                 <div className="replayBtnContainer">
                   <button className="replayBtn gradient" onClick={playAgain}>
-                    <img src={replay} style={{ width: "20px" }} />
+                    <img alt="" src={replay} style={{ width: "20px" }} />
                   </button>
                 </div>
                 <div className="saveScoreBtnContainer">
                   <button className="saveScoreBtn" onClick={saveScore}>
-                    <img src={download} style={{ width: "15px" }} />
+                    <img alt="" src={download} style={{ width: "15px" }} />
                   </button>
                 </div>
               </div>
@@ -457,9 +456,9 @@ const Game = (props) => {
                     }
                   >
                     {selectionCorrect ? (
-                      <img src={correctCheck} />
+                      <img alt="" src={correctCheck} />
                     ) : currentSongIndex !== 0 ? (
-                      <img src={incorrectX} />
+                      <img alt="" src={incorrectX} />
                     ) : (
                       ""
                     )}
@@ -469,7 +468,7 @@ const Game = (props) => {
 
               {randomSelections[currentSongIndex]?.mp3 === null && (
                 <div className="audioUnavailable">
-                  <img src={muted} style={{ width: "20px", verticalAlign:'middle' }} /> Audio
+                  <img alt="" src={muted} style={{ width: "20px", verticalAlign:'middle' }} /> Audio
                   unavailable
                 </div>
               )}
@@ -485,7 +484,7 @@ const Game = (props) => {
                 )}
 
               <div className="songImageDiv">
-                <img
+                <img alt=""
                   className="songImage"
                   src={randomSelections[currentSongIndex]?.img}
                 />
@@ -532,22 +531,22 @@ const Game = (props) => {
                 }`}
               >
                 <div className="gameRulesDiv">
-                <span><img src={logo} style={{width:'40px'}}/></span>
-                  <h3>see how well you know your music tastes!</h3>
+                <span><img alt="" src={logo} style={{width:'40px'}}/></span>
+                  <h3>See how well you know your music tastes!</h3>
 
                   <div className="gameRules">
-                    you'll be presented one song at a time (turn your volume
+                    You'll be presented one song at a time (turn your volume
                     up!)
                     <br />
                     <br />
-                    you have seven seconds to decide if the song is exclusively
+                    You have 7 seconds to decide if the song is exclusively
                     one of <span className="user1">{props.name1}</span>'s top
                     songs, one that's <span className="shared">shared</span>, or
-                    if it is exclusively{" "}
+                    if it's exclusively{" "}
                     <span className="user2">{props.name2}</span>'s.
                     <br />
                     <br />
-                    select the button corresponding to your choice before the
+                    Select the button corresponding to your choice before the
                     time runs out.
                   </div>
                 </div>
@@ -558,7 +557,7 @@ const Game = (props) => {
                   title="Start game"
                   
                 >
-                  <img src={playBtn} id="playBtn" style={{ width: "20px" }} />
+                  <img alt="" src={playBtn} id="playBtn" style={{ width: "20px" }} />
                 </button>
               </div>
             )

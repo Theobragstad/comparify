@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
-import { PieChart, Pie, Cell, Legend } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 
 import logo from "./img/logo.png";
 import popoutIcon from "./img/popoutIcon.png";
 
-import coverartwindowicon from "./img/coverartwindowicon.png";
 
 import x from "./img/x.png";
 import missingImage from "./img/missingImage.png";
@@ -16,7 +15,7 @@ import back from "./img/back.png";
 import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
-import ScrollButton from "./ScrollButton"
+// import ScrollButton from "./ScrollButton"
 import AudiofeatureModal from "./AudiofeatureModal";
 import CoverArtModal from "./CoverArtModal";
 
@@ -165,7 +164,7 @@ if (!location?.state) {
  }
 
 
-  const token = location.state?.token;
+  let token = location.state?.token;
 
   const allData = location.state?.data?.split(",");
 
@@ -1291,7 +1290,7 @@ if (!location?.state) {
         className="defaultBtn"
         onClick={() => navigate("/dashboard")}
       >
-        <img
+        <img alt=""
           src={logo}
           className="appLogo"
           alt="logo"
@@ -1306,7 +1305,7 @@ if (!location?.state) {
 
         <h1 className="logoName">comparify</h1>
       </button> */}
-      <img
+      <img alt=""  
         src={fullLogo}
         onClick={() => navigate("/")}
         style={{
@@ -1328,7 +1327,7 @@ if (!location?.state) {
         onMouseOut={closeDropdownMenu}
         onClick={toggleDropdownMenu}
       >
-        <img
+        <img alt=""
           src={nameIdImgurlGenerationdate[2]}
           style={{
             width: "30px",
@@ -1337,7 +1336,6 @@ if (!location?.state) {
             paddingRight: "10px",
             verticalAlign: "middle",
           }}
-          alt="Image 1"
         />
         {/* </a> */}
         <div
@@ -1347,7 +1345,7 @@ if (!location?.state) {
           }}
         >
           {nameIdImgurlGenerationdate[0]}
-          <img
+          <img alt=""
             id="dropdownMenuArrow"
             src={rightArrow}
             style={{
@@ -1373,11 +1371,11 @@ if (!location?.state) {
               href={
                 "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
               }
-              style={{ textDecoration: "none", color: "#18d860" }}
+              style={{ textDecoration: "none", color: "#18d860",marginLeft:'3px' }}
               className="darkenHover"
               title="Open your Spotify profile"
             >
-              <img
+              <img alt=""
                 src={spotifysmall}
                 style={{
                   width: "20px",
@@ -1386,7 +1384,7 @@ if (!location?.state) {
                 }}
               ></img>
               Profile
-              <img
+              <img alt=""
                 src={greenArrow}
                 style={{
                   width: "10px",
@@ -1403,7 +1401,7 @@ if (!location?.state) {
               className="cxgBtn"
             >
               <span className="">
-                <img
+                <img alt=""
                   src={logo}
                   style={{ width: "30px", verticalAlign: "middle" }}
                   className="zoom"
@@ -1413,7 +1411,7 @@ if (!location?.state) {
               </span>{" "}
               &#10799;{" "}
               <span style={{ color: "#75ac9d" }}>
-                <img
+                <img alt=""
                   className="spin"
                   src={gptBtn}
                   style={{
@@ -1428,7 +1426,7 @@ if (!location?.state) {
             <div
               className="recommendationsBtn"
               onClick={openRecModal}
-              style={{ fontSize: "13px", marginTop: "10px" }}
+              style={{ fontSize: "13px", marginTop: "10px",marginLeft:'-3px' }}
               title="Get music recommendations"
             >
               Get recommendations
@@ -1441,11 +1439,11 @@ if (!location?.state) {
                   state: { data: location.state.data, token: token },
                 })
               }
-              style={{ fontSize: "13px", marginTop: "20px" }}
+              style={{ fontSize: "13px", marginTop: "20px",marginLeft:'-2px' }}
               title="See more data"
             >
               More data{" "}
-              <img
+              <img alt=""
                 src={rightArrow}
                 style={{ width: "10px", verticalAlign: "middle" }}
               />
@@ -1468,12 +1466,12 @@ if (!location?.state) {
         <div className="leftNavBtnContainer">
           <Link to="/dashboard" title="Dashboard">
             <button className="leftNavBtn">
-              <img src={back} style={{ width: "13px" }}></img>
+              <img alt="" src={back} style={{ width: "13px" }}></img>
             </button>
           </Link>
         </div>
         <div className="navBtnOverlay">
-          {/* <img src={time} style={{width:'20px',marginRight:'20px'}}/> */}
+          {/* <img alt="" src={time} style={{width:'20px',marginRight:'20px'}}/> */}
 
 
 
@@ -1545,7 +1543,7 @@ if (!location?.state) {
                 >
                   <audio id={`audio-element${index}`} src={song?.mp3}></audio>
 
-                  <img src={song?.img} className="primaryImage" />
+                  <img alt="" src={song?.img} className="primaryImage" />
 
                   {song?.mp3 && (
                     <div
@@ -1575,7 +1573,7 @@ if (!location?.state) {
                       title={'Expand cover art'}
                      
                     >
-                      <img
+                      <img alt=""
                         src={popoutIcon}
                         style={{
                           width: "10px",
@@ -1600,7 +1598,7 @@ if (!location?.state) {
           ) : (
             topArtists.map((artist, index) => (
               <div key={index} className="item">
-                <img src={artist.img} className="primaryImage" />
+                <img alt="" src={artist.img} className="primaryImage" />
                 <div className="primaryText">
                 <a className="link2" href={artist.url}>
                   <span className="primaryName">
@@ -1626,7 +1624,7 @@ if (!location?.state) {
           ) : (
             topAlbums.map((album, index) => (
               <div key={index} className="item">
-                <img src={album?.img} className="primaryImage" />
+                <img alt="" src={album?.img} className="primaryImage" />
                 <div className="primaryText">
                 <a className="link2" href={album.url}>
                   <span className="primaryName">
@@ -1722,7 +1720,7 @@ if (!location?.state) {
                     src={mostLeastPopSongs[0]?.mp3}
                   ></audio>
 
-                  <img
+                  <img alt=""
                     src={mostLeastPopSongs[0]?.img}
                     className="primaryImage"
                   />
@@ -1776,7 +1774,7 @@ if (!location?.state) {
                     src={mostLeastPopSongs[1]?.mp3}
                   ></audio>
 
-                  <img
+                  <img alt=""
                     src={mostLeastPopSongs[1]?.img}
                     className="primaryImage"
                   />
@@ -1790,7 +1788,7 @@ if (!location?.state) {
                   )}
                 </div>
 
-                {/* <img src={mostLeastPopSongs[1]?.img} className="primaryImage" /> */}
+                {/* <img alt="" src={mostLeastPopSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
                 <a className="link2" href={mostLeastPopSongs[1].url}>
                   <span className="primaryName">
@@ -1829,7 +1827,7 @@ if (!location?.state) {
                     src={oldestNewestSongs[0]?.mp3}
                   ></audio>
 
-                  <img
+                  <img alt=""
                     src={oldestNewestSongs[0]?.img}
                     className="primaryImage"
                   />
@@ -1843,7 +1841,7 @@ if (!location?.state) {
                   )}
                 </div>
 
-                {/* <img src={oldestNewestSongs[0]?.img} className="primaryImage" /> */}
+                {/* <img alt="" src={oldestNewestSongs[0]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
                 <a className="link2" href={oldestNewestSongs[0].url}>
                   <span className="primaryName">
@@ -1878,7 +1876,7 @@ if (!location?.state) {
                     src={oldestNewestSongs[1]?.mp3}
                   ></audio>
 
-                  <img
+                  <img alt=""
                     src={oldestNewestSongs[1]?.img}
                     className="primaryImage"
                   />
@@ -1892,7 +1890,7 @@ if (!location?.state) {
                   )}
                 </div>
 
-                {/* <img src={oldestNewestSongs[1]?.img} className="primaryImage" /> */}
+                {/* <img alt="" src={oldestNewestSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
                 <a className="link2" href={oldestNewestSongs[1].url}>
                   <span className="primaryName">
@@ -1918,7 +1916,7 @@ if (!location?.state) {
             mostLeastPopArtists &&
             mostLeastPopArtists[0] && (
               <div className="item">
-                <img
+                <img alt=""
                   src={mostLeastPopArtists[0]?.img}
                   className="primaryImage"
                 />
@@ -1948,7 +1946,7 @@ if (!location?.state) {
             mostLeastPopArtists &&
             mostLeastPopArtists[1] && (
               <div className="item">
-                <img
+                <img alt=""
                   src={mostLeastPopArtists[1]?.img}
                   className="primaryImage"
                 />
@@ -1978,7 +1976,7 @@ if (!location?.state) {
             mostLeastPopAlbums &&
             mostLeastPopAlbums[0] && (
               <div className="item">
-                <img
+                <img alt=""
                   src={mostLeastPopAlbums[0]?.img}
                   className="primaryImage"
                 />
@@ -2011,7 +2009,7 @@ if (!location?.state) {
             mostLeastPopAlbums &&
             mostLeastPopAlbums[1] && (
               <div className="item">
-                <img
+                <img alt=""
                   src={mostLeastPopAlbums[1]?.img}
                   className="primaryImage"
                 />
@@ -2236,7 +2234,7 @@ if (!location?.state) {
       //   onClick={handleTapPie}
       // onTouchStart={handleTapPie}
         >
-          <div className="primaryTitle">song release decade distribution  <img
+          <div className="primaryTitle">song release decade distribution  <img alt=""
                 src={rightArrow}
                 style={{ width: "15px", verticalAlign: "middle" }}
               /></div>
@@ -2281,7 +2279,7 @@ if (!location?.state) {
           onMouseOut={handleMouseOut}
         >
           audio features{" "}
-          <img
+          <img alt=""
             id="arrow"
             src={arrowRight}
             style={{
@@ -2307,7 +2305,7 @@ if (!location?.state) {
                       marginRop: "10px",
                     }}
                   >
-                    <img
+                    <img alt=""
                       src={rightArrow}
                       style={{ width: "10px", verticalAlign: "middle" }}
                     />
@@ -2380,7 +2378,7 @@ if (!location?.state) {
                       title={`Open ${feature} rankings`}
                      
                     >
-                      <img
+                      <img alt=""
                         src={popoutIcon}
                         style={{
                           width: "10px",
@@ -2446,12 +2444,12 @@ if (!location?.state) {
                     </div>
                   </td>
                   <td>
-                    {highestSong == "-" && (
+                    {highestSong === "-" && (
                       <div className="cellOutline">
                         <div className="noSongData">-</div>
                       </div>
                     )}
-                    {highestSong && highestSong != "-" && (
+                    {highestSong && highestSong !== "-" && (
                       <div className="cellOutline">
                         <div
                           className={`primaryImage`}
@@ -2464,7 +2462,7 @@ if (!location?.state) {
                             src={highestSong?.mp3}
                           ></audio>
 
-                          <img
+                          <img alt=""
                             src={highestSong?.img}
                             className="primaryImage"
                           />
@@ -2479,7 +2477,7 @@ if (!location?.state) {
                             ></div>
                           )}
                         </div>
-                        {/* <img
+                        {/* <img alt=""
                           className="primaryImage"
                           src={highestSong?.img}
                           alt={""}
@@ -2512,16 +2510,16 @@ if (!location?.state) {
                       }
                       data-tooltip-id="rangeTooltip"
                     >
-                      <img src={range} style={{ width: "20px" }} />
+                      <img alt="" src={range} style={{ width: "20px" }} />
                     </span>
                   </td>
                   <td>
-                    {lowestSong == "-" && (
+                    {lowestSong === "-" && (
                       <div className="cellOutline">
                         <div className="noSongData">-</div>
                       </div>
                     )}
-                    {lowestSong && lowestSong != "-" && (
+                    {lowestSong && lowestSong !== "-" && (
                       <div className="cellOutline">
                         <div
                           className={`primaryImage`}
@@ -2534,7 +2532,7 @@ if (!location?.state) {
                             src={lowestSong?.mp3}
                           ></audio>
 
-                          <img src={lowestSong?.img} className="primaryImage" />
+                          <img alt="" src={lowestSong?.img} className="primaryImage" />
 
                           {lowestSong?.mp3 && (
                             <div
@@ -2546,7 +2544,7 @@ if (!location?.state) {
                             ></div>
                           )}
                         </div>
-                        {/* <img
+                        {/* <img alt=""
                           className="primaryImage"
                           src={lowestSong.img}
                           alt={lowestSong?.name}
@@ -2582,7 +2580,7 @@ if (!location?.state) {
         <Tooltip id="gptTooltip" className="tooltip3"noArrow clickable={"true"}>
           {/* <span className="gradient">comparify</span> */}
           <span>
-            <img src={logo} style={{ width: "20px" }} />
+            <img alt="" src={logo} style={{ width: "20px" }} />
           </span>{" "}
           &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
         </Tooltip>
@@ -2603,7 +2601,7 @@ if (!location?.state) {
               <span className="gradient">comparify</span>
             )} */}
             <span>
-              <img src={logo} style={{ width: "40px" }} />
+              <img alt="" src={logo} style={{ width: "40px" }} />
             </span>{" "}
             &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
             <br />
@@ -2625,7 +2623,7 @@ if (!location?.state) {
             {apiResponse && (
               <>
                 <div>
-                  <img
+                  <img alt=""
                     src={gptBtn}
                     style={{
                       width: "30px",
@@ -2657,7 +2655,7 @@ if (!location?.state) {
                 onClick={handleConvertToImage}
                 title="Download image"
               >
-                <img src={download} style={{ width: "10px" }}></img>
+                <img alt="" src={download} style={{ width: "10px" }}></img>
               </button>
             </div>
           </>
@@ -2672,7 +2670,7 @@ if (!location?.state) {
         className="recommendationModal"
       >
         <button className="xBtn3" onClick={closeRecModal}>
-          <img src={x} style={{ width: "10px" }} alt="x" title="Close"></img>
+          <img alt="" src={x} style={{ width: "10px" }} title="Close"></img>
         </button>
         <h2 className="">
           Recommendations for{" "}

@@ -11,19 +11,14 @@
   margin: 0 auto;
 }
 
-
 .emailForm.dark {
   box-shadow: inset 8px 12px 20px #000000, 0px 1px 1px #333 !important;
 }
 
 .emailForm.dark input {
-  
   background-color: white !important;
-  border:none;
-
+  border: none;
 }
-
-
 
 .title {
   font-weight: 600;
@@ -35,8 +30,6 @@
 .emailInput {
   margin-bottom: 10px;
 }
-
-
 
 .emailInput input {
   padding: 8px;

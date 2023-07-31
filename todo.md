@@ -1,7 +1,6 @@
 No inline CSS
-restarts w/o clicking play
 X button positioning, color on hover
-Game no audio error, (mobile, 
+Game no audio error, (mobile)
 Font sizing
 Tooltips styling
 Long content cut off
@@ -18,6 +17,7 @@ Image events
 filenames
 support page
 dark mode bg color transition
+lint problems.
 Null if not def from API
 save every stat as image separately, or select which to save
 align cards better

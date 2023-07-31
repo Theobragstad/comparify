@@ -7,7 +7,7 @@ import missingImage from "./img/missingImage.png";
 import "./App.css";
 import Big from "big.js";
 import back from "./img/back.png";
-import ScrollButton from "./ScrollButton";
+// import ScrollButton from "./ScrollButton";
 // import finishSound from "./finished.mp3"
 import rightArrow from "./img/rightArrow.png";
 
@@ -17,7 +17,7 @@ import greenArrow from "./img/greenArrow.png";
 
 import fullLogo from "./img/fullLogo.png";
 
-import { PieChart, Pie, Cell, Legend } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 
 import download from "./img/download.png";
 import Footer from "./Footer";
@@ -59,7 +59,7 @@ function Compare() {
   let file1 = location.state.file1.split(",");
   let file2 = location.state.file2.split(",");
 
-  const token = location.state.token;
+  let token = location.state.token;
 
   const [selectedButton, setSelectedButton] = useState(1);
   const [selectedTimeRange, setSelectedTimeRange] = useState("short_term");
@@ -618,7 +618,7 @@ function Compare() {
           continue;
         }
       }
-      if (arrays1[field] == "-" || arrays2[field] == "-") {
+      if (arrays1[field] === "-" || arrays2[field] === "-") {
         similarities[field] = "-";
         continue;
       }
@@ -774,7 +774,7 @@ function Compare() {
   const getHighestAudioFeatureSongs = async (songIds, arrayToSet) => {
     try {
       const validSongIds = songIds.filter((id) => id !== "");
-      if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
+      if (validSongIds.length === 0 || (songIds && songIds[0] === "No data")) {
         arrayToSet(new Array(songIds.length).fill(""));
         return;
       }
@@ -816,7 +816,7 @@ function Compare() {
   const getLowestAudioFeatureSongs = async (songIds, arrayToSet) => {
     try {
       const validSongIds = songIds.filter((id) => id !== "");
-      if (validSongIds.length === 0 || (songIds && songIds[0] == "No data")) {
+      if (validSongIds.length === 0 || (songIds && songIds[0] === "No data")) {
         arrayToSet(new Array(songIds.length).fill(""));
         return;
       }
@@ -859,9 +859,9 @@ function Compare() {
     try {
       // console.log(songIds);
       if (
-        songIds.length == 0 ||
-        (songIds && songIds.length > 0 && songIds[0] == "No data") ||
-        (songIds[0] == "" && songIds[1] == "")
+        songIds.length === 0 ||
+        (songIds && songIds.length > 0 && songIds[0] === "No data") ||
+        (songIds[0] === "" && songIds[1] === "")
       ) {
         arrayToSet(["", ""]);
         return;
@@ -869,10 +869,10 @@ function Compare() {
 
       let ids = songIds.join(",");
       let indices = "01";
-      if (songIds[0] == "") {
+      if (songIds[0] === "") {
         ids = songIds[1];
         indices = "1";
-      } else if (songIds[1] == "") {
+      } else if (songIds[1] === "") {
         ids = songIds[0];
         indices = "0";
       }
@@ -893,11 +893,11 @@ function Compare() {
         img: track.album.images[0]?.url || missingImage,
       }));
 
-      if (indices == "01") {
+      if (indices === "01") {
         arrayToSet(mostLeastPopSongsData);
-      } else if (indices == "1") {
+      } else if (indices === "1") {
         arrayToSet(["", mostLeastPopSongsData[0]]);
-      } else if (indices == "0") {
+      } else if (indices === "0") {
         arrayToSet([mostLeastPopSongsData[0], ""]);
       }
     } catch (error) {
@@ -909,9 +909,9 @@ function Compare() {
   const getOldestNewestSongs = async (songIds, arrayToSet) => {
     try {
       if (
-        songIds.length == 0 ||
-        (songIds && songIds.length > 0 && songIds[0] == "No data") ||
-        (songIds[0] == "" && songIds[1] == "")
+        songIds.length === 0 ||
+        (songIds && songIds.length > 0 && songIds[0] === "No data") ||
+        (songIds[0] === "" && songIds[1] === "")
       ) {
         arrayToSet(["", ""]);
         return;
@@ -919,10 +919,10 @@ function Compare() {
 
       let ids = songIds.join(",");
       let indices = "01";
-      if (songIds[0] == "") {
+      if (songIds[0] === "") {
         ids = songIds[1];
         indices = "1";
-      } else if (songIds[1] == "") {
+      } else if (songIds[1] === "") {
         ids = songIds[0];
         indices = "0";
       }
@@ -943,11 +943,11 @@ function Compare() {
         img: track.album.images[0]?.url || missingImage,
       }));
 
-      if (indices == "01") {
+      if (indices === "01") {
         arrayToSet(oldestNewestSongsData);
-      } else if (indices == "1") {
+      } else if (indices === "1") {
         arrayToSet(["", oldestNewestSongsData[0]]);
-      } else if (indices == "0") {
+      } else if (indices === "0") {
         arrayToSet([oldestNewestSongsData[0], ""]);
       }
     } catch (error) {
@@ -1003,9 +1003,9 @@ function Compare() {
   const getMostLeastPopAlbums = async (albumIds, arrayToSet) => {
     try {
       if (
-        albumIds.length == 0 ||
-        (albumIds && albumIds.length > 0 && albumIds[0] == "No data") ||
-        (albumIds[0] == "" && albumIds[1] == "")
+        albumIds.length === 0 ||
+        (albumIds && albumIds.length > 0 && albumIds[0] === "No data") ||
+        (albumIds[0] === "" && albumIds[1] === "")
       ) {
         arrayToSet(["", ""]);
         return;
@@ -1013,10 +1013,10 @@ function Compare() {
 
       let ids = albumIds.join(",");
       let indices = "01";
-      if (albumIds[0] == "") {
+      if (albumIds[0] === "") {
         ids = albumIds[1];
         indices = "1";
-      } else if (albumIds[1] == "") {
+      } else if (albumIds[1] === "") {
         ids = albumIds[0];
         indices = "0";
       }
@@ -1037,11 +1037,11 @@ function Compare() {
         img: album.images[0]?.url || missingImage,
       }));
 
-      if (indices == "01") {
+      if (indices === "01") {
         arrayToSet(mostLeastPopAlbumsData);
-      } else if (indices == "1") {
+      } else if (indices === "1") {
         arrayToSet(["", mostLeastPopAlbumsData[0]]);
-      } else if (indices == "0") {
+      } else if (indices === "0") {
         arrayToSet([mostLeastPopAlbumsData[0], ""]);
       }
     } catch (error) {
@@ -1080,9 +1080,9 @@ function Compare() {
   const getMostLeastPopArtists = async (artistIds, arrayToSet) => {
     try {
       if (
-        artistIds.length == 0 ||
-        (artistIds && artistIds.length > 0 && artistIds[0] == "No data") ||
-        (artistIds[0] == "" && artistIds[1] == "")
+        artistIds.length === 0 ||
+        (artistIds && artistIds.length > 0 && artistIds[0] === "No data") ||
+        (artistIds[0] === "" && artistIds[1] === "")
       ) {
         arrayToSet(["", ""]);
         return;
@@ -1090,10 +1090,10 @@ function Compare() {
 
       let ids = artistIds.join(",");
       let indices = "01";
-      if (artistIds[0] == "") {
+      if (artistIds[0] === "") {
         ids = artistIds[1];
         indices = "1";
-      } else if (artistIds[1] == "") {
+      } else if (artistIds[1] === "") {
         ids = artistIds[0];
         indices = "0";
       }
@@ -1113,11 +1113,11 @@ function Compare() {
         img: artist.images[0]?.url || missingImage,
       }));
 
-      if (indices == "01") {
+      if (indices === "01") {
         arrayToSet(mostLeastPopArtistsData);
-      } else if (indices == "1") {
+      } else if (indices === "1") {
         arrayToSet(["", mostLeastPopArtistsData[0]]);
-      } else if (indices == "0") {
+      } else if (indices === "0") {
         arrayToSet([mostLeastPopArtistsData[0], ""]);
       }
     } catch (error) {
@@ -1550,7 +1550,7 @@ function Compare() {
 
       const allEmpty = songIds.every((id) => id === "");
 
-      if (allEmpty || (songIds && songIds[0] == "No data")) {
+      if (allEmpty || (songIds && songIds[0] === "No data")) {
         return Array(songIds.length).fill("");
       }
 
@@ -1943,7 +1943,7 @@ function Compare() {
   return (
     <div>
       {/* <ScrollButton/> */}
-      <img
+      <img alt=""
         src={fullLogo}
         onClick={() => navigate("/dashboard")}
         style={{
@@ -1959,7 +1959,7 @@ function Compare() {
 
       <span className="pageHeader1">Results</span>
       {/* <Link to="/" title="Home" style={{ display: "block" }}>
-        <img
+        <img alt=""
           src={logoAlt}
           style={{ width: 80, paddingTop: "20px", pointerEvents: "none" }}
         ></img>
@@ -1968,7 +1968,7 @@ function Compare() {
         comparify results
         <span>
           &emsp;
-          <img
+          <img alt=""
             id="gptTooltip"
             className="zoom"
             onClick={openModal}
@@ -1985,7 +1985,7 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate1[1]
             }
           >
-            <img
+            <img alt=""
               src={nameIdImgurlGenerationdate1[2]}
               style={{
                 width: "30px ",
@@ -2013,7 +2013,7 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate2[1]
             }
           >
-            <img
+            <img alt=""
               src={nameIdImgurlGenerationdate2[2]}
               style={{
                 width: "30px",
@@ -2054,13 +2054,13 @@ function Compare() {
           data-tooltip-id="downloadScoreImageTooltip"
           data-tooltip-content="Save percent as image"
         >
-          <img src={download} style={{ width: "10px" }}></img>
+          <img alt="" src={download} style={{ width: "10px" }}></img>
         </button>
       </h2>
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
-          <img src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
+          <img alt="" src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
           <h3>comparify score</h3>
           <h4>
             <span style={{ color: "#1e90ff" }}>
@@ -2119,7 +2119,7 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate1[1]
             }
           >
-            <img
+            <img alt=""
               src={nameIdImgurlGenerationdate1[2]}
               style={{
                 width: "30px ",
@@ -2128,7 +2128,6 @@ function Compare() {
                 paddingLeft: "10px",
                 paddingRight: "10px",
               }}
-              alt="Image 1"
             ></img>
           </a>
           <div
@@ -2147,7 +2146,7 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate2[1]
             }
           >
-            <img
+            <img alt=""
               src={nameIdImgurlGenerationdate2[2]}
               style={{
                 width: "30px ",
@@ -2156,7 +2155,6 @@ function Compare() {
                 paddingLeft: "10px",
                 paddingRight: "10px",
               }}
-              alt="Image 2"
             ></img>
           </a>
           <div
@@ -2193,7 +2191,7 @@ function Compare() {
           data-tooltip-id="downloadScoreImageTooltip"
           data-tooltip-content="Save percent as image"
         >
-          <img src={download} style={{ width: "10px" }}></img>
+          <img alt="" src={download} style={{ width: "10px" }}></img>
         </button> */}
       </h2>
       </div>
@@ -2202,7 +2200,7 @@ function Compare() {
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
-          <img src={logo} style={{ width: 80, paddingTop: "20px" }}></img>
+          <img alt="" src={logo} style={{ width: 80, paddingTop: "20px" }}></img>
           <h3>comparify score</h3>
           <h4>
             <span style={{ color: "#1e90ff" }}>
@@ -2242,7 +2240,7 @@ function Compare() {
         <div className="leftNavBtnContainer">
           <Link to="/dashboard" title="Back">
             <button className="leftNavBtn">
-              <img src={back} style={{ width: "13px" }}></img>
+              <img alt="" src={back} style={{ width: "13px" }}></img>
             </button>
           </Link>
         </div>
@@ -2284,7 +2282,7 @@ function Compare() {
           }
           style={{ textDecoration: "none" }}
         > */}
-        <img
+        <img alt=""
           src={nameIdImgurlGenerationdate1[2]}
           style={{
             width: "30px",
@@ -2294,7 +2292,6 @@ function Compare() {
             paddingRight: "10px",
             verticalAlign: "middle",
           }}
-          alt="Image 1"
         />
         {/* </a> */}
         <div
@@ -2304,7 +2301,7 @@ function Compare() {
           }}
         >
           {nameIdImgurlGenerationdate1[0]}
-          <img
+          <img alt=""
             id="dropdownMenuArrow"
             src={rightArrow}
             style={{
@@ -2333,7 +2330,7 @@ function Compare() {
               className="darkenHover"
               title="Open your Spotify profile"
             >
-              <img
+              <img alt=""
                 src={spotifysmall}
                 style={{
                   width: "20px",
@@ -2342,7 +2339,7 @@ function Compare() {
                 }}
               ></img>
               Profile
-              <img
+              <img alt=""
                 src={greenArrow}
                 style={{
                   width: "10px",
@@ -2358,7 +2355,7 @@ function Compare() {
               title={`Try comparify \u2A2F ChatGPT`}
             >
               <span>
-                <img
+                <img alt=""
                   src={logo}
                   style={{ width: "30px", verticalAlign: "middle" }}
                   className="zoom"
@@ -2366,7 +2363,7 @@ function Compare() {
               </span>{" "}
               &#10799;{" "}
               <span style={{ color: "#75ac9d" }}>
-                <img
+                <img alt=""
                   className="spin"
                   src={gptBtn}
                   style={{
@@ -2395,7 +2392,7 @@ function Compare() {
               title="See how well you know each other's music"
             >
               Play{" "}
-              <img
+              <img alt=""
                 src={rightArrow}
                 style={{ width: "10px", verticalAlign: "middle" }}
               />
@@ -2437,7 +2434,7 @@ function Compare() {
                     title="See shared view"
                     style={{}}
                   >
-                    <img
+                    <img alt=""
                       src={nameIdImgurlGenerationdate1[2]}
                       style={{
                         width: "30px",
@@ -2447,7 +2444,6 @@ function Compare() {
                         paddingRight: "10px",
                         pointerEvents: "none",
                       }}
-                      alt="Image 1"
                     ></img>
                     <div
                       className="text"
@@ -2470,7 +2466,7 @@ function Compare() {
                     >
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <div className="image">
-                          <img
+                          <img alt=""
                             src={nameIdImgurlGenerationdate1[2]}
                             style={{
                               width: "30px",
@@ -2479,7 +2475,6 @@ function Compare() {
                               paddingLeft: "10px",
                               paddingRight: "10px",
                             }}
-                            alt="Image 1"
                           />
                           <div
                             className="text"
@@ -2490,7 +2485,7 @@ function Compare() {
                         </div>
                         <span>+</span>
                         <div className="image">
-                          <img
+                          <img alt=""
                             src={nameIdImgurlGenerationdate2[2]}
                             style={{
                               width: "30px ",
@@ -2499,7 +2494,6 @@ function Compare() {
                               paddingLeft: "10px",
                               paddingRight: "10px",
                             }}
-                            alt="Image 2"
                           />
                           <div
                             className="text"
@@ -2523,7 +2517,7 @@ function Compare() {
                     title={`See ${nameIdImgurlGenerationdate1[0]}'s view`}
                     style={{}}
                   >
-                    <img
+                    <img alt=""
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
                         width: "30px",
@@ -2532,7 +2526,6 @@ function Compare() {
                         paddingLeft: "10px",
                         paddingRight: "10px",
                       }}
-                      alt="Image 1"
                     ></img>
                     <div
                       className="text"
@@ -2558,7 +2551,7 @@ function Compare() {
                         {user1TopSongs.length > 0 ? (
                           user1TopSongs.map((song, index) => (
                             <div key={index} className="item">
-                              <img src={song.img} className="primaryImage" />
+                              <img alt="" src={song.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">{song.name}</span>
                                 <span className="primaryArtists">
@@ -2580,7 +2573,7 @@ function Compare() {
                         {user1TopArtists.length > 0 ? (
                           user1TopArtists.map((artist, index) => (
                             <div key={index} className="item">
-                              <img src={artist.img} className="primaryImage" />
+                              <img alt="" src={artist.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {artist.name}
@@ -2601,7 +2594,7 @@ function Compare() {
                         {user1TopAlbums.length > 0 ? (
                           user1TopAlbums.map((album, index) => (
                             <div key={index} className="item">
-                              <img src={album.img} className="primaryImage" />
+                              <img alt="" src={album.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {album.name}
@@ -2707,7 +2700,7 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[0] !==
                           arrays2.mostLeastPopSongIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1MostLeastPopSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -2741,7 +2734,7 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[1] !==
                           arrays2.mostLeastPopSongIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1MostLeastPopSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -2775,7 +2768,7 @@ function Compare() {
                         arrays1.oldestNewestSongIds[0] !==
                           arrays2.oldestNewestSongIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1OldestNewestSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -2807,7 +2800,7 @@ function Compare() {
                         arrays1.oldestNewestSongIds[1] !==
                           arrays2.oldestNewestSongIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1OldestNewestSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -2839,7 +2832,7 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[0] !==
                           arrays2.mostLeastPopArtistIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1MostLeastPopArtists[0]?.img}
                               className="primaryImage"
                             />
@@ -2871,7 +2864,7 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[1] !==
                           arrays2.mostLeastPopArtistIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1MostLeastPopArtists[1]?.img}
                               className="primaryImage"
                             />
@@ -2903,7 +2896,7 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[0] !==
                           arrays2.mostLeastPopAlbumIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1MostLeastPopAlbums[0]?.img}
                               className="primaryImage"
                             />
@@ -2938,7 +2931,7 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[1] !==
                           arrays2.mostLeastPopAlbumIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user1MostLeastPopAlbums[1]?.img}
                               className="primaryImage"
                             />
@@ -3247,7 +3240,7 @@ function Compare() {
                         {sharedTopSongs.length > 0 ? (
                           sharedTopSongs.map((song, index) => (
                             <div key={index} className="item">
-                              <img src={song.img} className="primaryImage" />
+                              <img alt="" src={song.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">{song.name}</span>
                                 <span className="primaryArtists">
@@ -3269,7 +3262,7 @@ function Compare() {
                         {sharedTopArtists.length > 0 ? (
                           sharedTopArtists.map((artist, index) => (
                             <div key={index} className="item">
-                              <img src={artist.img} className="primaryImage" />
+                              <img alt="" src={artist.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {artist.name}
@@ -3290,7 +3283,7 @@ function Compare() {
                         {sharedTopAlbums.length > 0 ? (
                           sharedTopAlbums.map((album, index) => (
                             <div key={index} className="item">
-                              <img src={album.img} className="primaryImage" />
+                              <img alt="" src={album.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {album.name}
@@ -3378,7 +3371,7 @@ function Compare() {
                         {sharedMostLeastPopSongs &&
                         sharedMostLeastPopSongs[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedMostLeastPopSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -3410,7 +3403,7 @@ function Compare() {
                         {sharedMostLeastPopSongs &&
                         sharedMostLeastPopSongs[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedMostLeastPopSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -3442,7 +3435,7 @@ function Compare() {
                         {sharedOldestNewestSongs &&
                         sharedOldestNewestSongs[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedOldestNewestSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -3472,7 +3465,7 @@ function Compare() {
                         {sharedOldestNewestSongs &&
                         sharedOldestNewestSongs[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedOldestNewestSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -3502,7 +3495,7 @@ function Compare() {
                         {sharedMostLeastPopArtists &&
                         sharedMostLeastPopArtists[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedMostLeastPopArtists[0]?.img}
                               className="primaryImage"
                             />
@@ -3532,7 +3525,7 @@ function Compare() {
                         {sharedMostLeastPopArtists &&
                         sharedMostLeastPopArtists[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedMostLeastPopArtists[1]?.img}
                               className="primaryImage"
                             />
@@ -3562,7 +3555,7 @@ function Compare() {
                         {sharedMostLeastPopAlbums &&
                         sharedMostLeastPopAlbums[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedMostLeastPopAlbums[0]?.img}
                               className="primaryImage"
                             />
@@ -3597,7 +3590,7 @@ function Compare() {
                         {sharedMostLeastPopAlbums &&
                         sharedMostLeastPopAlbums[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={sharedMostLeastPopAlbums[1]?.img}
                               className="primaryImage"
                             />
@@ -3907,7 +3900,7 @@ function Compare() {
                         {user2TopSongs.length > 0 ? (
                           user2TopSongs.map((song, index) => (
                             <div key={index} className="item">
-                              <img src={song.img} className="primaryImage" />
+                              <img alt="" src={song.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">{song.name}</span>
                                 <span className="primaryArtists">
@@ -3929,7 +3922,7 @@ function Compare() {
                         {user2TopArtists.length > 0 ? (
                           user2TopArtists.map((artist, index) => (
                             <div key={index} className="item">
-                              <img src={artist.img} className="primaryImage" />
+                              <img alt="" src={artist.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {artist.name}
@@ -3950,7 +3943,7 @@ function Compare() {
                         {user2TopAlbums.length > 0 ? (
                           user2TopAlbums.map((album, index) => (
                             <div key={index} className="item">
-                              <img src={album.img} className="primaryImage" />
+                              <img alt="" src={album.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {album.name}
@@ -4056,7 +4049,7 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[0] !==
                           arrays2.mostLeastPopSongIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2MostLeastPopSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -4090,7 +4083,7 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[1] !==
                           arrays2.mostLeastPopSongIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2MostLeastPopSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -4124,7 +4117,7 @@ function Compare() {
                         arrays1.oldestNewestSongIds[0] !==
                           arrays2.oldestNewestSongIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2OldestNewestSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -4156,7 +4149,7 @@ function Compare() {
                         arrays1.oldestNewestSongIds[1] !==
                           arrays2.oldestNewestSongIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2OldestNewestSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -4188,7 +4181,7 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[0] !==
                           arrays2.mostLeastPopArtistIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2MostLeastPopArtists[0]?.img}
                               className="primaryImage"
                             />
@@ -4220,7 +4213,7 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[1] !==
                           arrays2.mostLeastPopArtistIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2MostLeastPopArtists[1]?.img}
                               className="primaryImage"
                             />
@@ -4252,7 +4245,7 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[0] !==
                           arrays2.mostLeastPopAlbumIds[0] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2MostLeastPopAlbums[0]?.img}
                               className="primaryImage"
                             />
@@ -4287,7 +4280,7 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[1] !==
                           arrays2.mostLeastPopAlbumIds[1] ? (
                           <div className="item">
-                            <img
+                            <img alt=""
                               src={user2MostLeastPopAlbums[1]?.img}
                               className="primaryImage"
                             />
@@ -4595,7 +4588,7 @@ function Compare() {
                   data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate1[0]} only`}
                   style={{marginTop:'200px'}}
                 >
-                  <img
+                  <img alt=""
                     src={nameIdImgurlGenerationdate1[2]}
                     style={{
                       width: "30px",
@@ -4605,7 +4598,6 @@ function Compare() {
                       paddingRight: "10px",
                       pointerEvents: "none",
                     }}
-                    alt="Image 1"
                   ></img>
                   <div
                     className="text"
@@ -4623,7 +4615,7 @@ function Compare() {
                   data-tooltip-content={`Overlapping (shared) data for both ${nameIdImgurlGenerationdate1[0]} and ${nameIdImgurlGenerationdate2[0]}`}
                 >
                   <div className="image">
-                    <img
+                    <img alt=""
                       src={nameIdImgurlGenerationdate1[2]}
                       style={{
                         width: "30px",
@@ -4632,7 +4624,6 @@ function Compare() {
                         paddingLeft: "10px",
                         paddingRight: "10px",
                       }}
-                      alt="Image 1"
                     ></img>
                     <div
                       className="text"
@@ -4643,7 +4634,7 @@ function Compare() {
                   </div>
                   <span>+</span>
                   <div className="image">
-                    <img
+                    <img alt=""
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
                         width: "30px ",
@@ -4652,7 +4643,6 @@ function Compare() {
                         paddingLeft: "10px",
                         paddingRight: "10px",
                       }}
-                      alt="Image 2"
                     ></img>
                     <div
                       className="text"
@@ -4670,7 +4660,7 @@ function Compare() {
                   data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate2[0]} only`}
                   style={{marginTop:'200px'}}
                 >
-                  <img
+                  <img alt=""
                     src={nameIdImgurlGenerationdate2[2]}
                     style={{
                       width: "30px",
@@ -4679,7 +4669,6 @@ function Compare() {
                       paddingLeft: "10px",
                       paddingRight: "10px",
                     }}
-                    alt="Image 1"
                   ></img>
                   <div
                     className="text"
@@ -4697,7 +4686,7 @@ function Compare() {
                   {user1TopSongs.length > 0 ? (
                     user1TopSongs.map((song, index) => (
                       <div key={index} className="item">
-                        <img src={song.img} className="primaryImage" />
+                        <img alt="" src={song.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{song.name}</span>
                           <span className="primaryArtists">
@@ -4718,7 +4707,7 @@ function Compare() {
                   {sharedTopSongs.length > 0 ? (
                     sharedTopSongs.map((song, index) => (
                       <div key={index} className="item">
-                        <img src={song.img} className="primaryImage" />
+                        <img alt="" src={song.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{song.name}</span>
                           <span className="primaryArtists">
@@ -4738,7 +4727,7 @@ function Compare() {
                   {user2TopSongs.length > 0 ? (
                     user2TopSongs.map((song, index) => (
                       <div key={index} className="item">
-                        <img src={song.img} className="primaryImage" />
+                        <img alt="" src={song.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{song.name}</span>
                           <span className="primaryArtists">
@@ -4760,7 +4749,7 @@ function Compare() {
                   {user1TopArtists.length > 0 ? (
                     user1TopArtists.map((artist, index) => (
                       <div key={index} className="item">
-                        <img src={artist.img} className="primaryImage" />
+                        <img alt="" src={artist.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{artist.name}</span>
                         </div>
@@ -4777,7 +4766,7 @@ function Compare() {
                   {sharedTopArtists.length > 0 ? (
                     sharedTopArtists.map((artist, index) => (
                       <div key={index} className="item">
-                        <img src={artist.img} className="primaryImage" />
+                        <img alt="" src={artist.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{artist.name}</span>
                         </div>
@@ -4794,7 +4783,7 @@ function Compare() {
                   {user2TopArtists.length > 0 ? (
                     user2TopArtists.map((artist, index) => (
                       <div key={index} className="item">
-                        <img src={artist.img} className="primaryImage" />
+                        <img alt="" src={artist.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{artist.name}</span>
                         </div>
@@ -4813,7 +4802,7 @@ function Compare() {
                   {user1TopAlbums.length > 0 ? (
                     user1TopAlbums.map((album, index) => (
                       <div key={index} className="item">
-                        <img src={album.img} className="primaryImage" />
+                        <img alt="" src={album.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{album.name}</span>
                           <span className="primaryArtists">
@@ -4833,7 +4822,7 @@ function Compare() {
                   {sharedTopAlbums.length > 0 ? (
                     sharedTopAlbums.map((album, index) => (
                       <div key={index} className="item">
-                        <img src={album.img} className="primaryImage" />
+                        <img alt="" src={album.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{album.name}</span>
                           <span className="primaryArtists">
@@ -4853,7 +4842,7 @@ function Compare() {
                   {user2TopAlbums.length > 0 ? (
                     user2TopAlbums.map((album, index) => (
                       <div key={index} className="item">
-                        <img src={album.img} className="primaryImage" />
+                        <img alt="" src={album.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{album.name}</span>
                           <span className="primaryArtists">
@@ -5037,7 +5026,7 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[0] !==
                     arrays2.mostLeastPopSongIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1MostLeastPopSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5063,7 +5052,7 @@ function Compare() {
                   <div className="primaryTitle">most popular song</div>
                   {sharedMostLeastPopSongs && sharedMostLeastPopSongs[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedMostLeastPopSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5092,7 +5081,7 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[0] !==
                     arrays2.mostLeastPopSongIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2MostLeastPopSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5123,7 +5112,7 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[1] !==
                     arrays2.mostLeastPopSongIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1MostLeastPopSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5149,7 +5138,7 @@ function Compare() {
                   <div className="primaryTitle">least popular song</div>
                   {sharedMostLeastPopSongs && sharedMostLeastPopSongs[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedMostLeastPopSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5178,7 +5167,7 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[1] !==
                     arrays2.mostLeastPopSongIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2MostLeastPopSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5209,7 +5198,7 @@ function Compare() {
                   arrays1.oldestNewestSongIds[0] !==
                     arrays2.oldestNewestSongIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1OldestNewestSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5235,7 +5224,7 @@ function Compare() {
                   <div className="primaryTitle">oldest song</div>
                   {sharedOldestNewestSongs && sharedOldestNewestSongs[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedOldestNewestSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5264,7 +5253,7 @@ function Compare() {
                   arrays1.oldestNewestSongIds[0] !==
                     arrays2.oldestNewestSongIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2OldestNewestSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5296,7 +5285,7 @@ function Compare() {
                   arrays1.oldestNewestSongIds[1] !==
                     arrays2.oldestNewestSongIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1OldestNewestSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5322,7 +5311,7 @@ function Compare() {
                   <div className="primaryTitle">newest song</div>
                   {sharedOldestNewestSongs && sharedOldestNewestSongs[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedOldestNewestSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5351,7 +5340,7 @@ function Compare() {
                   arrays1.oldestNewestSongIds[1] !==
                     arrays2.oldestNewestSongIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2OldestNewestSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5383,7 +5372,7 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[0] !==
                     arrays2.mostLeastPopArtistIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1MostLeastPopArtists[0]?.img}
                         className="primaryImage"
                       />
@@ -5406,7 +5395,7 @@ function Compare() {
                   <div className="primaryTitle">most popular artist</div>
                   {sharedMostLeastPopArtists && sharedMostLeastPopArtists[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedMostLeastPopArtists[0]?.img}
                         className="primaryImage"
                       />
@@ -5432,7 +5421,7 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[0] !==
                     arrays2.mostLeastPopArtistIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2MostLeastPopArtists[0]?.img}
                         className="primaryImage"
                       />
@@ -5461,7 +5450,7 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[1] !==
                     arrays2.mostLeastPopArtistIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1MostLeastPopArtists[1]?.img}
                         className="primaryImage"
                       />
@@ -5484,7 +5473,7 @@ function Compare() {
                   <div className="primaryTitle">least popular artist</div>
                   {sharedMostLeastPopArtists && sharedMostLeastPopArtists[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedMostLeastPopArtists[1]?.img}
                         className="primaryImage"
                       />
@@ -5510,7 +5499,7 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[1] !==
                     arrays2.mostLeastPopArtistIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2MostLeastPopArtists[1]?.img}
                         className="primaryImage"
                       />
@@ -5539,7 +5528,7 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[0] !==
                     arrays2.mostLeastPopAlbumIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1MostLeastPopAlbums[0]?.img}
                         className="primaryImage"
                       />
@@ -5565,7 +5554,7 @@ function Compare() {
                   <div className="primaryTitle">most popular album</div>
                   {sharedMostLeastPopAlbums && sharedMostLeastPopAlbums[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedMostLeastPopAlbums[0]?.img}
                         className="primaryImage"
                       />
@@ -5594,7 +5583,7 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[0] !==
                     arrays2.mostLeastPopAlbumIds[0] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2MostLeastPopAlbums[0]?.img}
                         className="primaryImage"
                       />
@@ -5626,7 +5615,7 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[1] !==
                     arrays2.mostLeastPopAlbumIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user1MostLeastPopAlbums[1]?.img}
                         className="primaryImage"
                       />
@@ -5652,7 +5641,7 @@ function Compare() {
                   <div className="primaryTitle">least popular album</div>
                   {sharedMostLeastPopAlbums && sharedMostLeastPopAlbums[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={sharedMostLeastPopAlbums[1]?.img}
                         className="primaryImage"
                       />
@@ -5681,7 +5670,7 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[1] !==
                     arrays2.mostLeastPopAlbumIds[1] ? (
                     <div className="item">
-                      <img
+                      <img alt=""
                         src={user2MostLeastPopAlbums[1]?.img}
                         className="primaryImage"
                       />
@@ -5713,7 +5702,7 @@ function Compare() {
             <tr style={{ height: "40px" }}></tr>
             <tr>
               <td></td>
-              <td className="differencesLabel">differences<div> <img
+              <td className="differencesLabel">differences<div> <img alt=""
                       src={rightArrow}
                       style={{ width: "20px", verticalAlign: "middle",transform:'rotate(90deg)' }}
                     /></div></td>
@@ -6404,7 +6393,7 @@ function Compare() {
                       marginRop: "10px",
                     }}
                   >
-                    <img
+                    <img alt=""
                       src={rightArrow}
                       style={{ width: "10px", verticalAlign: "middle" }}
                     />
@@ -6479,7 +6468,7 @@ function Compare() {
                     <span className="cellOutline2">
                       {(feature !== "duration" &&
                         isNaN(overlappingData.audioFeatureMeans[index])) ||
-                      (feature == "duration" &&
+                      (feature === "duration" &&
                         (isNaN(
                           parseInt(
                             overlappingData.audioFeatureMeans[index].substring(
@@ -6510,7 +6499,7 @@ function Compare() {
                     <span className="cellOutline2">
                       {(feature !== "duration" &&
                         isNaN(overlappingData.audioFeatureStdDevs[index])) ||
-                      (feature == "duration" &&
+                      (feature === "duration" &&
                         (isNaN(
                           parseInt(
                             overlappingData.audioFeatureStdDevs[
@@ -6541,7 +6530,7 @@ function Compare() {
                         arrays2.highestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline1">
                           <div className="cellOutlineCompact">
-                            <img
+                            <img 
                               className="primaryImage"
                               src={user1HighestSong.img}
                               alt={user1HighestSong.name}
@@ -6570,7 +6559,7 @@ function Compare() {
                       sharedHighestSong.artists && (
                         <div className="songCellOutline2">
                           <div className="cellOutlineCompact">
-                            <img
+                            <img 
                               className="primaryImage"
                               src={sharedHighestSong.img}
                               alt={sharedHighestSong.name}
@@ -6601,7 +6590,7 @@ function Compare() {
                         arrays2.highestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline3">
                           <div className="cellOutlineCompact">
-                            <img
+                            <img 
                               className="primaryImage"
                               src={user2HighestSong.img}
                               alt={user2HighestSong.name}
@@ -6634,7 +6623,7 @@ function Compare() {
                         arrays2.lowestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline1">
                           <div className="cellOutlineCompact">
-                            <img
+                            <img 
                               className="primaryImage"
                               src={user1LowestSong.img}
                               alt={user1LowestSong.name}
@@ -6663,7 +6652,7 @@ function Compare() {
                       sharedLowestSong.artists && (
                         <div className="songCellOutline2">
                           <div className="cellOutlineCompact">
-                            <img
+                            <img 
                               className="primaryImage"
                               src={sharedLowestSong.img}
                               alt={sharedLowestSong.name}
@@ -6695,7 +6684,7 @@ function Compare() {
                         arrays2.lowestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline3">
                           <div className="cellOutlineCompact">
-                            <img
+                            <img 
                               className="primaryImage"
                               src={user2LowestSong.img}
                               alt={user2LowestSong.name}
@@ -6734,7 +6723,7 @@ function Compare() {
       >
         <div style={{ textAlign: "center" }}>
           <h2 className="">
-            <img
+            <img alt=""
               src={gptBtn}
               style={{ width: "40px", marginRight: "10px" }}
             ></img>
@@ -6776,7 +6765,7 @@ function Compare() {
                 onClick={handleConvertToImageGPT}
                 title="Download image"
               >
-                <img src={download} style={{ width: "10px" }}></img>
+                <img alt="" src={download} style={{ width: "10px" }}></img>
               </button>
             </>
           )}
@@ -6950,7 +6939,7 @@ function Compare() {
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="gptImgDiv" style={{ width: 500, padding: "20px" }}>
           <h2 className="gptModalTitle">
-            <img
+            <img alt=""
               src={gptBtn}
               style={{ width: "40px", marginRight: "10px" }}
             ></img>
@@ -7118,7 +7107,7 @@ function Compare() {
         noArrow
       ></ReactTooltip>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import spotify from "./img/spotify.png";
-import logo from "./img/logo.png";
+// import spotify from "./img/spotify.png";
+// import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
 // import { DarkModeContext } from './App';
-import Cookies from "js-cookie";
 
 import { useDarkMode } from "./DarkMode";
 
@@ -649,7 +648,7 @@ const HelpModalContent = () => {
       </div>
       <div className="helpModalFooter">
         <div
-          style={{ fontWeight: "500", fontSize: "12px", fontWeight: "bold" }}
+          style={{fontSize: "12px", fontWeight: "bold" }}
         >
           <a
             style={{ textDecoration: "none", color: "#1e90ff" }}

@@ -648,7 +648,7 @@ const DataPageRecommendations = (props) => {
                   color: "#18d860",
                 }}
               >
-                Added <img src={check} style={{ width: "10px" }}></img>
+                Added <img alt="" src={check} style={{ width: "10px" }}></img>
               </span>
             ) : (
               // Default content
@@ -665,10 +665,9 @@ const DataPageRecommendations = (props) => {
                 disabled={safeRecommendationSongs.length === 0}
               >
                 add to{" "}
-                <img
+                <img alt=""
                   src={spotifysmall}
                   style={{ width: "15px", verticalAlign: "middle" }}
-                  alt="Spotify"
                 />
               </button>
             )}
@@ -723,7 +722,7 @@ const DataPageRecommendations = (props) => {
                       src={song?.mp3}
                     ></audio>
 
-                    <img src={song?.img} className="primaryImage" />
+                    <img alt="" src={song?.img} className="primaryImage" />
 
                     {song?.mp3 && (
                       <div
@@ -735,7 +734,7 @@ const DataPageRecommendations = (props) => {
                       ></div>
                     )}
                   </div>
-                  {/* <img src={song.img} className="primaryImage" /> */}
+                  {/* <img alt="" src={song.img} className="primaryImage" /> */}
                   <div className="primaryText">
                     <span className="primaryName">{song.name}</span>
                     <span className="primaryArtists">
@@ -776,7 +775,7 @@ const DataPageRecommendations = (props) => {
                   color: "#18d860",
                 }}
               >
-                Added <img src={check} style={{ width: "10px" }}></img>
+                Added <img alt="" src={check} style={{ width: "10px" }}></img>
               </span>
             ) : (
               <button
@@ -796,7 +795,7 @@ const DataPageRecommendations = (props) => {
                 }
               >
                 add to{" "}
-                <img
+                <img alt=""
                   src={spotifysmall}
                   style={{ width: "15px", verticalAlign: "middle" }}
                 ></img>
@@ -852,7 +851,7 @@ const DataPageRecommendations = (props) => {
                         src={song?.mp3}
                       ></audio>
 
-                      <img src={song?.img} className="primaryImage" />
+                      <img alt="" src={song?.img} className="primaryImage" />
 
                       {song?.mp3 && (
                         <div
@@ -865,7 +864,7 @@ const DataPageRecommendations = (props) => {
                       )}
                     </div>
 
-                    {/* <img src={song.img} className="primaryImage" /> */}
+                    {/* <img alt="" src={song.img} className="primaryImage" /> */}
                     <div className="primaryText">
                       <span className="primaryName">{song.name}</span>
                       <span className="primaryArtists">

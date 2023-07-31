@@ -4,7 +4,7 @@ import upBtn from "./img/upBtn.png";
 
 const ScrollButton = () => {
   const [scrollDirection, setScrollDirection] = useState("down");
-  const [isHovered, setIsHovered] = useState(true);
+  // const [isHovered, setIsHovered] = useState(true);
   const [isScrolling, setIsScrolling] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [recentClick, setRecentClick] = useState(false);
@@ -66,20 +66,20 @@ const ScrollButton = () => {
     setShowButton(isScrolling);
   }, [isScrolling]);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
+  // const handleMouseEnter = () => {
+  //   setIsHovered(true);
+  // };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  // const handleMouseLeave = () => {
+  //   setIsHovered(false);
+  // };
 
   return (
     <div
       className="scrollBtn"
       onClick={handleButtonClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
     >
       {showButton ? (
         scrollDirection === "down" ? (
