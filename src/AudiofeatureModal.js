@@ -22,18 +22,10 @@ function AudiofeatureModal(props) {
     },
     content: {
       zIndex: 9999,
-      //   maxWidth: "30%",
-    width: "21%",
+    // width: "21%",
       height: "fit-content",
-      //   margin: "auto",
       borderRadius: "25px",
-      //   outline: "none",
-      //   padding: "20px",
-// margin: '0 auto',
-// padding:'10px',
-      //   maxHeight: "90vh",
-      //   overflowY: "scroll",
-    //   backgroundColor: "white",
+      
       outline: "0",
     },
   };
@@ -165,7 +157,7 @@ useEffect(() => {
       >
 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
 
-        <div className="primaryCard1" style={{ margin: 'auto', backgroundColor: "white" }}>
+        <div className="primaryCard1" style={{ margin: 'auto', backgroundColor: "white",width:'500px',height:'500px' }}>
 
           <div className="primaryTitle">top songs ranked by {props.audiofeatureForModal === "duration_ms" ? "duration" : props.audiofeatureForModal}</div>
           {rankedSongs.length === 0 ? (
@@ -192,7 +184,7 @@ useEffect(() => {
                   )}
                 </div>
 
-                <div className="primaryText">
+                <div className="primaryText" style={{marginRight:'30px'}}>
                   <span className="primaryName">
                     <a className="link2" href={song.url}>
                       {song.name}

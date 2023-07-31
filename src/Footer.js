@@ -1,19 +1,14 @@
-import React, { useState, useContext , useEffect} from "react";
+import React, { useState} from "react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import logo from "./img/logo.png";
 import x from "./img/x.png";
 import HelpModalContent from "./HelpModalContent";
 import Modal from "react-modal";
-import light from "./img/light.png";
-import dark from "./img/dark.png";
 
 import sun from "./img/sun.png";
 import moon from "./img/moon.png";
 
-// import { DarkModeContext } from './App';
-import Cookies from 'js-cookie';
-import { useDarkMode } from "./DarkMode";
 
 
 
@@ -192,7 +187,7 @@ const Footer = () => {
         <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
           <div>
             comparify uses a variety of data points from multiple time spans to
-            generate a code or "Music Fingerprint" based on your Spotify
+            generate a code based on your Spotify
             listening activity, which you can then use to explore and compare your music.
             <div style={{ paddingTop: "10px" }}>
               Made by
@@ -200,7 +195,6 @@ const Footer = () => {
                 className="link"
                 title="theobragstad.com"
                 href="https://theobragstad.com"
-                title="theobragstad.com"
               >
                 &nbsp;&nbsp;Theo Bragstad
               </a>

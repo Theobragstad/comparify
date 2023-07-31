@@ -6,6 +6,9 @@ import { PieChart, Pie, Cell, Legend } from "recharts";
 
 import logo from "./img/logo.png";
 import popoutIcon from "./img/popoutIcon.png";
+
+import coverartwindowicon from "./img/coverartwindowicon.png";
+
 import x from "./img/x.png";
 import missingImage from "./img/missingImage.png";
 import "./App.css";
@@ -15,6 +18,8 @@ import html2canvas from "html2canvas";
 import Footer from "./Footer";
 import ScrollButton from "./ScrollButton"
 import AudiofeatureModal from "./AudiofeatureModal";
+import CoverArtModal from "./CoverArtModal";
+
 import { Tooltip } from "react-tooltip";
 import download from "./img/download.png";
 import Modal from "react-modal";
@@ -67,7 +72,16 @@ const [expirationTime, setExpirationTime] = useState("");
 const [recModalIsOpen, setRecModalIsOpen] = useState(false);
 const [isPlaying, setIsPlaying] = useState({});
 const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
+
+
   const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null);
+
+
+  const [isCoverArtModalOpen, setIsCoverArtModalOpen] = useState(null);
+  const [urlForCoverArtModal, setUrlForCoverArtModal] = useState(null);
+
+
+  
 
   const [scrollPosition, setScrollPosition] = useState(null);
 const [showDropdownMenu, setShowDropdownMenu] = useState(false);
@@ -1182,6 +1196,25 @@ if (!location?.state) {
 
   
 
+  function openCoverArtModal(url) {
+    setScrollPosition(document.documentElement.scrollTop);
+
+    setIsCoverArtModalOpen(true);
+    setUrlForCoverArtModal(url);
+  }
+
+
+
+  function closeCoverArtModal(url) {
+    setIsCoverArtModalOpen(false);
+    setUrlForCoverArtModal(null);
+  }
+
+
+
+
+
+
   function openAudiofeatureModal(feature) {
     setScrollPosition(document.documentElement.scrollTop);
 
@@ -1275,7 +1308,7 @@ if (!location?.state) {
       </button> */}
       <img
         src={fullLogo}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/")}
         style={{
           width: "150px",
           position: "absolute",
@@ -1284,7 +1317,7 @@ if (!location?.state) {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="Dashboard"
+        title="Home"
       />
 
       <span className="pageHeader">Your data</span>
@@ -1367,12 +1400,15 @@ if (!location?.state) {
               onClick={openModal}
               style={{ marginTop: "20px", cursor: "pointer", fontSize: "20px" }}
               title={`Try comparify \u2A2F ChatGPT`}
+              className="cxgBtn"
             >
-              <span>
+              <span className="">
                 <img
                   src={logo}
                   style={{ width: "30px", verticalAlign: "middle" }}
                   className="zoom"
+                  
+
                 />
               </span>{" "}
               &#10799;{" "}
@@ -1392,7 +1428,7 @@ if (!location?.state) {
             <div
               className="recommendationsBtn"
               onClick={openRecModal}
-              style={{ fontSize: "13px", marginTop: "20px" }}
+              style={{ fontSize: "13px", marginTop: "10px" }}
               title="Get music recommendations"
             >
               Get recommendations
@@ -1505,6 +1541,7 @@ if (!location?.state) {
                 <div
                   className={`primaryImage`}
                   onClick={() => togglePlayback(`audio-element${index}`)}
+                  // onContextMenu={() =>setShowDropdownMenu(true)}
                 >
                   <audio id={`audio-element${index}`} src={song?.mp3}></audio>
 
@@ -1530,6 +1567,26 @@ if (!location?.state) {
                   <span className="primaryArtists">
                     {song.artists?.join(", ")}
                   </span>
+
+                  <span
+                      onClick={(e) => {
+                        openCoverArtModal(song?.img);
+                      }}
+                      title={'Expand cover art'}
+                     
+                    >
+                      <img
+                        src={popoutIcon}
+                        style={{
+                          width: "10px",
+                          marginLeft: "20px",
+                          marginRight: "20px",
+                          cursor: "ne-resize",
+                          pointerEvents: "all",
+                          verticalAlign:'middle'
+                        }}
+                      />
+                    </span>
                 </div>
               </div>
             ))
@@ -1560,7 +1617,7 @@ if (!location?.state) {
           <div
             className="primaryTitle"
             data-tooltip-id="dataPageTooltip1"
-            data-tooltip-content="based on frequency of occurences in top songs."
+            data-tooltip-content="Based on frequency of occurences in top songs."
           >
             top albums
           </div>
@@ -1588,7 +1645,7 @@ if (!location?.state) {
           <div
             className="primaryTitle"
             data-tooltip-id="dataPageTooltip1"
-            data-tooltip-content="based on frequency of occurences in top artists."
+            data-tooltip-content="Based on frequency of occurences in top artists."
           >
             top genres
           </div>
@@ -1610,7 +1667,7 @@ if (!location?.state) {
           <div
             className="primaryTitle"
             data-tooltip-id="dataPageTooltip1"
-            data-tooltip-content="based on frequency of occurences in top songs."
+            data-tooltip-content="Based on frequency of occurences in top songs."
           >
             top labels
           </div>
@@ -1692,7 +1749,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
+                    data-tooltip-content="0-100. Assigned by Spotify based on current trends."
                   >
                     {mostLeastPopSongs[0]?.pop}
                   </span>
@@ -1745,7 +1802,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
+                    data-tooltip-content="0-100. Assigned by Spotify based on current trends."
                   >
                     {mostLeastPopSongs[1]?.pop}
                   </span>
@@ -1873,7 +1930,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
+                    data-tooltip-content="0-100. Assigned by Spotify based on current trends."
                   >
                     {mostLeastPopArtists[0]?.pop}
                   </span>
@@ -1903,7 +1960,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
+                    data-tooltip-content="0-100. Assigned by Spotify based on current trends."
                   >
                     {mostLeastPopArtists[1]?.pop}
                   </span>
@@ -1936,7 +1993,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
+                    data-tooltip-content="0-100. Assigned by Spotify based on current trends."
                   >
                     {mostLeastPopAlbums[0]?.pop}
                   </span>
@@ -1969,7 +2026,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
+                    data-tooltip-content="0-100. Assigned by Spotify based on current trends."
                   >
                     {mostLeastPopAlbums[1]?.pop}
                   </span>
@@ -1987,7 +2044,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="0-100. assigned by Spotify based on current trends. higher means more popular."
+                  data-tooltip-content="0-100. Assigned by Spotify based on current trends. higher means more popular."
                 >
                   {arrays.avgSongPop}
                 </span>
@@ -2004,7 +2061,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                  data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
                 >
                   {arrays.songPopStdDev}
                 </span>
@@ -2042,7 +2099,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                  data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
                 >
                   {`${
                     arrays.songAgeStdDevYrMo[0] === 1
@@ -2078,7 +2135,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="0-100. assigned by Spotify based on current trends. higher means more popular."
+                  data-tooltip-content="0-100. Assigned by Spotify based on current trends. higher means more popular."
                 >
                   {arrays.avgAlbumPop}
                 </span>
@@ -2097,7 +2154,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                  data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
                 >
                   {arrays.albumPopsStdDev}
                 </span>
@@ -2114,7 +2171,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="0-100. assigned by Spotify based on current trends. higher means more popular."
+                  data-tooltip-content="0-100. Assigned by Spotify based on current trends. higher means more popular."
                 >
                   {arrays.avgArtistPop}
                 </span>
@@ -2133,7 +2190,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                  data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
                 >
                   {arrays.artistPopStdDev}
                 </span>
@@ -2163,7 +2220,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                  data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
                 >
                   {arrays.artistFollsStdDev}
                 </span>
@@ -2269,7 +2326,7 @@ if (!location?.state) {
               </th>
               <th
                 data-tooltip-id="dataPageTooltip1"
-                data-tooltip-content="a larger value indicates more variability, while a smaller value indicates less, on average."
+                data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
                
               >
                 <span className="audioFeaturesColumnLabel" >
@@ -2517,6 +2574,9 @@ if (!location?.state) {
 
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
         <Tooltip id="dataPageTooltip1" className="tooltip3" noArrow  clickable={"true"}/>
+
+
+
         <Tooltip clickable="true" id="rangeTooltip" className="tooltip3" noArrow />
 
         <Tooltip id="gptTooltip" className="tooltip3"noArrow clickable={"true"}>
@@ -2689,6 +2749,20 @@ if (!location?.state) {
         closeAudiofeatureModal={closeAudiofeatureModal}
       />
 
+
+
+
+
+<CoverArtModal
+        location={scrollPosition}
+        urlForCoverArtModal={
+          urlForCoverArtModal
+        }
+        songs={topSongs}
+        token={token}
+        isCoverArtModalOpen={isCoverArtModalOpen}
+        closeCoverArtModal={closeCoverArtModal}
+      />
       {/* <Footer /> */}
     </div>
   );

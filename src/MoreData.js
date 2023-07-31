@@ -476,7 +476,7 @@ const MoreData = () => {
       <div className={"moreDataContainer"}>
       <img
         src={fullLogo}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/")}
         style={{
           width: "150px",
           position: "absolute",
@@ -485,7 +485,7 @@ const MoreData = () => {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="/dashboard"
+        title="Home"
       />
         <div
           className="titleDiv"
@@ -557,7 +557,7 @@ const MoreData = () => {
 
         <div className="card-row">
           <div className="primaryCard1">
-            <div className="primaryTitle">saved shows</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently saved shows."}>saved shows</div>
             {savedShows.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -585,7 +585,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard2">
-            <div className="primaryTitle">followed artists</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently followed artists."}>followed artists</div>
             {followedArtists.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -605,7 +605,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-            <div className="primaryTitle">saved albums</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently saved albums."}>saved albums</div>
             {savedAlbums.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -697,7 +697,7 @@ const MoreData = () => {
         show: item.episode.show.name */}
 
           <div className="primaryCard1">
-            <div className="primaryTitle">saved episodes</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently saved episodes."}>saved episodes</div>
             {savedEpisodes.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -721,7 +721,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-            <div className="primaryTitle">saved songs</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently saved songs."}>saved songs</div>
             {savedSongs.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -762,7 +762,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-            <div className="primaryTitle">saved audiobooks</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently saved audiobooks."}>saved audiobooks</div>
             {savedAudiobooks.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -788,7 +788,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-            <div className="primaryTitle">queue</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Upcoming songs in your queue."}>queue</div>
             {queue.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -831,7 +831,7 @@ const MoreData = () => {
           </div>
 
           <div className="primaryCard1">
-            <div className="primaryTitle">recently played songs</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently played songs."}>recently played songs</div>
             {recentlyPlayed.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -875,7 +875,7 @@ const MoreData = () => {
           ownerUrl: item.owner.external_urls.spotify, */}
 
           <div className="primaryCard1">
-            <div className="primaryTitle">your playlists</div>
+            <div className="primaryTitle" data-tooltip-id="tooltip2" data-tooltip-content={"Your recently saved playlists."}>your playlists</div>
             {yourPlaylists.length === 0 ? (
               <div className="noData">No data</div>
             ) : (
@@ -937,6 +937,9 @@ const MoreData = () => {
 
 
       <Tooltip id="tooltip2" className="tooltip3" noArrow  clickable={"true"}/>
+
+
+
 
     </div>
   );

@@ -183,7 +183,10 @@ color: white; */
   top: 0;
   right: 0;
   vertical-align: middle !important;
+  
 }
+
+
 .viewBtn {
   background-color: #1e90ff;
   color: white;
@@ -280,10 +283,11 @@ padding: 2px 5px;
   border-radius: 20px !important;
   z-index: 2 !important;
   font-weight: bold !important;
-  font-size: 12px !important;
-  max-width: 200px !important;
-  width: fit-content !important;
-  /* word-break: break-word !important; */
+  font-size: 11px !important;
+  /* width: fit-content !important; */
+  max-width: 125px !important;
+
+
 }
 
 .submitBtn.disabled:hover,
@@ -1394,9 +1398,9 @@ position:absolute;
   border-radius: 10px;
   width: fit-content;
   /* animation: hide 5s linear 2s 1 forwards; */
-  top: 0;
+  top: 10px;
   z-index:99999;
-  margin:10px;
+  /* margin:10px; */
 }
 
 .errorMessage3 {
@@ -1757,6 +1761,7 @@ color:white;
   border-radius: 15px;
   width: fit-content;
   padding: 5px 10px;
+transition:color 0.2s;
 }
 .helpSection:hover {
   /* background: linear-gradient(
@@ -2876,3 +2881,14 @@ left:200px;
 
 
 
+
+
+  .cxgBtn {
+    padding:10px;
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    width:fit-content;
+  }
+
+
+  

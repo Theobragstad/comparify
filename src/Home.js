@@ -250,10 +250,10 @@ const handleCookieNoticeClose = () => {
 
 
       <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
-  <span className="primaryBtn" style={{ marginRight: "20px",boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)' }} onClick={handleClickBETA} title="Get access">
+  <span className="primaryBtn" style={{ marginRight: "20px"}} onClick={handleClickBETA} title="Get access">
     get access <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>{" "}
-  <span className="primaryBtn" onClick={handleClick} title="Log in" style={{boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
+  <span className="primaryBtn" onClick={handleClick} title="Log in" style={{}}>
     authorized users <img src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>
 </div>

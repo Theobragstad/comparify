@@ -1154,7 +1154,6 @@ function Code() {
               data-tooltip-id="codePageTooltip1"
               data-tooltip-content={displayName}
               alt={displayName}
-            
             />
           )}
         </div>

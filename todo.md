@@ -9,12 +9,13 @@ Modal sizing
 Handle all warnings
 Center messages
 Button not disabled
+song name artist padding divide
 Image profile pic rounded
-Links to modals openable
-Links to profile/code/data
-support
-legal
+name too long then ellipsis
+ranking modals sizing
+no data handling
 Image events
+filenames
 support page
 dark mode bg color transition
 Null if not def from API
@@ -179,7 +180,6 @@ scrolling
 dashboard padding margin mobile
 gradient text display errror line
 dahsboard positioning
-ptr events limit
 name menu size smaller
 pct sim nan
 header padding
@@ -206,7 +206,7 @@ google analytics
 animation sizig position
 APP ANIMATIONS images-rotate
  email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
-Upload btn styling
 links to artwork
+card width incr height too or margins
 round values ALL
 restrict path if typed
