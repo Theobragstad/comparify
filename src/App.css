@@ -1252,6 +1252,7 @@ tr:last-child td:last-child {
   padding: 3px 10px;
   border-radius: 10px;
   width: fit-content;
+  max-width:75%;
   top: 10px;
   z-index: 99999;
 }
