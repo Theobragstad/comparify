@@ -1269,11 +1269,12 @@ tr:last-child td:last-child {
   transform: translateX(-50%);
   padding: 3px 10px;
   border-radius: 10px;
-  width: fit-content;
-  margin: 10px;
-  animation: hide 8s linear 5s 1 forwards;
-  top: 0;
+  animation: hide 18s linear 4s 1 forwards;
+  top: 10px;
   z-index: 99999;
+
+  width: fit-content;
+  max-width:40%;
 }
 
 @keyframes hide {
