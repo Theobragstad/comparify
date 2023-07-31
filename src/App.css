@@ -19,14 +19,6 @@ body,
 }
 
 
-::selection {
-  background: #e4fae4; /* WebKit/Blink Browsers */
-}
-::-moz-selection {
-  background: #e4fae4; /* Gecko Browsers */
-}
-
-
 
 .viewToggle {
   border: none;
@@ -1388,15 +1380,7 @@ position:absolute;
 
 }
 .errorMessage2 {
-  /* background-color: #ffd6d6;
-	border: 1px solid #ff4747;
-	color: #ff4747; */
-  /* color: #41dc8e; */
-  /* border: 1px solid #64e3a1;
-  background-color: #cbf5dd; */
-  /* color: #ff8b3d;
-  border: 1px solid #ff8b3d;
-  background-color: #ffeace; */
+ 
 
   background-color: #ffd6d6;
   border: 1px solid #ff4747;
@@ -1409,8 +1393,7 @@ position:absolute;
   padding: 3px 10px;
   border-radius: 10px;
   width: fit-content;
-  /* margin-top: 10px; */
-  animation: hide 5s linear 2s 1 forwards;
+  /* animation: hide 5s linear 2s 1 forwards; */
   top: 0;
   z-index:99999;
   margin:10px;

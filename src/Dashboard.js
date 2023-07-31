@@ -21,7 +21,7 @@ import Spline from '@splinetool/react-spline';
 
 function Code() {
   // const pageTitle = `${"hello"}`;
-  document.title = "comparify | Dashboard";
+  // document.title = "comparify | Dashboard";
 
   const location = useLocation();
   const navigate = useNavigate();

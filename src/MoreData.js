@@ -17,7 +17,7 @@ import refreshIcon from "./img/refresh.png";
 
 import rightArrow from "./img/rightArrow.png"
 const MoreData = () => {
-  document.title = "comparify - More data";
+  // document.title = "comparify - More data";
 
   const location = useLocation();
   const navigate = useNavigate();

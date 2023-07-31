@@ -46,13 +46,13 @@ function Home() {
 
   const navigate = useNavigate();
 
-  document.title = "comparify | Explore and compare your music";
+  // document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/dashboard";
+  const REDIRECT_URI = "http://localhost:3000/dashboard";
 
   
   //
-  const REDIRECT_URI = "https://comparify.app/dashboard";
+  // const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
@@ -168,24 +168,24 @@ const handleCookieNoticeClose = () => {
 
 
   return (
-    <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
-    {/* <div > */}
+    // <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
+    <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
 
-    {/* <Animation/> */}
+    <Animation/>
 
 
 
 {!Cookies.get('agreeCookieNotice') &&
 <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>
   <div className="cookieNoticeText">
-    comparify uses cookies (see the help page for more info)
+    comparify uses cookies. See the help page for more info.
   </div>
   <button title="Dismiss" className="cookieNoticeClose" onClick={handleCookieNoticeClose}><img src={x} style={{width:'10px'}}></img></button>
 </div>
       }
-      {location.state && location.state.apiError && (
+      {((location.state && location.state.apiError) || true) && (
         <div className="errorMessage2">
-          Spotify timeout or error. Try logging in again, or try later.
+          Spotify timeout or error. Try logging in again.
         </div>
       )}
 

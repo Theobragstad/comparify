@@ -10,6 +10,10 @@ Handle all warnings
 Center messages
 Button not disabled
 Image profile pic rounded
+Links to modals openable
+Links to profile/code/data
+support
+legal
 Image events
 support page
 dark mode bg color transition
@@ -168,13 +172,22 @@ Data ordering
 Compare page val stacking
 Logo and content overlaps
 Popularity ranges?
+logout btn/clear cookies
+while loading-instead of no data, show gray boxes/fillers where content goes
 Recs, similarity algos
 scrolling
 dashboard padding margin mobile
 gradient text display errror line
 dahsboard positioning
+ptr events limit
 name menu size smaller
+pct sim nan
+header padding
+Div width page horizontally 
+Uploaded set animation
+pct not animating when all 100
 table margin
+prof pic rounding
 pie chrt click to show
 song rank modal scrolling
 side arrow animations

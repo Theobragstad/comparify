@@ -36,7 +36,7 @@ const { Configuration, OpenAIApi } = require("openai");
 
 function Compare() {
 
-  document.title = "comparify | Results";
+  // document.title = "comparify | Results";
 
   const gameModalState = useGameModalState();
 
@@ -74,6 +74,9 @@ function Compare() {
     setSelectedTimeRange(timeRanges[index - 1]);
 
     setSelectedTimeRangeClean(timeRangesClean[index - 1]);
+
+
+
   };
 
   const navigate = useNavigate();
@@ -1755,7 +1758,7 @@ function Compare() {
   const generationDateTime2 = date2.toLocaleString(undefined, {
     timeZone: localTimeZone,
   });
-  console.log(generationDateTime1)
+  // console.log(generationDateTime1)
 
   const [state, setState] = useState({
     view1: true,
@@ -1838,6 +1841,8 @@ function Compare() {
   const increment = 0.001;
 
   useEffect(() => {
+
+    console.log(animationRef)
     let startTimestamp = null;
 
     if(animatedValue === 0) {
@@ -1937,7 +1942,7 @@ function Compare() {
 
   return (
     <div>
-      <ScrollButton/>
+      {/* <ScrollButton/> */}
       <img
         src={fullLogo}
         onClick={() => navigate("/dashboard")}
@@ -2271,6 +2276,7 @@ function Compare() {
         onMouseOver={openDropdownMenu}
         onMouseOut={closeDropdownMenu}
         onClick={toggleDropdownMenu}
+        style={{cursor:'default'}}
       >
         {/* <a
           href={
@@ -2282,6 +2288,7 @@ function Compare() {
           src={nameIdImgurlGenerationdate1[2]}
           style={{
             width: "30px",
+            height:"30px",
             borderRadius: "50%",
             paddingLeft: "10px",
             paddingRight: "10px",
@@ -2402,7 +2409,7 @@ function Compare() {
             </div> */}
             {generationDateTime &&
             <div className="generationDateTime" style={{ marginTop: "30px" }}>
-            comparison generated {generationDateTime}
+            Comparison generated {generationDateTime}
             </div>}
           </div>
         </div>

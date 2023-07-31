@@ -168,7 +168,7 @@ if (!location?.state) {
 
 
 
-  document.title = "comparify | Your data";
+  // document.title = "comparify | Your data";
 
 
 
@@ -1692,7 +1692,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
                   >
                     {mostLeastPopSongs[0]?.pop}
                   </span>
@@ -1745,7 +1745,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
                   >
                     {mostLeastPopSongs[1]?.pop}
                   </span>
@@ -1873,7 +1873,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
                   >
                     {mostLeastPopArtists[0]?.pop}
                   </span>
@@ -1903,7 +1903,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
                   >
                     {mostLeastPopArtists[1]?.pop}
                   </span>
@@ -1936,7 +1936,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
                   >
                     {mostLeastPopAlbums[0]?.pop}
                   </span>
@@ -1969,7 +1969,7 @@ if (!location?.state) {
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
-                    data-tooltip-content="0-100. assigned by Spotify and updated based on current data."
+                    data-tooltip-content="0-100. assigned by Spotify based on current trends."
                   >
                     {mostLeastPopAlbums[1]?.pop}
                   </span>
@@ -1987,7 +1987,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="0-100. assigned by Spotify and updated based on current data. higher means more popular."
+                  data-tooltip-content="0-100. assigned by Spotify based on current trends. higher means more popular."
                 >
                   {arrays.avgSongPop}
                 </span>
@@ -2078,7 +2078,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="0-100. assigned by Spotify and updated based on current data. higher means more popular."
+                  data-tooltip-content="0-100. assigned by Spotify based on current trends. higher means more popular."
                 >
                   {arrays.avgAlbumPop}
                 </span>
@@ -2114,7 +2114,7 @@ if (!location?.state) {
                 <span
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
-                  data-tooltip-content="0-100. assigned by Spotify and updated based on current data. higher means more popular."
+                  data-tooltip-content="0-100. assigned by Spotify based on current trends. higher means more popular."
                 >
                   {arrays.avgArtistPop}
                 </span>

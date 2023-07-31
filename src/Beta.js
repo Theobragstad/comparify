@@ -14,7 +14,7 @@ import arrow1 from "./img/sideArrowRight.png";
 import arrow2 from "./img/rightArrow.png";
 
 function Beta() {
-  document.title = "comparify | Beta";
+  // document.title = "comparify | Beta";
   const [emails, setEmails] = useState(["", "", "", "", ""]);
   const [emailValidity, setEmailValidity] = useState([
     true,
