@@ -45,6 +45,20 @@ body,
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  /* animation: bgChg 3s ease-in-out 0ms 1 forwards; */
+
+}
+
+@keyframes bgChg {
+  0% {
+    background: url("./img/bg.png");
+  }
+  50% {
+
+  }
+  100% {
+    background: none;
+  }
 }
 @keyframes growSmall {
   0% {

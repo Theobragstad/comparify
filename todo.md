@@ -11,6 +11,12 @@ ranking modals sizing
 no data handling
 filenames
 dark mode bg color transition
+loads faster on desktop
+when click on change time, instantly show gray boxes for spot
+imporve gpt prompt
+menu padding
+ranking label feature spacing
+include more data in code??/calc??
 missing song in AF table?? compare page too??
 allow scrolling over animation
 beta page fit height better

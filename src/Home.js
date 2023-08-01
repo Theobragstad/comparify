@@ -48,11 +48,11 @@ function Home() {
 
   // document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/dashboard";
+  const REDIRECT_URI = "http://localhost:3000/dashboard";
 
   
   //
-  const REDIRECT_URI = "https://comparify.app/dashboard";
+  // const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
@@ -167,11 +167,73 @@ const handleCookieNoticeClose = () => {
 
 
 
+
+
+
+
+const [squares, setSquares] = useState([]);
+
+useEffect(() => {
+  const colors = ["#18d860", "#1e90ff", "#ffdf00"];
+
+  const generateRandomPosition = () => ({
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+  });
+
+  const generateRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
+
+  const addRandomSquare = () => {
+    const newSquare = {
+      id: squares.length + 1,
+      color: generateRandomColor(),
+      position: generateRandomPosition(),
+    };
+    setSquares((prevSquares) => [...prevSquares, newSquare]);
+  };
+
+  const squareInterval = setInterval(addRandomSquare, 500);
+
+  return () => {
+    clearInterval(squareInterval);
+  };
+}, []);
+
+useEffect(() => {
+  const squareTimer = setTimeout(() => {
+    if (squares.length > 0) {
+      setSquares((prevSquares) => prevSquares.slice(1));
+    }
+  }, 3000);
+
+  return () => {
+    clearTimeout(squareTimer);
+  };
+}, [squares]);
+
+
   return (
     // <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
     <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
 
     <Animation/>
+
+    {squares.map((square) => (
+        <div
+          key={square.id}
+          className="square"
+          style={{
+            position: "absolute",
+            top: square.position.top,
+            left: square.position.left,
+            width: "10px",
+            height: "10px",
+            borderRadius:'2px',
+            backgroundColor: square.color,
+            // zIndex:'0',
+          }}
+        />
+      ))}
 
 
 
