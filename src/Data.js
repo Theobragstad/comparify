@@ -1281,6 +1281,12 @@ if (!location?.state) {
     }
   };
 
+
+
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+  };
+
     
   return (
     <div className="dataPage">
@@ -1557,10 +1563,10 @@ if (!location?.state) {
                 </div>
 
                 <div className="primaryText">
-                  <span className="primaryName">
-                    <a className="link2" href={song.url}>
+                  <span className="primaryName" onClick={() => openInNewTab(song?.url)} style={{cursor:'pointer'}} title={`Open ${song.name} on Spotify`}>
+                    {/* <a className="link2" href={song.url}> */}
                       {song.name}
-                    </a>
+                    {/* </a> */}
                   </span>
                   <span className="primaryArtists">
                     {song.artists?.join(", ")}

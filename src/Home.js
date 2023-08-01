@@ -171,7 +171,7 @@ const handleCookieNoticeClose = () => {
     // <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
     <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
 
-    <Animation/>
+    {/* <Animation/> */}
 
 
 
@@ -183,7 +183,7 @@ const handleCookieNoticeClose = () => {
   <button title="Dismiss" className="cookieNoticeClose" onClick={handleCookieNoticeClose}><img alt="" src={x} style={{width:'10px'}}></img></button>
 </div>
       }
-      {((location.state && location.state.apiError) || true) && (
+      {(location.state && location.state.apiError) && (
         <div className="errorMessage2">
           Spotify timeout or error. Try logging in again.
         </div>
@@ -191,7 +191,7 @@ const handleCookieNoticeClose = () => {
 
 {location.state && location.state.directAccessError && (
         <div className="errorMessage2">
-          Data processing error. Please try again.
+          Internal error. Please try again.
         </div>
       )}
       {/* <div
@@ -253,7 +253,7 @@ const handleCookieNoticeClose = () => {
   <span className="primaryBtn" style={{ marginRight: "20px"}} onClick={handleClickBETA} title="Get access">
     get access <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>{" "}
-  <span className="primaryBtn" onClick={handleClick} title="Log in" style={{}}>
+  <span className="primaryBtn" onClick={handleClick} title="Log in" >
     authorized users <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>
 </div>

@@ -6,6 +6,7 @@ html,
 body,
 #root {
   height: 100%;
+
 }
 
 .App {
@@ -91,6 +92,10 @@ body,
     transform: scale(0.75) !important;
     transform-origin: center;
     left: 190px !important;
+  }
+
+  .errorMessage3 {
+    width:70% !important;
   }
 }
 
@@ -361,6 +366,10 @@ body,
   .cardOverlay {
     width: 80%;
     margin-top: 30px;
+  }
+
+  .errorMessage3 {
+    width:55% !important;
   }
 }
 
@@ -995,6 +1004,10 @@ body,
   .submitBtn {
     margin-left: 0vw;
   }
+
+  .errorMessage3 {
+    width:85% !important;
+  }
 }
 .audioFeaturesHeader {
   font-size: 18px;
@@ -1273,8 +1286,8 @@ tr:last-child td:last-child {
   top: 10px;
   z-index: 99999;
 
-  width: fit-content;
-  max-width:40%;
+  /* width: fit-content; */
+  width:50%;
 }
 
 @keyframes hide {
@@ -2001,6 +2014,8 @@ tr:last-child td:last-child {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+
+
 .primaryBtn {
   border: none;
   border-radius: 10px;
@@ -2013,11 +2028,16 @@ tr:last-child td:last-child {
   padding: 2px 5px;
   font-size: 14px;
   cursor: pointer;
+  display: inline-block;
+  transition: transform 0.3s;
 }
 
 .primaryBtn:hover:not(.nohover) {
   filter: brightness(90%);
+  transform: scale(1.2);
 }
+
+
 
 .gray {
   border: none;
@@ -2175,6 +2195,10 @@ tr:last-child td:last-child {
     display: flex;
     align-items: center;
   }
+
+  .errorMessage3 {
+    width:85% !important;
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -2322,3 +2346,4 @@ input.blueUpload[type="file"]::file-selector-button {
   border-radius: 10px;
   width: fit-content;
 }
+

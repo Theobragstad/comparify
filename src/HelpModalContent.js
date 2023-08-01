@@ -172,6 +172,18 @@ const HelpModalContent = () => {
         {isTroubleshootingExpanded && (
           <div className="helpModalText">
             <ul>
+            <li>Long loading times</li>
+            <ul>
+              <li>The first time you use the app, it may take
+               longer than normal to load data. This is because data is not
+               cached yet. Subsequent retrievals (both of your own data and of
+               data you are comparing with) are usually much faster after the
+               initial access.</li>
+            </ul>
+            {/* <ul>
+             
+             <li><li>
+             </ul> */}
               <li>
                 comparify is primarily intended for use on a computer. You can
                 still use it on mobile, but you will have a faster and more
@@ -192,7 +204,8 @@ const HelpModalContent = () => {
                   href="https://comparify.app/dashboard"
                 >
                   dashboard
-                </a>. Then, go to the home page and try again.
+                </a>
+                . Then, go to the home page and try again.
               </li>
               <ul>
                 <li>
@@ -240,8 +253,10 @@ const HelpModalContent = () => {
                 format. If you alter a code in any way, you will encounter
                 unexpected behavior.
               </li>
+              <li>A note on some of the data points in the app</li>
+              <ul>
               <li>
-                A note on some of the data points in the app: when a code is
+                When a code is
                 generated, the app uses Spotify's current popularity rating for
                 various items to calculate values like the most popular song in
                 your top songs for a given period. Once the code has been
@@ -255,7 +270,7 @@ const HelpModalContent = () => {
                 popularity score, this does not mean that it was this low when
                 the code was generated). Still, they give you a snapshot of the
                 state of your music habits at that moment in time.
-              </li>
+              </li></ul>
             </ul>
           </div>
         )}
@@ -593,9 +608,7 @@ const HelpModalContent = () => {
                 You can clear any or all of these at any time through your
                 browser settings.
               </li>
-              <li>
-                The ChatGPT plugin via OpenAI does not store any cookies.
-              </li>
+              <li>The ChatGPT plugin via OpenAI does not store any cookies.</li>
             </ul>
           </div>
         )}
@@ -647,9 +660,7 @@ const HelpModalContent = () => {
         )}
       </div>
       <div className="helpModalFooter">
-        <div
-          style={{fontSize: "12px", fontWeight: "bold" }}
-        >
+        <div style={{ fontSize: "12px", fontWeight: "bold" }}>
           <a
             style={{ textDecoration: "none", color: "#1e90ff" }}
             href="mailto:contact@comparify.app"

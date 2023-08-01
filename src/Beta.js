@@ -90,7 +90,7 @@ function Beta() {
 
     if (isEmailsValid) {
       console.log(emails);
-      sendEmail(emails);
+      // sendEmail(emails);
       setSubmitted(true);
 
       setEmails(["", "", "", "", ""]);
@@ -217,11 +217,15 @@ function Beta() {
               </button>
             </div>
           ) : (
+            
+            <div style={{marginTop: '40px'}}>
             <span className="submitted">
+            
               <img src={greenCheck} alt="Green check" />
               <span> Submitted!</span> Notifications will be sent when access
               becomes available.
             </span>
+            </div>
           )}
         </form>
       </div>
@@ -229,7 +233,7 @@ function Beta() {
         <img src={arrow2} alt="homeArrow" className="homeArrow" /> home
       </span>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

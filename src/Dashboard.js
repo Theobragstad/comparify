@@ -1099,12 +1099,12 @@ function Code() {
 
       
     
-      {(location.state?.error && location.state.error === 400) && (
+      {((location.state?.error && location.state.error === 400)) && (
         <div className="errorMessage2">
           Code error. Make sure the file you uploaded is a valid comparify code.
         </div>
       )} 
-      {true && (
+      {trigger && (
         <div className="errorMessage3">
           Remember that your code contains your Spotify display name, ID,
           profile photo, and music streaming data. Only share your code with

@@ -2,23 +2,19 @@ No inline CSS
 X button positioning, color on hover
 Game no audio error, (mobile)
 Font sizing
-Tooltips styling
 Long content cut off
 Modal sizing
-Handle all warnings
-Center messages
-Button not disabled
 song name artist padding divide
 Image profile pic rounded
 name too long then ellipsis
 ranking modals sizing
 no data handling
-Image events
 filenames
 support page
 dark mode bg color transition
 lint problems.
 Null if not def from API
+set img alts
 save every stat as image separately, or select which to save
 align cards better
 More data explanations
@@ -33,8 +29,6 @@ Check if unauthorized
 Click playlist to see songs opened
 Turn off hovers on disable
 Clean up css and code
-Disabled-no click, no hover effects
-Limit pointer events
 Invalid txt upload handle
 Animation sizing, divs
 Song clip loading animation?? Or message/note?
@@ -85,7 +79,6 @@ Button time range hovers
 Dashboard pfp align
 Names longer cut off 
 Logout btn
-Message position
 Tooltip can't close off
 Api costs and limits
 Help modal tips section, add modal notice
@@ -186,6 +179,7 @@ header padding
 Div width page horizontally 
 Uploaded set animation
 pct not animating when all 100
+cover size on small scrn
 table margin
 prof pic rounding
 pie chrt click to show
@@ -198,15 +192,18 @@ Game modal stying sizing text cut off
 Modal when sideways
 Side view mobile
 Get random users playlists
+min widths
+open in new tab. func
+menu/trigger/dropdown sizing
 Animation scrolling etc
 AF rankings on compare pg too
-match pages
 lazy loading
-google analytics
+ranking modal sizing
+song title length limit ellipse
 animation sizig position
-APP ANIMATIONS images-rotate
- email paid service, api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
+api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
 links to artwork
+all audios
 card width incr height too or margins
 round values ALL
 restrict path if typed
