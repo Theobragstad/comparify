@@ -912,6 +912,10 @@ body,
   opacity: 0.7;
 }
 
+.nohoverplay:hover {
+  opacity: 1 !important;
+}
+
 .primaryImage .playing {
   position: absolute;
   top: 0;

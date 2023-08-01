@@ -2245,13 +2245,13 @@ if (!location?.state) {
         >
           <div className="primaryTitle">song release decade distribution  <img alt=""
                 src={rightArrow}
-                style={{ width: "15px", verticalAlign: "middle" }}
+                style={!songReleaseDecadeDistrHover? { width: "15px", verticalAlign: "middle"} : {width: "15px", verticalAlign: "middle", transform:'rotate(90deg)'}}
               /></div>
           {songReleaseDecadeDistrHover ? (
           arrays.decadesAndPcts && arrays.decadesAndPcts[0] === "No data" ? (
             <div className="noData">No data</div>
           ) : (
-            <PieChart width={200} height={200}>
+            <PieChart width={200} height={200} style={{position:'absolute', backgroundColor:'white',   boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',width:'inherit',height:'fit-content',borderRadius:'15px'}}>
               <Pie
                 data={pieData}
                 outerRadius={30}

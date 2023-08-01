@@ -1700,10 +1700,12 @@ function Compare() {
   const playModalStyles = {
     overlay: {
       zIndex: 9999,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+      backdropFilter: 'blur(6px)',
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+
       // outline: '0',
     },
     content: {

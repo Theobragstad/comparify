@@ -16,7 +16,6 @@ import incorrectX from "./img/redX.png";
 
 import playBtn from "./img/play.png";
 
-
 import "./Game.css";
 // import Footer from "./Footer";
 
@@ -45,7 +44,7 @@ const Game = (props) => {
   const [randomSelections, setRandomSelections] = useState([]);
   const [sourceArrays, setSourceArrays] = useState([]);
 
-  const [time, setTime] = useState((new Date()).toLocaleString());
+  const [time, setTime] = useState(new Date().toLocaleString());
 
   const playAgain = () => {
     setRestart(true);
@@ -66,17 +65,13 @@ const Game = (props) => {
   };
 
   const saveScore = () => {
-   
     const div = document.getElementById("scoreDiv");
-    // div.removeAttribute("hidden");
 
     const visibleScoreDiv = document.getElementById("visibleScore");
     visibleScoreDiv.setAttribute("hidden", true);
 
     if (div) {
       html2canvas(div, {}).then((canvas) => {
-      
-        // Convert the new canvas to a data URL
         const image = canvas.toDataURL("image/png");
         console.log(image, "image");
 
@@ -105,15 +100,7 @@ const Game = (props) => {
     setStartClicked(true);
   };
 
-  // useEffect(()=> {
-
-  //   if(counter === 0 && currentSongIndex === 0) {
-  //     document.getElementById("audio1").play();
-  //   }else {
-  //     document.getElementById("audio1").pause();
-  //   }
-
-  // }, [counter, currentSongIndex])
+  
 
   useEffect(() => {
     if (startClicked) {
@@ -159,27 +146,59 @@ const Game = (props) => {
   }, [startGame]);
 
   const location = useLocation();
-  // const sharedSongs = location.state.sharedSongs || [];
-  // const user1Songs = location.state.user1TopSongs || [];
-  // const user2Songs = location.state.user2TopSongs || [];
+  
 
   const sharedSongs = props.sharedSongs || [];
-  const user1Songs = props.user1TopSongs || [];
-  const user2Songs = props.user2TopSongs || [];
+  const user1Songs = props.user1Songs || [];
+  const user2Songs = props.user2Songs || [];
+
+
 
   useEffect(() => {
-    const chooseRandomSongs = (array, numSongs) =>
-      array.sort(() => Math.random() - 0.5).slice(0, numSongs);
+    // const chooseRandomSongs = (array, numSongs) =>
+    //   array.sort(() => Math.random() - 0.5).slice(0, numSongs);
 
-    const randomSharedSongs = chooseRandomSongs(sharedSongs, 20);
-    const randomUser1Songs = chooseRandomSongs(user1Songs, 20);
-    const randomUser2Songs = chooseRandomSongs(user2Songs, 20);
+    // const randomSharedSongs = chooseRandomSongs(sharedSongs, 20);
+    // const randomUser1Songs = chooseRandomSongs(user1Songs, 20);
+    // const randomUser2Songs = chooseRandomSongs(user2Songs, 20);
+    
 
+    // const combinedSongs = [
+    //   ...randomSharedSongs,
+    //   ...randomUser1Songs,
+    //   ...randomUser2Songs,
+    // ];
+    const chooseRandomSongs = (array, minSongs, maxSongs) => {
+      const validSongs = array.filter((song) => song !== null);
+      const numValidSongs = validSongs.length;
+  
+      // Calculate the number of songs to select from this array
+      const numSongsToSelect = Math.min(maxSongs, Math.max(minSongs, numValidSongs));
+  
+      // Shuffle the valid songs array randomly
+      for (let i = validSongs.length - 1; i >= 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [validSongs[i], validSongs[randomIndex]] = [validSongs[randomIndex], validSongs[i]];
+      }
+  
+      // Select songs from the shuffled valid songs array
+      const selectedSongs = validSongs.slice(0, numSongsToSelect);
+  
+      return selectedSongs;
+    };
+  
+    const randomSharedSongs = chooseRandomSongs(sharedSongs, 5, 10);
+    const randomUser1Songs = chooseRandomSongs(user1Songs, 5, 10);
+    const randomUser2Songs = chooseRandomSongs(user2Songs, 5, 10);
+  
     const combinedSongs = [
       ...randomSharedSongs,
       ...randomUser1Songs,
       ...randomUser2Songs,
     ];
+
+
+
 
     const chooseRandomWithSource = (array, numSongs) => {
       const randomSelections = [];
@@ -211,7 +230,7 @@ const Game = (props) => {
 
     const { randomSelections, sourceArrays } = chooseRandomWithSource(
       combinedSongs,
-      20
+      30
     );
 
     setRandomSelections(randomSelections);
@@ -283,7 +302,7 @@ const Game = (props) => {
     setSelectionCorrect(selectionCorrect);
     if (currentSongIndex + 1 >= randomSelections.length) {
       setEndGame(true);
-      setTime((new Date()).toLocaleString());
+      setTime(new Date().toLocaleString());
     } else {
       setCurrentSongIndex((prevIndex) => prevIndex + 1);
       setRemainingTime(7); // Reset remaining time
@@ -344,44 +363,47 @@ const Game = (props) => {
                   src={incorrect}
                 ></audio> */}
 
+      <div style={{ width: "0", height: "0", overflow: "hidden" }}>
+        {" "}
+        <div className="scoreImgDiv" id="scoreDiv" style={{ width: "175px" }}>
+          <div className="scoreImgDivTitle">
+            <span>
+              <span>
+                <img alt="" src={logo} style={{ width: "40px" }} />
+              </span>
+              <br />
+              Game Score
+            </span>
+            <br />
+            <br />
+            <span style={{ color: "#1e90ff", fontSize: "18px" }}>
+              {props.name1}
+            </span>
+            <br />
+            <br />
+            <span style={{ fontSize: "12px" }}>
+              (with{" "}
+              <span
+                className="highlight"
+                style={{ color: "#ffdf00", fontSize: "16px" }}
+              >
+                {props.name2}
+              </span>
+              )
+            </span>
+          </div>
 
+          <div className="scoreDivScore">
+            <span style={{ fontSize: "40px", color: "black" }}>{score}</span>{" "}
+            <span>/ {randomSelections?.length}</span>
+            <br />
+            <br />
+            {((score / randomSelections?.length) * 100).toFixed(1)}%
+          </div>
 
-
-
-
-
-
-
-<div style={{ width: "0", height: "0", overflow: "hidden"}}>                <div className="scoreImgDiv" id="scoreDiv" style={{ width: "175px"}}>
-                  <div className="scoreImgDivTitle">
-                    <span>
-                    <span><img alt="" src={logo} style={{width:'40px'}}/></span>
-                      <br />
-                      Game Score
-                    </span>
-                    <br />
-                    <br />
-                    <span style={{color:'#1e90ff', fontSize:'18px'}}>{props.name1}</span>
-                    <br />
-                    <br />
-                    <span style={{fontSize:'12px'}}>
-                      (with <span className="highlight" style={{color:'#ffdf00', fontSize:'16px'}}>{props.name2}</span>)
-                    </span>
-                  </div>
-
-                  <div className="scoreDivScore">
-                    <span style={{fontSize:'40px',color:'black'}}>{score}</span> <span>/ {randomSelections?.length}</span>
-                    <br />
-                    <br />
-                    {((score / randomSelections?.length) * 100).toFixed(1)}%
-                  </div>
-
-                  <div className="time">{time.toLocaleString()}</div>
-                </div>
-              </div>
-
-
-
+          <div className="time">{time.toLocaleString()}</div>
+        </div>
+      </div>
 
       <div className="gamePage">
         <div className="gameDiv">
@@ -392,14 +414,24 @@ const Game = (props) => {
             onMouseOut={handleMouseOut}
             onClick={props.closeGameModal}
           >
-            <img alt="" src={grayX} style={{ width: "10px" }} id="exitBtn"></img>
+            <img
+              alt=""
+              src={grayX}
+              style={{ width: "10px" }}
+              id="exitBtn"
+            ></img>
           </button>
           {/* </div> */}
-          {randomSelections?.length === 0 ?(<div className="notEnoughData" style={{color:'gray', fontWeight:'bold'}}>Not enough data for a game.<br/>Try another time range, or compare with someone else.</div>) : 
-          
-        
-        
-          endGame ? (
+          {randomSelections?.length === 0 ? (
+            <div
+              className="notEnoughData"
+              style={{ color: "gray", fontWeight: "bold" }}
+            >
+              Not enough data for a game.
+              <br />
+              Try another time range, or compare with someone else.
+            </div>
+          ) : endGame ? (
             <>
               {/* <div className="finished gradient">game over</div> */}
               <div className="scoreDiv" id="visibleScore">
@@ -429,8 +461,6 @@ const Game = (props) => {
                   </button>
                 </div>
               </div>
-
-              
             </>
           ) : startGame && !endGame ? (
             <div>
@@ -468,8 +498,12 @@ const Game = (props) => {
 
               {randomSelections[currentSongIndex]?.mp3 === null && (
                 <div className="audioUnavailable">
-                  <img alt="" src={muted} style={{ width: "20px", verticalAlign:'middle' }} /> Audio
-                  unavailable
+                  <img
+                    alt=""
+                    src={muted}
+                    style={{ width: "20px", verticalAlign: "middle" }}
+                  />{" "}
+                  Audio unavailable
                 </div>
               )}
 
@@ -484,7 +518,8 @@ const Game = (props) => {
                 )}
 
               <div className="songImageDiv">
-                <img alt=""
+                <img
+                  alt=""
                   className="songImage"
                   src={randomSelections[currentSongIndex]?.img}
                 />
@@ -531,7 +566,9 @@ const Game = (props) => {
                 }`}
               >
                 <div className="gameRulesDiv">
-                <span><img alt="" src={logo} style={{width:'40px'}}/></span>
+                  <span>
+                    <img alt="" src={logo} style={{ width: "40px" }} />
+                  </span>
                   <h3>See how well you know your music tastes!</h3>
 
                   <div className="gameRules">
@@ -539,10 +576,10 @@ const Game = (props) => {
                     up!)
                     <br />
                     <br />
-                    You have 7 seconds to decide if the song is exclusively
-                    one of <span className="user1">{props.name1}</span>'s top
-                    songs, one that's <span className="shared">shared</span>, or
-                    if it's exclusively{" "}
+                    You have 7 seconds to decide if the song is exclusively one
+                    of <span className="user1">{props.name1}</span>'s top songs,
+                    one that's <span className="shared">shared</span>, or if
+                    it's exclusively{" "}
                     <span className="user2">{props.name2}</span>'s.
                     <br />
                     <br />
@@ -555,17 +592,19 @@ const Game = (props) => {
                   onClick={() => handleStartGame()}
                   className="startGameBtn"
                   title="Start game"
-                  
                 >
-                  <img alt="" src={playBtn} id="playBtn" style={{ width: "20px" }} />
+                  <img
+                    alt=""
+                    src={playBtn}
+                    id="playBtn"
+                    style={{ width: "20px" }}
+                  />
                 </button>
               </div>
             )
           )}
         </div>
       </div>
-      {/* <Footer /> */}
-      
     </div>
   );
 };

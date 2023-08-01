@@ -186,8 +186,8 @@ const HelpModalContent = () => {
              </ul> */}
               <li>
                 comparify is primarily intended for use on a computer. You can
-                still use it on mobile, but you will have a faster and more
-                seamless experience on a computer.
+                still use it on mobile, but you will have a noticeably faster and more
+                seamless experience on the desktop version.
               </li>
               <li>
                 Some mobile browsers, including Chrome, require double taps to

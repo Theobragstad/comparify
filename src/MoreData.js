@@ -141,7 +141,7 @@ const MoreData = () => {
         setCurrentObject({
           type: "episode",
           id: data.item.id,
-          audio_preview_url: data.item.audio_preview_url,
+          mp3: data.item.audio_preview_url,
           url: data.item.external_urls.spotify,
           img: data.item.images[0].url,
           name: data.item.name,
@@ -468,7 +468,81 @@ const MoreData = () => {
   };
   
   
+  const [isPlaying, setIsPlaying] = useState({});
+
+
+  const togglePlayback = (id) => {
+    const thisElement = document.getElementById(id);
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = { ...isPlaying };
+
+    audioElements.forEach((audioElement, i) => {
+      if (audioElement !== thisElement) {
+        audioElement.pause();
+        updatedIsPlaying[audioElement.id] = false;
+      } else {
+        if (audioElement.paused) {
+          audioElements.forEach((el, j) => {
+            if (el !== thisElement) {
+              el.pause();
+              updatedIsPlaying[el.id] = false;
+            }
+          });
+
+          updatedIsPlaying[id] = true;
+          audioElement.play().catch((error) => {
+            console.log(error);
+          });
+        } else {
+          audioElement.pause();
+          updatedIsPlaying[id] = false;
+        }
+      }
+    });
+
+    setIsPlaying(updatedIsPlaying);
+  };
  
+
+  const resetAllAudio = () => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
+
+    audioElements.forEach((audioElement, i) => {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      updatedIsPlaying[i] = false;
+    });
+
+    setIsPlaying(updatedIsPlaying);
+  };
+
+
+  useEffect(() => {
+    resetAllAudio();
+  }, []);
+
+
+  useEffect(() => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
+  
+    const handleAudioEnded = (index) => {
+      updatedIsPlaying[index] = false;
+      setIsPlaying(updatedIsPlaying);
+    };
+  
+    audioElements.forEach((audioElement, i) => {
+      audioElement.addEventListener("ended", () => handleAudioEnded(i));
+    });
+  
+    return () => {
+      audioElements.forEach((audioElement, i) => {
+        audioElement.removeEventListener("ended", () => handleAudioEnded(i));
+      });
+    };
+  }, [isPlaying]);
+
   return (
     <div>
 
@@ -563,7 +637,7 @@ const MoreData = () => {
               savedShows.map((show, index) => (
                 <div key={index} className="item">
                   <div className={`primaryImage`}>
-                    <img alt="" src={show.img} className="primaryImage" />
+                    <img alt="" src={show.img} className="primaryImage nohoverplay" />
                   </div>
 
                   <div className="primaryText">
@@ -590,7 +664,7 @@ const MoreData = () => {
             ) : (
               followedArtists.map((artist, index) => (
                 <div key={index} className="item">
-                  <img alt="" src={artist.img} className="primaryImage" />
+                  <img alt="" src={artist.img} className="primaryImage nohoverplay" />
                   <div className="primaryText">
                     <span className="primaryName">
                       <a className="link2" href={artist.url}>
@@ -610,7 +684,7 @@ const MoreData = () => {
             ) : (
               savedAlbums.map((album, index) => (
                 <div key={index} className="item">
-                  <img alt="" src={album?.img} className="primaryImage" />
+                  <img alt="" src={album?.img} className="primaryImage nohoverplay" />
                   <div className="primaryText">
                     <span className="primaryName">
                       <a className="link2" href={album.url}>
@@ -637,21 +711,23 @@ const MoreData = () => {
               <div className="item">
                 <div
                   className={`primaryImage`}
-                  // onClick={() => togglePlayback(`audio-element${index}`)}
-                >
-                  {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
-
+                  onClick={() => togglePlayback("nowplaying-audio")}
+                                  >
+<audio
+                    id="nowplaying-audio"
+                    src={currentObject?.mp3}
+                  ></audio>
                   <img alt="" src={currentObject.img} className="primaryImage" />
 
-                  {/* {currentObject.mp3 && (
+                  {currentObject.mp3 && (
                       <div
                         className={
-                          isPlaying[`audio-element${index}`]
+                          isPlaying[`nowplaying-audio`]
                             ? "paused"
                             : "playing"
                         }
                       ></div>
-                    )} */}
+                    )}
                 </div>
 
                 <div className="primaryText">
@@ -669,8 +745,27 @@ const MoreData = () => {
               //   ))
 
               <div className="item">
-                <div className={`primaryImage`}>
+                <div className={`primaryImage`}
+                  onClick={() => togglePlayback("nowplaying-audio")}
+
+>
+<audio
+                    id="nowplaying-audio"
+                    src={currentObject?.mp3}
+                  ></audio>
                   <img alt="" src={currentObject.img} className="primaryImage" />
+
+
+                  {currentObject.mp3 && (
+                      <div
+                        className={
+                          isPlaying[`nowplaying-audio`]
+                            ? "paused"
+                            : "playing"
+                        }
+                      ></div>
+                    )}
+                  
                 </div>
 
                 <div className="primaryText">
@@ -702,8 +797,21 @@ const MoreData = () => {
             ) : (
               savedEpisodes.map((episode, index) => (
                 <div key={index} className="item">
-                  <div className={`primaryImage`}>
+                  <div className={`primaryImage`}
+                  onClick={() => togglePlayback(`audio-element${index}`)}>
+                     <audio id={`audio-element${index}`} src={episode?.mp3}></audio>
                     <img alt="" src={episode.img} className="primaryImage" />
+
+
+                    {episode.mp3 && (
+                      <div
+                        className={
+                          isPlaying[`audio-element${index}`]
+                            ? "paused"
+                            : "playing"
+                        }
+                      ></div>
+                    )}
                   </div>
 
                   <div className="primaryText">
@@ -729,20 +837,22 @@ const MoreData = () => {
                   <div
                     className={`primaryImage`}
                     //   onClick={() => togglePlayback(`audio-element${index}`)}
+                    onClick={() => togglePlayback(`savedsong-audio${index}`)}
+
                   >
-                    {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
+                    <audio id={`savedsong-audio${index}`} src={song?.mp3}></audio>
 
                     <img alt="" src={song?.img} className="primaryImage" />
 
-                    {/* {song?.mp3 && (
+                    {song?.mp3 && (
                     <div
                       className={
-                        isPlaying[`audio-element${index}`]
+                        isPlaying[`savedsong-audio${index}`]
                           ? "paused"
                           : "playing"
                       }
                     ></div>
-                  )} */}
+                  )}
                   </div>
 
                   <div className="primaryText">
@@ -768,7 +878,7 @@ const MoreData = () => {
               savedAudiobooks.map((audiobook, index) => (
                 <div key={index} className="item">
                   <div className={`primaryImage`}>
-                    <img alt="" src={audiobook.img} className="primaryImage" />
+                    <img alt="" src={audiobook.img} className="primaryImage nohoverplay" />
                   </div>
 
                   <div className="primaryText">
@@ -795,21 +905,21 @@ const MoreData = () => {
                 <div key={index} className="item">
                   <div
                     className={`primaryImage`}
-                    //   onClick={() => togglePlayback(`audio-element${index}`)}
+                    onClick={() => togglePlayback(`queue-audio${index}`)}
                   >
-                    {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
+                    <audio id={`queue-audio${index}`} src={item?.mp3}></audio>
 
                     <img alt="" src={item?.img} className="primaryImage" />
 
-                    {/* {song?.mp3 && (
+                    {item?.mp3 && (
                     <div
                       className={
-                        isPlaying[`audio-element${index}`]
+                        isPlaying[`queue-audio${index}`]
                           ? "paused"
                           : "playing"
                       }
                     ></div>
-                  )} */}
+                  )}
                   </div>
 
                   <div className="primaryText">
@@ -838,21 +948,21 @@ const MoreData = () => {
                 <div key={index} className="item">
                   <div
                     className={`primaryImage`}
-                    //   onClick={() => togglePlayback(`audio-element${index}`)}
+                    onClick={() => togglePlayback(`recent-audio${index}`)}
                   >
-                    {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
+                    <audio id={`recent-audio${index}`} src={item?.mp3}></audio>
 
                     <img alt="" src={item?.img} className="primaryImage" />
 
-                    {/* {item?.mp3 && (
+                    {item?.mp3 && (
                     <div
                       className={
-                        isPlaying[`audio-element${index}`]
+                        isPlaying[`recent-audio${index}`]
                           ? "paused"
                           : "playing"
                       }
                     ></div>
-                  )} */}
+                  )}
                   </div>
 
                   <div className="primaryText">
@@ -886,7 +996,7 @@ const MoreData = () => {
                   >
                     {/* <audio id={`audio-element${index}`} src={song?.mp3}></audio> */}
 
-                    <img alt="" src={playlist?.img} className="primaryImage" />
+                    <img alt="" src={playlist?.img} className="primaryImage nohoverplay" />
 
                     {/* {playlist?.mp3 && (
                     <div

@@ -5,6 +5,7 @@ import spotifysmall from "./img/spotifysmall.png";
 import PlaylistCoverGenerator from "./PlaylistCoverGenerator";
 import { getPlaylistCoverImageURL } from "./PlaylistCoverGenerator";
 import check from "./img/check.png";
+import "./App.css"
 
 const DataPageRecommendations = (props) => {
   const location = useLocation();
@@ -77,6 +78,8 @@ const DataPageRecommendations = (props) => {
       uri: track.uri,
       mp3: track.preview_url,
       id: track.id,
+      url: track.external_urls.spotify,
+
     }));
 
     arrayToSet(
@@ -259,6 +262,8 @@ const DataPageRecommendations = (props) => {
           img: track.album.images[0]?.url,
           uri: track.uri,
           mp3: track.preview_url,
+          url: track.external_urls.spotify,
+
         }));
 
         setExploratoryHighRecommendationSongs(
@@ -359,6 +364,8 @@ const DataPageRecommendations = (props) => {
           img: track.album.images[0]?.url,
           uri: track.uri,
           mp3: track.preview_url,
+          url: track.external_urls.spotify,
+
         }));
 
         setExploratoryLowRecommendationSongs(
@@ -619,6 +626,12 @@ const DataPageRecommendations = (props) => {
     };
   }, [isPlaying]);
 
+
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+  };
+
+
   return (
     <div>
       <div
@@ -736,7 +749,9 @@ const DataPageRecommendations = (props) => {
                   </div>
                   {/* <img alt="" src={song.img} className="primaryImage" /> */}
                   <div className="primaryText">
-                    <span className="primaryName">{song.name}</span>
+                  {/* <a className="link2" href={song.url}> */}
+                    <span className="primaryName" onClick={() => openInNewTab(song?.url)} style={{cursor:'pointer'}} title={`Open ${song?.name ? song.name : 'Title unavailable'} on Spotify`}>{song.name}</span>
+                    {/* </a> */}
                     <span className="primaryArtists">
                       {song.artists.join(", ")}
                     </span>
@@ -866,7 +881,7 @@ const DataPageRecommendations = (props) => {
 
                     {/* <img alt="" src={song.img} className="primaryImage" /> */}
                     <div className="primaryText">
-                      <span className="primaryName">{song.name}</span>
+                      <span className="primaryName" onClick={() => openInNewTab(song?.url)} style={{cursor:'pointer'}} title={`Open ${song?.name ? song.name : 'Title unavailable'} on Spotify`}>{song.name}</span>
                       <span className="primaryArtists">
                         {song.artists.join(", ")}
                       </span>

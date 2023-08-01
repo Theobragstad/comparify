@@ -1354,7 +1354,7 @@ style={{display: 'none',marginLeft:'20px'}}
           )}
         </div>
 
-        <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow/>
+        <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow clickable/>
 
 
 

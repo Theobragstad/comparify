@@ -11,7 +11,6 @@ ranking modals sizing
 no data handling
 filenames
 dark mode bg color transition
-loads faster on desktop
 when click on change time, instantly show gray boxes for spot
 imporve gpt prompt
 menu padding
@@ -28,7 +27,6 @@ set img alts
 mobile
 privacy policy
 TOS
-careers
 support
 emails
 links-profile, data, share
@@ -117,6 +115,8 @@ No songs message.
 Button styling
 Image sizing
 Compile errors/alts
+pro mode??
+careers??
 Aligning of buttons
 NaN number check
 Check wrong formatted codes
@@ -156,12 +156,16 @@ Code tagging, refactoring, reordering, variable naming
 Improve grid layout
 Time streamed
 MOBILE LOADING TIMES
+squares dont overlap. fill in like a grid
 Playlists contents
 Instructions div cut off
 Make x btn bigger
+image sizings matchings
 Game song selection
 Genre, pie chart ,popularity ranges pie charts
 Time of day listen
+legal
+accessibility
 Compare multiple users (3+)
 Top song times played
 playlist cover sizing, names, etc

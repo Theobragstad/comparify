@@ -152,7 +152,7 @@ function AudiofeatureModal(props) {
             setDisplayedSongs((prevSongs) => [...prevSongs, song]);
           }, (index + 1) * 40); // Adjust the delay (in milliseconds) between each song appearance
         });
-      }, 2000); // Show loading div for 2 seconds before showing the first song
+      }, 1000); // Show loading div for 2 seconds before showing the first song
 
       return () => clearTimeout(timeout); // Clear the timeout on component unmount
     }
