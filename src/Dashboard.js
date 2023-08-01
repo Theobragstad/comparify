@@ -843,10 +843,10 @@ function Code() {
 
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.download = `[comparify code] [${displayName.replace(
+    link.download = `comparify code for ${displayName.replace(
       /[<>:"\\|?*]/g,
       ""
-    )}] @ ${getCurrentDateTime()}.txt`;
+    )} @ ${getCurrentDateTime()}.txt`;
     link.click();
   };
 
@@ -1176,7 +1176,7 @@ function Code() {
             <>
             <div style={{height: '25px'}}>
               </div>
-            <div className="loadingDots" style={{marginTop: '80px'}}>
+            <div className="loadingDots" >
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>

@@ -10,11 +10,17 @@ name too long then ellipsis
 ranking modals sizing
 no data handling
 filenames
-support page
 dark mode bg color transition
-lint problems.
+missing song in AF table?? compare page too??
 Null if not def from API
 set img alts
+mobile
+privacy policy
+TOS
+careers
+support
+emails
+links-profile, data, share
 save every stat as image separately, or select which to save
 align cards better
 More data explanations
@@ -48,7 +54,11 @@ Padding, scrolling, zooms
 Album recalculation top
 Feature modal on compare page
 Message padding
-Tracknack
+Tracknack, statsforspotify
+dashboard padding
+whitespace on pages below???
+data and compare headers spacing
+scrolltop for errors.
 Logo header
 Cross platform/compatibility
 3d interactive can pull apart
@@ -68,7 +78,6 @@ Cache opened things so no request repeated.
 Page loadings
 Scrolling
 Dark mode no reload
-Data page offers more info
 Play song loading time notice
 Button to expand each section
 Your data padding
@@ -78,6 +87,7 @@ Beta tag position Beta page
 Button time range hovers
 Dashboard pfp align
 Names longer cut off 
+song paddings
 Logout btn
 Tooltip can't close off
 Api costs and limits
@@ -97,7 +107,6 @@ Button styling
 Image sizing
 Compile errors/alts
 Aligning of buttons
-Message styling
 NaN number check
 Check wrong formatted codes
 Image not capturing what we want
@@ -203,6 +212,8 @@ song title length limit ellipse
 animation sizig position
 api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
 links to artwork
+spotify approve-branding,content, mods to content, cross branding.
+game instruction div sizing
 all audios
 card width incr height too or margins
 round values ALL

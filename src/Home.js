@@ -171,7 +171,7 @@ const handleCookieNoticeClose = () => {
     // <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
     <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
 
-    {/* <Animation/> */}
+    <Animation/>
 
 
 
@@ -249,7 +249,7 @@ const handleCookieNoticeClose = () => {
 
 
 
-      <div style={{ position: "absolute", bottom: "15%", margin: "0 auto", right: "0", left: "0" }}>
+      <div style={{ position: "absolute", bottom: "100px", margin: "0 auto", right: "0", left: "0" }}>
   <span className="primaryBtn" style={{ marginRight: "20px"}} onClick={handleClickBETA} title="Get access">
     get access <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle' }} />
   </span>{" "}

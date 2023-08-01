@@ -162,6 +162,19 @@ function Beta() {
         onClick={() => navigate("/")}
         title="Home"
         alt="Logo"
+        style={{
+          width: "175px" ,
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          pointerEvents: "all",
+          cursor: "pointer",
+          backgroundColor:'white',
+          padding:'4px',
+          boxShadow:' 0 2px 10px rgba(0, 0, 0, 0.3)',
+          borderRadius:'20px'
+
+        }}
       />
 
       <div className="" style={{ overflow: "hidden" }}>

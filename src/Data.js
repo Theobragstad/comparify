@@ -486,7 +486,7 @@ if (!location?.state) {
           id: track.id,
           name: track.name,
           artists: track.artists.map((artist) => artist.name),
-          img: track.album.images[0]?.url || missingImage,
+          img: track.album.images[0]?.url,
           mp3: track.preview_url,
           url: track.external_urls.spotify,
         }));
@@ -1547,9 +1547,9 @@ if (!location?.state) {
                   onClick={() => togglePlayback(`audio-element${index}`)}
                   // onContextMenu={() =>setShowDropdownMenu(true)}
                 >
-                  <audio id={`audio-element${index}`} src={song?.mp3}></audio>
+                  <audio id={`audio-element${index}`} src={song?.mp3 ? song?.mp3 : ''}></audio>
 
-                  <img alt="" src={song?.img} className="primaryImage" />
+                  <img alt="" src={song?.img ? song.img : missingImage} className="primaryImage" />
 
                   {song?.mp3 && (
                     <div
@@ -1563,15 +1563,17 @@ if (!location?.state) {
                 </div>
 
                 <div className="primaryText">
-                  <span className="primaryName" onClick={() => openInNewTab(song?.url)} style={{cursor:'pointer'}} title={`Open ${song.name} on Spotify`}>
+                  <span className="primaryName" onClick={() => openInNewTab(song?.url)} style={{cursor:'pointer'}} title={`Open ${song?.name ? song.name : 'Title unavailable'} on Spotify`}>
                     {/* <a className="link2" href={song.url}> */}
-                      {song.name}
+                      {song?.name ? song.name : <i>Title<br/>unavailable</i>}
                     {/* </a> */}
                   </span>
                   <span className="primaryArtists">
-                    {song.artists?.join(", ")}
+                    {song?.artists?.join(", ") ? song?.artists?.join(", ") : <i>Artist<br/>unavailable</i>}
                   </span>
 
+
+                      {song?.img && 
                   <span
                       onClick={(e) => {
                         openCoverArtModal(song?.img);
@@ -1591,6 +1593,7 @@ if (!location?.state) {
                         }}
                       />
                     </span>
+}
                 </div>
               </div>
             ))

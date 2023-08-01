@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import "./App.css";
 
 function AudiofeatureModal(props) {
-
-
-    
-
-
   const audiofeatureModalStyles = {
     overlay: {
       zIndex: 9999,
@@ -17,15 +12,13 @@ function AudiofeatureModal(props) {
       textAlign: "center",
       alignItems: "center",
       backgroundColor: "rgba(0, 0, 0, 0.4)",
-     
-      
     },
     content: {
       zIndex: 9999,
-    // width: "21%",
+      // width: "21%",
       height: "fit-content",
       borderRadius: "25px",
-      
+
       outline: "0",
     },
   };
@@ -33,83 +26,72 @@ function AudiofeatureModal(props) {
   const [rankedSongs, setRankedSongs] = useState([]);
   const getAudioFeatureValues = async () => {
     try {
-    const { data } = await axios.get(
-      "https://api.spotify.com/v1/audio-features",
-      {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-        params: {
-          ids: props.songs.map((song) => song.id).join(","),
-        },
-      }
-    );
+      const { data } = await axios.get(
+        "https://api.spotify.com/v1/audio-features",
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+          params: {
+            ids: props.songs.map((song) => song.id).join(","),
+          },
+        }
+      );
 
+      console.log(data);
 
+      const audiofeatureValues = data.audio_features.map((item) => ({
+        id: item.id,
+        [props.audiofeatureForModal]: item[props.audiofeatureForModal],
+      }));
 
-  
-       
-      
-    console.log(data);
+      audiofeatureValues.sort(
+        (a, b) => b[props.audiofeatureForModal] - a[props.audiofeatureForModal]
+      );
+      console.log(audiofeatureValues);
 
-    const audiofeatureValues = data.audio_features.map((item) => ({
-      id: item.id,
-      [props.audiofeatureForModal]: item[props.audiofeatureForModal],
-    }));
-
-    audiofeatureValues.sort(
-      (a, b) => b[props.audiofeatureForModal] - a[props.audiofeatureForModal]
-    );
-    console.log(audiofeatureValues);
-
-    const rankedSongs = audiofeatureValues.map((item) => {
+      const rankedSongs = audiofeatureValues.map((item) => {
         const song = props.songs.find((song) => song.id === item.id);
         return {
           ...song,
-          audioValue: props.audiofeatureForModal === "duration_ms" ? msToMinSec(item[props.audiofeatureForModal]): item[props.audiofeatureForModal], // New field for audio value
+          audioValue:
+            props.audiofeatureForModal === "duration_ms"
+              ? msToMinSec(item[props.audiofeatureForModal])
+              : item[props.audiofeatureForModal], // New field for audio value
         };
       });
 
-      console.log(rankedSongs)
+      console.log(rankedSongs);
 
-    setRankedSongs(rankedSongs);
-} catch (error) {
-    setRankedSongs([]);
-}
+      setRankedSongs(rankedSongs);
+    } catch (error) {
+      setRankedSongs([]);
+    }
   };
-
 
   useEffect(() => {
     getAudioFeatureValues();
-
- 
   }, [props.audiofeatureForModal]);
 
+  //   useEffect(() => {
+  //     window.scrollTo({
+  //         top: document.documentElement.scrollHeight,
+  //         behavior: "instant",
+  //       });
+  //   }, [props.isAudiofeatureModalOpen]);
 
-//   useEffect(() => {
-//     window.scrollTo({
-//         top: document.documentElement.scrollHeight,
-//         behavior: "instant",
-//       });
-//   }, [props.isAudiofeatureModalOpen]);
-
-
-
-function msToMinSec(ms) {
+  function msToMinSec(ms) {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
 
-useEffect(() => {
+  useEffect(() => {
     window.scrollTo({
-        top: props.location,
-        behavior: "instant",
-      });
+      top: props.location,
+      behavior: "instant",
+    });
   }, [props.isAudiofeatureModalOpen]);
-
-
-
 
   const [isPlaying, setIsPlaying] = useState({});
 
@@ -146,6 +128,55 @@ useEffect(() => {
   };
 
 
+  const [showLoading, setShowLoading] = useState(true); // State to manage loading display
+  const [displayedSongs, setDisplayedSongs] = useState([]); // State to store displayed songs
+
+
+  const timeoutRef = useRef(null); // Ref to keep track of the current timeout
+
+  useEffect(() => {
+    if (rankedSongs.length > 0) {
+      setShowLoading(true);
+      
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current); // Clear the previous timeout if it exists
+      }
+
+      const timeout = setTimeout(() => {
+        setShowLoading(false);
+        setDisplayedSongs([]); // Reset displayed songs before showing the new ones
+
+        // Display each song with a delay between each
+        rankedSongs.forEach((song, index) => {
+          timeoutRef.current = setTimeout(() => {
+            setDisplayedSongs((prevSongs) => [...prevSongs, song]);
+          }, (index + 1) * 40); // Adjust the delay (in milliseconds) between each song appearance
+        });
+      }, 2000); // Show loading div for 2 seconds before showing the first song
+
+      return () => clearTimeout(timeout); // Clear the timeout on component unmount
+    }
+  }, [rankedSongs]);
+  // useEffect(() => {
+  //   if (rankedSongs.length > 0) {
+  //     // Show the loading div for 2 seconds before showing the first song
+  //     setShowLoading(true);
+  //     const timeout = setTimeout(() => {
+  //       setShowLoading(false);
+  //       // Display each song with a delay between each
+  //       rankedSongs.forEach((song, index) => {
+  //         setTimeout(() => {
+  //           setDisplayedSongs((prevSongs) => [...prevSongs, song]);
+  //         }, (index + 1) * 40); // Adjust the delay (in milliseconds) between each song appearance
+  //       });
+  //     }, 1000);
+
+  //     return () => clearTimeout(timeout); // Clear the timeout on component unmount
+  //   }
+  // }, [rankedSongs]);
+
+  
+
   return (
     <div>
       <Modal
@@ -155,53 +186,195 @@ useEffect(() => {
         style={audiofeatureModalStyles}
         className="audiofeatureModal"
       >
-<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <div
+            className="primaryCard1"
+            style={{
+              margin: "auto",
+              backgroundColor: "white",
+              width: "500px",
+              height: "500px",
+            }}
+          >
+            <div className="primaryTitle">
+              top songs ranked by{" "}
+              {props.audiofeatureForModal === "duration_ms"
+                ? <span className="feature">duration</span>
+                : <span className="feature">{props.audiofeatureForModal}</span>}
+            </div>
 
-        <div className="primaryCard1" style={{ margin: 'auto', backgroundColor: "white",width:'500px',height:'500px' }}>
+            {showLoading ? (
+              // <div className="noData">Loading...</div>
+              Array.from(
+                { length: rankedSongs.length },
+                (_, index) => index
+              ).map((index) => (
+                <div key={index} className="item">
+                  <div
+                    className={`primaryImage`}
+                    onClick={() =>
+                      togglePlayback(`audio-element-modal${index}`)
+                    }
+                  >
+                    <div className="pImgLoading"></div>
+                  </div>
 
-          <div className="primaryTitle">top songs ranked by {props.audiofeatureForModal === "duration_ms" ? "duration" : props.audiofeatureForModal}</div>
-          {rankedSongs.length === 0 ? (
-            <div className="noData">No data</div>
-          ) : (
-            rankedSongs.map((song, index) => (
-              <div key={index} className="item">
-                <div
-                  className={`primaryImage`}
-                  onClick={() => togglePlayback(`audio-element-modal${index}`)}
-                >
-                  <audio id={`audio-element-modal${index}`} src={song?.mp3}></audio>
+                  <div
+                    className="primaryText"
+                    style={{ marginRight: "30px" }}
+                  >
+                    <span className="primaryName">
+                      <span className="l2Loading">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </span>
+                    </span>
+                    <span className="pALoading"></span>
 
-                  <img src={song?.img} className="primaryImage" alt="Cover art"/>
+                    <span className="cOSLoading"></span>
+                  </div>
+                </div>
+              ))
+            ) : rankedSongs.length === 0 ? (
+              <div className="noData">No data</div>
+            ) : (
+              displayedSongs.map((song, index) => (
+                <div key={index} className="item">
+                  <div
+                    className={`primaryImage`}
+                    onClick={() =>
+                      togglePlayback(`audio-element-modal${index}`)
+                    }
+                  >
+                    <audio
+                      id={`audio-element-modal${index}`}
+                      src={song?.mp3}
+                    ></audio>
 
-                  {song?.mp3 && (
+                    <img
+                      src={song?.img}
+                      className="primaryImage"
+                      alt="Cover art"
+                    />
+
+                    {song?.mp3 && (
+                      <div
+                        className={
+                          isPlaying[`audio-element-modal${index}`]
+                            ? "paused"
+                            : "playing"
+                        }
+                      ></div>
+                    )}
+                  </div>
+
+                  <div
+                    className="primaryText"
+                    style={{ marginRight: "30px" }}
+                  >
+                    <span className="primaryName">
+                      <a className="link2" href={song.url}>
+                        {song.name}
+                      </a>
+                    </span>
+                    <span className="primaryArtists">
+                      {song.artists?.join(", ")}
+                    </span>
+
+                    <span className="cellOutlineSmall">
+                      {song.audioValue}
+                    </span>
+                  </div>
+                </div>))
+            )}
+            {/* {rankedSongs.length === 0
+              ? // <div className="noData">No data</div>
+
+                Array.from(
+                  { length: rankedSongs.length },
+                  (_, index) => index
+                ).map((index) => (
+                  <div key={index} className="item">
                     <div
-                      className={
-                        isPlaying[`audio-element-modal${index}`]
-                          ? "paused"
-                          : "playing"
+                      className={`primaryImage`}
+                      onClick={() =>
+                        togglePlayback(`audio-element-modal${index}`)
                       }
-                    ></div>
-                  )}
-                </div>
+                    >
+                      <div className="pImgLoading"></div>
+                    </div>
 
-                <div className="primaryText" style={{marginRight:'30px'}}>
-                  <span className="primaryName">
-                    <a className="link2" href={song.url}>
-                      {song.name}
-                    </a>
-                  </span>
-                  <span className="primaryArtists">
-                    {song.artists?.join(", ")}
-                  </span>
+                    <div
+                      className="primaryText"
+                      style={{ marginRight: "30px" }}
+                    >
+                      <span className="primaryName">
+                        <span className="l2Loading">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
+                      </span>
+                      <span className="pALoading"></span>
 
-                  <span className="cellOutlineSmall">
-                    {song.audioValue}
-                  </span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+                      <span className="cOSLoading"></span>
+                    </div>
+                  </div>
+                ))
+              : rankedSongs.map((song, index) => (
+                  <div key={index} className="item">
+                    <div
+                      className={`primaryImage`}
+                      onClick={() =>
+                        togglePlayback(`audio-element-modal${index}`)
+                      }
+                    >
+                      <audio
+                        id={`audio-element-modal${index}`}
+                        src={song?.mp3}
+                      ></audio>
+
+                      <img
+                        src={song?.img}
+                        className="primaryImage"
+                        alt="Cover art"
+                      />
+
+                      {song?.mp3 && (
+                        <div
+                          className={
+                            isPlaying[`audio-element-modal${index}`]
+                              ? "paused"
+                              : "playing"
+                          }
+                        ></div>
+                      )}
+                    </div>
+
+                    <div
+                      className="primaryText"
+                      style={{ marginRight: "30px" }}
+                    >
+                      <span className="primaryName">
+                        <a className="link2" href={song.url}>
+                          {song.name}
+                        </a>
+                      </span>
+                      <span className="primaryArtists">
+                        {song.artists?.join(", ")}
+                      </span>
+
+                      <span className="cellOutlineSmall">
+                        {song.audioValue}
+                      </span>
+                    </div>
+                  </div>
+                ))} */}
+          </div>
         </div>
       </Modal>
     </div>
