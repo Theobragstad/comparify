@@ -97,6 +97,9 @@ body,
   .errorMessage3 {
     width:70% !important;
   }
+  .rankCard {
+    width:80%;
+  }
 }
 
 .pageHeader {
@@ -371,6 +374,10 @@ body,
   .errorMessage3 {
     width:55% !important;
   }
+
+  .rankCard {
+    width:40%;
+  }
 }
 
 .codePage {
@@ -569,6 +576,28 @@ body,
     transform: rotate(360deg);
     border-radius: 50%;
   }
+}
+
+
+.rankCard {
+  height: 180px;
+  overflow: auto;
+  width: 23%;
+  min-width: 300px;
+  flex-basis: auto;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  margin-right: 10px;
+  font-weight: bold;
+  text-align: left;
+  align-items: center;
+  margin: auto;
+  background-color: white;
+  width: 500px;
+  height: 500px;
 }
 
 .primaryCard1 {
@@ -1132,6 +1161,9 @@ body,
   .extra-cards .card {
     flex-basis: 100%;
   }
+  .rankCard {
+    width:80%;
+  }
 }
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .card {
@@ -1148,6 +1180,9 @@ body,
 
   .errorMessage3 {
     width:85% !important;
+  }
+  .rankCard {
+    width:90%;
   }
 }
 .audioFeaturesHeader {

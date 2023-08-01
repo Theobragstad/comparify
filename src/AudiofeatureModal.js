@@ -195,13 +195,8 @@ function AudiofeatureModal(props) {
           }}
         >
           <div
-            className="primaryCard1"
-            style={{
-              margin: "auto",
-              backgroundColor: "white",
-              width: "500px",
-              height: "500px",
-            }}
+            className="rankCard"
+            
           >
             <div className="primaryTitle">
               top songs ranked by{" "}

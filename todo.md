@@ -12,6 +12,11 @@ no data handling
 filenames
 dark mode bg color transition
 missing song in AF table?? compare page too??
+allow scrolling over animation
+beta page fit height better
+form focusing width
+card widths, padding, margins etc
+limit page minimize
 Null if not def from API
 set img alts
 mobile
