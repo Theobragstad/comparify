@@ -170,7 +170,7 @@ const handleCookieNoticeClose = () => {
 const [squares, setSquares] = useState([]);
 const [gridFilled, setGridFilled] = useState(false);
 const squareSize = 10; // Change the size of squares as desired
-const maxSquares = 3000; // Change the maximum number of squares as desired
+const maxSquares = 10; // Change the maximum number of squares as desired
 
 useEffect(() => {
   const colors = ["#18d860", "#1e90ff", "#ffdf00"];
@@ -258,7 +258,7 @@ useEffect(() => {
 //   };
 // }, [squares]);
 
-
+console.log(location.state)
   return (
     // <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
     <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden'}}  >
@@ -296,7 +296,7 @@ useEffect(() => {
 
 
 
-{!Cookies.get('agreeCookieNotice') && false &&
+{!Cookies.get('agreeCookieNotice') && false&&
 <div className={!Cookies.get('agreeCookieNotice') && !agreeCookieNotice ? "cookieNotice" : "cookieNotice hide"}>
   <div className="cookieNoticeText">
     comparify uses cookies. See the help page for more info.
@@ -312,7 +312,7 @@ useEffect(() => {
 
 {location.state && location.state.directAccessError && (
         <div className="errorMessage2">
-          Internal error. Please try again.
+          Internal processing error. Please try again.
         </div>
       )}
       {/* <div

@@ -35,13 +35,24 @@ import { useGameModalState } from "./GameModalState";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Compare() {
-
+  useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
+}, []);
   // document.title = "comparify | Results";
 
   const gameModalState = useGameModalState();
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 850);
     };
@@ -56,10 +67,10 @@ function Compare() {
 
   const location = useLocation();
 
-  let file1 = location.state.file1.split(",");
-  let file2 = location.state.file2.split(",");
+  let file1 = location?.state?.file1?.split(",") || [];
+  let file2 = location?.state?.file2?.split(",") || [];
 
-  let token = location.state.token;
+  let token = location.state?.token || null;
 
   const [selectedButton, setSelectedButton] = useState(1);
   const [selectedTimeRange, setSelectedTimeRange] = useState("short_term");
@@ -84,12 +95,12 @@ function Compare() {
   const nameIdImgurlGenerationdate1 = file1.slice(1, 5);
   const nameIdImgurlGenerationdate2 = file2.slice(1, 5);
   if (
-    file1.indexOf("nameIdImgurlGenerationdate[4]") === -1 ||
+    file1.indexOf("nameIdImgurlGenerationdate[4]") === -1 || 
     file2.indexOf("nameIdImgurlGenerationdate[4]") === -1 ||
     nameIdImgurlGenerationdate1.length !== 4 ||
     nameIdImgurlGenerationdate2.length !== 4 ||
-    nameIdImgurlGenerationdate1[2].substring(0, 8) !== "https://" ||
-    nameIdImgurlGenerationdate2[2].substring(0, 8) !== "https://"
+    nameIdImgurlGenerationdate1[2]?.substring(0, 8) !== "https://" ||
+    nameIdImgurlGenerationdate2[2]?.substring(0, 8) !== "https://"
   ) {
     navigate("/dashboard", { state: { error: 400 } });
   }
@@ -217,7 +228,7 @@ function Compare() {
     const startIndex = data1.indexOf(labels[i]) + 1;
     const endIndex = data1.indexOf(labels[i + 1]);
 
-    const key = labels[i].substring(0, labels[i].indexOf("["));
+    const key = labels[i]?.substring(0, labels[i].indexOf("[")) || null;
     arrays1[key] = data1.slice(startIndex, endIndex);
   }
 
@@ -229,7 +240,7 @@ function Compare() {
     const startIndex = data2.indexOf(labels[i]) + 1;
     const endIndex = data2.indexOf(labels[i + 1]);
 
-    const key = labels[i].substring(0, labels[i].indexOf("["));
+    const key = labels[i]?.substring(0, labels[i].indexOf("[")) || null;
     arrays2[key] = data2.slice(startIndex, endIndex);
   }
 
@@ -322,8 +333,8 @@ function Compare() {
 
     const regex = /^(\d+(\.\d+)?)([KMB])$/;
 
-    const matches1 = number1.match(regex);
-    const matches2 = number2.match(regex);
+    const matches1 = number1?.match(regex);
+    const matches2 = number2?.match(regex);
 
     if (matches1 && matches2) {
       const value1 = parseFloat(matches1[1]) * abbreviations[matches1[3]];
@@ -1213,6 +1224,11 @@ function Compare() {
   const [user2MostLeastPopArtists, setUser2MostLeastPopArtists] = useState([]);
 
   useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     // console.log(overlappingData.songIds);
     getSongs(overlappingData.songIds, setSharedTopSongs);
     getSongs(
@@ -1843,7 +1859,11 @@ function Compare() {
   const increment = 0.001;
 
   useEffect(() => {
-
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     console.log(animationRef)
     let startTimestamp = null;
 
@@ -1942,12 +1962,18 @@ function Compare() {
     "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
   ];
 
+
+
+
+
+  
+
   return (
     <div>
       {/* <ScrollButton/> */}
       <img alt=""
         src={fullLogo}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/")}
         style={{
           width: "150px",
           position: "absolute",
@@ -1956,7 +1982,7 @@ function Compare() {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="Dashboard"
+        title="Home"
       />
 
       <span className="pageHeader1">Results</span>
@@ -6473,7 +6499,7 @@ function Compare() {
                       (feature === "duration" &&
                         (isNaN(
                           parseInt(
-                            overlappingData.audioFeatureMeans[index].substring(
+                            overlappingData.audioFeatureMeans[index]?.substring(
                               0,
                               2
                             )
@@ -6483,7 +6509,7 @@ function Compare() {
                             parseInt(
                               overlappingData.audioFeatureMeans[
                                 index
-                              ].substring(3, 5)
+                              ]?.substring(3, 5)
                             )
                           )))
                         ? "-"
@@ -6506,14 +6532,14 @@ function Compare() {
                           parseInt(
                             overlappingData.audioFeatureStdDevs[
                               index
-                            ].substring(0, 2)
+                            ]?.substring(0, 2)
                           )
                         ) ||
                           isNaN(
                             parseInt(
                               overlappingData.audioFeatureStdDevs[
                                 index
-                              ].substring(3, 5)
+                              ]?.substring(3, 5)
                             )
                           )))
                         ? "-"
@@ -6848,10 +6874,10 @@ function Compare() {
             2
           }
           target_duration_ms={
-            (parseInt(arrays1.audioFeatureMeans[2].split(":")[0]) * 60000 +
-              parseInt(arrays1.audioFeatureMeans[2].split(":")[1]) * 1000 +
-              (parseInt(arrays2.audioFeatureMeans[2].split(":")[0]) * 60000 +
-                parseInt(arrays2.audioFeatureMeans[2].split(":")[1]) * 1000)) /
+            (parseInt(arrays1.audioFeatureMeans[2]?.split(":")[0]) * 60000 +
+              parseInt(arrays1.audioFeatureMeans[2]?.split(":")[1]) * 1000 +
+              (parseInt(arrays2.audioFeatureMeans[2]?.split(":")[0]) * 60000 +
+                parseInt(arrays2.audioFeatureMeans[2]?.split(":")[1]) * 1000)) /
             2
           }
           target_energy={

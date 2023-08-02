@@ -10,6 +10,9 @@ name too long then ellipsis
 ranking modals sizing
 no data handling
 filenames
+pie chart widt
+menu height sizing styling
+fit heght to content
 dark mode bg color transition
 when click on change time, instantly show gray boxes for spot
 imporve gpt prompt
@@ -28,7 +31,6 @@ mobile
 privacy policy
 TOS
 support
-emails
 links-profile, data, share
 save every stat as image separately, or select which to save
 align cards better
@@ -140,7 +142,6 @@ Image saving sizing, and naming
 Who does the playlist belong to, make collaborative?
 Dark mode, no reload
 Long names adjust
-Text select none
 Match modal styling
 Copy link on both, or button to go to it
 Color gradient weird error
@@ -208,7 +209,6 @@ table margin
 prof pic rounding
 pie chrt click to show
 song rank modal scrolling
-side arrow animations
 data page alignments
 dont disable highlight etc ptr events
 Modal scrolling limit
@@ -219,6 +219,7 @@ Get random users playlists
 min widths
 open in new tab. func
 menu/trigger/dropdown sizing
+loading animation color
 Animation scrolling etc
 AF rankings on compare pg too
 lazy loading

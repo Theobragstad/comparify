@@ -127,55 +127,35 @@ function AudiofeatureModal(props) {
     setIsPlaying(updatedIsPlaying);
   };
 
+  const [showLoading, setShowLoading] = useState(true);
+  const [displayedSongs, setDisplayedSongs] = useState([]);
 
-  const [showLoading, setShowLoading] = useState(true); // State to manage loading display
-  const [displayedSongs, setDisplayedSongs] = useState([]); // State to store displayed songs
-
-
-  const timeoutRef = useRef(null); // Ref to keep track of the current timeout
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
+    setDisplayedSongs([]);
+
     if (rankedSongs.length > 0) {
       setShowLoading(true);
-      
+
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current); // Clear the previous timeout if it exists
+        clearTimeout(timeoutRef.current);
       }
 
       const timeout = setTimeout(() => {
         setShowLoading(false);
-        setDisplayedSongs([]); // Reset displayed songs before showing the new ones
+        setDisplayedSongs([]);
 
-        // Display each song with a delay between each
         rankedSongs.forEach((song, index) => {
           timeoutRef.current = setTimeout(() => {
             setDisplayedSongs((prevSongs) => [...prevSongs, song]);
-          }, (index + 1) * 40); // Adjust the delay (in milliseconds) between each song appearance
+          }, (index + 1) * 40);
         });
-      }, 1000); // Show loading div for 2 seconds before showing the first song
+      }, 1000);
 
-      return () => clearTimeout(timeout); // Clear the timeout on component unmount
+      return () => clearTimeout(timeout);
     }
   }, [rankedSongs]);
-  // useEffect(() => {
-  //   if (rankedSongs.length > 0) {
-  //     // Show the loading div for 2 seconds before showing the first song
-  //     setShowLoading(true);
-  //     const timeout = setTimeout(() => {
-  //       setShowLoading(false);
-  //       // Display each song with a delay between each
-  //       rankedSongs.forEach((song, index) => {
-  //         setTimeout(() => {
-  //           setDisplayedSongs((prevSongs) => [...prevSongs, song]);
-  //         }, (index + 1) * 40); // Adjust the delay (in milliseconds) between each song appearance
-  //       });
-  //     }, 1000);
-
-  //     return () => clearTimeout(timeout); // Clear the timeout on component unmount
-  //   }
-  // }, [rankedSongs]);
-
-  
 
   return (
     <div>
@@ -194,15 +174,14 @@ function AudiofeatureModal(props) {
             height: "100%",
           }}
         >
-          <div
-            className="rankCard"
-            
-          >
+          <div className="rankCard">
             <div className="primaryTitle">
               top songs ranked by{" "}
-              {props.audiofeatureForModal === "duration_ms"
-                ? <span className="feature">duration</span>
-                : <span className="feature">{props.audiofeatureForModal}</span>}
+              {props.audiofeatureForModal === "duration_ms" ? (
+                <span className="feature">duration</span>
+              ) : (
+                <span className="feature">{props.audiofeatureForModal}</span>
+              )}
             </div>
 
             {showLoading ? (
@@ -221,10 +200,7 @@ function AudiofeatureModal(props) {
                     <div className="pImgLoading"></div>
                   </div>
 
-                  <div
-                    className="primaryText"
-                    style={{ marginRight: "30px" }}
-                  >
+                  <div className="primaryText" style={{ marginRight: "30px" }}>
                     <span className="primaryName">
                       <span className="l2Loading">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -269,10 +245,7 @@ function AudiofeatureModal(props) {
                     )}
                   </div>
 
-                  <div
-                    className="primaryText"
-                    style={{ marginRight: "30px" }}
-                  >
+                  <div className="primaryText" style={{ marginRight: "30px" }}>
                     <span className="primaryName">
                       <a className="link2" href={song.url}>
                         {song.name}
@@ -282,11 +255,10 @@ function AudiofeatureModal(props) {
                       {song.artists?.join(", ")}
                     </span>
 
-                    <span className="cellOutlineSmall">
-                      {song.audioValue}
-                    </span>
+                    <span className="cellOutlineSmall">{song.audioValue}</span>
                   </div>
-                </div>))
+                </div>
+              ))
             )}
             {/* {rankedSongs.length === 0
               ? // <div className="noData">No data</div>

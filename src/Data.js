@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
@@ -7,7 +7,7 @@ import { PieChart, Pie, Cell } from "recharts";
 import logo from "./img/logo.png";
 import popoutIcon from "./img/popoutIcon.png";
 
-
+import Loading from "./Loading";
 import x from "./img/x.png";
 import missingImage from "./img/missingImage.png";
 import "./App.css";
@@ -33,16 +33,15 @@ import fullLogo from "./img/fullLogo.png";
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
-
   const location = useLocation();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   const [apiResponse, setApiResponse] = useState("");
 
   const [gptLoading, setGptLoading] = useState(false);
-const [isOpen, setIsOpen] = useState(false);
- const [selectedButton, setSelectedButton] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedButton, setSelectedButton] = useState(1);
   const [selectedTimeRange, setSelectedTimeRange] = useState("short_term");
   const timeRanges = ["short_term", "medium_term", "long_term"];
 
@@ -51,7 +50,7 @@ const [isOpen, setIsOpen] = useState(false);
   const timeRangesClean = ["last month", "last 6 months", "all time"];
 
   const [isTimeRangeLoading, setIsTimeRangeLoading] = useState(true);
-const [topSongs, setTopSongs] = useState([]);
+  const [topSongs, setTopSongs] = useState([]);
   const [highestAudioFeatureSongs, setHighestAudioFeatureSongs] = useState([]);
   const [lowestAudioFeatureSongs, setLowestAudioFeatureSongs] = useState([]);
   const [mostLeastPopSongs, setMostLeastPopSongs] = useState([]);
@@ -65,794 +64,931 @@ const [topSongs, setTopSongs] = useState([]);
     []
   );
   const [lowestAudioFeatureValues, setLowestAudioFeatureValues] = useState([]);
-const [saveGptClicked, setSaveGptClicked] = useState(false);
-const [expirationTime, setExpirationTime] = useState("");
+  const [saveGptClicked, setSaveGptClicked] = useState(false);
+  const [expirationTime, setExpirationTime] = useState("");
 
-const [recModalIsOpen, setRecModalIsOpen] = useState(false);
-const [isPlaying, setIsPlaying] = useState({});
-const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
-
+  const [recModalIsOpen, setRecModalIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState({});
+  const [audiofeatureForModal, setAudiofeatureForModal] = useState(null);
 
   const [isAudiofeatureModalOpen, setIsAudiofeatureModalOpen] = useState(null);
-
 
   const [isCoverArtModalOpen, setIsCoverArtModalOpen] = useState(null);
   const [urlForCoverArtModal, setUrlForCoverArtModal] = useState(null);
 
-
-  
-
   const [scrollPosition, setScrollPosition] = useState(null);
-const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+  const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
-const [songReleaseDecadeDistrHover, setSongReleaseDecadeDistrHover] = useState(false);
+  const [songReleaseDecadeDistrHover, setSongReleaseDecadeDistrHover] =
+    useState(false);
+
+
+    const [showLoading, setShowLoading] = useState(true);
+
+  const timeoutRef = useRef(null);
+
+
+
+
+
+
+
+
+
+
+    ////////////////////
+
+    const handleTapPie = () => {
+      setSongReleaseDecadeDistrHover(!songReleaseDecadeDistrHover); // Toggle the value of isHovered
+    };
   
-
-const handleTapPie = () => {
-  setSongReleaseDecadeDistrHover(!songReleaseDecadeDistrHover); // Toggle the value of isHovered
-};
-
-
-useEffect(() => {
-  resetAllAudio();
-  setIsTimeRangeLoading(true);
-
-  if (isTokenExpired()) {
-    logout();
-  }
-
-  // setTimeout(() => {
-  getTopSongs(arrays.songIds);
-  getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
-  getAudioFeatureValues(
-    arrays.highestAudioFeatureSongIds,
-    setHighestAudioFeatureValues
-  );
-
-  getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
-  getAudioFeatureValues(
-    arrays.lowestAudioFeatureSongIds,
-    setLowestAudioFeatureValues
-  );
-
-  getMostLeastPopSongs(arrays.mostLeastPopSongIds);
-  getOldestNewestSongs(arrays.oldestNewestSongIds);
-  getTopAlbums(arrays.albumIds);
-  getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
-  getTopArtists(arrays.artistIds);
-  getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
-  setIsTimeRangeLoading(false);
-  // }, 1000);
-}, [selectedTimeRange]);
-
-
-
-useEffect(() => {
-  const audioElements = document.querySelectorAll("audio");
-  const updatedIsPlaying = Array.from(isPlaying);
-
-  const handleAudioEnded = (index) => {
-    updatedIsPlaying[index] = false;
-    setIsPlaying(updatedIsPlaying);
-  };
-
-  audioElements.forEach((audioElement, i) => {
-    audioElement.addEventListener("ended", () => handleAudioEnded(i));
-  });
-
-  return () => {
-    audioElements.forEach((audioElement, i) => {
-      audioElement.removeEventListener("ended", () => handleAudioEnded(i));
+    const handleMouseOver = () => {
+      document.getElementById("arrow").setAttribute("src", arrowDown);
+      document.getElementById("arrow").style.width = "20px";
+    };
+  
+    const handleMouseOut = () => {
+      document.getElementById("arrow").setAttribute("src", arrowRight);
+      document.getElementById("arrow").style.width = "10px";
+    };
+  
+    Modal.setAppElement("#root");
+  
+    const configuration = new Configuration({
+      organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
     });
-  };
-}, [isPlaying]);
-
-
-useEffect(() => {
-  setScrollPosition(document.documentElement.scrollTop);
-  window.addEventListener("scroll", handleScroll);
-
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
-}, []);
-
-
-if (!location?.state) {
-  navigate("/")
-  return;
- }
-
-
-  let token = location.state?.token;
-
-  const allData = location.state?.data?.split(",");
-
-
-
- 
-
-
-
-
-   
-
-
-
-
-
-  // document.title = "comparify | Your data";
-
-
-
   
-
-  const handleMouseOver = () => {
-    document.getElementById("arrow").setAttribute("src", arrowDown);
-    document.getElementById("arrow").style.width = "20px";
-  };
-
-  const handleMouseOut = () => {
-    document.getElementById("arrow").setAttribute("src", arrowRight);
-    document.getElementById("arrow").style.width = "10px";
-  };
-
-  Modal.setAppElement("#root");
-
-  const configuration = new Configuration({
-    organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-  });
-
-  delete configuration.baseOptions.headers["User-Agent"];
-
-  const openai = new OpenAIApi(configuration);
- 
-
-  const handleGptSumbit = async () => {
-    setGptLoading(true);
-    setApiResponse("");
-    let gptPrompt = gatherGptPromptData();
-
-    if (!gptPrompt) {
-      gptPrompt =
-        "Display the following statement (without quotes around it): Prompt error. Try again.";
-    }
-    console.log(gptPrompt);
-
-    try {
-      const result = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: gptPrompt,
-        temperature: 1.2,
-        max_tokens: 250,
-      });
-      console.log("response", result.data.choices[0].text);
-      setApiResponse(result.data.choices[0].text);
-    } catch (error) {
-      console.log(error);
-      setApiResponse(
-        "ChatGPT error. This is likely a rate limit. Try again in a minute or so."
-      );
+    delete configuration.baseOptions.headers["User-Agent"];
+  
+    const openai = new OpenAIApi(configuration);
+  
+    const handleGptSumbit = async () => {
+      setGptLoading(true);
+      setApiResponse("");
+      let gptPrompt = gatherGptPromptData();
+  
+      if (!gptPrompt) {
+        gptPrompt =
+          "Display the following statement (without quotes around it): Prompt error. Try again.";
+      }
+      console.log(gptPrompt);
+  
+      try {
+        const result = await openai.createCompletion({
+          model: "text-davinci-003",
+          prompt: gptPrompt,
+          temperature: 1.2,
+          max_tokens: 250,
+        });
+        console.log("response", result.data.choices[0].text);
+        setApiResponse(result.data.choices[0].text);
+      } catch (error) {
+        console.log(error);
+        setApiResponse(
+          "ChatGPT error. This is likely a rate limit. Try again in a minute or so."
+        );
+        setGptLoading(false);
+      }
       setGptLoading(false);
-    }
-    setGptLoading(false);
-  };
-  function handleConvertToImage() {
-    setSaveGptClicked(true);
-
-    setTimeout(() => {
-      const div = document.getElementById("imgDiv");
-      if (div) {
-        html2canvas(div, {}).then((canvas) => {
-          const image = canvas.toDataURL("image/png");
-
-          var fileName =
-            `comparify x ChatGPT for ` + nameIdImgurlGenerationdate[0] + ".png";
-          downloadPNG(image, fileName);
-        });
-      }
-    }, 0);
-  }
-
-  function downloadPNG(url, filename) {
-    var anchorElement = document.createElement("a");
-    anchorElement.href = url;
-    anchorElement.download = filename;
-
-    anchorElement.click();
-    setSaveGptClicked(false);
-  }
-
+    };
+    function handleConvertToImage() {
+      setSaveGptClicked(true);
   
-
-  const openModal = async () => {
-    setIsOpen(true);
-    await handleGptSumbit();
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-  const customStyles = {
-    overlay: {
-      zIndex: 9999,
-      display: "flex",
-      justifyContent: "center",
-      textAlign: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    content: {
-      zIndex: 9999,
-      width: "30%",
-      height: "80%",
-      margin: "auto",
-      borderRadius: "10px",
-      outline: "none",
-      padding: "0px 0px 10px 0px",
-      border: "none",
-
-      // maxHeight: "75%",
-      overflowY: "scroll",
-      backgroundColor: "rgba(255, 255, 255, 1)",
-    },
-  };
-
-  const mediaQueryStyles = `@media (max-width: 1000px) {
-    .recommendationModal {
-      width: 90% !important;
-    }
-  }`;
-
-  const customRecModalStyles = {
-    overlay: {
-      zIndex: 9999,
-      display: "flex",
-      justifyContent: "center",
-      textAlign: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    content: {
-      zIndex: 9999,
-      maxWidth: "30%",
-      width: "30%",
-      height: "fit-content",
-      margin: "auto",
-      borderRadius: "10px",
-      outline: "none",
-      padding: "20px",
-
-      maxHeight: "90vh",
-      overflowY: "scroll",
-      backgroundColor: "rgba(255, 255, 255, 1)",
-    },
-  };
-
- 
-
-
-
-
-
-
-
-
+      setTimeout(() => {
+        const div = document.getElementById("imgDiv");
+        if (div) {
+          html2canvas(div, {}).then((canvas) => {
+            const image = canvas.toDataURL("image/png");
   
- 
-
-
-  const selectButton = (index) => {
-    setIsTimeRangeLoading(true);
-    setSelectedButton(index);
-    setSelectedTimeRange(timeRanges[index - 1]);
-
-    setSelectedTimeRangeClean(timeRangesClean[index - 1]);
-
-    setApiResponse("");
-
-
-   
-
-  };
-
-
-
-  
-  
-  const nameIdImgurlGenerationdate = allData?.slice(1, 5);
-
-  const dataStartIndex = allData?.indexOf(selectedTimeRange) + 1;
-  const dataEndIndex =
-    selectedTimeRange === "long_term"
-      ? allData?.length - 1
-      : allData?.indexOf(timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]) -
-        1;
-
-  const data = allData?.slice(dataStartIndex, dataEndIndex + 1);
-
-  const labels = [
-    "songIds[<=50]",
-    "mostLeastPopSongIds[<=2]",
-    "decadesAndPcts[]", //
-    "oldestNewestSongIds[<=2]",
-    "avgSongPop[1]",
-    "songPopStdDev[1]",
-    "avgSongAgeYrMo[2]",
-    "songAgeStdDevYrMo[2]",
-    "pctSongsExpl[1]",
-    "audioFeatureMeans[11]",
-    "audioFeatureStdDevs[11]",
-    "highestAudioFeatureSongIds[<=11]",
-    "lowestAudioFeatureSongIds[<=11]",
-    "albumIds[<=10]",
-    "mostLeastPopAlbumIds[<=2]",
-    "avgAlbumPop[1]",
-    "albumPopsStdDev[1]",
-    "topLabelsByAlbums[<=5]",
-    "artistIds[<=50]",
-    "mostLeastPopArtistIds[<=2]",
-    "avgArtistPop[1]",
-    "artistPopStdDev[1]",
-    "avgArtistFolls[1]",
-    "artistFollsStdDev[1]",
-    "topGenresByArtist[<=20]",
-  ];
-
-  const arrays = {
-    songIds: [],
-    mostLeastPopSongIds: [],
-    decadesAndPcts: [], //
-    oldestNewestSongIds: [],
-    avgSongPop: [],
-    songPopStdDev: [],
-    avgSongAgeYrMo: [],
-    songAgeStdDevYrMo: [],
-    pctSongsExpl: [],
-    audioFeatureMeans: [],
-    audioFeatureStdDevs: [],
-    highestAudioFeatureSongIds: [],
-    lowestAudioFeatureSongIds: [],
-    albumIds: [],
-    mostLeastPopAlbumIds: [],
-    avgAlbumPop: [],
-    albumPopsStdDev: [],
-    topLabelsByAlbums: [],
-    artistIds: [],
-    mostLeastPopArtistIds: [],
-    avgArtistPop: [],
-    artistPopStdDev: [],
-    avgArtistFolls: [],
-    artistFollsStdDev: [],
-    topGenresByArtist: [],
-  };
-
-  for (let i = 0; i < labels.length - 1; i++) {
-    const startIndex = data.indexOf(labels[i]) + 1;
-    const endIndex = data.indexOf(labels[i + 1]);
-
-    const key = labels[i].substring(0, labels[i].indexOf("["));
-    arrays[key] = data.slice(startIndex, endIndex);
-  }
-
-  arrays.topGenresByArtist = data.slice(
-    data.indexOf("topGenresByArtist[<=20]") + 1
-  );
-  /////
-  const pieData = [];
-
-  for (let i = 0; i < arrays.decadesAndPcts.length; i += 2) {
-    const decade = arrays.decadesAndPcts[i];
-    const percentage = arrays.decadesAndPcts[i + 1];
-    pieData.push({ name: `${decade}s`, value: parseFloat(percentage) });
-  }
-
-  const colors = [
-    "#1e90ff",
-    "#18d860",
-    "#ffdf00",
-    "#FF1493",
-    "#9370DB",
-    "#FF4500",
-    "#008080",
-    "#FF8C00",
-    "#9932CC",
-    "#20B2AA",
-    "#FF69B4",
-    "#6A5ACD",
-    "#32CD32",
-    "#FF6347",
-    "#7B68EE",
-  ];
-
-  //14
-
-  ////
-
-  const getTopSongs = async (songIds) => {
-    try {
-      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: songIds.join(","),
-          },
-        });
-
-        const topSongsData = data.tracks.map((track) => ({
-          id: track.id,
-          name: track.name,
-          artists: track.artists.map((artist) => artist.name),
-          img: track.album.images[0]?.url,
-          mp3: track.preview_url,
-          url: track.external_urls.spotify,
-        }));
-
-        setTopSongs(topSongsData);
-      } else {
-        setTopSongs([]);
-      }
-      // console.log(topSongs);
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getHighestAudioFeatureSongs = async (songIds) => {
-    try {
-      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: songIds.join(","),
-          },
-        });
-
-        const highestAudioFeatureSongsData = data.tracks.map((track) => ({
-          name: track.name,
-          artists: track.artists.map((artist) => artist.name),
-          img: track.album.images[0]?.url || missingImage,
-          mp3: track.preview_url,
-          url: track.external_urls.spotify,
-        }));
-
-        setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
-      } else {
-        setHighestAudioFeatureSongs(Array(11).fill("-"));
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getLowestAudioFeatureSongs = async (songIds) => {
-    try {
-      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: songIds.join(","),
-          },
-        });
-
-        const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
-          name: track.name,
-          artists: track.artists.map((artist) => artist.name),
-          img: track.album.images[0]?.url || missingImage,
-          mp3: track.preview_url,
-          url: track.external_urls.spotify,
-        }));
-
-        setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
-      } else {
-        setLowestAudioFeatureSongs(Array(11).fill("-"));
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getMostLeastPopSongs = async (songIds) => {
-    try {
-      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: songIds.join(","),
-          },
-        });
-
-        const mostLeastPopSongsData = data.tracks.map((track) => ({
-          name: track.name,
-          pop: track.popularity,
-          artists: track.artists.map((artist) => artist.name),
-          img: track.album.images[0]?.url || missingImage,
-          mp3: track.preview_url,
-          url: track.external_urls.spotify,
-        }));
-
-        setMostLeastPopSongs(mostLeastPopSongsData);
-      } else {
-        setMostLeastPopSongs([]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getOldestNewestSongs = async (songIds) => {
-    try {
-      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: songIds.join(","),
-          },
-        });
-
-        const oldestNewestSongsData = data.tracks.map((track) => ({
-          name: track.name,
-          date: track.album.release_date,
-          artists: track.artists.map((artist) => artist.name),
-          img: track.album.images[0]?.url || missingImage,
-          mp3: track.preview_url,
-          url: track.external_urls.spotify,
-        }));
-
-        setOldestNewestSongs(oldestNewestSongsData);
-      } else {
-        setOldestNewestSongs([]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getTopAlbums = async (albumIds) => {
-    try {
-      if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
-        const maxAlbumsPerRequest = 20;
-        const albumChunks = [];
-
-        for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
-          albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
+            var fileName =
+              `comparify x ChatGPT for ` + nameIdImgurlGenerationdate[0] + ".png";
+            downloadPNG(image, fileName);
+          });
         }
+      }, 0);
+    }
+  
+    function downloadPNG(url, filename) {
+      var anchorElement = document.createElement("a");
+      anchorElement.href = url;
+      anchorElement.download = filename;
+  
+      anchorElement.click();
+      setSaveGptClicked(false);
+    }
+  
+    const openModal = async () => {
+      setIsOpen(true);
+      await handleGptSumbit();
+    };
+  
+    const closeModal = () => {
+      setIsOpen(false);
+    };
+    const customStyles = {
+      overlay: {
+        zIndex: 9999,
+        display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+      },
+      content: {
+        zIndex: 9999,
+        width: "30%",
+        height: "80%",
+        margin: "auto",
+        borderRadius: "10px",
+        outline: "none",
+        padding: "0px 0px 10px 0px",
+        border: "none",
+  
+        // maxHeight: "75%",
+        overflowY: "scroll",
+        backgroundColor: "rgba(255, 255, 255, 1)",
+      },
+    };
+  
+    const mediaQueryStyles = `@media (max-width: 1000px) {
+      .recommendationModal {
+        width: 90% !important;
+      }
+    }`;
+  
+    const customRecModalStyles = {
+      overlay: {
+        zIndex: 9999,
+        display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+      },
+      content: {
+        zIndex: 9999,
+        maxWidth: "30%",
+        width: "30%",
+        height: "fit-content",
+        margin: "auto",
+        borderRadius: "10px",
+        outline: "none",
+        padding: "20px",
+  
+        maxHeight: "90vh",
+        overflowY: "scroll",
+        backgroundColor: "rgba(255, 255, 255, 1)",
+      },
+    };
+  
+    const selectButton = (index) => {
+      setIsTimeRangeLoading(true);
+      setSelectedButton(index);
+      setSelectedTimeRange(timeRanges[index - 1]);
+  
+      setSelectedTimeRangeClean(timeRangesClean[index - 1]);
+  
+      setApiResponse("");
+    };
 
-        const topAlbumData = [];
 
-        for (const albumChunk of albumChunks) {
-          const { data } = await axios.get(
-            "https://api.spotify.com/v1/albums",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-              params: {
-                ids: albumChunk.join(","),
-              },
-            }
-          );
 
-          const chunkAlbumsData = data.albums.map((album) => ({
+    let token = location.state?.token;
+
+  const allData = location.state?.data?.split(",") || []
+  
+    const nameIdImgurlGenerationdate = allData?.slice(1, 5) || null
+  
+    const dataStartIndex = allData?.indexOf(selectedTimeRange) + 1 || null
+    const dataEndIndex =
+      selectedTimeRange === "long_term"
+        ? allData?.length - 1
+        : allData?.indexOf(
+            timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]
+          ) - 1;
+  
+    const data = allData?.slice(dataStartIndex, dataEndIndex + 1);
+  
+    const labels = [
+      "songIds[<=50]",
+      "mostLeastPopSongIds[<=2]",
+      "decadesAndPcts[]", //
+      "oldestNewestSongIds[<=2]",
+      "avgSongPop[1]",
+      "songPopStdDev[1]",
+      "avgSongAgeYrMo[2]",
+      "songAgeStdDevYrMo[2]",
+      "pctSongsExpl[1]",
+      "audioFeatureMeans[11]",
+      "audioFeatureStdDevs[11]",
+      "highestAudioFeatureSongIds[<=11]",
+      "lowestAudioFeatureSongIds[<=11]",
+      "albumIds[<=10]",
+      "mostLeastPopAlbumIds[<=2]",
+      "avgAlbumPop[1]",
+      "albumPopsStdDev[1]",
+      "topLabelsByAlbums[<=5]",
+      "artistIds[<=50]",
+      "mostLeastPopArtistIds[<=2]",
+      "avgArtistPop[1]",
+      "artistPopStdDev[1]",
+      "avgArtistFolls[1]",
+      "artistFollsStdDev[1]",
+      "topGenresByArtist[<=20]",
+    ];
+  
+    const arrays = {
+      songIds: [],
+      mostLeastPopSongIds: [],
+      decadesAndPcts: [], //
+      oldestNewestSongIds: [],
+      avgSongPop: [],
+      songPopStdDev: [],
+      avgSongAgeYrMo: [],
+      songAgeStdDevYrMo: [],
+      pctSongsExpl: [],
+      audioFeatureMeans: [],
+      audioFeatureStdDevs: [],
+      highestAudioFeatureSongIds: [],
+      lowestAudioFeatureSongIds: [],
+      albumIds: [],
+      mostLeastPopAlbumIds: [],
+      avgAlbumPop: [],
+      albumPopsStdDev: [],
+      topLabelsByAlbums: [],
+      artistIds: [],
+      mostLeastPopArtistIds: [],
+      avgArtistPop: [],
+      artistPopStdDev: [],
+      avgArtistFolls: [],
+      artistFollsStdDev: [],
+      topGenresByArtist: [],
+    };
+  
+    for (let i = 0; i < labels.length - 1; i++) {
+      const startIndex = data.indexOf(labels[i]) + 1;
+      const endIndex = data.indexOf(labels[i + 1]);
+  
+      const key = labels[i].substring(0, labels[i].indexOf("["));
+      arrays[key] = data.slice(startIndex, endIndex);
+    }
+  
+    arrays.topGenresByArtist = data.slice(
+      data.indexOf("topGenresByArtist[<=20]") + 1
+    );
+    /////
+    const pieData = [];
+  
+    for (let i = 0; i < arrays.decadesAndPcts.length; i += 2) {
+      const decade = arrays.decadesAndPcts[i];
+      const percentage = arrays.decadesAndPcts[i + 1];
+      pieData.push({ name: `${decade}s`, value: parseFloat(percentage) });
+    }
+  
+    const colors = [
+      "#1e90ff",
+      "#18d860",
+      "#ffdf00",
+      "#FF1493",
+      "#9370DB",
+      "#FF4500",
+      "#008080",
+      "#FF8C00",
+      "#9932CC",
+      "#20B2AA",
+      "#FF69B4",
+      "#6A5ACD",
+      "#32CD32",
+      "#FF6347",
+      "#7B68EE",
+    ];
+  
+    //14
+  
+    ////
+  
+    const getTopSongs = async (songIds) => {
+      try {
+        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: songIds.join(","),
+            },
+          });
+  
+          const topSongsData = data.tracks.map((track) => ({
+            id: track.id,
+            name: track.name,
+            artists: track.artists.map((artist) => artist.name),
+            img: track.album.images[0]?.url,
+            mp3: track.preview_url,
+            url: track.external_urls.spotify,
+          }));
+  
+          setTopSongs(topSongsData);
+        } else {
+          setTopSongs([]);
+        }
+        // console.log(topSongs);
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getHighestAudioFeatureSongs = async (songIds) => {
+      try {
+        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: songIds.join(","),
+            },
+          });
+  
+          const highestAudioFeatureSongsData = data.tracks.map((track) => ({
+            name: track.name,
+            artists: track.artists.map((artist) => artist.name),
+            img: track.album.images[0]?.url || missingImage,
+            mp3: track.preview_url,
+            url: track.external_urls.spotify,
+          }));
+  
+          setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
+        } else {
+          setHighestAudioFeatureSongs(Array(11).fill("-"));
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getLowestAudioFeatureSongs = async (songIds) => {
+      try {
+        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: songIds.join(","),
+            },
+          });
+  
+          const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
+            name: track.name,
+            artists: track.artists.map((artist) => artist.name),
+            img: track.album.images[0]?.url || missingImage,
+            mp3: track.preview_url,
+            url: track.external_urls.spotify,
+          }));
+  
+          setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
+        } else {
+          setLowestAudioFeatureSongs(Array(11).fill("-"));
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getMostLeastPopSongs = async (songIds) => {
+      try {
+        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: songIds.join(","),
+            },
+          });
+  
+          const mostLeastPopSongsData = data.tracks.map((track) => ({
+            name: track.name,
+            pop: track.popularity,
+            artists: track.artists.map((artist) => artist.name),
+            img: track.album.images[0]?.url || missingImage,
+            mp3: track.preview_url,
+            url: track.external_urls.spotify,
+          }));
+  
+          setMostLeastPopSongs(mostLeastPopSongsData);
+        } else {
+          setMostLeastPopSongs([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getOldestNewestSongs = async (songIds) => {
+      try {
+        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: songIds.join(","),
+            },
+          });
+  
+          const oldestNewestSongsData = data.tracks.map((track) => ({
+            name: track.name,
+            date: track.album.release_date,
+            artists: track.artists.map((artist) => artist.name),
+            img: track.album.images[0]?.url || missingImage,
+            mp3: track.preview_url,
+            url: track.external_urls.spotify,
+          }));
+  
+          setOldestNewestSongs(oldestNewestSongsData);
+        } else {
+          setOldestNewestSongs([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getTopAlbums = async (albumIds) => {
+      try {
+        if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
+          const maxAlbumsPerRequest = 20;
+          const albumChunks = [];
+  
+          for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
+            albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
+          }
+  
+          const topAlbumData = [];
+  
+          for (const albumChunk of albumChunks) {
+            const { data } = await axios.get(
+              "https://api.spotify.com/v1/albums",
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+                params: {
+                  ids: albumChunk.join(","),
+                },
+              }
+            );
+  
+            const chunkAlbumsData = data.albums.map((album) => ({
+              name: album.name,
+              artists: album.artists.map((artist) => artist.name),
+              img: album.images[0]?.url || missingImage,
+              url: album.external_urls.spotify,
+            }));
+  
+            topAlbumData.push(...chunkAlbumsData);
+          }
+  
+          setTopAlbums(topAlbumData);
+        } else {
+          setTopAlbums([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getMostLeastPopAlbums = async (albumIds) => {
+      try {
+        if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/albums", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: albumIds.join(","),
+            },
+          });
+  
+          const mostLeastPopAlbumsData = data.albums.map((album) => ({
             name: album.name,
+            pop: album.popularity,
             artists: album.artists.map((artist) => artist.name),
             img: album.images[0]?.url || missingImage,
-            url: album.external_urls.spotify
+            url: album.external_urls.spotify,
           }));
-
-          topAlbumData.push(...chunkAlbumsData);
-        }
-
-        setTopAlbums(topAlbumData);
-      } else {
-        setTopAlbums([]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getMostLeastPopAlbums = async (albumIds) => {
-    try {
-      if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/albums", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: albumIds.join(","),
-          },
-        });
-
-        const mostLeastPopAlbumsData = data.albums.map((album) => ({
-          name: album.name,
-          pop: album.popularity,
-          artists: album.artists.map((artist) => artist.name),
-          img: album.images[0]?.url || missingImage,
-          url: album.external_urls.spotify
-        }));
-
-        setMostLeastPopAlbums(mostLeastPopAlbumsData);
-      } else {
-        setMostLeastPopAlbums([]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getTopArtists = async (artistIds) => {
-    try {
-      if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: artistIds.join(","),
-          },
-        });
-
-        const topArtistsData = data.artists.map((artist) => ({
-          name: artist.name,
-          img: artist.images[0]?.url || missingImage,
-          url: artist.external_urls.spotify
-        }));
-
-        setTopArtists(topArtistsData);
-      } else {
-        setTopArtists([]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  const getMostLeastPopArtists = async (artistIds) => {
-    try {
-      if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
-        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: artistIds.join(","),
-          },
-        });
-
-        const mostLeastPopArtistsData = data.artists.map((artist) => ({
-          name: artist.name,
-          pop: artist.popularity,
-          img: artist.images[0]?.url || missingImage,
-          url: artist.external_urls.spotify
-        }));
-
-        setMostLeastPopArtists(mostLeastPopArtistsData);
-      } else {
-        setMostLeastPopArtists([]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
   
-
-  function formatGptPrompt(
-    topSong,
-    topSongArtist,
-    topArtist,
-    topAlbum,
-    topAlbumArtist,
-    topGenre,
-    topLabel,
-    oldestSong,
-    oldestSongArtist,
-    oldestSongYear,
-    newestSong,
-    newestSongArtist,
-    newestSongYear,
-    avgSongPop,
-    songPopStdDev,
-    avgSongAgeYrMo,
-    songAgeStdDevYrMo,
-    avgArtistPop,
-    artistPopStdDev,
-    pctSongsExpl,
-    highAudioFeatureAvgs,
-    highAudioFeatureStdDevs,
-    lowAudioFeatureAvgs,
-    lowAudioFeatureStdDevs
-  ) {
-    const yearWithHighestPercent = arrays.decadesAndPcts.reduce(
-      (maxYear, currentValue, currentIndex) =>
-        currentIndex % 2 === 1 &&
-        parseFloat(currentValue) >
-          parseFloat(arrays.decadesAndPcts[currentIndex - 2])
-          ? arrays.decadesAndPcts[currentIndex - 1]
-          : maxYear
-    );
-
-    return (
-      "You'll be given some information about a person's music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person POV. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: LIMIT YOUR POEM TO 70 WORDS MAXIMUM. DO NOT PRODUCE MORE THAN 70 WORDS IN YOUR RESPONSE. The data is: Their top song is " +
-      topSong.toString() +
-      " by " +
-      topSongArtist.toString() +
-      ". Their top artist is " +
-      topArtist.toString() +
-      ". Their top album is " +
-      topAlbum.toString() +
-      " by " +
-      topAlbumArtist.toString() +
-      ". Their top genre is " +
-      topGenre.toString() +
-      ". They've listened to music from both " +
-      oldestSongYear.toString() +
-      " and " +
-      newestSongYear.toString() +
-      ". The average popularity (0-100) of their songs is " +
-      avgSongPop.toString() +
-      ". The standard deviation of the popularities of their top songs is " +
-      songPopStdDev.toString() +
-      ". The average age of their top songs is " +
-      avgSongAgeYrMo.toString() +
-      ". The standard deviation of the ages of their top songs is " +
-      songAgeStdDevYrMo.toString() +
-      ". The average popularity of their top artists is " +
-      avgArtistPop.toString() +
-      ". The standard deviation of the popularity of their top artists is " +
-      artistPopStdDev.toString() +
-      ". The percent of their top songs that are explicit is " +
-      pctSongsExpl.toString() +
-      ". They like songs that have high values for " +
-      highAudioFeatureAvgs[0].toString() +
-      " and " +
-      highAudioFeatureAvgs[1].toString() +
-      ", and low values for " +
-      lowAudioFeatureAvgs[0].toString() +
-      " and " +
-      lowAudioFeatureAvgs[1].toString() +
-      ". They've listened to music from " +
-      (arrays.decadesAndPcts.length / 2).toString() +
-      " different decades, but they liked songs from the " +
-      yearWithHighestPercent.toString() +
-      "'s the most."
-    );
-  }
-
-  function gatherGptPromptData() {
+          setMostLeastPopAlbums(mostLeastPopAlbumsData);
+        } else {
+          setMostLeastPopAlbums([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getTopArtists = async (artistIds) => {
+      try {
+        if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: artistIds.join(","),
+            },
+          });
+  
+          const topArtistsData = data.artists.map((artist) => ({
+            name: artist.name,
+            img: artist.images[0]?.url || missingImage,
+            url: artist.external_urls.spotify,
+          }));
+  
+          setTopArtists(topArtistsData);
+        } else {
+          setTopArtists([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    const getMostLeastPopArtists = async (artistIds) => {
+      try {
+        if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
+          const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: artistIds.join(","),
+            },
+          });
+  
+          const mostLeastPopArtistsData = data.artists.map((artist) => ({
+            name: artist.name,
+            pop: artist.popularity,
+            img: artist.images[0]?.url || missingImage,
+            url: artist.external_urls.spotify,
+          }));
+  
+          setMostLeastPopArtists(mostLeastPopArtistsData);
+        } else {
+          setMostLeastPopArtists([]);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    function formatGptPrompt(
+      topSong,
+      topSongArtist,
+      topArtist,
+      topAlbum,
+      topAlbumArtist,
+      topGenre,
+      topLabel,
+      oldestSong,
+      oldestSongArtist,
+      oldestSongYear,
+      newestSong,
+      newestSongArtist,
+      newestSongYear,
+      avgSongPop,
+      songPopStdDev,
+      avgSongAgeYrMo,
+      songAgeStdDevYrMo,
+      avgArtistPop,
+      artistPopStdDev,
+      pctSongsExpl,
+      highAudioFeatureAvgs,
+      highAudioFeatureStdDevs,
+      lowAudioFeatureAvgs,
+      lowAudioFeatureStdDevs
+    ) {
+      const yearWithHighestPercent = arrays.decadesAndPcts.reduce(
+        (maxYear, currentValue, currentIndex) =>
+          currentIndex % 2 === 1 &&
+          parseFloat(currentValue) >
+            parseFloat(arrays.decadesAndPcts[currentIndex - 2])
+            ? arrays.decadesAndPcts[currentIndex - 1]
+            : maxYear
+      );
+  
+      return (
+        "You'll be given some information about a person's music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person POV. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: LIMIT YOUR POEM TO 70 WORDS MAXIMUM. DO NOT PRODUCE MORE THAN 70 WORDS IN YOUR RESPONSE. The data is: Their top song is " +
+        topSong.toString() +
+        " by " +
+        topSongArtist.toString() +
+        ". Their top artist is " +
+        topArtist.toString() +
+        ". Their top album is " +
+        topAlbum.toString() +
+        " by " +
+        topAlbumArtist.toString() +
+        ". Their top genre is " +
+        topGenre.toString() +
+        ". They've listened to music from both " +
+        oldestSongYear.toString() +
+        " and " +
+        newestSongYear.toString() +
+        ". The average popularity (0-100) of their songs is " +
+        avgSongPop.toString() +
+        ". The standard deviation of the popularities of their top songs is " +
+        songPopStdDev.toString() +
+        ". The average age of their top songs is " +
+        avgSongAgeYrMo.toString() +
+        ". The standard deviation of the ages of their top songs is " +
+        songAgeStdDevYrMo.toString() +
+        ". The average popularity of their top artists is " +
+        avgArtistPop.toString() +
+        ". The standard deviation of the popularity of their top artists is " +
+        artistPopStdDev.toString() +
+        ". The percent of their top songs that are explicit is " +
+        pctSongsExpl.toString() +
+        ". They like songs that have high values for " +
+        highAudioFeatureAvgs[0].toString() +
+        " and " +
+        highAudioFeatureAvgs[1].toString() +
+        ", and low values for " +
+        lowAudioFeatureAvgs[0].toString() +
+        " and " +
+        lowAudioFeatureAvgs[1].toString() +
+        ". They've listened to music from " +
+        (arrays.decadesAndPcts.length / 2).toString() +
+        " different decades, but they liked songs from the " +
+        yearWithHighestPercent.toString() +
+        "'s the most."
+      );
+    }
+  
+    function gatherGptPromptData() {
+      const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
+        if (![2, 6, 8].includes(index))
+          map[current] = parseFloat(arrays.audioFeatureMeans[index]);
+        return map;
+      }, {});
+  
+      const audioFeaturesToAvgsMapSorted = new Map(
+        Object.entries(audioFeaturesToAvgsMap).sort(
+          ([, value1], [, value2]) => value1 - value2
+        )
+      );
+  
+      const keysOfAudioFeaturesToAvgsMapSorted = Array.from(
+        audioFeaturesToAvgsMapSorted.keys()
+      );
+      const twoAudioFeaturesLowestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(
+        0,
+        2
+      );
+      const twoAudioFeaturesHighestAvgs =
+        keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
+  
+      const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
+        if (![2, 6, 8].includes(index))
+          map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
+        return map;
+      }, {});
+  
+      const audioFeaturesToStdDevsMapSorted = new Map(
+        Object.entries(audioFeaturesToStdDevsMap).sort(
+          ([, value1], [, value2]) => value1 - value2
+        )
+      );
+  
+      const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
+        audioFeaturesToStdDevsMapSorted.keys()
+      );
+      const twoAudioFeaturesLowestStdDevs =
+        keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
+      const twoAudioFeaturesHighestStdDevs =
+        keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
+  
+      let prompt = "Prompt error. Try again.";
+  
+      if (
+        topSongs &&
+        topSongs.length > 0 &&
+        topArtists &&
+        topArtists.length > 0 &&
+        topAlbums &&
+        topAlbums.length > 0
+      ) {
+        prompt = formatGptPrompt(
+          topSongs[0]?.name,
+          topSongs[0]?.artists[0],
+          topArtists[0]?.name,
+          topAlbums[0]?.name,
+          topAlbums[0]?.artists[0],
+          arrays.topGenresByArtist[0],
+          arrays.topLabelsByAlbums[0],
+          oldestNewestSongs[0]?.name,
+          oldestNewestSongs[0]?.artists[0],
+          oldestNewestSongs[0]?.date.substr(0, 4),
+          oldestNewestSongs[1]?.name,
+          oldestNewestSongs[1]?.artists[0],
+          oldestNewestSongs[1]?.date.substr(0, 4),
+          arrays.avgSongPop,
+          arrays.songPopStdDev,
+          arrays.avgSongAgeYrMo[0] +
+            " year(s) and " +
+            arrays.avgSongAgeYrMo[1] +
+            " month(s)",
+          arrays.songAgeStdDevYrMo[0] +
+            " year(s) and " +
+            arrays.songAgeStdDevYrMo[1] +
+            " month(s)",
+          arrays.avgArtistPop,
+          arrays.artistPopStdDev,
+          arrays.pctSongsExpl,
+          twoAudioFeaturesHighestAvgs,
+          twoAudioFeaturesHighestStdDevs,
+          twoAudioFeaturesLowestAvgs,
+          twoAudioFeaturesLowestStdDevs
+        );
+      }
+  
+      return prompt;
+    }
+  
+    const isTokenExpired = () => {
+      const expirationTime = localStorage.getItem("expirationTime");
+      if (!expirationTime) {
+        return true;
+      }
+      return new Date().getTime() > parseInt(expirationTime);
+    };
+  
+    function clearCookies() {
+      var cookies = document.cookie.split(";");
+      // console.log(cookies);
+  
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      }
+    }
+  
+    const logout = (error) => {
+      if (error === "apiError") {
+        clearCookies();
+        token = "";
+        setExpirationTime("");
+        window.localStorage.removeItem("token");
+        // window.localStorage.removeItem("expirationTime"); //
+        navigate("/", { state: { [error]: true } });
+      } else {
+        clearCookies();
+        token = "";
+        setExpirationTime("");
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("expirationTime");
+        navigate("/");
+      }
+    };
+  
+    const features = [
+      "acousticness",
+      "danceability",
+      "duration",
+      "energy",
+      "instrumentalness",
+      "liveness",
+      "loudness",
+      "speechiness",
+      "tempo",
+      "valence",
+    ];
+  
+    const date = new Date(nameIdImgurlGenerationdate[3]);
+  
+    const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+    const generationDateTime = date.toLocaleString(undefined, {
+      timeZone: localTimeZone,
+    });
+  
+    const getAudioFeatureValues = async (songIds, arrayToSet) => {
+      try {
+        const featureNames = [
+          "acousticness",
+          "danceability",
+          "duration_ms",
+          "energy",
+          "instrumentalness",
+          "liveness",
+          "loudness",
+          "speechiness",
+          "tempo",
+          "valence",
+        ];
+  
+        const allEmpty = songIds.every((id) => id === "");
+  
+        if (allEmpty) {
+          arrayToSet(Array(songIds.length).fill("-"));
+          return;
+        }
+  
+        if (songIds && songIds.length > 0 && songIds[0] === "No data") {
+          arrayToSet(Array(songIds.length).fill("-"));
+          return;
+        }
+  
+        const filteredIds = songIds.filter((id) => id !== "");
+  
+        const { data } = await axios.get(
+          "https://api.spotify.com/v1/audio-features",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              ids: filteredIds.join(","),
+            },
+          }
+        );
+  
+        const audioFeatures = data.audio_features.map((item) => ({
+          id: item.id,
+          acousticness: item.acousticness,
+          danceability: item.danceability,
+          duration_ms: item.duration_ms,
+          energy: item.energy,
+          instrumentalness: item.instrumentalness,
+          liveness: item.liveness,
+          loudness: item.loudness,
+          speechiness: item.speechiness,
+          tempo: item.tempo,
+          valence: item.valence,
+        }));
+  
+        const result = [];
+        for (let i = 0; i < songIds.length; i++) {
+          if (songIds[i] === "") {
+            result[i] = "";
+          } else {
+            const feature = featureNames[i];
+            const audioFeature = audioFeatures.find(
+              (item) => item.id === songIds[i]
+            );
+            if (feature === "duration_ms") {
+              result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
+            } else {
+              result[i] = audioFeature ? audioFeature[feature] : "";
+            }
+          }
+        }
+  
+        arrayToSet(result);
+      } catch (error) {
+        console.error("Error:", error);
+        logout("apiError");
+      }
+    };
+  
+    function msToMinSec(ms) {
+      const minutes = Math.floor(ms / 60000);
+      const seconds = Math.floor((ms % 60000) / 1000);
+      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    }
+  
+    const openRecModal = async () => {
+      setRecModalIsOpen(true);
+    };
+    const closeRecModal = () => {
+      setRecModalIsOpen(false);
+    };
+  
     const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
       if (![2, 6, 8].includes(index))
         map[current] = parseFloat(arrays.audioFeatureMeans[index]);
       return map;
     }, {});
-
+  
     const audioFeaturesToAvgsMapSorted = new Map(
       Object.entries(audioFeaturesToAvgsMap).sort(
         ([, value1], [, value2]) => value1 - value2
       )
     );
-
+  
     const keysOfAudioFeaturesToAvgsMapSorted = Array.from(
       audioFeaturesToAvgsMapSorted.keys()
     );
@@ -862,19 +998,19 @@ if (!location?.state) {
     );
     const twoAudioFeaturesHighestAvgs =
       keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
-
+  
     const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
       if (![2, 6, 8].includes(index))
         map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
       return map;
     }, {});
-
+  
     const audioFeaturesToStdDevsMapSorted = new Map(
       Object.entries(audioFeaturesToStdDevsMap).sort(
         ([, value1], [, value2]) => value1 - value2
       )
     );
-
+  
     const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
       audioFeaturesToStdDevsMapSorted.keys()
     );
@@ -882,412 +1018,246 @@ if (!location?.state) {
       keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
     const twoAudioFeaturesHighestStdDevs =
       keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
-
-    let prompt = "Prompt error. Try again.";
-
-    if (
-      topSongs &&
-      topSongs.length > 0 &&
-      topArtists &&
-      topArtists.length > 0 &&
-      topAlbums &&
-      topAlbums.length > 0
-    ) {
-      prompt = formatGptPrompt(
-        topSongs[0]?.name,
-        topSongs[0]?.artists[0],
-        topArtists[0]?.name,
-        topAlbums[0]?.name,
-        topAlbums[0]?.artists[0],
-        arrays.topGenresByArtist[0],
-        arrays.topLabelsByAlbums[0],
-        oldestNewestSongs[0]?.name,
-        oldestNewestSongs[0]?.artists[0],
-        oldestNewestSongs[0]?.date.substr(0, 4),
-        oldestNewestSongs[1]?.name,
-        oldestNewestSongs[1]?.artists[0],
-        oldestNewestSongs[1]?.date.substr(0, 4),
-        arrays.avgSongPop,
-        arrays.songPopStdDev,
-        arrays.avgSongAgeYrMo[0] +
-          " year(s) and " +
-          arrays.avgSongAgeYrMo[1] +
-          " month(s)",
-        arrays.songAgeStdDevYrMo[0] +
-          " year(s) and " +
-          arrays.songAgeStdDevYrMo[1] +
-          " month(s)",
-        arrays.avgArtistPop,
-        arrays.artistPopStdDev,
-        arrays.pctSongsExpl,
-        twoAudioFeaturesHighestAvgs,
-        twoAudioFeaturesHighestStdDevs,
-        twoAudioFeaturesLowestAvgs,
-        twoAudioFeaturesLowestStdDevs
-      );
-    }
-
-    return prompt;
-  }
-
   
-
+    const featureExplanations = [
+      "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.",
+      "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
+      "",
+      "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
+      `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
+      "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
+      "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
+      "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
+      "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
+      "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
+    ];
   
-
-
-  const isTokenExpired = () => {
-    const expirationTime = localStorage.getItem("expirationTime");
-    if (!expirationTime) {
-      return true;
-    }
-    return new Date().getTime() > parseInt(expirationTime);
-  };
-
-  function clearCookies() {
-    var cookies = document.cookie.split(";");
-    // console.log(cookies);
-
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i];
-      var eqPos = cookie.indexOf("=");
-      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-    }
-  }
-
-  const logout = (error) => {
-    if (error === "apiError") {
-      clearCookies();
-      token = "";
-      setExpirationTime("");
-      window.localStorage.removeItem("token");
-      // window.localStorage.removeItem("expirationTime"); //
-      navigate("/", { state: { [error]: true } });
-    } else {
-      clearCookies();
-      token = "";
-      setExpirationTime("");
-      window.localStorage.removeItem("token");
-      window.localStorage.removeItem("expirationTime");
-      navigate("/");
-    }
-  };
-
+    // const [isPlaying, setIsPlaying] = useState([]);
   
-  const features = [
-    "acousticness",
-    "danceability",
-    "duration",
-    "energy",
-    "instrumentalness",
-    "liveness",
-    "loudness",
-    "speechiness",
-    "tempo",
-    "valence",
-  ];
-
-  const date = new Date(nameIdImgurlGenerationdate[3]);
-
-  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const generationDateTime = date.toLocaleString(undefined, {
-    timeZone: localTimeZone,
-  });
-
-  const getAudioFeatureValues = async (songIds, arrayToSet) => {
-    try {
-      const featureNames = [
-        "acousticness",
-        "danceability",
-        "duration_ms",
-        "energy",
-        "instrumentalness",
-        "liveness",
-        "loudness",
-        "speechiness",
-        "tempo",
-        "valence",
-      ];
-
-      const allEmpty = songIds.every((id) => id === "");
-
-      if (allEmpty) {
-        arrayToSet(Array(songIds.length).fill("-"));
-        return;
-      }
-
-      if (songIds && songIds.length > 0 && songIds[0] === "No data") {
-        arrayToSet(Array(songIds.length).fill("-"));
-        return;
-      }
-
-      const filteredIds = songIds.filter((id) => id !== "");
-
-      const { data } = await axios.get(
-        "https://api.spotify.com/v1/audio-features",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            ids: filteredIds.join(","),
-          },
-        }
-      );
-
-      const audioFeatures = data.audio_features.map((item) => ({
-        id: item.id,
-        acousticness: item.acousticness,
-        danceability: item.danceability,
-        duration_ms: item.duration_ms,
-        energy: item.energy,
-        instrumentalness: item.instrumentalness,
-        liveness: item.liveness,
-        loudness: item.loudness,
-        speechiness: item.speechiness,
-        tempo: item.tempo,
-        valence: item.valence,
-      }));
-
-      const result = [];
-      for (let i = 0; i < songIds.length; i++) {
-        if (songIds[i] === "") {
-          result[i] = "";
+    const togglePlayback = (id) => {
+      const thisElement = document.getElementById(id);
+      const audioElements = document.querySelectorAll("audio");
+      const updatedIsPlaying = { ...isPlaying };
+  
+      audioElements.forEach((audioElement, i) => {
+        if (audioElement !== thisElement) {
+          audioElement.pause();
+          updatedIsPlaying[audioElement.id] = false;
         } else {
-          const feature = featureNames[i];
-          const audioFeature = audioFeatures.find(
-            (item) => item.id === songIds[i]
-          );
-          if (feature === "duration_ms") {
-            result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
+          if (audioElement.paused) {
+            audioElements.forEach((el, j) => {
+              if (el !== thisElement) {
+                el.pause();
+                updatedIsPlaying[el.id] = false;
+              }
+            });
+  
+            updatedIsPlaying[id] = true;
+            audioElement.play().catch((error) => {
+              console.log(error);
+            });
           } else {
-            result[i] = audioFeature ? audioFeature[feature] : "";
+            audioElement.pause();
+            updatedIsPlaying[id] = false;
           }
         }
-      }
-
-      arrayToSet(result);
-    } catch (error) {
-      console.error("Error:", error);
-      logout("apiError");
-    }
-  };
-
-  function msToMinSec(ms) {
-    const minutes = Math.floor(ms / 60000);
-    const seconds = Math.floor((ms % 60000) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  }
-
+      });
   
-  const openRecModal = async () => {
-    setRecModalIsOpen(true);
-  };
-  const closeRecModal = () => {
-    setRecModalIsOpen(false);
-  };
-
-  const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
-    if (![2, 6, 8].includes(index))
-      map[current] = parseFloat(arrays.audioFeatureMeans[index]);
-    return map;
-  }, {});
-
-  const audioFeaturesToAvgsMapSorted = new Map(
-    Object.entries(audioFeaturesToAvgsMap).sort(
-      ([, value1], [, value2]) => value1 - value2
-    )
-  );
-
-  const keysOfAudioFeaturesToAvgsMapSorted = Array.from(
-    audioFeaturesToAvgsMapSorted.keys()
-  );
-  const twoAudioFeaturesLowestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(
-    0,
-    2
-  );
-  const twoAudioFeaturesHighestAvgs =
-    keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
-
-  const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
-    if (![2, 6, 8].includes(index))
-      map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
-    return map;
-  }, {});
-
-  const audioFeaturesToStdDevsMapSorted = new Map(
-    Object.entries(audioFeaturesToStdDevsMap).sort(
-      ([, value1], [, value2]) => value1 - value2
-    )
-  );
-
-  const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
-    audioFeaturesToStdDevsMapSorted.keys()
-  );
-  const twoAudioFeaturesLowestStdDevs =
-    keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
-  const twoAudioFeaturesHighestStdDevs =
-    keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
-
-  const featureExplanations = [
-    "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.",
-    "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
-    "",
-    "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
-    `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
-    "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
-    "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
-    "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
-    "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
-    "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
-  ];
-
-  // const [isPlaying, setIsPlaying] = useState([]);
+      setIsPlaying(updatedIsPlaying);
+    };
   
-
-  const togglePlayback = (id) => {
-    const thisElement = document.getElementById(id);
-    const audioElements = document.querySelectorAll("audio");
-    const updatedIsPlaying = { ...isPlaying };
-
-    audioElements.forEach((audioElement, i) => {
-      if (audioElement !== thisElement) {
+    const resetAllAudio = () => {
+      const audioElements = document.querySelectorAll("audio");
+      const updatedIsPlaying = Array.from(isPlaying);
+  
+      audioElements.forEach((audioElement, i) => {
         audioElement.pause();
-        updatedIsPlaying[audioElement.id] = false;
-      } else {
-        if (audioElement.paused) {
-          audioElements.forEach((el, j) => {
-            if (el !== thisElement) {
-              el.pause();
-              updatedIsPlaying[el.id] = false;
-            }
-          });
-
-          updatedIsPlaying[id] = true;
-          audioElement.play().catch((error) => {
-            console.log(error);
-          });
-        } else {
-          audioElement.pause();
-          updatedIsPlaying[id] = false;
-        }
+        audioElement.currentTime = 0;
+        updatedIsPlaying[i] = false;
+      });
+  
+      setIsPlaying(updatedIsPlaying);
+    };
+  
+    function openCoverArtModal(url) {
+      setScrollPosition(document.documentElement.scrollTop);
+  
+      setIsCoverArtModalOpen(true);
+      setUrlForCoverArtModal(url);
+    }
+  
+    function closeCoverArtModal(url) {
+      setIsCoverArtModalOpen(false);
+      setUrlForCoverArtModal(null);
+    }
+  
+    function openAudiofeatureModal(feature) {
+      setScrollPosition(document.documentElement.scrollTop);
+  
+      setIsAudiofeatureModalOpen(true);
+      setAudiofeatureForModal(feature);
+    }
+  
+    function handleScroll() {
+      setScrollPosition(document.documentElement.scrollTop);
+    }
+  
+    function closeAudiofeatureModal(feature) {
+      setIsAudiofeatureModalOpen(false);
+      setAudiofeatureForModal(null);
+    }
+  
+    function getTimeDifference(time1, time2) {
+      if (time1 && time2) {
+        const [minutes1, seconds1] = time1?.split(":").map(Number);
+        const [minutes2, seconds2] = time2?.split(":").map(Number);
+        const difference = Math.abs(
+          minutes1 * 60 + seconds1 - (minutes2 * 60 + seconds2)
+        );
+        return `${String(Math.floor(difference / 60))}:${String(
+          difference % 60
+        ).padStart(2, "0")}`;
       }
-    });
+      return null;
+    }
+  
+    //
+  
+    const openDropdownMenu = () => {
+      // document.getElementById("dropdownMenuArrow").style.transform =
+      //   "rotate(90deg)";
+  
+      setShowDropdownMenu(true);
+    };
+  
+    const closeDropdownMenu = () => {
+      // document.getElementById("dropdownMenuArrow").style.transform =
+      //   "rotate(0deg)";
+  
+      setShowDropdownMenu(false);
+    };
+  
+    const toggleDropdownMenu = () => {
+      if (showDropdownMenu) {
+        document.getElementById("dropdownMenuArrow").style.transform =
+          "rotate(0deg)";
+  
+        setShowDropdownMenu(false);
+      } else {
+        document.getElementById("dropdownMenuArrow").style.transform =
+          "rotate(90deg)";
+        setShowDropdownMenu(true);
+      }
+    };
+  
+    const openInNewTab = (url) => {
+      window.open(url, "_blank", "noreferrer");
+    };
 
-    setIsPlaying(updatedIsPlaying);
-  };
 
-  const resetAllAudio = () => {
+
+
+
+
+    /////////////////
+
+  useEffect(() => {
+    resetAllAudio();
+    setIsTimeRangeLoading(true);
+
+    if (isTokenExpired()) {
+      logout();
+    }
+
+    // setTimeout(() => {
+    getTopSongs(arrays.songIds);
+    getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
+    getAudioFeatureValues(
+      arrays.highestAudioFeatureSongIds,
+      setHighestAudioFeatureValues
+    );
+
+    getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
+    getAudioFeatureValues(
+      arrays.lowestAudioFeatureSongIds,
+      setLowestAudioFeatureValues
+    );
+
+    getMostLeastPopSongs(arrays.mostLeastPopSongIds);
+    getOldestNewestSongs(arrays.oldestNewestSongIds);
+    getTopAlbums(arrays.albumIds);
+    getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
+    getTopArtists(arrays.artistIds);
+    getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
+    setIsTimeRangeLoading(false);
+    // }, 1000);
+  }, [selectedTimeRange]);
+
+  useEffect(() => {
     const audioElements = document.querySelectorAll("audio");
     const updatedIsPlaying = Array.from(isPlaying);
 
+    const handleAudioEnded = (index) => {
+      updatedIsPlaying[index] = false;
+      setIsPlaying(updatedIsPlaying);
+    };
+
     audioElements.forEach((audioElement, i) => {
-      audioElement.pause();
-      audioElement.currentTime = 0;
-      updatedIsPlaying[i] = false;
+      audioElement.addEventListener("ended", () => handleAudioEnded(i));
     });
 
-    setIsPlaying(updatedIsPlaying);
-  };
+    return () => {
+      audioElements.forEach((audioElement, i) => {
+        audioElement.removeEventListener("ended", () => handleAudioEnded(i));
+      });
+    };
+  }, [isPlaying]);
+
+  useEffect(() => {
+    setScrollPosition(document.documentElement.scrollTop);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   
 
-  
+  useEffect(() => {
+    // if (rankedSongs.length > 0) {
+    setShowLoading(true);
 
-  function openCoverArtModal(url) {
-    setScrollPosition(document.documentElement.scrollTop);
-
-    setIsCoverArtModalOpen(true);
-    setUrlForCoverArtModal(url);
-  }
-
-
-
-  function closeCoverArtModal(url) {
-    setIsCoverArtModalOpen(false);
-    setUrlForCoverArtModal(null);
-  }
-
-
-
-
-
-
-  function openAudiofeatureModal(feature) {
-    setScrollPosition(document.documentElement.scrollTop);
-
-    setIsAudiofeatureModalOpen(true);
-    setAudiofeatureForModal(feature);
-  }
-
-
-  function handleScroll() {
-    setScrollPosition(document.documentElement.scrollTop);
-  }
- 
-
-  function closeAudiofeatureModal(feature) {
-    setIsAudiofeatureModalOpen(false);
-    setAudiofeatureForModal(null);
-  }
-
-  
-
-  function getTimeDifference(time1, time2) {
-    if (time1 && time2) {
-      const [minutes1, seconds1] = time1?.split(":").map(Number);
-      const [minutes2, seconds2] = time2?.split(":").map(Number);
-      const difference = Math.abs(
-        minutes1 * 60 + seconds1 - (minutes2 * 60 + seconds2)
-      );
-      return `${String(Math.floor(difference / 60))}:${String(
-        difference % 60
-      ).padStart(2, "0")}`;
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
-    return null;
-  }
+
+    const timeout = setTimeout(() => {
+      setShowLoading(false);
+      // setDisplayedSongs([]);
+
+      // rankedSongs.forEach((song, index) => {
+      //   timeoutRef.current = setTimeout(() => {
+      //     setDisplayedSongs((prevSongs) => [...prevSongs, song]);
+      //   }, (index + 1) * 40);
+      // });
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+    // }
+  }, []);
 
   
 
-  //
-
-  const openDropdownMenu = () => {
-    // document.getElementById("dropdownMenuArrow").style.transform =
-    //   "rotate(90deg)";    
-       
-
-    setShowDropdownMenu(true);
-  };
-
-  const closeDropdownMenu = () => {
-    // document.getElementById("dropdownMenuArrow").style.transform =
-    //   "rotate(0deg)";
-    
-
-    setShowDropdownMenu(false);
-  };
-
-  const toggleDropdownMenu = () => {
-    if (showDropdownMenu) {
-      document.getElementById("dropdownMenuArrow").style.transform =
-        "rotate(0deg)";
-
-      setShowDropdownMenu(false);
-    } else {
-      document.getElementById("dropdownMenuArrow").style.transform =
-        "rotate(90deg)";
-      setShowDropdownMenu(true);
+  
+  useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
     }
-  };
+}, []);
 
-
-
-  const openInNewTab = (url) => {
-    window.open(url, "_blank", "noreferrer");
-  };
-
-    
   return (
     <div className="dataPage">
       {/* <ScrollButton/> */}
@@ -1311,7 +1281,9 @@ if (!location?.state) {
 
         <h1 className="logoName">comparify</h1>
       </button> */}
-      <img alt=""  
+
+      <img
+        alt=""
         src={fullLogo}
         onClick={() => navigate("/")}
         style={{
@@ -1333,7 +1305,8 @@ if (!location?.state) {
         onMouseOut={closeDropdownMenu}
         onClick={toggleDropdownMenu}
       >
-        <img alt=""
+        <img
+          alt=""
           src={nameIdImgurlGenerationdate[2]}
           style={{
             width: "30px",
@@ -1351,7 +1324,8 @@ if (!location?.state) {
           }}
         >
           {nameIdImgurlGenerationdate[0]}
-          <img alt=""
+          <img
+            alt=""
             id="dropdownMenuArrow"
             src={rightArrow}
             style={{
@@ -1360,8 +1334,9 @@ if (!location?.state) {
               marginLeft: "10px",
               // transform: "rotate(0deg)",
             }}
-            className={`${showDropdownMenu ? "menuArrowRotateDown" : "menuArrowRotateUp"}`}
-
+            className={`${
+              showDropdownMenu ? "menuArrowRotateDown" : "menuArrowRotateUp"
+            }`}
           />
         </div>
       </div>
@@ -1377,11 +1352,16 @@ if (!location?.state) {
               href={
                 "https://open.spotify.com/user/" + nameIdImgurlGenerationdate[1]
               }
-              style={{ textDecoration: "none", color: "#18d860",marginLeft:'3px' }}
+              style={{
+                textDecoration: "none",
+                color: "#18d860",
+                marginLeft: "3px",
+              }}
               className="darkenHover"
               title="Open your Spotify profile"
             >
-              <img alt=""
+              <img
+                alt=""
                 src={spotifysmall}
                 style={{
                   width: "20px",
@@ -1390,7 +1370,8 @@ if (!location?.state) {
                 }}
               ></img>
               Profile
-              <img alt=""
+              <img
+                alt=""
                 src={greenArrow}
                 style={{
                   width: "10px",
@@ -1407,17 +1388,17 @@ if (!location?.state) {
               className="cxgBtn"
             >
               <span className="">
-                <img alt=""
+                <img
+                  alt=""
                   src={logo}
                   style={{ width: "30px", verticalAlign: "middle" }}
                   className="zoom"
-                  
-
                 />
               </span>{" "}
               &#10799;{" "}
               <span style={{ color: "#75ac9d" }}>
-                <img alt=""
+                <img
+                  alt=""
                   className="spin"
                   src={gptBtn}
                   style={{
@@ -1432,7 +1413,11 @@ if (!location?.state) {
             <div
               className="recommendationsBtn"
               onClick={openRecModal}
-              style={{ fontSize: "13px", marginTop: "10px",marginLeft:'-3px' }}
+              style={{
+                fontSize: "13px",
+                marginTop: "10px",
+                marginLeft: "-3px",
+              }}
               title="Get music recommendations"
             >
               Get recommendations
@@ -1445,11 +1430,16 @@ if (!location?.state) {
                   state: { data: location.state.data, token: token },
                 })
               }
-              style={{ fontSize: "13px", marginTop: "20px",marginLeft:'-2px' }}
+              style={{
+                fontSize: "13px",
+                marginTop: "20px",
+                marginLeft: "-2px",
+              }}
               title="See more data"
             >
               More data{" "}
-              <img alt=""
+              <img
+                alt=""
                 src={rightArrow}
                 style={{ width: "10px", verticalAlign: "middle" }}
               />
@@ -1462,12 +1452,6 @@ if (!location?.state) {
         </div>
       )}
 
-
-
-
-
-
-
       <div className="navBtnContainer">
         <div className="leftNavBtnContainer">
           <Link to="/dashboard" title="Dashboard">
@@ -1479,9 +1463,6 @@ if (!location?.state) {
         <div className="navBtnOverlay">
           {/* <img alt="" src={time} style={{width:'20px',marginRight:'20px'}}/> */}
 
-
-
-
           {/* {isTimeRangeLoading ? (
 
             <div className="loadingDots" style={{ marginBottom: "12px" }}>
@@ -1490,54 +1471,56 @@ if (!location?.state) {
               <div className="loadingDots--dot"></div>
             </div>
           ) : ( */}
-            <>
-            
-              <button
-                className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
-                onClick={() => selectButton(1)
-               
-                
-                }
-                id="time1"
-              >
-                last month
-              </button>
-              <button
-                className={`navBtn ${selectedButton === 2 ? "selected" : ""}`}
-                onClick={() => selectButton(2)}
-                id="time2"
-              >
-                last 6 months
-              </button>
-              <button
-                className={`navBtn ${selectedButton === 3 ? "selected" : ""}`}
-                onClick={() => selectButton(3)}
-                id="time3"
-              >
-                all time
-              </button>
-            </>
+          <>
+            <button
+              className={`navBtn ${selectedButton === 1 ? "selected" : ""}`}
+              onClick={() => selectButton(1)}
+              id="time1"
+            >
+              last month
+            </button>
+            <button
+              className={`navBtn ${selectedButton === 2 ? "selected" : ""}`}
+              onClick={() => selectButton(2)}
+              id="time2"
+            >
+              last 6 months
+            </button>
+            <button
+              className={`navBtn ${selectedButton === 3 ? "selected" : ""}`}
+              onClick={() => selectButton(3)}
+              id="time3"
+            >
+              all time
+            </button>
+          </>
           {/* )} */}
         </div>
       </div>
 
-
-
- {isTimeRangeLoading && (
-<div style={{position:'relative', top:'100px',left:'50%', 
-  transform: 'translateX(-50%)'}}>
-            <div className="loadingDots" style={{ marginBottom: "12px" }}>
-              <div className="loadingDots--dot"></div>
-              <div className="loadingDots--dot"></div>
-              <div className="loadingDots--dot"></div>
-            </div></div>
-          )}
-
+      {isTimeRangeLoading && (
+        <div
+          style={{
+            position: "relative",
+            top: "100px",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <div className="loadingDots" style={{ marginBottom: "12px" }}>
+            <div className="loadingDots--dot"></div>
+            <div className="loadingDots--dot"></div>
+            <div className="loadingDots--dot"></div>
+          </div>
+        </div>
+      )}
 
       <div className="card-row" style={{ marginTop: "120px" }}>
         <div className="primaryCard1">
           <div className="primaryTitle">top songs</div>
-          {topSongs.length === 0 ? (
+          {showLoading ? (
+            <Loading length={3} type={"song"} />
+          ) : topSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             topSongs.map((song, index) => (
@@ -1547,9 +1530,16 @@ if (!location?.state) {
                   onClick={() => togglePlayback(`audio-element${index}`)}
                   // onContextMenu={() =>setShowDropdownMenu(true)}
                 >
-                  <audio id={`audio-element${index}`} src={song?.mp3 ? song?.mp3 : ''}></audio>
+                  <audio
+                    id={`audio-element${index}`}
+                    src={song?.mp3 ? song?.mp3 : ""}
+                  ></audio>
 
-                  <img alt="" src={song?.img ? song.img : missingImage} className="primaryImage" />
+                  <img
+                    alt=""
+                    src={song?.img ? song.img : missingImage}
+                    className="primaryImage"
+                  />
 
                   {song?.mp3 && (
                     <div
@@ -1563,25 +1553,47 @@ if (!location?.state) {
                 </div>
 
                 <div className="primaryText">
-                  <span className="primaryName" onClick={() => openInNewTab(song?.url)} style={{cursor:'pointer'}} title={`Open ${song?.name ? song.name : 'Title unavailable'} on Spotify`}>
+                  <span
+                    className="primaryName"
+                    onClick={() => openInNewTab(song?.url)}
+                    style={{ cursor: "pointer" }}
+                    title={`Open ${
+                      song?.name ? song.name : "Title unavailable"
+                    } on Spotify`}
+                  >
                     {/* <a className="link2" href={song.url}> */}
-                      {song?.name ? song.name : <i>Title<br/>unavailable</i>}
+                    {song?.name ? (
+                      song.name
+                    ) : (
+                      <i>
+                        Title
+                        <br />
+                        unavailable
+                      </i>
+                    )}
                     {/* </a> */}
                   </span>
                   <span className="primaryArtists">
-                    {song?.artists?.join(", ") ? song?.artists?.join(", ") : <i>Artist<br/>unavailable</i>}
+                    {song?.artists?.join(", ") ? (
+                      song?.artists?.join(", ")
+                    ) : (
+                      <i>
+                        Artist
+                        <br />
+                        unavailable
+                      </i>
+                    )}
                   </span>
 
-
-                      {song?.img && 
-                  <span
+                  {song?.img && (
+                    <span
                       onClick={(e) => {
                         openCoverArtModal(song?.img);
                       }}
-                      title={'Expand cover art'}
-                     
+                      title={"Expand cover art"}
                     >
-                      <img alt=""
+                      <img
+                        alt=""
                         src={popoutIcon}
                         style={{
                           width: "10px",
@@ -1589,11 +1601,11 @@ if (!location?.state) {
                           marginRight: "20px",
                           cursor: "ne-resize",
                           pointerEvents: "all",
-                          verticalAlign:'middle'
+                          verticalAlign: "middle",
                         }}
                       />
                     </span>
-}
+                  )}
                 </div>
               </div>
             ))
@@ -1602,17 +1614,19 @@ if (!location?.state) {
 
         <div className="primaryCard2">
           <div className="primaryTitle">top artists</div>
-          {topArtists.length === 0 ? (
+          {showLoading ? (
+            <Loading length={3} type={"artist"} />
+          ) : topArtists.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             topArtists.map((artist, index) => (
               <div key={index} className="item">
                 <img alt="" src={artist.img} className="primaryImage" />
                 <div className="primaryText">
-                <a className="link2" href={artist.url}>
-                  <span className="primaryName">
-                    {artist.name ? artist.name : artist}
-                  </span>
+                  <a className="link2" href={artist.url}>
+                    <span className="primaryName">
+                      {artist.name ? artist.name : artist}
+                    </span>
                   </a>
                 </div>
               </div>
@@ -1628,17 +1642,20 @@ if (!location?.state) {
           >
             top albums
           </div>
-          {topAlbums.length === 0 ? (
+          {showLoading ? (
+            <Loading length={3} type={"album"} />
+          ) : topAlbums.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             topAlbums.map((album, index) => (
               <div key={index} className="item">
                 <img alt="" src={album?.img} className="primaryImage" />
                 <div className="primaryText">
-                <a className="link2" href={album.url}>
-                  <span className="primaryName">
-                    {album.name ? album.name : album}
-                  </span></a>
+                  <a className="link2" href={album.url}>
+                    <span className="primaryName">
+                      {album.name ? album.name : album}
+                    </span>
+                  </a>
                   <span className="primaryArtists">
                     {album.artists?.join(", ")}
                   </span>
@@ -1656,8 +1673,10 @@ if (!location?.state) {
           >
             top genres
           </div>
-          {arrays.topLabelsByAlbums &&
-          arrays.topGenresByArtist[0] === "No data" ? (
+          {showLoading ? (
+            <Loading length={6} type={"genre"} />
+          ) : arrays.topLabelsByAlbums &&
+            arrays.topGenresByArtist[0] === "No data" ? (
             <div className="noData">No data</div>
           ) : (
             arrays.topGenresByArtist.map((genre, index) => (
@@ -1678,8 +1697,10 @@ if (!location?.state) {
           >
             top labels
           </div>
-          {arrays.topLabelsByAlbums &&
-          arrays.topLabelsByAlbums[0] === "No data" ? (
+          {showLoading ? (
+            <Loading length={5} type={"label"} />
+          ) : arrays.topLabelsByAlbums &&
+            arrays.topLabelsByAlbums[0] === "No data" ? (
             <div className="noData">No data</div>
           ) : (
             arrays.topLabelsByAlbums.map((label, index) => (
@@ -1708,13 +1729,14 @@ if (!location?.state) {
     <Legend />
   </PieChart> */}
 
-       
         {/* </div> */}
 
         {/* <div className="card-row"> */}
         <div className="primaryCard4">
           <div className="primaryTitle">most popular song</div>
-          {mostLeastPopSongs.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"song"} />
+          ) : mostLeastPopSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             mostLeastPopSongs &&
@@ -1729,7 +1751,8 @@ if (!location?.state) {
                     src={mostLeastPopSongs[0]?.mp3}
                   ></audio>
 
-                  <img alt=""
+                  <img
+                    alt=""
                     src={mostLeastPopSongs[0]?.img}
                     className="primaryImage"
                   />
@@ -1744,12 +1767,11 @@ if (!location?.state) {
                 </div>
 
                 <div className="primaryText">
-                <a className="link2" href={mostLeastPopSongs[0].url}>
-                     
-                   
-                  <span className="primaryName">
-                    {mostLeastPopSongs[0]?.name}
-                  </span> </a>
+                  <a className="link2" href={mostLeastPopSongs[0].url}>
+                    <span className="primaryName">
+                      {mostLeastPopSongs[0]?.name}
+                    </span>{" "}
+                  </a>
                   <span className="primaryArtists">
                     {mostLeastPopSongs[0]?.artists?.join(", ")}
                   </span>
@@ -1768,7 +1790,9 @@ if (!location?.state) {
 
         <div className="primaryCard4">
           <div className="primaryTitle">least popular song</div>
-          {mostLeastPopSongs.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"song"} />
+          ) : mostLeastPopSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             mostLeastPopSongs &&
@@ -1783,7 +1807,8 @@ if (!location?.state) {
                     src={mostLeastPopSongs[1]?.mp3}
                   ></audio>
 
-                  <img alt=""
+                  <img
+                    alt=""
                     src={mostLeastPopSongs[1]?.img}
                     className="primaryImage"
                   />
@@ -1799,10 +1824,11 @@ if (!location?.state) {
 
                 {/* <img alt="" src={mostLeastPopSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
-                <a className="link2" href={mostLeastPopSongs[1].url}>
-                  <span className="primaryName">
-                    {mostLeastPopSongs[1]?.name}
-                  </span></a>
+                  <a className="link2" href={mostLeastPopSongs[1].url}>
+                    <span className="primaryName">
+                      {mostLeastPopSongs[1]?.name}
+                    </span>
+                  </a>
                   <span className="primaryArtists">
                     {mostLeastPopSongs[1]?.artists?.join(", ")}
                   </span>
@@ -1821,7 +1847,9 @@ if (!location?.state) {
 
         <div className="primaryCard4">
           <div className="primaryTitle">oldest song</div>
-          {oldestNewestSongs.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"song"} />
+          ) : oldestNewestSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             oldestNewestSongs &&
@@ -1836,7 +1864,8 @@ if (!location?.state) {
                     src={oldestNewestSongs[0]?.mp3}
                   ></audio>
 
-                  <img alt=""
+                  <img
+                    alt=""
                     src={oldestNewestSongs[0]?.img}
                     className="primaryImage"
                   />
@@ -1852,10 +1881,11 @@ if (!location?.state) {
 
                 {/* <img alt="" src={oldestNewestSongs[0]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
-                <a className="link2" href={oldestNewestSongs[0].url}>
-                  <span className="primaryName">
-                    {oldestNewestSongs[0]?.name}
-                  </span></a>
+                  <a className="link2" href={oldestNewestSongs[0].url}>
+                    <span className="primaryName">
+                      {oldestNewestSongs[0]?.name}
+                    </span>
+                  </a>
                   <span className="primaryArtists">
                     {oldestNewestSongs[0]?.artists?.join(", ")}
                   </span>
@@ -1870,7 +1900,9 @@ if (!location?.state) {
 
         <div className="primaryCard5">
           <div className="primaryTitle">newest song</div>
-          {oldestNewestSongs.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"song"} />
+          ) : oldestNewestSongs.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             oldestNewestSongs &&
@@ -1885,7 +1917,8 @@ if (!location?.state) {
                     src={oldestNewestSongs[1]?.mp3}
                   ></audio>
 
-                  <img alt=""
+                  <img
+                    alt=""
                     src={oldestNewestSongs[1]?.img}
                     className="primaryImage"
                   />
@@ -1901,10 +1934,11 @@ if (!location?.state) {
 
                 {/* <img alt="" src={oldestNewestSongs[1]?.img} className="primaryImage" /> */}
                 <div className="primaryText">
-                <a className="link2" href={oldestNewestSongs[1].url}>
-                  <span className="primaryName">
-                    {oldestNewestSongs[1]?.name}
-                  </span></a>
+                  <a className="link2" href={oldestNewestSongs[1].url}>
+                    <span className="primaryName">
+                      {oldestNewestSongs[1]?.name}
+                    </span>
+                  </a>
                   <span className="primaryArtists">
                     {oldestNewestSongs[1]?.artists?.join(", ")}
                   </span>
@@ -1919,21 +1953,25 @@ if (!location?.state) {
 
         <div className="primaryCard4">
           <div className="primaryTitle">most popular artist</div>
-          {mostLeastPopArtists.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"artist"} />
+          ) : mostLeastPopArtists.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             mostLeastPopArtists &&
             mostLeastPopArtists[0] && (
               <div className="item">
-                <img alt=""
+                <img
+                  alt=""
                   src={mostLeastPopArtists[0]?.img}
                   className="primaryImage"
                 />
                 <div className="primaryText">
-                <a className="link2" href={mostLeastPopArtists[0].url}>
-                  <span className="primaryName">
-                    {mostLeastPopArtists[0]?.name}
-                  </span></a>
+                  <a className="link2" href={mostLeastPopArtists[0].url}>
+                    <span className="primaryName">
+                      {mostLeastPopArtists[0]?.name}
+                    </span>
+                  </a>
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
@@ -1949,21 +1987,25 @@ if (!location?.state) {
 
         <div className="primaryCard4">
           <div className="primaryTitle">least popular artist</div>
-          {mostLeastPopArtists.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"artist"} />
+          ) : mostLeastPopArtists.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             mostLeastPopArtists &&
             mostLeastPopArtists[1] && (
               <div className="item">
-                <img alt=""
+                <img
+                  alt=""
                   src={mostLeastPopArtists[1]?.img}
                   className="primaryImage"
                 />
                 <div className="primaryText">
-                <a className="link2" href={mostLeastPopArtists[1].url}>
-                  <span className="primaryName">
-                    {mostLeastPopArtists[1]?.name}
-                  </span></a>
+                  <a className="link2" href={mostLeastPopArtists[1].url}>
+                    <span className="primaryName">
+                      {mostLeastPopArtists[1]?.name}
+                    </span>
+                  </a>
                   <span
                     style={{ paddingLeft: "20px" }}
                     data-tooltip-id="dataPageTooltip1"
@@ -1979,21 +2021,25 @@ if (!location?.state) {
 
         <div className="primaryCard4">
           <div className="primaryTitle">most popular album</div>
-          {mostLeastPopAlbums.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"album"} />
+          ) : mostLeastPopAlbums.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             mostLeastPopAlbums &&
             mostLeastPopAlbums[0] && (
               <div className="item">
-                <img alt=""
+                <img
+                  alt=""
                   src={mostLeastPopAlbums[0]?.img}
                   className="primaryImage"
                 />
                 <div className="primaryText">
-                <a className="link2" href={mostLeastPopAlbums[0].url}>
-                  <span className="primaryName">
-                    {mostLeastPopAlbums[0]?.name}
-                  </span></a>
+                  <a className="link2" href={mostLeastPopAlbums[0].url}>
+                    <span className="primaryName">
+                      {mostLeastPopAlbums[0]?.name}
+                    </span>
+                  </a>
                   <span className="primaryArtists">
                     {mostLeastPopAlbums[0]?.artists?.join(", ")}
                   </span>
@@ -2012,21 +2058,25 @@ if (!location?.state) {
 
         <div className="primaryCard4">
           <div className="primaryTitle">least popular album</div>
-          {mostLeastPopAlbums.length === 0 ? (
+          {showLoading ? (
+            <Loading length={1} type={"album"} />
+          ) : mostLeastPopAlbums.length === 0 ? (
             <div className="noData">No data</div>
           ) : (
             mostLeastPopAlbums &&
             mostLeastPopAlbums[1] && (
               <div className="item">
-                <img alt=""
+                <img
+                  alt=""
                   src={mostLeastPopAlbums[1]?.img}
                   className="primaryImage"
                 />
                 <div className="primaryText">
-                <a className="link2" href={mostLeastPopAlbums[1].url}>
-                  <span className="primaryName">
-                    {mostLeastPopAlbums[1]?.name}
-                  </span></a>
+                  <a className="link2" href={mostLeastPopAlbums[1].url}>
+                    <span className="primaryName">
+                      {mostLeastPopAlbums[1]?.name}
+                    </span>
+                  </a>
                   <span className="primaryArtists">
                     {mostLeastPopAlbums[1]?.artists?.join(", ")}
                   </span>
@@ -2236,38 +2286,60 @@ if (!location?.state) {
           )}
         </div>
 
-        <div className="pieCard"
-        onMouseOver={()=>setSongReleaseDecadeDistrHover(true)}
-        onMouseOut={()=>setSongReleaseDecadeDistrHover(false)}
+        <div
+          className="pieCard"
+          onMouseOver={() => setSongReleaseDecadeDistrHover(true)}
+          onMouseOut={() => setSongReleaseDecadeDistrHover(false)}
 
-      //   onClick={handleTapPie}
-      // onTouchStart={handleTapPie}
+          //   onClick={handleTapPie}
+          // onTouchStart={handleTapPie}
         >
-          <div className="primaryTitle">song release decade distribution  <img alt=""
-                src={rightArrow}
-                style={!songReleaseDecadeDistrHover? { width: "15px", verticalAlign: "middle"} : {width: "15px", verticalAlign: "middle", transform:'rotate(90deg)'}}
-              /></div>
+          <div className="primaryTitle">
+            song release decade distribution{" "}
+            <img
+              alt=""
+              src={rightArrow}
+              style={
+                !songReleaseDecadeDistrHover
+                  ? { width: "15px", verticalAlign: "middle" }
+                  : {
+                      width: "15px",
+                      verticalAlign: "middle",
+                      transform: "rotate(90deg)",
+                    }
+              }
+            />
+          </div>
           {songReleaseDecadeDistrHover ? (
-          arrays.decadesAndPcts && arrays.decadesAndPcts[0] === "No data" ? (
-            <div className="noData">No data</div>
-          ) : (
-            <PieChart width={200} height={200} style={{position:'absolute', backgroundColor:'white',   boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',width:'inherit',height:'fit-content',borderRadius:'15px'}}>
-              <Pie
-                data={pieData}
-                outerRadius={30}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name }) => name} // Set the label to display the name property
+            arrays.decadesAndPcts && arrays.decadesAndPcts[0] === "No data" ? (
+              <div className="noData">No data</div>
+            ) : (
+              <PieChart
+                width={200}
+                height={200}
+                style={{
+                  position: "absolute",
+                  backgroundColor: "white",
+                  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+                  width: "inherit",
+                  height: "fit-content",
+                  borderRadius: "15px",
+                }}
               >
-                {pieData.map((entry, index) => (
-                  <Cell key={index} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-          ))
-        
-        
-          :(null)}
+                <Pie
+                  data={pieData}
+                  outerRadius={30}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name }) => name} // Set the label to display the name property
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={index} fill={colors[index % colors.length]} />
+                  ))}
+                </Pie>
+              </PieChart>
+            )
+          ) : null}
         </div>
         {/* </div> */}
       </div>
@@ -2288,7 +2360,8 @@ if (!location?.state) {
           onMouseOut={handleMouseOut}
         >
           audio features{" "}
-          <img alt=""
+          <img
+            alt=""
             id="arrow"
             src={arrowRight}
             style={{
@@ -2314,11 +2387,13 @@ if (!location?.state) {
                       marginRop: "10px",
                     }}
                   >
-                    <img alt=""
+                    <img
+                      alt=""
                       src={rightArrow}
                       style={{ width: "10px", verticalAlign: "middle" }}
                     />
-                    &ensp;Hover/tap select labels for more information. Click the arrow for rankings.
+                    &ensp;Hover/tap select labels for more information. Click
+                    the arrow for rankings.
                   </span>
                 </div>
               </th>
@@ -2334,9 +2409,8 @@ if (!location?.state) {
               <th
                 data-tooltip-id="dataPageTooltip1"
                 data-tooltip-content="A larger value indicates more variability, while a smaller value indicates less, on average."
-               
               >
-                <span className="audioFeaturesColumnLabel" >
+                <span className="audioFeaturesColumnLabel">
                   standard deviation
                 </span>
               </th>
@@ -2376,7 +2450,7 @@ if (!location?.state) {
                       className="audioFeaturesColumnLabel"
                       data-tooltip-id="dataPageTooltip1"
                       data-tooltip-content={featureExplanations[index]}
-                      style={{cursor:'zoom-in'}}
+                      style={{ cursor: "zoom-in" }}
                     >
                       {feature}
                     </span>
@@ -2385,9 +2459,9 @@ if (!location?.state) {
                         openAudiofeatureModal(feature);
                       }}
                       title={`Open ${feature} rankings`}
-                     
                     >
-                      <img alt=""
+                      <img
+                        alt=""
                         src={popoutIcon}
                         style={{
                           width: "10px",
@@ -2471,7 +2545,8 @@ if (!location?.state) {
                             src={highestSong?.mp3}
                           ></audio>
 
-                          <img alt=""
+                          <img
+                            alt=""
                             src={highestSong?.img}
                             className="primaryImage"
                           />
@@ -2491,8 +2566,9 @@ if (!location?.state) {
                           src={highestSong?.img}
                           alt={""}
                         /> */}
-                          <a className="link2" href={highestSong.url}>
-                        <p className="primaryName"> {highestSong?.name}</p></a>
+                        <a className="link2" href={highestSong.url}>
+                          <p className="primaryName"> {highestSong?.name}</p>
+                        </a>
                         &emsp;
                         <p className="primaryArtists">
                           {highestSong?.artists?.join(", ")}
@@ -2541,7 +2617,11 @@ if (!location?.state) {
                             src={lowestSong?.mp3}
                           ></audio>
 
-                          <img alt="" src={lowestSong?.img} className="primaryImage" />
+                          <img
+                            alt=""
+                            src={lowestSong?.img}
+                            className="primaryImage"
+                          />
 
                           {lowestSong?.mp3 && (
                             <div
@@ -2558,8 +2638,10 @@ if (!location?.state) {
                           src={lowestSong.img}
                           alt={lowestSong?.name}
                         /> */}
-                          <a className="link2" href={lowestSong.url}>
-                        <p className="primaryName">{lowestSong?.name}</p></a>&emsp;
+                        <a className="link2" href={lowestSong.url}>
+                          <p className="primaryName">{lowestSong?.name}</p>
+                        </a>
+                        &emsp;
                         <p className="primaryArtists">
                           {lowestSong.artists?.join(", ")}
                         </p>
@@ -2580,13 +2662,26 @@ if (!location?.state) {
         </table>
 
         {/* data-tooltip-id="dataPageTooltip1" data-tooltip-content="Open Spotify profile" */}
-        <Tooltip id="dataPageTooltip1" className="tooltip3" noArrow  clickable={"true"}/>
+        <Tooltip
+          id="dataPageTooltip1"
+          className="tooltip3"
+          noArrow
+          clickable={"true"}
+        />
 
+        <Tooltip
+          clickable="true"
+          id="rangeTooltip"
+          className="tooltip3"
+          noArrow
+        />
 
-
-        <Tooltip clickable="true" id="rangeTooltip" className="tooltip3" noArrow />
-
-        <Tooltip id="gptTooltip" className="tooltip3"noArrow clickable={"true"}>
+        <Tooltip
+          id="gptTooltip"
+          className="tooltip3"
+          noArrow
+          clickable={"true"}
+        >
           {/* <span className="gradient">comparify</span> */}
           <span>
             <img alt="" src={logo} style={{ width: "20px" }} />
@@ -2632,7 +2727,8 @@ if (!location?.state) {
             {apiResponse && (
               <>
                 <div>
-                  <img alt=""
+                  <img
+                    alt=""
                     src={gptBtn}
                     style={{
                       width: "30px",
@@ -2756,15 +2852,9 @@ if (!location?.state) {
         closeAudiofeatureModal={closeAudiofeatureModal}
       />
 
-
-
-
-
-<CoverArtModal
+      <CoverArtModal
         location={scrollPosition}
-        urlForCoverArtModal={
-          urlForCoverArtModal
-        }
+        urlForCoverArtModal={urlForCoverArtModal}
         songs={topSongs}
         token={token}
         isCoverArtModalOpen={isCoverArtModalOpen}

@@ -98,6 +98,16 @@ const Game = (props) => {
 
   const handleStartGame = () => {
     setStartClicked(true);
+
+
+
+    setTimeout(() => {
+   if(true) {
+    document.getElementById("firstAudio").play();
+
+   }
+    }, 4000);
+  
   };
 
   
@@ -120,6 +130,8 @@ const Game = (props) => {
           if (updatedCounter === 0) {
             clearInterval(countdownInterval);
             setStartGame(true);
+            
+
           }
           return updatedCounter;
         });
@@ -134,7 +146,10 @@ const Game = (props) => {
   useEffect(() => {
     let countdownInterval;
 
+
+
     if (startGame) {
+  
       countdownInterval = setInterval(() => {
         setRemainingTime((prevTime) => prevTime - 1);
       }, 1000);
@@ -144,6 +159,18 @@ const Game = (props) => {
       clearInterval(countdownInterval);
     };
   }, [startGame]);
+
+
+
+
+
+  useEffect(() => {
+  
+   if(startGame && currentSongIndex !== 0) {
+    document.getElementById("firstAudio").pause();
+
+   }
+  }, [startGame,currentSongIndex]);
 
   const location = useLocation();
   
@@ -349,6 +376,14 @@ const Game = (props) => {
 
   return (
     <div>
+
+<audio
+                    // ref={audioRef}
+                    id="firstAudio"
+                    src={randomSelections[0]?.mp3}
+                    // autoPlay="autoPlay"
+                    playsInline="playsInline"
+                  ></audio>
       {/* <audio
                  id="finishSound"
                   src={finishSound}
@@ -508,7 +543,7 @@ const Game = (props) => {
               )}
 
               {randomSelections[currentSongIndex]?.mp3 !== null &&
-                randomSelections.length > 0 && (
+                randomSelections.length > 0 && currentSongIndex !== 0 && (
                   <audio
                     ref={audioRef}
                     src={randomSelections[currentSongIndex]?.mp3}

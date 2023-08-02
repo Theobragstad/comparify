@@ -16,12 +16,19 @@ import refreshIcon from "./img/refresh.png";
 
 import rightArrow from "./img/rightArrow.png"
 const MoreData = () => {
+  useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
+}, []);
   // document.title = "comparify - More data";
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const token = location.state.token;
+  const token = location.state?.token;
 
   const [savedShows, setSavedShows] = useState([]);
   const [followedArtists, setFollowedArtists] = useState([]);
@@ -368,6 +375,11 @@ const MoreData = () => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     const interval = setInterval(() => {
       setRefresh(true);
     }, 1 * 30 * 1000); // 4 minutes in milliseconds
@@ -378,7 +390,11 @@ const MoreData = () => {
   }, []);
   
   useEffect(() => {
-
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     if (refresh) {
       const timeout = setTimeout(() => {
         setRefresh(false);
@@ -519,11 +535,21 @@ const MoreData = () => {
 
 
   useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     resetAllAudio();
   }, []);
 
 
   useEffect(() => {
+    if (!location?.state) {
+      navigate("/", {state:{directAccessError: true}});
+  
+      return;
+    }
     const audioElements = document.querySelectorAll("audio");
     const updatedIsPlaying = Array.from(isPlaying);
   
