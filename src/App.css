@@ -568,7 +568,20 @@ body,
   margin-bottom: 10px;
   width: fit-content;
   z-index: 1;
+
+
+  /* margin: 0 auto; */
 }
+
+
+.noGrad {
+  background: none;
+  background-clip: none;
+  -webkit-background-clip: none;
+  color: white;
+  
+}
+
 .zoom {
   transition: transform 0.5s ease;
 }
@@ -954,9 +967,15 @@ body,
 
 .primaryText {
   margin-left: 10px;
-  display: flex;
-  align-items: flex-end;
+  /* margin: 0 auto; */
+
+  
 }
+
+.ctrMgn {
+  margin: 0 auto;
+}
+
 .saveImg2 {
   border-radius: 25px;
   color: white;
@@ -1524,6 +1543,7 @@ tr:last-child td:last-child {
   font-weight: bold;
   text-align: left;
   margin: 0 auto;
+  /* color:gray !important; */
 }
 .compareCard3 {
   height: 180px;
@@ -1558,7 +1578,37 @@ tr:last-child td:last-child {
   font-weight: bold;
   text-align: left;
   margin: 0 auto;
+  /* color:gray; */
+
+  position: relative; }
+
+
+
+  .big1,
+  .big2 {
+    position: absolute;
+    top: 0; /* Align to the top of the parent */
+  }
+  
+  .big1 {
+    left: 5px; /* Align to the left of the parent */
+    color:#1e90ff;
+  }
+  
+  .big2 {
+    right: 5px; /* Align to the right of the parent */
+    color:#ffdf00;
+  }
+
+.same {
+opacity: 0;
 }
+
+
+
+
+
+
 .compareCardSmall3 {
   height: fit-content;
   overflow: auto;

@@ -82,913 +82,683 @@ function Data() {
   const [songReleaseDecadeDistrHover, setSongReleaseDecadeDistrHover] =
     useState(false);
 
-
-    const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(true);
 
   const timeoutRef = useRef(null);
 
+  ////////////////////
 
+  const handleTapPie = () => {
+    setSongReleaseDecadeDistrHover(!songReleaseDecadeDistrHover); // Toggle the value of isHovered
+  };
 
+  const handleMouseOver = () => {
+    document.getElementById("arrow").setAttribute("src", arrowDown);
+    document.getElementById("arrow").style.width = "20px";
+  };
 
+  const handleMouseOut = () => {
+    document.getElementById("arrow").setAttribute("src", arrowRight);
+    document.getElementById("arrow").style.width = "10px";
+  };
 
+  Modal.setAppElement("#root");
 
+  const configuration = new Configuration({
+    organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  });
 
+  delete configuration.baseOptions.headers["User-Agent"];
 
+  const openai = new OpenAIApi(configuration);
 
+  const handleGptSumbit = async () => {
+    setGptLoading(true);
+    setApiResponse("");
+    let gptPrompt = gatherGptPromptData();
 
-    ////////////////////
+    if (!gptPrompt) {
+      gptPrompt =
+        "Display the following statement (without quotes around it): Prompt error. Try again.";
+    }
+    console.log(gptPrompt);
 
-    const handleTapPie = () => {
-      setSongReleaseDecadeDistrHover(!songReleaseDecadeDistrHover); // Toggle the value of isHovered
-    };
-  
-    const handleMouseOver = () => {
-      document.getElementById("arrow").setAttribute("src", arrowDown);
-      document.getElementById("arrow").style.width = "20px";
-    };
-  
-    const handleMouseOut = () => {
-      document.getElementById("arrow").setAttribute("src", arrowRight);
-      document.getElementById("arrow").style.width = "10px";
-    };
-  
-    Modal.setAppElement("#root");
-  
-    const configuration = new Configuration({
-      organization: "org-K3YIyvzJixL8ZKFVjQJCKBMP",
-      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-    });
-  
-    delete configuration.baseOptions.headers["User-Agent"];
-  
-    const openai = new OpenAIApi(configuration);
-  
-    const handleGptSumbit = async () => {
-      setGptLoading(true);
-      setApiResponse("");
-      let gptPrompt = gatherGptPromptData();
-  
-      if (!gptPrompt) {
-        gptPrompt =
-          "Display the following statement (without quotes around it): Prompt error. Try again.";
-      }
-      console.log(gptPrompt);
-  
-      try {
-        const result = await openai.createCompletion({
-          model: "text-davinci-003",
-          prompt: gptPrompt,
-          temperature: 1.2,
-          max_tokens: 250,
-        });
-        console.log("response", result.data.choices[0].text);
-        setApiResponse(result.data.choices[0].text);
-      } catch (error) {
-        console.log(error);
-        setApiResponse(
-          "ChatGPT error. This is likely a rate limit. Try again in a minute or so."
-        );
-        setGptLoading(false);
-      }
+    try {
+      const result = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: gptPrompt,
+        temperature: 1.2,
+        max_tokens: 250,
+      });
+      console.log("response", result.data.choices[0].text);
+      setApiResponse(result.data.choices[0].text);
+    } catch (error) {
+      console.log(error);
+      setApiResponse(
+        "ChatGPT error. This is likely a rate limit. Try again in a minute or so."
+      );
       setGptLoading(false);
-    };
-    function handleConvertToImage() {
-      setSaveGptClicked(true);
-  
-      setTimeout(() => {
-        const div = document.getElementById("imgDiv");
-        if (div) {
-          html2canvas(div, {}).then((canvas) => {
-            const image = canvas.toDataURL("image/png");
-  
-            var fileName =
-              `comparify x ChatGPT for ` + nameIdImgurlGenerationdate[0] + ".png";
-            downloadPNG(image, fileName);
-          });
-        }
-      }, 0);
     }
-  
-    function downloadPNG(url, filename) {
-      var anchorElement = document.createElement("a");
-      anchorElement.href = url;
-      anchorElement.download = filename;
-  
-      anchorElement.click();
-      setSaveGptClicked(false);
-    }
-  
-    const openModal = async () => {
-      setIsOpen(true);
-      await handleGptSumbit();
-    };
-  
-    const closeModal = () => {
-      setIsOpen(false);
-    };
-    const customStyles = {
-      overlay: {
-        zIndex: 9999,
-        display: "flex",
-        justifyContent: "center",
-        textAlign: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-      },
-      content: {
-        zIndex: 9999,
-        width: "30%",
-        height: "80%",
-        margin: "auto",
-        borderRadius: "10px",
-        outline: "none",
-        padding: "0px 0px 10px 0px",
-        border: "none",
-  
-        // maxHeight: "75%",
-        overflowY: "scroll",
-        backgroundColor: "rgba(255, 255, 255, 1)",
-      },
-    };
-  
-    const mediaQueryStyles = `@media (max-width: 1000px) {
+    setGptLoading(false);
+  };
+  function handleConvertToImage() {
+    setSaveGptClicked(true);
+
+    setTimeout(() => {
+      const div = document.getElementById("imgDiv");
+      if (div) {
+        html2canvas(div, {}).then((canvas) => {
+          const image = canvas.toDataURL("image/png");
+
+          var fileName =
+            `comparify x ChatGPT for ` + nameIdImgurlGenerationdate[0] + ".png";
+          downloadPNG(image, fileName);
+        });
+      }
+    }, 0);
+  }
+
+  function downloadPNG(url, filename) {
+    var anchorElement = document.createElement("a");
+    anchorElement.href = url;
+    anchorElement.download = filename;
+
+    anchorElement.click();
+    setSaveGptClicked(false);
+  }
+
+  const openModal = async () => {
+    setIsOpen(true);
+    await handleGptSumbit();
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const customStyles = {
+    overlay: {
+      zIndex: 9999,
+      display: "flex",
+      justifyContent: "center",
+      textAlign: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+      zIndex: 9999,
+      width: "30%",
+      height: "80%",
+      margin: "auto",
+      borderRadius: "10px",
+      outline: "none",
+      padding: "0px 0px 10px 0px",
+      border: "none",
+
+      // maxHeight: "75%",
+      overflowY: "scroll",
+      backgroundColor: "rgba(255, 255, 255, 1)",
+    },
+  };
+
+  const mediaQueryStyles = `@media (max-width: 1000px) {
       .recommendationModal {
         width: 90% !important;
       }
     }`;
-  
-    const customRecModalStyles = {
-      overlay: {
-        zIndex: 9999,
-        display: "flex",
-        justifyContent: "center",
-        textAlign: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-      },
-      content: {
-        zIndex: 9999,
-        maxWidth: "30%",
-        width: "30%",
-        height: "fit-content",
-        margin: "auto",
-        borderRadius: "10px",
-        outline: "none",
-        padding: "20px",
-  
-        maxHeight: "90vh",
-        overflowY: "scroll",
-        backgroundColor: "rgba(255, 255, 255, 1)",
-      },
-    };
-  
-    const selectButton = (index) => {
-      setIsTimeRangeLoading(true);
-      setSelectedButton(index);
-      setSelectedTimeRange(timeRanges[index - 1]);
-  
-      setSelectedTimeRangeClean(timeRangesClean[index - 1]);
-  
-      setApiResponse("");
-    };
+
+  const customRecModalStyles = {
+    overlay: {
+      zIndex: 9999,
+      display: "flex",
+      justifyContent: "center",
+      textAlign: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+      zIndex: 9999,
+      maxWidth: "30%",
+      width: "30%",
+      height: "fit-content",
+      margin: "auto",
+      borderRadius: "10px",
+      outline: "none",
+      padding: "20px",
+
+      maxHeight: "90vh",
+      overflowY: "scroll",
+      backgroundColor: "rgba(255, 255, 255, 1)",
+    },
+  };
+
+  const selectButton = (index) => {
+    setIsTimeRangeLoading(true);
+    setSelectedButton(index);
+    setSelectedTimeRange(timeRanges[index - 1]);
+
+    setSelectedTimeRangeClean(timeRangesClean[index - 1]);
+
+    setApiResponse("");
+  };
+
+  let token = location.state?.token;
+
+  const allData = location.state?.data?.split(",") || [];
+
+  const nameIdImgurlGenerationdate = allData?.slice(1, 5) || null;
 
 
-
-    let token = location.state?.token;
-
-  const allData = location.state?.data?.split(",") || []
-  
-    const nameIdImgurlGenerationdate = allData?.slice(1, 5) || null
-  
-    const dataStartIndex = allData?.indexOf(selectedTimeRange) + 1 || null
-    const dataEndIndex =
-      selectedTimeRange === "long_term"
-        ? allData?.length - 1
-        : allData?.indexOf(
-            timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]
-          ) - 1;
-  
-    const data = allData?.slice(dataStartIndex, dataEndIndex + 1);
-  
-    const labels = [
-      "songIds[<=50]",
-      "mostLeastPopSongIds[<=2]",
-      "decadesAndPcts[]", //
-      "oldestNewestSongIds[<=2]",
-      "avgSongPop[1]",
-      "songPopStdDev[1]",
-      "avgSongAgeYrMo[2]",
-      "songAgeStdDevYrMo[2]",
-      "pctSongsExpl[1]",
-      "audioFeatureMeans[11]",
-      "audioFeatureStdDevs[11]",
-      "highestAudioFeatureSongIds[<=11]",
-      "lowestAudioFeatureSongIds[<=11]",
-      "albumIds[<=10]",
-      "mostLeastPopAlbumIds[<=2]",
-      "avgAlbumPop[1]",
-      "albumPopsStdDev[1]",
-      "topLabelsByAlbums[<=5]",
-      "artistIds[<=50]",
-      "mostLeastPopArtistIds[<=2]",
-      "avgArtistPop[1]",
-      "artistPopStdDev[1]",
-      "avgArtistFolls[1]",
-      "artistFollsStdDev[1]",
-      "topGenresByArtist[<=20]",
-    ];
-  
-    const arrays = {
-      songIds: [],
-      mostLeastPopSongIds: [],
-      decadesAndPcts: [], //
-      oldestNewestSongIds: [],
-      avgSongPop: [],
-      songPopStdDev: [],
-      avgSongAgeYrMo: [],
-      songAgeStdDevYrMo: [],
-      pctSongsExpl: [],
-      audioFeatureMeans: [],
-      audioFeatureStdDevs: [],
-      highestAudioFeatureSongIds: [],
-      lowestAudioFeatureSongIds: [],
-      albumIds: [],
-      mostLeastPopAlbumIds: [],
-      avgAlbumPop: [],
-      albumPopsStdDev: [],
-      topLabelsByAlbums: [],
-      artistIds: [],
-      mostLeastPopArtistIds: [],
-      avgArtistPop: [],
-      artistPopStdDev: [],
-      avgArtistFolls: [],
-      artistFollsStdDev: [],
-      topGenresByArtist: [],
-    };
-  
-    for (let i = 0; i < labels.length - 1; i++) {
-      const startIndex = data.indexOf(labels[i]) + 1;
-      const endIndex = data.indexOf(labels[i + 1]);
-  
-      const key = labels[i].substring(0, labels[i].indexOf("["));
-      arrays[key] = data.slice(startIndex, endIndex);
+  const [profPic, setProfPic] = useState(null);
+  const fetchAndProcessImage = async () => {
+    try {
+      const response = await fetch(nameIdImgurlGenerationdate[2]);
+      const imageBlob = await response.blob();
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataURL = reader.result;
+        setProfPic(dataURL); // Save the data URL in the state
+        // You can do something else with the dataURL here
+      };
+      reader.readAsDataURL(imageBlob);
+    } catch (error) {
+      console.error('Error fetching or processing image:', error);
     }
-  
-    arrays.topGenresByArtist = data.slice(
-      data.indexOf("topGenresByArtist[<=20]") + 1
-    );
-    /////
-    const pieData = [];
-  
-    for (let i = 0; i < arrays.decadesAndPcts.length; i += 2) {
-      const decade = arrays.decadesAndPcts[i];
-      const percentage = arrays.decadesAndPcts[i + 1];
-      pieData.push({ name: `${decade}s`, value: parseFloat(percentage) });
+  };
+
+  useEffect(() => {
+    fetchAndProcessImage();
+  }, []);
+
+  const dataStartIndex = allData?.indexOf(selectedTimeRange) + 1 || null;
+  const dataEndIndex =
+    selectedTimeRange === "long_term"
+      ? allData?.length - 1
+      : allData?.indexOf(
+          timeRanges[timeRanges.indexOf(selectedTimeRange) + 1]
+        ) - 1;
+
+  const data = allData?.slice(dataStartIndex, dataEndIndex + 1);
+
+  const labels = [
+    "songIds[<=50]",
+    "mostLeastPopSongIds[<=2]",
+    "decadesAndPcts[]", //
+    "oldestNewestSongIds[<=2]",
+    "avgSongPop[1]",
+    "songPopStdDev[1]",
+    "avgSongAgeYrMo[2]",
+    "songAgeStdDevYrMo[2]",
+    "pctSongsExpl[1]",
+    "audioFeatureMeans[11]",
+    "audioFeatureStdDevs[11]",
+    "highestAudioFeatureSongIds[<=11]",
+    "lowestAudioFeatureSongIds[<=11]",
+    "albumIds[<=10]",
+    "mostLeastPopAlbumIds[<=2]",
+    "avgAlbumPop[1]",
+    "albumPopsStdDev[1]",
+    "topLabelsByAlbums[<=5]",
+    "artistIds[<=50]",
+    "mostLeastPopArtistIds[<=2]",
+    "avgArtistPop[1]",
+    "artistPopStdDev[1]",
+    "avgArtistFolls[1]",
+    "artistFollsStdDev[1]",
+    "topGenresByArtist[<=20]",
+  ];
+
+  const arrays = {
+    songIds: [],
+    mostLeastPopSongIds: [],
+    decadesAndPcts: [], //
+    oldestNewestSongIds: [],
+    avgSongPop: [],
+    songPopStdDev: [],
+    avgSongAgeYrMo: [],
+    songAgeStdDevYrMo: [],
+    pctSongsExpl: [],
+    audioFeatureMeans: [],
+    audioFeatureStdDevs: [],
+    highestAudioFeatureSongIds: [],
+    lowestAudioFeatureSongIds: [],
+    albumIds: [],
+    mostLeastPopAlbumIds: [],
+    avgAlbumPop: [],
+    albumPopsStdDev: [],
+    topLabelsByAlbums: [],
+    artistIds: [],
+    mostLeastPopArtistIds: [],
+    avgArtistPop: [],
+    artistPopStdDev: [],
+    avgArtistFolls: [],
+    artistFollsStdDev: [],
+    topGenresByArtist: [],
+  };
+
+  for (let i = 0; i < labels.length - 1; i++) {
+    const startIndex = data.indexOf(labels[i]) + 1;
+    const endIndex = data.indexOf(labels[i + 1]);
+
+    const key = labels[i].substring(0, labels[i].indexOf("["));
+    arrays[key] = data.slice(startIndex, endIndex);
+  }
+
+  arrays.topGenresByArtist = data.slice(
+    data.indexOf("topGenresByArtist[<=20]") + 1
+  );
+  /////
+  const pieData = [];
+
+  for (let i = 0; i < arrays.decadesAndPcts.length; i += 2) {
+    const decade = arrays.decadesAndPcts[i];
+    const percentage = arrays.decadesAndPcts[i + 1];
+    pieData.push({ name: `${decade}s`, value: parseFloat(percentage) });
+  }
+
+  const colors = [
+    "#1e90ff",
+    "#18d860",
+    "#ffdf00",
+    "#FF1493",
+    "#9370DB",
+    "#FF4500",
+    "#008080",
+    "#FF8C00",
+    "#9932CC",
+    "#20B2AA",
+    "#FF69B4",
+    "#6A5ACD",
+    "#32CD32",
+    "#FF6347",
+    "#7B68EE",
+  ];
+
+  //14
+
+  ////
+
+  const getTopSongs = async (songIds) => {
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
+
+        const topSongsData = data.tracks.map((track) => ({
+          id: track.id,
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
+        }));
+
+        setTopSongs(topSongsData);
+      } else {
+        setTopSongs([]);
+      }
+      // console.log(topSongs);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
-  
-    const colors = [
-      "#1e90ff",
-      "#18d860",
-      "#ffdf00",
-      "#FF1493",
-      "#9370DB",
-      "#FF4500",
-      "#008080",
-      "#FF8C00",
-      "#9932CC",
-      "#20B2AA",
-      "#FF69B4",
-      "#6A5ACD",
-      "#32CD32",
-      "#FF6347",
-      "#7B68EE",
-    ];
-  
-    //14
-  
-    ////
-  
-    const getTopSongs = async (songIds) => {
-      try {
-        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: songIds.join(","),
-            },
-          });
-  
-          const topSongsData = data.tracks.map((track) => ({
-            id: track.id,
-            name: track.name,
-            artists: track.artists.map((artist) => artist.name),
-            img: track.album.images[0]?.url,
-            mp3: track.preview_url,
-            url: track.external_urls.spotify,
-          }));
-  
-          setTopSongs(topSongsData);
-        } else {
-          setTopSongs([]);
-        }
-        // console.log(topSongs);
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
+  };
+
+  const getHighestAudioFeatureSongs = async (songIds) => {
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
+
+        const highestAudioFeatureSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
+        }));
+
+        setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
+      } else {
+        setHighestAudioFeatureSongs(Array(11).fill("-"));
       }
-    };
-  
-    const getHighestAudioFeatureSongs = async (songIds) => {
-      try {
-        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: songIds.join(","),
-            },
-          });
-  
-          const highestAudioFeatureSongsData = data.tracks.map((track) => ({
-            name: track.name,
-            artists: track.artists.map((artist) => artist.name),
-            img: track.album.images[0]?.url || missingImage,
-            mp3: track.preview_url,
-            url: track.external_urls.spotify,
-          }));
-  
-          setHighestAudioFeatureSongs(highestAudioFeatureSongsData);
-        } else {
-          setHighestAudioFeatureSongs(Array(11).fill("-"));
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getLowestAudioFeatureSongs = async (songIds) => {
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
+
+        const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
+        }));
+
+        setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
+      } else {
+        setLowestAudioFeatureSongs(Array(11).fill("-"));
       }
-    };
-  
-    const getLowestAudioFeatureSongs = async (songIds) => {
-      try {
-        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: songIds.join(","),
-            },
-          });
-  
-          const lowestAudioFeatureSongsData = data.tracks.map((track) => ({
-            name: track.name,
-            artists: track.artists.map((artist) => artist.name),
-            img: track.album.images[0]?.url || missingImage,
-            mp3: track.preview_url,
-            url: track.external_urls.spotify,
-          }));
-  
-          setLowestAudioFeatureSongs(lowestAudioFeatureSongsData);
-        } else {
-          setLowestAudioFeatureSongs(Array(11).fill("-"));
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getMostLeastPopSongs = async (songIds) => {
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
+
+        const mostLeastPopSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          pop: track.popularity,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
+        }));
+
+        setMostLeastPopSongs(mostLeastPopSongsData);
+      } else {
+        setMostLeastPopSongs([]);
       }
-    };
-  
-    const getMostLeastPopSongs = async (songIds) => {
-      try {
-        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: songIds.join(","),
-            },
-          });
-  
-          const mostLeastPopSongsData = data.tracks.map((track) => ({
-            name: track.name,
-            pop: track.popularity,
-            artists: track.artists.map((artist) => artist.name),
-            img: track.album.images[0]?.url || missingImage,
-            mp3: track.preview_url,
-            url: track.external_urls.spotify,
-          }));
-  
-          setMostLeastPopSongs(mostLeastPopSongsData);
-        } else {
-          setMostLeastPopSongs([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getOldestNewestSongs = async (songIds) => {
+    try {
+      if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: songIds.join(","),
+          },
+        });
+
+        const oldestNewestSongsData = data.tracks.map((track) => ({
+          name: track.name,
+          date: track.album.release_date,
+          artists: track.artists.map((artist) => artist.name),
+          img: track.album.images[0]?.url || missingImage,
+          mp3: track.preview_url,
+          url: track.external_urls.spotify,
+        }));
+
+        setOldestNewestSongs(oldestNewestSongsData);
+      } else {
+        setOldestNewestSongs([]);
       }
-    };
-  
-    const getOldestNewestSongs = async (songIds) => {
-      try {
-        if (songIds && songIds.length > 0 && songIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/tracks", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: songIds.join(","),
-            },
-          });
-  
-          const oldestNewestSongsData = data.tracks.map((track) => ({
-            name: track.name,
-            date: track.album.release_date,
-            artists: track.artists.map((artist) => artist.name),
-            img: track.album.images[0]?.url || missingImage,
-            mp3: track.preview_url,
-            url: track.external_urls.spotify,
-          }));
-  
-          setOldestNewestSongs(oldestNewestSongsData);
-        } else {
-          setOldestNewestSongs([]);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getTopAlbums = async (albumIds) => {
+    try {
+      if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
+        const maxAlbumsPerRequest = 20;
+        const albumChunks = [];
+
+        for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
+          albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
         }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
-      }
-    };
-  
-    const getTopAlbums = async (albumIds) => {
-      try {
-        if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
-          const maxAlbumsPerRequest = 20;
-          const albumChunks = [];
-  
-          for (let i = 0; i < albumIds.length; i += maxAlbumsPerRequest) {
-            albumChunks.push(albumIds.slice(i, i + maxAlbumsPerRequest));
-          }
-  
-          const topAlbumData = [];
-  
-          for (const albumChunk of albumChunks) {
-            const { data } = await axios.get(
-              "https://api.spotify.com/v1/albums",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-                params: {
-                  ids: albumChunk.join(","),
-                },
-              }
-            );
-  
-            const chunkAlbumsData = data.albums.map((album) => ({
-              name: album.name,
-              artists: album.artists.map((artist) => artist.name),
-              img: album.images[0]?.url || missingImage,
-              url: album.external_urls.spotify,
-            }));
-  
-            topAlbumData.push(...chunkAlbumsData);
-          }
-  
-          setTopAlbums(topAlbumData);
-        } else {
-          setTopAlbums([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
-      }
-    };
-  
-    const getMostLeastPopAlbums = async (albumIds) => {
-      try {
-        if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/albums", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: albumIds.join(","),
-            },
-          });
-  
-          const mostLeastPopAlbumsData = data.albums.map((album) => ({
+
+        const topAlbumData = [];
+
+        for (const albumChunk of albumChunks) {
+          const { data } = await axios.get(
+            "https://api.spotify.com/v1/albums",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              params: {
+                ids: albumChunk.join(","),
+              },
+            }
+          );
+
+          const chunkAlbumsData = data.albums.map((album) => ({
             name: album.name,
-            pop: album.popularity,
             artists: album.artists.map((artist) => artist.name),
             img: album.images[0]?.url || missingImage,
             url: album.external_urls.spotify,
           }));
-  
-          setMostLeastPopAlbums(mostLeastPopAlbumsData);
-        } else {
-          setMostLeastPopAlbums([]);
+
+          topAlbumData.push(...chunkAlbumsData);
         }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
-      }
-    };
-  
-    const getTopArtists = async (artistIds) => {
-      try {
-        if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: artistIds.join(","),
-            },
-          });
-  
-          const topArtistsData = data.artists.map((artist) => ({
-            name: artist.name,
-            img: artist.images[0]?.url || missingImage,
-            url: artist.external_urls.spotify,
-          }));
-  
-          setTopArtists(topArtistsData);
-        } else {
-          setTopArtists([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
-      }
-    };
-  
-    const getMostLeastPopArtists = async (artistIds) => {
-      try {
-        if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
-          const { data } = await axios.get("https://api.spotify.com/v1/artists", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: artistIds.join(","),
-            },
-          });
-  
-          const mostLeastPopArtistsData = data.artists.map((artist) => ({
-            name: artist.name,
-            pop: artist.popularity,
-            img: artist.images[0]?.url || missingImage,
-            url: artist.external_urls.spotify,
-          }));
-  
-          setMostLeastPopArtists(mostLeastPopArtistsData);
-        } else {
-          setMostLeastPopArtists([]);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
-      }
-    };
-  
-    function formatGptPrompt(
-      topSong,
-      topSongArtist,
-      topArtist,
-      topAlbum,
-      topAlbumArtist,
-      topGenre,
-      topLabel,
-      oldestSong,
-      oldestSongArtist,
-      oldestSongYear,
-      newestSong,
-      newestSongArtist,
-      newestSongYear,
-      avgSongPop,
-      songPopStdDev,
-      avgSongAgeYrMo,
-      songAgeStdDevYrMo,
-      avgArtistPop,
-      artistPopStdDev,
-      pctSongsExpl,
-      highAudioFeatureAvgs,
-      highAudioFeatureStdDevs,
-      lowAudioFeatureAvgs,
-      lowAudioFeatureStdDevs
-    ) {
-      const yearWithHighestPercent = arrays.decadesAndPcts.reduce(
-        (maxYear, currentValue, currentIndex) =>
-          currentIndex % 2 === 1 &&
-          parseFloat(currentValue) >
-            parseFloat(arrays.decadesAndPcts[currentIndex - 2])
-            ? arrays.decadesAndPcts[currentIndex - 1]
-            : maxYear
-      );
-  
-      return (
-        "You'll be given some information about a person's music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person POV. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: LIMIT YOUR POEM TO 70 WORDS MAXIMUM. DO NOT PRODUCE MORE THAN 70 WORDS IN YOUR RESPONSE. The data is: Their top song is " +
-        topSong.toString() +
-        " by " +
-        topSongArtist.toString() +
-        ". Their top artist is " +
-        topArtist.toString() +
-        ". Their top album is " +
-        topAlbum.toString() +
-        " by " +
-        topAlbumArtist.toString() +
-        ". Their top genre is " +
-        topGenre.toString() +
-        ". They've listened to music from both " +
-        oldestSongYear.toString() +
-        " and " +
-        newestSongYear.toString() +
-        ". The average popularity (0-100) of their songs is " +
-        avgSongPop.toString() +
-        ". The standard deviation of the popularities of their top songs is " +
-        songPopStdDev.toString() +
-        ". The average age of their top songs is " +
-        avgSongAgeYrMo.toString() +
-        ". The standard deviation of the ages of their top songs is " +
-        songAgeStdDevYrMo.toString() +
-        ". The average popularity of their top artists is " +
-        avgArtistPop.toString() +
-        ". The standard deviation of the popularity of their top artists is " +
-        artistPopStdDev.toString() +
-        ". The percent of their top songs that are explicit is " +
-        pctSongsExpl.toString() +
-        ". They like songs that have high values for " +
-        highAudioFeatureAvgs[0].toString() +
-        " and " +
-        highAudioFeatureAvgs[1].toString() +
-        ", and low values for " +
-        lowAudioFeatureAvgs[0].toString() +
-        " and " +
-        lowAudioFeatureAvgs[1].toString() +
-        ". They've listened to music from " +
-        (arrays.decadesAndPcts.length / 2).toString() +
-        " different decades, but they liked songs from the " +
-        yearWithHighestPercent.toString() +
-        "'s the most."
-      );
-    }
-  
-    function gatherGptPromptData() {
-      const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
-        if (![2, 6, 8].includes(index))
-          map[current] = parseFloat(arrays.audioFeatureMeans[index]);
-        return map;
-      }, {});
-  
-      const audioFeaturesToAvgsMapSorted = new Map(
-        Object.entries(audioFeaturesToAvgsMap).sort(
-          ([, value1], [, value2]) => value1 - value2
-        )
-      );
-  
-      const keysOfAudioFeaturesToAvgsMapSorted = Array.from(
-        audioFeaturesToAvgsMapSorted.keys()
-      );
-      const twoAudioFeaturesLowestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(
-        0,
-        2
-      );
-      const twoAudioFeaturesHighestAvgs =
-        keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
-  
-      const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
-        if (![2, 6, 8].includes(index))
-          map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
-        return map;
-      }, {});
-  
-      const audioFeaturesToStdDevsMapSorted = new Map(
-        Object.entries(audioFeaturesToStdDevsMap).sort(
-          ([, value1], [, value2]) => value1 - value2
-        )
-      );
-  
-      const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
-        audioFeaturesToStdDevsMapSorted.keys()
-      );
-      const twoAudioFeaturesLowestStdDevs =
-        keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
-      const twoAudioFeaturesHighestStdDevs =
-        keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
-  
-      let prompt = "Prompt error. Try again.";
-  
-      if (
-        topSongs &&
-        topSongs.length > 0 &&
-        topArtists &&
-        topArtists.length > 0 &&
-        topAlbums &&
-        topAlbums.length > 0
-      ) {
-        prompt = formatGptPrompt(
-          topSongs[0]?.name,
-          topSongs[0]?.artists[0],
-          topArtists[0]?.name,
-          topAlbums[0]?.name,
-          topAlbums[0]?.artists[0],
-          arrays.topGenresByArtist[0],
-          arrays.topLabelsByAlbums[0],
-          oldestNewestSongs[0]?.name,
-          oldestNewestSongs[0]?.artists[0],
-          oldestNewestSongs[0]?.date.substr(0, 4),
-          oldestNewestSongs[1]?.name,
-          oldestNewestSongs[1]?.artists[0],
-          oldestNewestSongs[1]?.date.substr(0, 4),
-          arrays.avgSongPop,
-          arrays.songPopStdDev,
-          arrays.avgSongAgeYrMo[0] +
-            " year(s) and " +
-            arrays.avgSongAgeYrMo[1] +
-            " month(s)",
-          arrays.songAgeStdDevYrMo[0] +
-            " year(s) and " +
-            arrays.songAgeStdDevYrMo[1] +
-            " month(s)",
-          arrays.avgArtistPop,
-          arrays.artistPopStdDev,
-          arrays.pctSongsExpl,
-          twoAudioFeaturesHighestAvgs,
-          twoAudioFeaturesHighestStdDevs,
-          twoAudioFeaturesLowestAvgs,
-          twoAudioFeaturesLowestStdDevs
-        );
-      }
-  
-      return prompt;
-    }
-  
-    const isTokenExpired = () => {
-      const expirationTime = localStorage.getItem("expirationTime");
-      if (!expirationTime) {
-        return true;
-      }
-      return new Date().getTime() > parseInt(expirationTime);
-    };
-  
-    function clearCookies() {
-      var cookies = document.cookie.split(";");
-      // console.log(cookies);
-  
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-      }
-    }
-  
-    const logout = (error) => {
-      if (error === "apiError") {
-        clearCookies();
-        token = "";
-        setExpirationTime("");
-        window.localStorage.removeItem("token");
-        // window.localStorage.removeItem("expirationTime"); //
-        navigate("/", { state: { [error]: true } });
+
+        setTopAlbums(topAlbumData);
       } else {
-        clearCookies();
-        token = "";
-        setExpirationTime("");
-        window.localStorage.removeItem("token");
-        window.localStorage.removeItem("expirationTime");
-        navigate("/");
+        setTopAlbums([]);
       }
-    };
-  
-    const features = [
-      "acousticness",
-      "danceability",
-      "duration",
-      "energy",
-      "instrumentalness",
-      "liveness",
-      "loudness",
-      "speechiness",
-      "tempo",
-      "valence",
-    ];
-  
-    const date = new Date(nameIdImgurlGenerationdate[3]);
-  
-    const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  
-    const generationDateTime = date.toLocaleString(undefined, {
-      timeZone: localTimeZone,
-    });
-  
-    const getAudioFeatureValues = async (songIds, arrayToSet) => {
-      try {
-        const featureNames = [
-          "acousticness",
-          "danceability",
-          "duration_ms",
-          "energy",
-          "instrumentalness",
-          "liveness",
-          "loudness",
-          "speechiness",
-          "tempo",
-          "valence",
-        ];
-  
-        const allEmpty = songIds.every((id) => id === "");
-  
-        if (allEmpty) {
-          arrayToSet(Array(songIds.length).fill("-"));
-          return;
-        }
-  
-        if (songIds && songIds.length > 0 && songIds[0] === "No data") {
-          arrayToSet(Array(songIds.length).fill("-"));
-          return;
-        }
-  
-        const filteredIds = songIds.filter((id) => id !== "");
-  
-        const { data } = await axios.get(
-          "https://api.spotify.com/v1/audio-features",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              ids: filteredIds.join(","),
-            },
-          }
-        );
-  
-        const audioFeatures = data.audio_features.map((item) => ({
-          id: item.id,
-          acousticness: item.acousticness,
-          danceability: item.danceability,
-          duration_ms: item.duration_ms,
-          energy: item.energy,
-          instrumentalness: item.instrumentalness,
-          liveness: item.liveness,
-          loudness: item.loudness,
-          speechiness: item.speechiness,
-          tempo: item.tempo,
-          valence: item.valence,
-        }));
-  
-        const result = [];
-        for (let i = 0; i < songIds.length; i++) {
-          if (songIds[i] === "") {
-            result[i] = "";
-          } else {
-            const feature = featureNames[i];
-            const audioFeature = audioFeatures.find(
-              (item) => item.id === songIds[i]
-            );
-            if (feature === "duration_ms") {
-              result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
-            } else {
-              result[i] = audioFeature ? audioFeature[feature] : "";
-            }
-          }
-        }
-  
-        arrayToSet(result);
-      } catch (error) {
-        console.error("Error:", error);
-        logout("apiError");
-      }
-    };
-  
-    function msToMinSec(ms) {
-      const minutes = Math.floor(ms / 60000);
-      const seconds = Math.floor((ms % 60000) / 1000);
-      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
     }
-  
-    const openRecModal = async () => {
-      setRecModalIsOpen(true);
-    };
-    const closeRecModal = () => {
-      setRecModalIsOpen(false);
-    };
-  
+  };
+
+  const getMostLeastPopAlbums = async (albumIds) => {
+    try {
+      if (albumIds && albumIds.length > 0 && albumIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/albums", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: albumIds.join(","),
+          },
+        });
+
+        const mostLeastPopAlbumsData = data.albums.map((album) => ({
+          name: album.name,
+          pop: album.popularity,
+          artists: album.artists.map((artist) => artist.name),
+          img: album.images[0]?.url || missingImage,
+          url: album.external_urls.spotify,
+        }));
+
+        setMostLeastPopAlbums(mostLeastPopAlbumsData);
+      } else {
+        setMostLeastPopAlbums([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getTopArtists = async (artistIds) => {
+    try {
+      if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: artistIds.join(","),
+          },
+        });
+
+        const topArtistsData = data.artists.map((artist) => ({
+          name: artist.name,
+          img: artist.images[0]?.url || missingImage,
+          url: artist.external_urls.spotify,
+        }));
+
+        setTopArtists(topArtistsData);
+      } else {
+        setTopArtists([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  const getMostLeastPopArtists = async (artistIds) => {
+    try {
+      if (artistIds && artistIds.length > 0 && artistIds[0] !== "No data") {
+        const { data } = await axios.get("https://api.spotify.com/v1/artists", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: artistIds.join(","),
+          },
+        });
+
+        const mostLeastPopArtistsData = data.artists.map((artist) => ({
+          name: artist.name,
+          pop: artist.popularity,
+          img: artist.images[0]?.url || missingImage,
+          url: artist.external_urls.spotify,
+        }));
+
+        setMostLeastPopArtists(mostLeastPopArtistsData);
+      } else {
+        setMostLeastPopArtists([]);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  function formatGptPrompt(
+    topSong,
+    topSongArtist,
+    topArtist,
+    topAlbum,
+    topAlbumArtist,
+    topGenre,
+    topLabel,
+    oldestSong,
+    oldestSongArtist,
+    oldestSongYear,
+    newestSong,
+    newestSongArtist,
+    newestSongYear,
+    avgSongPop,
+    songPopStdDev,
+    avgSongAgeYrMo,
+    songAgeStdDevYrMo,
+    avgArtistPop,
+    artistPopStdDev,
+    pctSongsExpl,
+    highAudioFeatureAvgs,
+    highAudioFeatureStdDevs,
+    lowAudioFeatureAvgs,
+    lowAudioFeatureStdDevs
+  ) {
+    const yearWithHighestPercent = arrays.decadesAndPcts.reduce(
+      (maxYear, currentValue, currentIndex) =>
+        currentIndex % 2 === 1 &&
+        parseFloat(currentValue) >
+          parseFloat(arrays.decadesAndPcts[currentIndex - 2])
+          ? arrays.decadesAndPcts[currentIndex - 1]
+          : maxYear
+    );
+
+    return (
+      "You'll be given some information about a person's music preferences. Your task is to generate a short, fun, and creative poem representing their music taste, in the second person POV. Try to incorporate most of the provided data into the poem. IMPORTANT: indicate each new line with a forward slash! ALSO VERY IMPORTANT: LIMIT YOUR POEM TO 70 WORDS MAXIMUM. DO NOT PRODUCE MORE THAN 70 WORDS IN YOUR RESPONSE. The data is: Their top song is " +
+      topSong.toString() +
+      " by " +
+      topSongArtist.toString() +
+      ". Their top artist is " +
+      topArtist.toString() +
+      ". Their top album is " +
+      topAlbum.toString() +
+      " by " +
+      topAlbumArtist.toString() +
+      ". Their top genre is " +
+      topGenre.toString() +
+      ". They've listened to music from both " +
+      oldestSongYear.toString() +
+      " and " +
+      newestSongYear.toString() +
+      ". The average popularity (0-100) of their songs is " +
+      avgSongPop.toString() +
+      ". The standard deviation of the popularities of their top songs is " +
+      songPopStdDev.toString() +
+      ". The average age of their top songs is " +
+      avgSongAgeYrMo.toString() +
+      ". The standard deviation of the ages of their top songs is " +
+      songAgeStdDevYrMo.toString() +
+      ". The average popularity of their top artists is " +
+      avgArtistPop.toString() +
+      ". The standard deviation of the popularity of their top artists is " +
+      artistPopStdDev.toString() +
+      ". The percent of their top songs that are explicit is " +
+      pctSongsExpl.toString() +
+      ". They like songs that have high values for " +
+      highAudioFeatureAvgs[0].toString() +
+      " and " +
+      highAudioFeatureAvgs[1].toString() +
+      ", and low values for " +
+      lowAudioFeatureAvgs[0].toString() +
+      " and " +
+      lowAudioFeatureAvgs[1].toString() +
+      ". They've listened to music from " +
+      (arrays.decadesAndPcts.length / 2).toString() +
+      " different decades, but they liked songs from the " +
+      yearWithHighestPercent.toString() +
+      "'s the most."
+    );
+  }
+
+  function gatherGptPromptData() {
     const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
       if (![2, 6, 8].includes(index))
         map[current] = parseFloat(arrays.audioFeatureMeans[index]);
       return map;
     }, {});
-  
+
     const audioFeaturesToAvgsMapSorted = new Map(
       Object.entries(audioFeaturesToAvgsMap).sort(
         ([, value1], [, value2]) => value1 - value2
       )
     );
-  
+
     const keysOfAudioFeaturesToAvgsMapSorted = Array.from(
       audioFeaturesToAvgsMapSorted.keys()
     );
@@ -998,19 +768,19 @@ function Data() {
     );
     const twoAudioFeaturesHighestAvgs =
       keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
-  
+
     const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
       if (![2, 6, 8].includes(index))
         map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
       return map;
     }, {});
-  
+
     const audioFeaturesToStdDevsMapSorted = new Map(
       Object.entries(audioFeaturesToStdDevsMap).sort(
         ([, value1], [, value2]) => value1 - value2
       )
     );
-  
+
     const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
       audioFeaturesToStdDevsMapSorted.keys()
     );
@@ -1018,148 +788,383 @@ function Data() {
       keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
     const twoAudioFeaturesHighestStdDevs =
       keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
-  
-    const featureExplanations = [
-      "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.",
-      "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
-      "",
-      "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
-      `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
-      "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
-      "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
-      "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
-      "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
-      "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
-    ];
-  
-    // const [isPlaying, setIsPlaying] = useState([]);
-  
-    const togglePlayback = (id) => {
-      const thisElement = document.getElementById(id);
-      const audioElements = document.querySelectorAll("audio");
-      const updatedIsPlaying = { ...isPlaying };
-  
-      audioElements.forEach((audioElement, i) => {
-        if (audioElement !== thisElement) {
-          audioElement.pause();
-          updatedIsPlaying[audioElement.id] = false;
+
+    let prompt = "Prompt error. Try again.";
+
+    if (
+      topSongs &&
+      topSongs.length > 0 &&
+      topArtists &&
+      topArtists.length > 0 &&
+      topAlbums &&
+      topAlbums.length > 0
+    ) {
+      prompt = formatGptPrompt(
+        topSongs[0]?.name,
+        topSongs[0]?.artists[0],
+        topArtists[0]?.name,
+        topAlbums[0]?.name,
+        topAlbums[0]?.artists[0],
+        arrays.topGenresByArtist[0],
+        arrays.topLabelsByAlbums[0],
+        oldestNewestSongs[0]?.name,
+        oldestNewestSongs[0]?.artists[0],
+        oldestNewestSongs[0]?.date.substr(0, 4),
+        oldestNewestSongs[1]?.name,
+        oldestNewestSongs[1]?.artists[0],
+        oldestNewestSongs[1]?.date.substr(0, 4),
+        arrays.avgSongPop,
+        arrays.songPopStdDev,
+        arrays.avgSongAgeYrMo[0] +
+          " year(s) and " +
+          arrays.avgSongAgeYrMo[1] +
+          " month(s)",
+        arrays.songAgeStdDevYrMo[0] +
+          " year(s) and " +
+          arrays.songAgeStdDevYrMo[1] +
+          " month(s)",
+        arrays.avgArtistPop,
+        arrays.artistPopStdDev,
+        arrays.pctSongsExpl,
+        twoAudioFeaturesHighestAvgs,
+        twoAudioFeaturesHighestStdDevs,
+        twoAudioFeaturesLowestAvgs,
+        twoAudioFeaturesLowestStdDevs
+      );
+    }
+
+    return prompt;
+  }
+
+  const isTokenExpired = () => {
+    const expirationTime = localStorage.getItem("expirationTime");
+    if (!expirationTime) {
+      return true;
+    }
+    return new Date().getTime() > parseInt(expirationTime);
+  };
+
+  function clearCookies() {
+    var cookies = document.cookie.split(";");
+    // console.log(cookies);
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+  }
+
+  const logout = (error) => {
+    if (error === "apiError") {
+      clearCookies();
+      token = "";
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      // window.localStorage.removeItem("expirationTime"); //
+      navigate("/", { state: { [error]: true } });
+    } else {
+      clearCookies();
+      token = "";
+      setExpirationTime("");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("expirationTime");
+      navigate("/");
+    }
+  };
+
+  const features = [
+    "acousticness",
+    "danceability",
+    "duration",
+    "energy",
+    "instrumentalness",
+    "liveness",
+    "loudness",
+    "speechiness",
+    "tempo",
+    "valence",
+  ];
+
+  const date = new Date(nameIdImgurlGenerationdate[3]);
+
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const generationDateTime = date.toLocaleString(undefined, {
+    timeZone: localTimeZone,
+  });
+
+  const getAudioFeatureValues = async (songIds, arrayToSet) => {
+    try {
+      const featureNames = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+      ];
+
+      const allEmpty = songIds.every((id) => id === "");
+
+      if (allEmpty) {
+        arrayToSet(Array(songIds.length).fill("-"));
+        return;
+      }
+
+      if (songIds && songIds.length > 0 && songIds[0] === "No data") {
+        arrayToSet(Array(songIds.length).fill("-"));
+        return;
+      }
+
+      const filteredIds = songIds.filter((id) => id !== "");
+
+      const { data } = await axios.get(
+        "https://api.spotify.com/v1/audio-features",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            ids: filteredIds.join(","),
+          },
+        }
+      );
+
+      const audioFeatures = data.audio_features.map((item) => ({
+        id: item.id,
+        acousticness: item.acousticness,
+        danceability: item.danceability,
+        duration_ms: item.duration_ms,
+        energy: item.energy,
+        instrumentalness: item.instrumentalness,
+        liveness: item.liveness,
+        loudness: item.loudness,
+        speechiness: item.speechiness,
+        tempo: item.tempo,
+        valence: item.valence,
+      }));
+
+      const result = [];
+      for (let i = 0; i < songIds.length; i++) {
+        if (songIds[i] === "") {
+          result[i] = "";
         } else {
-          if (audioElement.paused) {
-            audioElements.forEach((el, j) => {
-              if (el !== thisElement) {
-                el.pause();
-                updatedIsPlaying[el.id] = false;
-              }
-            });
-  
-            updatedIsPlaying[id] = true;
-            audioElement.play().catch((error) => {
-              console.log(error);
-            });
+          const feature = featureNames[i];
+          const audioFeature = audioFeatures.find(
+            (item) => item.id === songIds[i]
+          );
+          if (feature === "duration_ms") {
+            result[i] = audioFeature ? msToMinSec(audioFeature[feature]) : "";
           } else {
-            audioElement.pause();
-            updatedIsPlaying[id] = false;
+            result[i] = audioFeature ? audioFeature[feature] : "";
           }
         }
-      });
-  
-      setIsPlaying(updatedIsPlaying);
-    };
-  
-    const resetAllAudio = () => {
-      const audioElements = document.querySelectorAll("audio");
-      const updatedIsPlaying = Array.from(isPlaying);
-  
-      audioElements.forEach((audioElement, i) => {
+      }
+
+      arrayToSet(result);
+    } catch (error) {
+      console.error("Error:", error);
+      logout("apiError");
+    }
+  };
+
+  function msToMinSec(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }
+
+  const openRecModal = async () => {
+    setRecModalIsOpen(true);
+  };
+  const closeRecModal = () => {
+    setRecModalIsOpen(false);
+  };
+
+  const audioFeaturesToAvgsMap = features.reduce((map, current, index) => {
+    if (![2, 6, 8].includes(index))
+      map[current] = parseFloat(arrays.audioFeatureMeans[index]);
+    return map;
+  }, {});
+
+  const audioFeaturesToAvgsMapSorted = new Map(
+    Object.entries(audioFeaturesToAvgsMap).sort(
+      ([, value1], [, value2]) => value1 - value2
+    )
+  );
+
+  const keysOfAudioFeaturesToAvgsMapSorted = Array.from(
+    audioFeaturesToAvgsMapSorted.keys()
+  );
+  const twoAudioFeaturesLowestAvgs = keysOfAudioFeaturesToAvgsMapSorted.slice(
+    0,
+    2
+  );
+  const twoAudioFeaturesHighestAvgs =
+    keysOfAudioFeaturesToAvgsMapSorted.slice(-2);
+
+  const audioFeaturesToStdDevsMap = features.reduce((map, current, index) => {
+    if (![2, 6, 8].includes(index))
+      map[current] = parseFloat(arrays.audioFeatureStdDevs[index]);
+    return map;
+  }, {});
+
+  const audioFeaturesToStdDevsMapSorted = new Map(
+    Object.entries(audioFeaturesToStdDevsMap).sort(
+      ([, value1], [, value2]) => value1 - value2
+    )
+  );
+
+  const keysOfAudioFeaturesToStdDevsMapSorted = Array.from(
+    audioFeaturesToStdDevsMapSorted.keys()
+  );
+  const twoAudioFeaturesLowestStdDevs =
+    keysOfAudioFeaturesToStdDevsMapSorted.slice(0, 2);
+  const twoAudioFeaturesHighestStdDevs =
+    keysOfAudioFeaturesToStdDevsMapSorted.slice(-2);
+
+  const featureExplanations = [
+    "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.",
+    "Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.",
+    "",
+    "Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.",
+    `Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.`,
+    "Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.",
+    "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.",
+    "Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.",
+    "The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.",
+    "A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).",
+  ];
+
+  // const [isPlaying, setIsPlaying] = useState([]);
+
+  const togglePlayback = (id) => {
+    const thisElement = document.getElementById(id);
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = { ...isPlaying };
+
+    audioElements.forEach((audioElement, i) => {
+      if (audioElement !== thisElement) {
         audioElement.pause();
-        audioElement.currentTime = 0;
-        updatedIsPlaying[i] = false;
-      });
-  
-      setIsPlaying(updatedIsPlaying);
-    };
-  
-    function openCoverArtModal(url) {
-      setScrollPosition(document.documentElement.scrollTop);
-  
-      setIsCoverArtModalOpen(true);
-      setUrlForCoverArtModal(url);
-    }
-  
-    function closeCoverArtModal(url) {
-      setIsCoverArtModalOpen(false);
-      setUrlForCoverArtModal(null);
-    }
-  
-    function openAudiofeatureModal(feature) {
-      setScrollPosition(document.documentElement.scrollTop);
-  
-      setIsAudiofeatureModalOpen(true);
-      setAudiofeatureForModal(feature);
-    }
-  
-    function handleScroll() {
-      setScrollPosition(document.documentElement.scrollTop);
-    }
-  
-    function closeAudiofeatureModal(feature) {
-      setIsAudiofeatureModalOpen(false);
-      setAudiofeatureForModal(null);
-    }
-  
-    function getTimeDifference(time1, time2) {
-      if (time1 && time2) {
-        const [minutes1, seconds1] = time1?.split(":").map(Number);
-        const [minutes2, seconds2] = time2?.split(":").map(Number);
-        const difference = Math.abs(
-          minutes1 * 60 + seconds1 - (minutes2 * 60 + seconds2)
-        );
-        return `${String(Math.floor(difference / 60))}:${String(
-          difference % 60
-        ).padStart(2, "0")}`;
-      }
-      return null;
-    }
-  
-    //
-  
-    const openDropdownMenu = () => {
-      // document.getElementById("dropdownMenuArrow").style.transform =
-      //   "rotate(90deg)";
-  
-      setShowDropdownMenu(true);
-    };
-  
-    const closeDropdownMenu = () => {
-      // document.getElementById("dropdownMenuArrow").style.transform =
-      //   "rotate(0deg)";
-  
-      setShowDropdownMenu(false);
-    };
-  
-    const toggleDropdownMenu = () => {
-      if (showDropdownMenu) {
-        document.getElementById("dropdownMenuArrow").style.transform =
-          "rotate(0deg)";
-  
-        setShowDropdownMenu(false);
+        updatedIsPlaying[audioElement.id] = false;
       } else {
-        document.getElementById("dropdownMenuArrow").style.transform =
-          "rotate(90deg)";
-        setShowDropdownMenu(true);
+        if (audioElement.paused) {
+          audioElements.forEach((el, j) => {
+            if (el !== thisElement) {
+              el.pause();
+              updatedIsPlaying[el.id] = false;
+            }
+          });
+
+          updatedIsPlaying[id] = true;
+          audioElement.play().catch((error) => {
+            console.log(error);
+          });
+        } else {
+          audioElement.pause();
+          updatedIsPlaying[id] = false;
+        }
       }
-    };
-  
-    const openInNewTab = (url) => {
-      window.open(url, "_blank", "noreferrer");
-    };
+    });
 
+    setIsPlaying(updatedIsPlaying);
+  };
 
+  const resetAllAudio = () => {
+    const audioElements = document.querySelectorAll("audio");
+    const updatedIsPlaying = Array.from(isPlaying);
 
+    audioElements.forEach((audioElement, i) => {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      updatedIsPlaying[i] = false;
+    });
 
+    setIsPlaying(updatedIsPlaying);
+  };
 
+  function openCoverArtModal(url) {
+    setScrollPosition(document.documentElement.scrollTop);
 
-    /////////////////
+    setIsCoverArtModalOpen(true);
+    setUrlForCoverArtModal(url);
+  }
+
+  function closeCoverArtModal(url) {
+    setIsCoverArtModalOpen(false);
+    setUrlForCoverArtModal(null);
+  }
+
+  function openAudiofeatureModal(feature) {
+    setScrollPosition(document.documentElement.scrollTop);
+
+    setIsAudiofeatureModalOpen(true);
+    setAudiofeatureForModal(feature);
+  }
+
+  function handleScroll() {
+    setScrollPosition(document.documentElement.scrollTop);
+  }
+
+  function closeAudiofeatureModal(feature) {
+    setIsAudiofeatureModalOpen(false);
+    setAudiofeatureForModal(null);
+  }
+
+  function getTimeDifference(time1, time2) {
+    if (time1 && time2) {
+      const [minutes1, seconds1] = time1?.split(":").map(Number);
+      const [minutes2, seconds2] = time2?.split(":").map(Number);
+      const difference = Math.abs(
+        minutes1 * 60 + seconds1 - (minutes2 * 60 + seconds2)
+      );
+      return `${String(Math.floor(difference / 60))}:${String(
+        difference % 60
+      ).padStart(2, "0")}`;
+    }
+    return null;
+  }
+
+  //
+
+  const openDropdownMenu = () => {
+    // document.getElementById("dropdownMenuArrow").style.transform =
+    //   "rotate(90deg)";
+
+    setShowDropdownMenu(true);
+  };
+
+  const closeDropdownMenu = () => {
+    // document.getElementById("dropdownMenuArrow").style.transform =
+    //   "rotate(0deg)";
+
+    setShowDropdownMenu(false);
+  };
+
+  const toggleDropdownMenu = () => {
+    if (showDropdownMenu) {
+      document.getElementById("dropdownMenuArrow").style.transform =
+        "rotate(0deg)";
+
+      setShowDropdownMenu(false);
+    } else {
+      document.getElementById("dropdownMenuArrow").style.transform =
+        "rotate(90deg)";
+      setShowDropdownMenu(true);
+    }
+  };
+
+  const openInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+  };
+
+  /////////////////
 
   useEffect(() => {
     resetAllAudio();
@@ -1169,28 +1174,26 @@ function Data() {
       logout();
     }
 
-    // setTimeout(() => {
-    getTopSongs(arrays.songIds);
-    getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
-    getAudioFeatureValues(
-      arrays.highestAudioFeatureSongIds,
-      setHighestAudioFeatureValues
-    );
+    // getTopSongs(arrays.songIds);
+    // getHighestAudioFeatureSongs(arrays.highestAudioFeatureSongIds);
+    // getAudioFeatureValues(
+    //   arrays.highestAudioFeatureSongIds,
+    //   setHighestAudioFeatureValues
+    // );
 
-    getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
-    getAudioFeatureValues(
-      arrays.lowestAudioFeatureSongIds,
-      setLowestAudioFeatureValues
-    );
+    // getLowestAudioFeatureSongs(arrays.lowestAudioFeatureSongIds);
+    // getAudioFeatureValues(
+    //   arrays.lowestAudioFeatureSongIds,
+    //   setLowestAudioFeatureValues
+    // );
 
-    getMostLeastPopSongs(arrays.mostLeastPopSongIds);
-    getOldestNewestSongs(arrays.oldestNewestSongIds);
-    getTopAlbums(arrays.albumIds);
-    getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
-    getTopArtists(arrays.artistIds);
-    getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
+    // getMostLeastPopSongs(arrays.mostLeastPopSongIds);
+    // getOldestNewestSongs(arrays.oldestNewestSongIds);
+    // getTopAlbums(arrays.albumIds);
+    // getMostLeastPopAlbums(arrays.mostLeastPopAlbumIds);
+    // getTopArtists(arrays.artistIds);
+    // getMostLeastPopArtists(arrays.mostLeastPopArtistIds);
     setIsTimeRangeLoading(false);
-    // }, 1000);
   }, [selectedTimeRange]);
 
   useEffect(() => {
@@ -1222,8 +1225,6 @@ function Data() {
     };
   }, []);
 
-  
-
   useEffect(() => {
     // if (rankedSongs.length > 0) {
     setShowLoading(true);
@@ -1247,16 +1248,47 @@ function Data() {
     // }
   }, []);
 
-  
-
-  
   useEffect(() => {
     if (!location?.state) {
-      navigate("/", {state:{directAccessError: true}});
-  
+      navigate("/", { state: { directAccessError: true } });
+
       return;
     }
-}, []);
+  }, []);
+
+  const [cardToImgClicked, setCardToImgClicked] = useState(false);
+
+  const cardToImg = async (id, cardname) => {
+    setCardToImgClicked(true);
+    const div = document.getElementById(id);
+    if (div) {
+      const options = {
+        // background: "none",
+        // backgroundClip: "none",
+        // WebKitBackgroundClip: "none",
+        // color: "black",
+
+        // allowTaint : true,
+        // useCors : true
+        // width: 100, height: 50,
+        // scale:1
+      };
+
+      // Delay taking the screenshot to ensure the state update takes effect.
+      setTimeout(async () => {
+        const canvas = await html2canvas(div, options);
+        const image = canvas.toDataURL("image/jpeg");
+        
+
+        var anchorElement = document.createElement("a");
+        anchorElement.href = image;
+        anchorElement.download = cardname;
+        anchorElement.click();
+
+        setCardToImgClicked(false);
+      }, 50); // You can adjust the delay as needed.
+    }
+  };
 
   return (
     <div className="dataPage">
@@ -2093,8 +2125,83 @@ function Data() {
           )}
         </div>
 
-        <div className="primaryCard4">
-          <div className="primaryTitle">average song popularity</div>
+        <div
+          className="primaryCard4"
+          id="avgSgP"
+          style={
+            cardToImgClicked
+              ? { backgroundColor: "#1e90ff", color: "white" }
+              : { backgroundColor: "white", color: "inherit" }
+          }
+        >
+          <div
+            className={
+              cardToImgClicked ? "primaryTitle noGrad" : "primaryTitle"
+            }
+            onClick={() => cardToImg("avgSgP", "average song popularity")}
+            style={{ cursor: "pointer" }}
+          >
+            {cardToImgClicked && (
+              <img
+                src={logo}
+                alt=""
+                style={{
+                  backgroundColor: "white",
+                  padding: "5px",
+                  borderRadius: "10px",
+                  verticalAlign: "middle",
+                  width: "20px",
+                  marginRight: "15px",
+                }}
+              ></img>
+            )}
+            average song popularity
+            {cardToImgClicked && (
+              <div >
+                <div
+          style={{
+            fontWeight: "bold",
+            display: "inline",
+            color:'gray',
+            backgroundColor:'white',
+            borderRadius:'15px',
+            padding:'3px 4px',
+            fontSize:'10px',
+            marginRight:'20px',
+
+
+          }}
+        >
+          {selectedTimeRangeClean} 
+ </div>
+                 <img
+          alt=""
+          src={profPic}
+          style={{
+            width: "15px",
+            borderRadius: "50%",
+            // paddingLeft: "10px",
+            // paddingRight: "10px",
+            marginRight:'10px',
+            verticalAlign: "middle"
+          }}
+        />
+        <div
+          style={{
+            fontWeight: "bold",
+            display: "inline",
+            fontSize:'12px'
+          }}
+        >
+          {nameIdImgurlGenerationdate[0]}
+ </div>
+
+
+ 
+ <span style={{marginLeft:'20px', fontSize:'7px'}}>comparify.app</span>
+              </div>
+            )}
+          </div>
           {arrays.avgSongPop && (
             <div className="item">
               <div className="primaryText">
@@ -2102,6 +2209,7 @@ function Data() {
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
                   data-tooltip-content="0-100. Assigned by Spotify based on current trends. higher means more popular."
+                  style={cardToImgClicked ? {fontSize:'40px'}:{}}
                 >
                   {arrays.avgSongPop}
                 </span>
@@ -2110,8 +2218,16 @@ function Data() {
           )}
         </div>
 
-        <div className="primaryCard4">
-          <div className="primaryTitle">song popularity standard deviation</div>
+        <div className="primaryCard4" id="spsd">
+          <div
+            className={cardToImgClicked ? "primaryTitle" : "primaryTitle"}
+            onClick={() =>
+              cardToImg("spsd", "song popularity standard deviation")
+            }
+            style={{ cursor: "pointer" }}
+          >
+            song popularity standard deviation
+          </div>
           {arrays.songPopStdDev && (
             <div className="item">
               <div className="primaryText">

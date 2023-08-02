@@ -1,6 +1,5 @@
 No inline CSS
 X button positioning, color on hover
-Game no audio error, (mobile)
 Font sizing
 Long content cut off
 Modal sizing
@@ -8,8 +7,12 @@ song name artist padding divide
 Image profile pic rounded
 name too long then ellipsis
 ranking modals sizing
+rankings messed up
+song infos messed up format
 no data handling
 filenames
+game background blur mobile
+game modal sizing mobile
 pie chart widt
 menu height sizing styling
 fit heght to content
@@ -32,8 +35,12 @@ privacy policy
 TOS
 support
 links-profile, data, share
-save every stat as image separately, or select which to save
+Genre distribution 
+Link image ptr events, dragging
+piechart zindex
+save every stat as image separately, or select which to save, include, name, date,prof pic,time range.
 align cards better
+prof pic in imgs
 More data explanations
 Links to all content
 Dashboard sizing/alignment
@@ -132,6 +139,8 @@ Check for undefined/empty at all stages, show no data if null
 Compare page stats stacking table
 Highest and lowest averages and standard deviations
 Footer positioning
+center content in boxes
+display + or minus for differences
 Console errors, logs
 Set min widths, maxwidths, layout, modal sizing
 No data code check
@@ -139,6 +148,7 @@ Logout handling
 Console warnings
 Similarity percent calculation
 Image saving sizing, and naming
+green overlap col differences greater symbol, for all views, make funcs for checking non floats
 Who does the playlist belong to, make collaborative?
 Dark mode, no reload
 Long names adjust
@@ -219,10 +229,10 @@ Get random users playlists
 min widths
 open in new tab. func
 menu/trigger/dropdown sizing
-loading animation color
 Animation scrolling etc
 AF rankings on compare pg too
 lazy loading
+divs adj height
 ranking modal sizing
 song title length limit ellipse
 animation sizig position
@@ -233,4 +243,3 @@ game instruction div sizing
 all audios
 card width incr height too or margins
 round values ALL
-restrict path if typed

@@ -3667,7 +3667,7 @@ function Compare() {
                   <tr>
                     <td>
                       <div className="compareCardSmall2">
-                        <div className="primaryTitle">
+                        <div className="primaryTitle pTitleCtr">
                           average song popularity
                         </div>
                         {overlappingData.avgSongPop && (
@@ -3712,7 +3712,7 @@ function Compare() {
                         <div className="primaryTitle">average song age</div>
                         {overlappingData.avgSongAgeYrMo && (
                           <div className="item">
-                            <div className="primaryText">
+                            <div className="primaryText ctrMgn">
                               <span className="primaryName2">
                                 {isNaN(overlappingData.avgSongAgeYrMo[0]) ||
                                 isNaN(overlappingData.avgSongAgeYrMo[1])
@@ -3772,7 +3772,7 @@ function Compare() {
                         </div>
                         {overlappingData.pctSongsExpl && (
                           <div className="item">
-                            <div className="primaryText">
+                            <div className="primaryText ctrMgn">
                               <span className="primaryName2">
                                 {!isNaN(overlappingData.pctSongsExpl)
                                   ? overlappingData.pctSongsExpl
@@ -3794,7 +3794,7 @@ function Compare() {
                         </div>
                         {overlappingData.avgAlbumPop && (
                           <div className="item">
-                            <div className="primaryText">
+                            <div className="primaryText ctrMgn">
                               <span className="primaryName2">
                                 {!isNaN(overlappingData.avgAlbumPop)
                                   ? overlappingData.avgAlbumPop
@@ -3836,7 +3836,7 @@ function Compare() {
                         </div>
                         {overlappingData.avgArtistPop && (
                           <div className="item">
-                            <div className="primaryText">
+                            <div className="primaryText ctrMgn">
                               <span className="primaryName2">
                                 {!isNaN(overlappingData.avgArtistPop)
                                   ? overlappingData.avgArtistPop
@@ -4533,7 +4533,7 @@ function Compare() {
                         </div>
                         {arrays2.avgArtistPop && (
                           <div className="item">
-                            <div className="primaryText">
+                            <div className="primaryTex">
                               <span className="primaryName2">
                                 {arrays2.avgArtistPop}
                               </span>
@@ -5821,10 +5821,12 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">average song popularity</div>
+                <div className={arrays1.avgSongPop > arrays2.avgSongPop ? "big1" : arrays1.avgSongPop < arrays2.avgSongPop ? "big2" : "same"}>+</div>
+
+                  {/* <div className="primaryTitle">average song popularity</div> */}
                   {overlappingData.avgSongPop && (
-                    <div className="item">
-                      <div className="primaryText">
+                    <div className="item" >
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2">
                           {!isNaN(overlappingData.avgSongPop)
                             ? overlappingData.avgSongPop
@@ -5870,12 +5872,14 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">
+                  {/* <div className="primaryTitle">
                     song popularity standard deviation
-                  </div>
+                  </div> */}
+                                  <div className={arrays1.songPopStdDev > arrays2.songPopStdDev ? "big1" : arrays1.songPopStdDev < arrays2.songPopStdDev ? "big2" : "same"}>+</div>
+
                   {overlappingData.songPopStdDev && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2" id="stdDev">
                           {!isNaN(overlappingData.songPopStdDev)
                             ? overlappingData.songPopStdDev
@@ -5929,10 +5933,11 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">average song age</div>
+                  {/* <div className="primaryTitle">average song age</div> */}
+
                   {overlappingData.avgSongAgeYrMo && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2">
                           {isNaN(overlappingData.avgSongAgeYrMo[0]) ||
                           isNaN(overlappingData.avgSongAgeYrMo[1])
@@ -6003,12 +6008,13 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">
+                  {/* <div className="primaryTitle">
                     song age standard deviation
-                  </div>
+                  </div> */}
+                  
                   {overlappingData.songAgeStdDevYrMo && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2" id="stdDev">
                           {isNaN(overlappingData.songAgeStdDevYrMo[0]) ||
                           isNaN(overlappingData.songAgeStdDevYrMo[1])
@@ -6071,10 +6077,12 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">percent songs explicit</div>
+                  {/* <div className="primaryTitle">percent songs explicit</div> */}
+                  <div className={arrays1.pctSongsExpl > arrays2.pctSongsExpl ? "big1" : arrays1.pctSongsExpl < arrays2.pctSongsExpl ? "big2" : "same"}>+</div>
+
                   {overlappingData.pctSongsExpl && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2">
                           {!isNaN(overlappingData.pctSongsExpl)
                             ? overlappingData.pctSongsExpl
@@ -6119,10 +6127,12 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">average album popularity</div>
+                  {/* <div className="primaryTitle">average album popularity</div> */}
+                  <div className={arrays1.avgAlbumPop > arrays2.avgAlbumPop ? "big1" : arrays1.avgAlbumPop < arrays2.avgAlbumPop ? "big2" : "same"}>+</div>
+
                   {overlappingData.avgAlbumPop && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2">
                           {!isNaN(overlappingData.avgAlbumPop)
                             ? overlappingData.avgAlbumPop
@@ -6168,12 +6178,14 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">
+                  {/* <div className="primaryTitle">
                     album popularity standard deviation
-                  </div>
+                  </div> */}
+                 <div className={arrays1.albumPopsStdDev > arrays2.albumPopsStdDev ? "big1" : arrays1.albumPopsStdDev < arrays2.albumPopsStdDev ? "big2" : "same"}>+</div>
+
                   {overlappingData.albumPopsStdDev && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2" id="stdDev">
                           {!isNaN(overlappingData.albumPopsStdDev)
                             ? overlappingData.albumPopsStdDev
@@ -6219,10 +6231,12 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">average artist popularity</div>
+                  {/* <div className="primaryTitle">average artist popularity</div> */}
+                  <div className={arrays1.avgArtistPop > arrays2.avgArtistPop ? "big1" : arrays1.avgArtistPop < arrays2.avgArtistPop ? "big2" : "same"}>+</div>
+
                   {overlappingData.avgArtistPop && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2">
                           {!isNaN(overlappingData.avgArtistPop)
                             ? overlappingData.avgArtistPop
@@ -6268,12 +6282,14 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">
+                  {/* <div className="primaryTitle">
                     artist popularity standard deviation
-                  </div>
+                  </div> */}
+                                    <div className={arrays1.artistPopStdDev > arrays2.artistPopStdDev ? "big1" : arrays1.artistPopStdDev < arrays2.artistPopStdDev ? "big2" : "same"}>+</div>
+
                   {overlappingData.artistPopStdDev && (
                     <div className="item">
-                      <div className="primaryText">
+                      <div className="primaryText ctrMgn">
                         <span className="primaryName2" id="stdDev">
                           {!isNaN(overlappingData.artistPopStdDev)
                             ? overlappingData.artistPopStdDev
@@ -6320,7 +6336,8 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">average artist followers</div>
+                  {/* <div className="primaryTitle">average artist followers</div> */}
+
                   <div className="item">
                     <div className="primaryText">
                       <span className="primaryName2">
@@ -6368,9 +6385,9 @@ function Compare() {
               </td>
               <td>
                 <div className="compareCardSmall2">
-                  <div className="primaryTitle">
+                  {/* <div className="primaryTitle">
                     artist followers standard deviation
-                  </div>
+                  </div> */}
                   <div className="item">
                     <div className="primaryText">
                       <span className="primaryName2" id="stdDev">
