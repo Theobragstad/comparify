@@ -1137,6 +1137,26 @@ body,
   width: fit-content;
   margin: 0 auto 3vh;
 }
+
+.gradientSimple {
+  background: linear-gradient(
+    to right,
+    #1e90ff 0%,
+    #1e90ff 40%,
+    #18d860 40%,
+    #18d860 60%,
+    #ffdf00 60%,
+    #ffdf00 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color:transparent;
+
+  /* 
+  
+  color: transparent; */
+  width: fit-content;
+}
 .gptContent {
   color: #75ac9d;
   font-weight: 600;
@@ -1830,6 +1850,7 @@ opacity: 0;
 .helpModalContent {
   border-radius: 15px;
   margin-bottom: 20px;
+  margin-top:-25px
 }
 .helpSection {
   border-radius: 10px;
@@ -2436,6 +2457,8 @@ opacity: 0;
 
 .animation {
   margin: 0 auto;
+  transform:scale(0.2);
+  position:absolute;
 }
 
 @media screen and (max-width: 500px) {

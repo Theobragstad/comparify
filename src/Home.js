@@ -38,10 +38,10 @@ function Home() {
 
   // document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const REDIRECT_URI = "http://localhost:3000/dashboard";
+  // const REDIRECT_URI = "http://localhost:3000/dashboard";
 
   //
-  // const REDIRECT_URI = "https://comparify.app/dashboard";
+  const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES =
@@ -54,7 +54,7 @@ function Home() {
   };
 
   const handleClickBETA = () => {
-    navigate("/beta");
+    navigate("/waitlist");
   };
 
   const [expirationTime, setExpirationTime] = useState("");
@@ -348,9 +348,9 @@ function Home() {
           className="primaryBtn"
           style={{ marginRight: "20px" }}
           onClick={handleClickBETA}
-          title="Get access"
+          title="Join waitlist"
         >
-          get access{" "}
+          join waitlist{" "}
           <img
             alt=""
             src={rightArrow}
@@ -369,7 +369,7 @@ function Home() {
         </span>
       </div>
 
-      {/* <Footer/> */}
+      <Footer/>
     </div>
   );
 }

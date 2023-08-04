@@ -2531,15 +2531,16 @@ function Data() {
               >
                 <Pie
                   data={pieData}
-                  outerRadius={30}
-                  fill="#8884d8"
+                  outerRadius={50}
+                  fill="#f6f6f6"
                   dataKey="value"
-                  label={({ name }) => name} // Set the label to display the name property
+                  // label={({ name }) => name} // Set the label to display the name property
                 >
                   {pieData.map((entry, index) => (
                     <Cell key={index} fill={colors[index % colors.length]} />
                   ))}
                 </Pie>
+                <Legend/>
               </PieChart>
             )
           ) : null}

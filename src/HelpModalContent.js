@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import Animation from "./Animation"
 // import spotify from "./img/spotify.png";
 // import logo from "./img/logo.png";
 import downBtn from "./img/downBtn.png";
 import sideArrowRight from "./img/sideArrowRight.png";
 // import { DarkModeContext } from './App';
+import "./App.css"
 
 import { useDarkMode } from "./DarkMode";
 
@@ -68,10 +69,13 @@ const HelpModalContent = () => {
           darkMode.darkModeOn ? "helpModalContent darkGray" : "helpModalContent"
         }
       >
+        <div className="gradientSimple" style={{fontSize:'30px',fontWeight:'bold'}}>Help</div>
+        <div style={{position:'relative',width:'10px',height:'10px',top:'-55px',left:'50px',zIndex:'0'}}>
+        <Animation/></div>
         <div style={{ fontWeight: "bold", fontSize: "13px", color: "gray" }}>
-          comparify is in beta. only select users can log in. fill out the{" "}
+          comparify is in beta. Only select users can log in. Fill out the{" "}
           <Link
-            to="/beta"
+            to="/waitlist"
             style={{
               textDecoration: "none",
               fontWeight: "bold",
@@ -387,6 +391,10 @@ const HelpModalContent = () => {
                 because it is categorized as one by the database.
               </li>
               <li>
+                The "top genres" card is calculated using the most frequently appearing genres that Spotify associates with your top artists.
+                Unfortunately the API does not provide access to any associated genres individual songs or albums, which might be a better representation of your top genres.
+              </li>
+              <li>
                 The compare page gives a similarity score for you and the other
                 person for each time range. This is by no means a completely
                 thorough picture of your similarity, but it does provide a rough
@@ -414,7 +422,7 @@ const HelpModalContent = () => {
                 preview.
               </li>
               <li>
-                You can also click on a song name, artist, or album to open it
+                You can also click on select song names, artists, or albums to open them directly
                 in Spotify.
               </li>
               <li>

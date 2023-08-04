@@ -175,7 +175,7 @@ const Footer = () => {
         >
           Help
         </span>
-        <span
+        {/* <span
           onClick={toggleDarkMode}
           style={{ cursor: "pointer" }}
           className="hoverGray"
@@ -183,7 +183,7 @@ const Footer = () => {
         >
                     &emsp;&emsp; <img src={darkMode ? sun : moon} style={{width:'10px', verticalAlign:'middle'}} alt={darkMode ? "sun" : "moon"} className="spin"/>
 
-        </span>
+        </span> */}
         <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
           <div>
             comparify uses a variety of data points from multiple time spans to

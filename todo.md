@@ -11,6 +11,10 @@ rankings messed up
 song infos messed up format
 no data handling
 occasionally check if expired token and logout automat
+close btn styles-gray/darken/pop/bg?
+match pie charts
+compare pie charts
+use new data for prompts, recs
 filenames
 game background blur mobile
 game modal sizing mobile
