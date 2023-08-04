@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 import emailjs from "@emailjs/browser";
 
@@ -156,42 +156,40 @@ function Beta() {
 
   return (
     <div className={darkMode && "dark"} style={{height:'100vh'}}>
-      <img
-        className="logoHeader"
-        src={fullLogo}
-        onClick={() => navigate("/")}
-        title="Home"
-        alt="Logo"
-        style={{
-          width: "175px" ,
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          pointerEvents: "all",
-          cursor: "pointer",
-          backgroundColor:'white',
-          padding:'4px',
-          boxShadow:' 0 2px 10px rgba(0, 0, 0, 0.3)',
-          borderRadius:'20px'
-
-        }}
-      />
+      <Link to="/">
+        <img draggable={false}
+          alt=""
+          src={fullLogo}
+          style={{
+            width: "175px",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            backgroundColor: "white",
+            padding: "4px",
+            borderRadius: "20px",
+            webkitUserDrag: "none",
+          }}
+          title="Home"
+          onContextMenu={(event) => event.preventDefault()}
+        />
+      </Link>
 
       <div className="" style={{ overflow: "hidden" }}>
         <div className="title">
           <div className="beta">beta access</div>
           <div className="info">
-            <img src={arrow1} className="arrow" alt="Arrow"></img>
-            enter up to five emails (you + family + friends)
+            <img draggable={false} onContextMenu={(event) => event.preventDefault()} src={arrow1} className="arrow" alt="Arrow" ></img>
+            Enter up to five emails (you + family + friends)
             <br /> <br />
-            <img src={arrow1} className="arrow" alt="Arrow"></img>
-            make sure they match their Spotify accounts
+            <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
+            Make sure they match their Spotify accounts
             <br /> <br />
-            <img src={arrow1} className="arrow" alt="Arrow"></img>
-            we add users in groups so you can try with people you know
+            <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
+            Users will be added in these groups so you can try together
             <br /> <br />
-            <img src={arrow1} className="arrow" alt="Arrow"></img>
-            we will contact the group when it has access
+            <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
+            We will contact the group when it has access
           </div>
         </div>
       </div>
@@ -226,7 +224,7 @@ function Beta() {
                 disabled={!isFormValid()}
               >
                 submit{" "}
-                <img src={arrow2} className="submitArrow" alt="Submit arrow" />
+                <img draggable={false} src={arrow2} className="submitArrow" alt="Submit arrow" onContextMenu={(event) => event.preventDefault()}/>
               </button>
             </div>
           ) : (
@@ -234,7 +232,7 @@ function Beta() {
             <div style={{marginTop: '40px'}}>
             <span className="submitted">
             
-              <img src={greenCheck} alt="Green check" />
+              <img draggable={false} src={greenCheck} alt="Green check" onContextMenu={(event) => event.preventDefault()}/>
               <span> Submitted!</span> Notifications will be sent when access
               becomes available.
             </span>
@@ -243,7 +241,7 @@ function Beta() {
         </form>
       </div>
       <span className="gray" onClick={() => navigate("/")} title="Home">
-        <img src={arrow2} alt="homeArrow" className="homeArrow" /> home
+        <img draggable={false} src={arrow2} alt="homeArrow" className="homeArrow" onContextMenu={(event) => event.preventDefault()}/> home
       </span>
 
       {/* <Footer /> */}

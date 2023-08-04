@@ -10,6 +10,7 @@ ranking modals sizing
 rankings messed up
 song infos messed up format
 no data handling
+occasionally check if expired token and logout automat
 filenames
 game background blur mobile
 game modal sizing mobile
@@ -33,7 +34,6 @@ set img alts
 mobile
 privacy policy
 TOS
-support
 links-profile, data, share
 Genre distribution 
 Link image ptr events, dragging

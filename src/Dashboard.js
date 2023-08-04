@@ -1,6 +1,6 @@
 import Big from "big.js";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useLocation } from "react-router";
 import { Tooltip } from "react-tooltip";
 import axios from "axios";
@@ -10,14 +10,14 @@ import back from "./img/back.png";
 import defaultProfile from "./img/defaultProfile.jpeg";
 import switchUserImg from "./img/switchUser.png";
 // import logo from "./img/logo.png"
-import downloadBlue from "./img/downloadBlue.png"
-import dashboard from "./img/dashboard.png"
-import fullLogo from "./img/fullLogo.png"
-import uploadYellow from "./img/uploadYellow.png"
-import uploadBlue from "./img/uploadBlue.png"
-import arrow from "./img/rightArrow.png"
+import downloadBlue from "./img/downloadBlue.png";
+import dashboard from "./img/dashboard.png";
+import fullLogo from "./img/fullLogo.png";
+import uploadYellow from "./img/uploadYellow.png";
+import uploadBlue from "./img/uploadBlue.png";
+import arrow from "./img/rightArrow.png";
 // import bg from "./img/bg.png"
-import Spline from '@splinetool/react-spline';
+import Spline from "@splinetool/react-spline";
 
 function Code() {
   // const pageTitle = `${"hello"}`;
@@ -44,24 +44,22 @@ function Code() {
     setExpirationTime("");
     window.localStorage.removeItem("token");
     if (error === "apiError") {
-     
       // window.localStorage.removeItem("expirationTime"); //
       navigate("/", { state: { [error]: true } });
     } else {
       window.localStorage.removeItem("expirationTime");
-      navigate("/")
+      navigate("/");
     }
   };
 
-
-
   const switchUser = () => {
     const CLIENT_ID = "7dd115970ec147b189b17b258f7e9a6f";
-  // const REDIRECT_URI = "http://localhost:3000/dashboard";
-  const REDIRECT_URI = "https://comparify.app/dashboard";
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const RESPONSE_TYPE = "token";
-  const SCOPES = "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
+    // const REDIRECT_URI = "http://localhost:3000/dashboard";
+    const REDIRECT_URI = "https://comparify.app/dashboard";
+    const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+    const RESPONSE_TYPE = "token";
+    const SCOPES =
+      "user-top-read playlist-modify-public ugc-image-upload user-library-read user-follow-read user-read-currently-playing user-read-playback-position user-read-playback-state user-read-recently-played playlist-read-private";
 
     window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES}&show_dialog=true`;
   };
@@ -604,8 +602,37 @@ function Code() {
         const sortedGenres = Object.keys(genreCounts).sort((a, b) => {
           return genreCounts[b] - genreCounts[a];
         });
-        const topGenres = sortedGenres.slice(0, 20);
+        // const topGenres = sortedGenres.slice(0,5);
+
+
+        const totalGenres = sortedGenres.length;
+
+        const topGenres = [];
+        let totalPercentage = 0;
+        const topGenresCount = Math.min(5, totalGenres); 
+
+        for (let i = 0; i < topGenresCount; i++) {
+          const genre = sortedGenres[i];
+          const percentage = (
+            (genreCounts[genre] / genresAssocWithArtistsFlat.length) *
+            100
+          ).toFixed(2);
+          topGenres.push(genre, percentage);
+          totalPercentage += parseFloat(percentage);
+        }
+
+        topGenres.push("other", (100 - totalPercentage).toFixed(2));
+
+
+
+
+
+        artistCode.push("topGenresOnly[<=20]", sortedGenres.slice(0,20));
+
+
+
         artistCode.push("topGenresByArtist[<=20]", topGenres);
+
       } else {
         artistCode.push(
           "artistIds[<=50]",
@@ -906,7 +933,6 @@ function Code() {
     });
   };
 
-
   const [filename1, setFilename1] = useState(null);
   const [filename2, setFilename2] = useState(null);
   const [filename3, setFilename3] = useState(null);
@@ -919,14 +945,12 @@ function Code() {
 
     const labelElement = document.getElementById("inputLabel1");
     if (isValid) {
-      labelElement.classList.add('valid');
+      labelElement.classList.add("valid");
       setFilename1(fileInput.files[0].name);
     } else {
-      labelElement.classList.remove('valid');
+      labelElement.classList.remove("valid");
       setFilename1(null);
     }
-
-
 
     if (event.target.files.length === 0) {
       setFile2(null);
@@ -951,15 +975,12 @@ function Code() {
 
     const labelElement = document.getElementById("inputLabel2");
     if (isValid) {
-      labelElement.classList.add('valid');
+      labelElement.classList.add("valid");
       setFilename2(fileInput.files[0].name);
     } else {
-      labelElement.classList.remove('valid');
+      labelElement.classList.remove("valid");
       setFilename2(null);
-
     }
-
-
 
     if (event.target.files.length === 0) {
       setFile1TwoComp(null);
@@ -976,22 +997,17 @@ function Code() {
   };
 
   const addFile2TwoComp = (event) => {
-
-
     const fileInput = event.target;
     const isValid = fileInput.files.length > 0; // Check if there is at least one file selected
 
     const labelElement = document.getElementById("inputLabel3");
     if (isValid) {
-      labelElement.classList.add('valid');
+      labelElement.classList.add("valid");
       setFilename3(fileInput.files[0].name);
     } else {
-      labelElement.classList.remove('valid');
+      labelElement.classList.remove("valid");
       setFilename3(null);
-
     }
-
-
 
     if (event.target.files.length === 0) {
       setFile2TwoComp(null);
@@ -1061,9 +1077,6 @@ function Code() {
     }
   }
 
-
-
-
   // const handleFileChange = (event) => {
   //   const fileName = event.target.files[0]?.name;
   //   const label = document.querySelector("label[for=files]");
@@ -1071,39 +1084,33 @@ function Code() {
   // };
   return (
     // <div className="codePage" style={{ backgroundImage: `url("${bg}") `}}>
-    <div className="codePage" >
+    <div className="codePage">
+      <Link to="/">
+        <img
+          draggable={false}
+          alt=""
+          src={fullLogo}
+          style={{
+            width: "175px",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            backgroundColor: "white",
+            padding: "4px",
+            borderRadius: "20px",
+            WebkitUserDrag: "none",
+          }}
+          title="Home"
+          onContextMenu={(event) => event.preventDefault()}
+          draggable={false}
+        />
+      </Link>
 
-     <img
-        src={fullLogo}
-        onClick={() => navigate("/")}
-        style={{
-          width: "175px" ,
-          position: "absolute",
-          top: "10px",
-          left: "10px",
-          pointerEvents: "all",
-          cursor: "pointer",
-          backgroundColor:'white',
-          padding:'4px',
-          boxShadow:' 0 2px 10px rgba(0, 0, 0, 0.3)',
-          borderRadius:'20px'
-
-        }}
-        title="Home"
-        alt=""
-
-      />
-
-
-
-
-      
-    
-      {((location.state?.error && location.state.error === 400)) && (
+      {location.state?.error && location.state.error === 400 && (
         <div className="errorMessage2">
           Code error. Make sure the file you uploaded is a valid comparify code.
         </div>
-      )} 
+      )}
       {trigger && (
         <div className="errorMessage3">
           Remember that your code contains your Spotify display name, ID,
@@ -1111,7 +1118,7 @@ function Code() {
           people you are comfortable with having that information.
         </div>
       )}
-      <div className="cardOverlay" style={{background:'white'}}>
+      <div className="cardOverlay" style={{ background: "white" }}>
         <div className="homeBtnDiv">
           <button
             title="Home"
@@ -1121,10 +1128,12 @@ function Code() {
             data-tooltip-content="Home"
           >
             <img
+              draggable={false}
               src={back}
               className="backImgCodePage"
               alt="Home button arrow"
-              style={{cursor:'pointer'}}
+              style={{ cursor: "pointer" }}
+              onContextMenu={(event) => event.preventDefault()}
             ></img>
           </button>
 
@@ -1136,72 +1145,119 @@ function Code() {
             data-tooltip-content="Switch user"
           >
             <img
+              draggable={false}
               src={switchUserImg}
               className="backImgCodePage"
               alt=""
-              style={{cursor:'pointer'}}
+              style={{ cursor: "pointer" }}
+              onContextMenu={(event) => event.preventDefault()}
             ></img>
           </button>
         </div>
-        <div className="grayHeader titleDiv"  data-tooltip-id="dashboardTitleTooltip" 
-            >
-              Dashboard
-          
+        <div
+          className="grayHeader titleDiv"
+          data-tooltip-id="dashboardTitleTooltip"
+        >
+          Dashboard
         </div>
-        <div className="profilePicDivCodePage" >
+        <div className="profilePicDivCodePage">
           {profilePicUrl && (
             <img
+              draggable={false}
               src={profilePicUrl}
               className="profilePicImgCodePage"
               data-tooltip-id="codePageTooltip1"
               data-tooltip-content={displayName}
               alt={displayName}
+              onContextMenu={(event) => event.preventDefault()}
             />
           )}
         </div>
 
-        <div className="codeDiv" style={{ display: 'flex', justifyContent: 'center'}}>
-        {!loadingDownload ? (
-          <button
-            onClick={downloadCode}
-            className="basicBtn downloadCodeBtnCodePage"
-            // data-tooltip-id="codePageTooltip1"
-            title = "Download your code for sharing"
-            disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
-            style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
-          >
-            <img alt="" src={downloadBlue} style={{width:'20px'}}/>  <span style={{ marginLeft: '5px' }}>save your code</span>
-          </button>
-           ): (
+        <div
+          className="codeDiv"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          {!loadingDownload ? (
+            <button
+              onClick={downloadCode}
+              className="basicBtn downloadCodeBtnCodePage"
+              // data-tooltip-id="codePageTooltip1"
+              title="Download your code for sharing"
+              disabled={
+                loadingDownload ||
+                loadingView ||
+                loadingCompare1 ||
+                loadingCompare2
+              }
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "fit-content",
+                padding: "2px 10px",
+              }}
+            >
+              <img
+                draggable={false}
+                alt=""
+                src={downloadBlue}
+                style={{ width: "20px" }}
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
+              />{" "}
+              <span style={{ marginLeft: "5px" }}>save your code</span>
+            </button>
+          ) : (
             <>
-            <div style={{height: '25px'}}>
+              <div style={{ height: "25px" }}></div>
+              <div className="loadingDots">
+                <div className="loadingDots--dot"></div>
+                <div className="loadingDots--dot"></div>
+                <div className="loadingDots--dot"></div>
               </div>
-            <div className="loadingDots" >
-              <div className="loadingDots--dot"></div>
-              <div className="loadingDots--dot"></div>
-              <div className="loadingDots--dot"></div>
-            </div></>
+            </>
           )}
         </div>
-        <div className="codeDiv " style={{ display: 'flex', justifyContent: 'center',marginTop:'-25px' }}>
+        <div
+          className="codeDiv "
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "-25px",
+          }}
+        >
           {!loadingView ? (
-        <button
-  className="basicBtn"
-  // data-tooltip-id="codePageTooltip1"
-  title="View your data by itself"
-  disabled={(loadingView || loadingDownload || loadingCompare1 || loadingCompare2)}
-  onClick={() => {
-    toDataPage();
-  }}
-  style={{ display: 'flex', alignItems: 'center', width: 'fit-content', padding: '2px 10px' }}
->
-  <img src={dashboard} style={{ width: '20px' }} alt=""/>
-  <span style={{ marginLeft: '5px' }}>view your data</span>
-</button>
-) : (
-
-          
-            <div className="loadingDots" >
+            <button
+              className="basicBtn"
+              // data-tooltip-id="codePageTooltip1"
+              title="View your data by itself"
+              disabled={
+                loadingView ||
+                loadingDownload ||
+                loadingCompare1 ||
+                loadingCompare2
+              }
+              onClick={() => {
+                toDataPage();
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "fit-content",
+                padding: "2px 10px",
+              }}
+            >
+              <img
+                draggable={false}
+                src={dashboard}
+                style={{ width: "20px" }}
+                alt=""
+                onContextMenu={(event) => event.preventDefault()}
+              />
+              <span style={{ marginLeft: "5px" }}>view your data</span>
+            </button>
+          ) : (
+            <div className="loadingDots">
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
@@ -1209,10 +1265,30 @@ function Code() {
           )}
         </div>
         {/* <h4 className="grayText">or</h4> */}
-        <div className="separator" style={{color:'gray', fontWeight:'bold', marginBottom:'30px'}}><img alt="" src={arrow} style={{width:'20px', transform:'rotate(90deg)', verticalAlign:'middle'}}/></div>
+        <div
+          className="separator"
+          style={{ color: "gray", fontWeight: "bold", marginBottom: "30px" }}
+        >
+          <img
+            draggable={false}
+            onContextMenu={(event) => event.preventDefault()}
+            alt=""
+            src={arrow}
+            style={{
+              width: "20px",
+              transform: "rotate(90deg)",
+              verticalAlign: "middle",
+            }}
+          />
+        </div>
 
         <div>
-          <h2 className="gradient compareNameCodePage" style={{fontFamily:'gothamMedium'}}>compare</h2>
+          <h2
+            className="gradient compareNameCodePage"
+            style={{ fontFamily: "gothamMedium" }}
+          >
+            compare
+          </h2>
         </div>
         <div className="uploadBtn1">
           {/* <input
@@ -1225,40 +1301,62 @@ function Code() {
            
           /> */}
 
-<label htmlFor="input1" className="custom-file-upload yellow" id="inputLabel1" data-tooltip-id="codePageTooltip1"
-            data-tooltip-content={filename1? filename1 : "upload the code for the user you want to compare with"}>
-    <img src={uploadYellow} alt="" className="upload-icon"/>
+          <label
+            htmlFor="input1"
+            className="custom-file-upload yellow"
+            id="inputLabel1"
+            data-tooltip-id="codePageTooltip1"
+            data-tooltip-content={
+              filename1
+                ? filename1
+                : "upload the code for the user you want to compare with"
+            }
+          >
+            <img
+              draggable={false}
+              src={uploadYellow}
+              alt=""
+              className="upload-icon"
+              onContextMenu={(event) => event.preventDefault()}
+            />
 
-
-         {/* {!filename1 ?(
-  <img src={uploadYellow} alt="" className="upload-icon"/>
+            {/* {!filename1 ?(
+  <img
+  draggable={false} src={uploadYellow} alt="" className="upload-icon"/>
   ): (
 
   <Spline scene="  https://prod.spline.design/9ZMBMIvwXQbw3nge/scene.splinecode
   " className=""/>)} */}
+          </label>
+          <input
+            id="input1"
+            type="file"
+            accept=".txt"
+            onChange={addFile2}
+            style={{ display: "none" }}
+            disabled={
+              loadingDownload ||
+              loadingView ||
+              loadingCompare1 ||
+              loadingCompare2
+            }
+          />
 
-</label>
-<input 
-  id="input1"
-  type="file"
-  accept=".txt"
-  onChange={addFile2}
-  style={{display: 'none'}}
-  disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
-/>
-        
           <span className="codeDiv">
             {!loadingCompare1 && (
               <span
                 title="Submit"
-                className={(loadingDownload || loadingView  || !file2) ? "submitBtn disabled": "submitBtn"}
+                className={
+                  loadingDownload || loadingView || !file2
+                    ? "submitBtn disabled"
+                    : "submitBtn"
+                }
                 // disabled={!file2}
                 onClick={() => {
                   toComparePage1();
                 }}
-               
               >
-                submit  &#8594;
+                submit &#8594;
               </span>
             )}
             {loadingCompare1 && (
@@ -1280,61 +1378,99 @@ function Code() {
           </span>
         </div>
         <div className="uploadBtn2">
-        <label htmlFor="input2" className="custom-file-upload blue" id="inputLabel2"  data-tooltip-id="codePageTooltip1"
-            data-tooltip-content={filename2? filename2 :"upload the code for the first user you want to compare with"}>
-              {/* {!filename2 ?(
-  <img src={uploadBlue} alt="" className="upload-icon"/>): (
+          <label
+            htmlFor="input2"
+            className="custom-file-upload blue"
+            id="inputLabel2"
+            data-tooltip-id="codePageTooltip1"
+            data-tooltip-content={
+              filename2
+                ? filename2
+                : "upload the code for the first user you want to compare with"
+            }
+          >
+            {/* {!filename2 ?(
+  <img
+  draggable={false} src={uploadBlue} alt="" className="upload-icon"/>): (
 
   <Spline scene="https://prod.spline.design/VoTdUUTH5eD1FEIg/scene.splinecode" className=""/>)} */}
-  <img src={uploadBlue} alt="" className="upload-icon"/>
-</label>
+            <img
+              draggable={false}
+              src={uploadBlue}
+              alt=""
+              className="upload-icon"
+              onContextMenu={(event) => event.preventDefault()}
+            />
+          </label>
           <input
-            disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
-
+            disabled={
+              loadingDownload ||
+              loadingView ||
+              loadingCompare1 ||
+              loadingCompare2
+            }
             type="file"
-           
             accept=".txt"
             onChange={addFile1TwoComp}
-
             id="input2"
-style={{display: 'none'}}
+            style={{ display: "none" }}
           />
 
-<label htmlFor="input3" className="custom-file-upload yellow" id="inputLabel3" data-tooltip-id="codePageTooltip1"
-            data-tooltip-content={filename3? filename3 :"upload the code for the second user you want to compare with"}>
-
-<img src={uploadYellow} alt="" className="upload-icon"/>
-{/* {!filename3 ?(
-  <img src={uploadYellow} alt="" className="upload-icon"/>
+          <label
+            htmlFor="input3"
+            className="custom-file-upload yellow"
+            id="inputLabel3"
+            data-tooltip-id="codePageTooltip1"
+            data-tooltip-content={
+              filename3
+                ? filename3
+                : "upload the code for the second user you want to compare with"
+            }
+          >
+            <img
+              draggable={false}
+              src={uploadYellow}
+              alt=""
+              className="upload-icon"
+              onContextMenu={(event) => event.preventDefault()}
+            />
+            {/* {!filename3 ?(
+  <img
+  draggable={false} src={uploadYellow} alt="" className="upload-icon"/>
   ): (
 
   <Spline scene="  https://prod.spline.design/9ZMBMIvwXQbw3nge/scene.splinecode
   " className=""/>)} */}
-
-
-</label>
+          </label>
           <input
-            disabled={(loadingDownload || loadingView || loadingCompare1 || loadingCompare2)}
-
+            disabled={
+              loadingDownload ||
+              loadingView ||
+              loadingCompare1 ||
+              loadingCompare2
+            }
             type="file"
-            
             accept=".txt"
             onChange={addFile2TwoComp}
             // style={{marginLeft:'20px'}}
 
             id="input3"
-style={{display: 'none',marginLeft:'20px'}}
+            style={{ display: "none", marginLeft: "20px" }}
           />
           {!loadingCompare2 && (
             <span
-              className={(loadingDownload || loadingView || !file1TwoComp || !file2TwoComp) ? "submitBtn disabled" : "submitBtn"}
+              className={
+                loadingDownload || loadingView || !file1TwoComp || !file2TwoComp
+                  ? "submitBtn disabled"
+                  : "submitBtn"
+              }
               // disabled=
               onClick={() => {
                 toComparePage2();
               }}
               style={{}}
             >
-              submit  &#8594;
+              submit &#8594;
             </span>
           )}
           {loadingCompare2 && (
@@ -1354,11 +1490,7 @@ style={{display: 'none',marginLeft:'20px'}}
           )}
         </div>
 
-        <Tooltip id="codePageTooltip1" className="tooltip1"  noArrow clickable/>
-
-
-
-        
+        <Tooltip id="codePageTooltip1" className="tooltip1" noArrow clickable />
       </div>
       {/* <Footer /> */}
     </div>

@@ -1971,23 +1971,34 @@ function Compare() {
   return (
     <div>
       {/* <ScrollButton/> */}
-      <img alt=""
-        src={fullLogo}
-        onClick={() => navigate("/")}
-        style={{
-          width: "150px",
-          position: "absolute",
-          top: "20px",
-          left: "30px",
-          pointerEvents: "all",
-          cursor: "pointer",
-        }}
-        title="Home"
-      />
+      <Link to="/">
+        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()}
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()}
+          alt=""
+          src={fullLogo}
+          style={{
+            width: "175px",
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            backgroundColor: "white",
+            padding: "4px",
+            borderRadius: "20px",
+            webkitUserDrag: "none",
+          }}
+          title="Home"
+         
+        />
+      </Link>
 
       <span className="pageHeader1">Results</span>
       {/* <Link to="/" title="Home" style={{ display: "block" }}>
-        <img alt=""
+        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
           src={logoAlt}
           style={{ width: 80, paddingTop: "20px", pointerEvents: "none" }}
         ></img>
@@ -1996,7 +2007,9 @@ function Compare() {
         comparify results
         <span>
           &emsp;
-          <img alt=""
+          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
             id="gptTooltip"
             className="zoom"
             onClick={openModal}
@@ -2013,7 +2026,9 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate1[1]
             }
           >
-            <img alt=""
+            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
               src={nameIdImgurlGenerationdate1[2]}
               style={{
                 width: "30px ",
@@ -2041,7 +2056,9 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate2[1]
             }
           >
-            <img alt=""
+            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
               src={nameIdImgurlGenerationdate2[2]}
               style={{
                 width: "30px",
@@ -2082,13 +2099,17 @@ function Compare() {
           data-tooltip-id="downloadScoreImageTooltip"
           data-tooltip-content="Save percent as image"
         >
-          <img alt="" src={download} style={{ width: "10px" }}></img>
+          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={download} style={{ width: "10px" }}></img>
         </button>
       </h2>
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
-          <img alt="" src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
+          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={logoAlt} style={{ width: 80, paddingTop: "20px" }}></img>
           <h3>comparify score</h3>
           <h4>
             <span style={{ color: "#1e90ff" }}>
@@ -2147,7 +2168,9 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate1[1]
             }
           >
-            <img alt=""
+            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
               src={nameIdImgurlGenerationdate1[2]}
               style={{
                 width: "30px ",
@@ -2174,7 +2197,9 @@ function Compare() {
               "https://open.spotify.com/user/" + nameIdImgurlGenerationdate2[1]
             }
           >
-            <img alt=""
+            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
               src={nameIdImgurlGenerationdate2[2]}
               style={{
                 width: "30px ",
@@ -2219,7 +2244,9 @@ function Compare() {
           data-tooltip-id="downloadScoreImageTooltip"
           data-tooltip-content="Save percent as image"
         >
-          <img alt="" src={download} style={{ width: "10px" }}></img>
+          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={download} style={{ width: "10px" }}></img>
         </button> */}
       </h2>
       </div>
@@ -2228,7 +2255,9 @@ function Compare() {
 
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="imgDiv" style={{ width: 200, paddingBottom: "2px" }}>
-          <img alt="" src={logo} style={{ width: 80, paddingTop: "20px" }}></img>
+          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={logo} style={{ width: 80, paddingTop: "20px" }}></img>
           <h3>comparify score</h3>
           <h4>
             <span style={{ color: "#1e90ff" }}>
@@ -2268,7 +2297,9 @@ function Compare() {
         <div className="leftNavBtnContainer">
           <Link to="/dashboard" title="Back">
             <button className="leftNavBtn">
-              <img alt="" src={back} style={{ width: "13px" }}></img>
+              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={back} style={{ width: "13px" }}></img>
             </button>
           </Link>
         </div>
@@ -2310,7 +2341,9 @@ function Compare() {
           }
           style={{ textDecoration: "none" }}
         > */}
-        <img alt=""
+        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
           src={nameIdImgurlGenerationdate1[2]}
           style={{
             width: "30px",
@@ -2329,7 +2362,9 @@ function Compare() {
           }}
         >
           {nameIdImgurlGenerationdate1[0]}
-          <img alt=""
+          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
             id="dropdownMenuArrow"
             src={rightArrow}
             style={{
@@ -2358,7 +2393,9 @@ function Compare() {
               className="darkenHover"
               title="Open your Spotify profile"
             >
-              <img alt=""
+              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                 src={spotifysmall}
                 style={{
                   width: "20px",
@@ -2367,7 +2404,9 @@ function Compare() {
                 }}
               ></img>
               Profile
-              <img alt=""
+              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                 src={greenArrow}
                 style={{
                   width: "10px",
@@ -2383,7 +2422,9 @@ function Compare() {
               title={`Try comparify \u2A2F ChatGPT`}
             >
               <span>
-                <img alt=""
+                <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                   src={logo}
                   style={{ width: "30px", verticalAlign: "middle" }}
                   className="zoom"
@@ -2391,7 +2432,9 @@ function Compare() {
               </span>{" "}
               &#10799;{" "}
               <span style={{ color: "#75ac9d" }}>
-                <img alt=""
+                <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                   className="spin"
                   src={gptBtn}
                   style={{
@@ -2420,7 +2463,9 @@ function Compare() {
               title="See how well you know each other's music"
             >
               Play{" "}
-              <img alt=""
+              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                 src={rightArrow}
                 style={{ width: "10px", verticalAlign: "middle" }}
               />
@@ -2462,7 +2507,9 @@ function Compare() {
                     title="See shared view"
                     style={{}}
                   >
-                    <img alt=""
+                    <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                       src={nameIdImgurlGenerationdate1[2]}
                       style={{
                         width: "30px",
@@ -2494,7 +2541,9 @@ function Compare() {
                     >
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <div className="image">
-                          <img alt=""
+                          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                             src={nameIdImgurlGenerationdate1[2]}
                             style={{
                               width: "30px",
@@ -2513,7 +2562,9 @@ function Compare() {
                         </div>
                         <span>+</span>
                         <div className="image">
-                          <img alt=""
+                          <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                             src={nameIdImgurlGenerationdate2[2]}
                             style={{
                               width: "30px ",
@@ -2545,7 +2596,9 @@ function Compare() {
                     title={`See ${nameIdImgurlGenerationdate1[0]}'s view`}
                     style={{}}
                   >
-                    <img alt=""
+                    <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
                         width: "30px",
@@ -2579,7 +2632,9 @@ function Compare() {
                         {user1TopSongs.length > 0 ? (
                           user1TopSongs.map((song, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={song.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={song.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">{song.name}</span>
                                 <span className="primaryArtists">
@@ -2601,7 +2656,9 @@ function Compare() {
                         {user1TopArtists.length > 0 ? (
                           user1TopArtists.map((artist, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={artist.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {artist.name}
@@ -2622,7 +2679,9 @@ function Compare() {
                         {user1TopAlbums.length > 0 ? (
                           user1TopAlbums.map((album, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={album.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={album.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {album.name}
@@ -2728,7 +2787,9 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[0] !==
                           arrays2.mostLeastPopSongIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1MostLeastPopSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -2762,7 +2823,9 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[1] !==
                           arrays2.mostLeastPopSongIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1MostLeastPopSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -2796,7 +2859,9 @@ function Compare() {
                         arrays1.oldestNewestSongIds[0] !==
                           arrays2.oldestNewestSongIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1OldestNewestSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -2828,7 +2893,9 @@ function Compare() {
                         arrays1.oldestNewestSongIds[1] !==
                           arrays2.oldestNewestSongIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1OldestNewestSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -2860,7 +2927,9 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[0] !==
                           arrays2.mostLeastPopArtistIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1MostLeastPopArtists[0]?.img}
                               className="primaryImage"
                             />
@@ -2892,7 +2961,9 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[1] !==
                           arrays2.mostLeastPopArtistIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1MostLeastPopArtists[1]?.img}
                               className="primaryImage"
                             />
@@ -2924,7 +2995,9 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[0] !==
                           arrays2.mostLeastPopAlbumIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1MostLeastPopAlbums[0]?.img}
                               className="primaryImage"
                             />
@@ -2959,7 +3032,9 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[1] !==
                           arrays2.mostLeastPopAlbumIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user1MostLeastPopAlbums[1]?.img}
                               className="primaryImage"
                             />
@@ -3268,7 +3343,9 @@ function Compare() {
                         {sharedTopSongs.length > 0 ? (
                           sharedTopSongs.map((song, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={song.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={song.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">{song.name}</span>
                                 <span className="primaryArtists">
@@ -3290,7 +3367,9 @@ function Compare() {
                         {sharedTopArtists.length > 0 ? (
                           sharedTopArtists.map((artist, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={artist.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {artist.name}
@@ -3311,7 +3390,9 @@ function Compare() {
                         {sharedTopAlbums.length > 0 ? (
                           sharedTopAlbums.map((album, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={album.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={album.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {album.name}
@@ -3399,7 +3480,9 @@ function Compare() {
                         {sharedMostLeastPopSongs &&
                         sharedMostLeastPopSongs[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedMostLeastPopSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -3431,7 +3514,9 @@ function Compare() {
                         {sharedMostLeastPopSongs &&
                         sharedMostLeastPopSongs[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedMostLeastPopSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -3463,7 +3548,9 @@ function Compare() {
                         {sharedOldestNewestSongs &&
                         sharedOldestNewestSongs[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedOldestNewestSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -3493,7 +3580,9 @@ function Compare() {
                         {sharedOldestNewestSongs &&
                         sharedOldestNewestSongs[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedOldestNewestSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -3523,7 +3612,9 @@ function Compare() {
                         {sharedMostLeastPopArtists &&
                         sharedMostLeastPopArtists[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedMostLeastPopArtists[0]?.img}
                               className="primaryImage"
                             />
@@ -3553,7 +3644,9 @@ function Compare() {
                         {sharedMostLeastPopArtists &&
                         sharedMostLeastPopArtists[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedMostLeastPopArtists[1]?.img}
                               className="primaryImage"
                             />
@@ -3583,7 +3676,9 @@ function Compare() {
                         {sharedMostLeastPopAlbums &&
                         sharedMostLeastPopAlbums[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedMostLeastPopAlbums[0]?.img}
                               className="primaryImage"
                             />
@@ -3618,7 +3713,9 @@ function Compare() {
                         {sharedMostLeastPopAlbums &&
                         sharedMostLeastPopAlbums[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={sharedMostLeastPopAlbums[1]?.img}
                               className="primaryImage"
                             />
@@ -3928,7 +4025,9 @@ function Compare() {
                         {user2TopSongs.length > 0 ? (
                           user2TopSongs.map((song, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={song.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={song.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">{song.name}</span>
                                 <span className="primaryArtists">
@@ -3950,7 +4049,9 @@ function Compare() {
                         {user2TopArtists.length > 0 ? (
                           user2TopArtists.map((artist, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={artist.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {artist.name}
@@ -3971,7 +4072,9 @@ function Compare() {
                         {user2TopAlbums.length > 0 ? (
                           user2TopAlbums.map((album, index) => (
                             <div key={index} className="item">
-                              <img alt="" src={album.img} className="primaryImage" />
+                              <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={album.img} className="primaryImage" />
                               <div className="primaryText">
                                 <span className="primaryName">
                                   {album.name}
@@ -4077,7 +4180,9 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[0] !==
                           arrays2.mostLeastPopSongIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2MostLeastPopSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -4111,7 +4216,9 @@ function Compare() {
                         arrays1.mostLeastPopSongIds[1] !==
                           arrays2.mostLeastPopSongIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2MostLeastPopSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -4145,7 +4252,9 @@ function Compare() {
                         arrays1.oldestNewestSongIds[0] !==
                           arrays2.oldestNewestSongIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2OldestNewestSongs[0]?.img}
                               className="primaryImage"
                             />
@@ -4177,7 +4286,9 @@ function Compare() {
                         arrays1.oldestNewestSongIds[1] !==
                           arrays2.oldestNewestSongIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2OldestNewestSongs[1]?.img}
                               className="primaryImage"
                             />
@@ -4209,7 +4320,9 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[0] !==
                           arrays2.mostLeastPopArtistIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2MostLeastPopArtists[0]?.img}
                               className="primaryImage"
                             />
@@ -4241,7 +4354,9 @@ function Compare() {
                         arrays1.mostLeastPopArtistIds[1] !==
                           arrays2.mostLeastPopArtistIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2MostLeastPopArtists[1]?.img}
                               className="primaryImage"
                             />
@@ -4273,7 +4388,9 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[0] !==
                           arrays2.mostLeastPopAlbumIds[0] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2MostLeastPopAlbums[0]?.img}
                               className="primaryImage"
                             />
@@ -4308,7 +4425,9 @@ function Compare() {
                         arrays1.mostLeastPopAlbumIds[1] !==
                           arrays2.mostLeastPopAlbumIds[1] ? (
                           <div className="item">
-                            <img alt=""
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                               src={user2MostLeastPopAlbums[1]?.img}
                               className="primaryImage"
                             />
@@ -4616,7 +4735,9 @@ function Compare() {
                   data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate1[0]} only`}
                   style={{marginTop:'200px'}}
                 >
-                  <img alt=""
+                  <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                     src={nameIdImgurlGenerationdate1[2]}
                     style={{
                       width: "30px",
@@ -4643,7 +4764,9 @@ function Compare() {
                   data-tooltip-content={`Overlapping (shared) data for both ${nameIdImgurlGenerationdate1[0]} and ${nameIdImgurlGenerationdate2[0]}`}
                 >
                   <div className="image">
-                    <img alt=""
+                    <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                       src={nameIdImgurlGenerationdate1[2]}
                       style={{
                         width: "30px",
@@ -4662,7 +4785,9 @@ function Compare() {
                   </div>
                   <span>+</span>
                   <div className="image">
-                    <img alt=""
+                    <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                       src={nameIdImgurlGenerationdate2[2]}
                       style={{
                         width: "30px ",
@@ -4688,7 +4813,9 @@ function Compare() {
                   data-tooltip-content={`Unique data for ${nameIdImgurlGenerationdate2[0]} only`}
                   style={{marginTop:'200px'}}
                 >
-                  <img alt=""
+                  <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                     src={nameIdImgurlGenerationdate2[2]}
                     style={{
                       width: "30px",
@@ -4714,7 +4841,9 @@ function Compare() {
                   {user1TopSongs.length > 0 ? (
                     user1TopSongs.map((song, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={song.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={song.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{song.name}</span>
                           <span className="primaryArtists">
@@ -4735,7 +4864,9 @@ function Compare() {
                   {sharedTopSongs.length > 0 ? (
                     sharedTopSongs.map((song, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={song.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={song.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{song.name}</span>
                           <span className="primaryArtists">
@@ -4755,7 +4886,9 @@ function Compare() {
                   {user2TopSongs.length > 0 ? (
                     user2TopSongs.map((song, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={song.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={song.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{song.name}</span>
                           <span className="primaryArtists">
@@ -4777,7 +4910,9 @@ function Compare() {
                   {user1TopArtists.length > 0 ? (
                     user1TopArtists.map((artist, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={artist.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{artist.name}</span>
                         </div>
@@ -4794,7 +4929,9 @@ function Compare() {
                   {sharedTopArtists.length > 0 ? (
                     sharedTopArtists.map((artist, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={artist.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{artist.name}</span>
                         </div>
@@ -4811,7 +4948,9 @@ function Compare() {
                   {user2TopArtists.length > 0 ? (
                     user2TopArtists.map((artist, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={artist.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{artist.name}</span>
                         </div>
@@ -4830,7 +4969,9 @@ function Compare() {
                   {user1TopAlbums.length > 0 ? (
                     user1TopAlbums.map((album, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={album.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={album.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{album.name}</span>
                           <span className="primaryArtists">
@@ -4850,7 +4991,9 @@ function Compare() {
                   {sharedTopAlbums.length > 0 ? (
                     sharedTopAlbums.map((album, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={album.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={album.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{album.name}</span>
                           <span className="primaryArtists">
@@ -4870,7 +5013,9 @@ function Compare() {
                   {user2TopAlbums.length > 0 ? (
                     user2TopAlbums.map((album, index) => (
                       <div key={index} className="item">
-                        <img alt="" src={album.img} className="primaryImage" />
+                        <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={album.img} className="primaryImage" />
                         <div className="primaryText">
                           <span className="primaryName">{album.name}</span>
                           <span className="primaryArtists">
@@ -5054,7 +5199,9 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[0] !==
                     arrays2.mostLeastPopSongIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1MostLeastPopSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5080,7 +5227,9 @@ function Compare() {
                   <div className="primaryTitle">most popular song</div>
                   {sharedMostLeastPopSongs && sharedMostLeastPopSongs[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedMostLeastPopSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5109,7 +5258,9 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[0] !==
                     arrays2.mostLeastPopSongIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2MostLeastPopSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5140,7 +5291,9 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[1] !==
                     arrays2.mostLeastPopSongIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1MostLeastPopSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5166,7 +5319,9 @@ function Compare() {
                   <div className="primaryTitle">least popular song</div>
                   {sharedMostLeastPopSongs && sharedMostLeastPopSongs[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedMostLeastPopSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5195,7 +5350,9 @@ function Compare() {
                   arrays1.mostLeastPopSongIds[1] !==
                     arrays2.mostLeastPopSongIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2MostLeastPopSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5226,7 +5383,9 @@ function Compare() {
                   arrays1.oldestNewestSongIds[0] !==
                     arrays2.oldestNewestSongIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1OldestNewestSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5252,7 +5411,9 @@ function Compare() {
                   <div className="primaryTitle">oldest song</div>
                   {sharedOldestNewestSongs && sharedOldestNewestSongs[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedOldestNewestSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5281,7 +5442,9 @@ function Compare() {
                   arrays1.oldestNewestSongIds[0] !==
                     arrays2.oldestNewestSongIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2OldestNewestSongs[0]?.img}
                         className="primaryImage"
                       />
@@ -5313,7 +5476,9 @@ function Compare() {
                   arrays1.oldestNewestSongIds[1] !==
                     arrays2.oldestNewestSongIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1OldestNewestSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5339,7 +5504,9 @@ function Compare() {
                   <div className="primaryTitle">newest song</div>
                   {sharedOldestNewestSongs && sharedOldestNewestSongs[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedOldestNewestSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5368,7 +5535,9 @@ function Compare() {
                   arrays1.oldestNewestSongIds[1] !==
                     arrays2.oldestNewestSongIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2OldestNewestSongs[1]?.img}
                         className="primaryImage"
                       />
@@ -5400,7 +5569,9 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[0] !==
                     arrays2.mostLeastPopArtistIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1MostLeastPopArtists[0]?.img}
                         className="primaryImage"
                       />
@@ -5423,7 +5594,9 @@ function Compare() {
                   <div className="primaryTitle">most popular artist</div>
                   {sharedMostLeastPopArtists && sharedMostLeastPopArtists[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedMostLeastPopArtists[0]?.img}
                         className="primaryImage"
                       />
@@ -5449,7 +5622,9 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[0] !==
                     arrays2.mostLeastPopArtistIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2MostLeastPopArtists[0]?.img}
                         className="primaryImage"
                       />
@@ -5478,7 +5653,9 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[1] !==
                     arrays2.mostLeastPopArtistIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1MostLeastPopArtists[1]?.img}
                         className="primaryImage"
                       />
@@ -5501,7 +5678,9 @@ function Compare() {
                   <div className="primaryTitle">least popular artist</div>
                   {sharedMostLeastPopArtists && sharedMostLeastPopArtists[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedMostLeastPopArtists[1]?.img}
                         className="primaryImage"
                       />
@@ -5527,7 +5706,9 @@ function Compare() {
                   arrays1.mostLeastPopArtistIds[1] !==
                     arrays2.mostLeastPopArtistIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2MostLeastPopArtists[1]?.img}
                         className="primaryImage"
                       />
@@ -5556,7 +5737,9 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[0] !==
                     arrays2.mostLeastPopAlbumIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1MostLeastPopAlbums[0]?.img}
                         className="primaryImage"
                       />
@@ -5582,7 +5765,9 @@ function Compare() {
                   <div className="primaryTitle">most popular album</div>
                   {sharedMostLeastPopAlbums && sharedMostLeastPopAlbums[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedMostLeastPopAlbums[0]?.img}
                         className="primaryImage"
                       />
@@ -5611,7 +5796,9 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[0] !==
                     arrays2.mostLeastPopAlbumIds[0] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2MostLeastPopAlbums[0]?.img}
                         className="primaryImage"
                       />
@@ -5643,7 +5830,9 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[1] !==
                     arrays2.mostLeastPopAlbumIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user1MostLeastPopAlbums[1]?.img}
                         className="primaryImage"
                       />
@@ -5669,7 +5858,9 @@ function Compare() {
                   <div className="primaryTitle">least popular album</div>
                   {sharedMostLeastPopAlbums && sharedMostLeastPopAlbums[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={sharedMostLeastPopAlbums[1]?.img}
                         className="primaryImage"
                       />
@@ -5698,7 +5889,9 @@ function Compare() {
                   arrays1.mostLeastPopAlbumIds[1] !==
                     arrays2.mostLeastPopAlbumIds[1] ? (
                     <div className="item">
-                      <img alt=""
+                      <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                         src={user2MostLeastPopAlbums[1]?.img}
                         className="primaryImage"
                       />
@@ -5730,7 +5923,9 @@ function Compare() {
             <tr style={{ height: "40px" }}></tr>
             <tr>
               <td></td>
-              <td className="differencesLabel">differences<div> <img alt=""
+              <td className="differencesLabel">differences<div> <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                       src={rightArrow}
                       style={{ width: "20px", verticalAlign: "middle",transform:'rotate(90deg)' }}
                     /></div></td>
@@ -6438,7 +6633,9 @@ function Compare() {
                       marginRop: "10px",
                     }}
                   >
-                    <img alt=""
+                    <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
                       src={rightArrow}
                       style={{ width: "10px", verticalAlign: "middle" }}
                     />
@@ -6575,7 +6772,9 @@ function Compare() {
                         arrays2.highestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline1">
                           <div className="cellOutlineCompact">
-                            <img 
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} 
                               className="primaryImage"
                               src={user1HighestSong.img}
                               alt={user1HighestSong.name}
@@ -6604,7 +6803,9 @@ function Compare() {
                       sharedHighestSong.artists && (
                         <div className="songCellOutline2">
                           <div className="cellOutlineCompact">
-                            <img 
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} 
                               className="primaryImage"
                               src={sharedHighestSong.img}
                               alt={sharedHighestSong.name}
@@ -6635,7 +6836,9 @@ function Compare() {
                         arrays2.highestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline3">
                           <div className="cellOutlineCompact">
-                            <img 
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} 
                               className="primaryImage"
                               src={user2HighestSong.img}
                               alt={user2HighestSong.name}
@@ -6668,7 +6871,9 @@ function Compare() {
                         arrays2.lowestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline1">
                           <div className="cellOutlineCompact">
-                            <img 
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} 
                               className="primaryImage"
                               src={user1LowestSong.img}
                               alt={user1LowestSong.name}
@@ -6697,7 +6902,9 @@ function Compare() {
                       sharedLowestSong.artists && (
                         <div className="songCellOutline2">
                           <div className="cellOutlineCompact">
-                            <img 
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} 
                               className="primaryImage"
                               src={sharedLowestSong.img}
                               alt={sharedLowestSong.name}
@@ -6729,7 +6936,9 @@ function Compare() {
                         arrays2.lowestAudioFeatureSongIds[index] && (
                         <div className="songCellOutline3">
                           <div className="cellOutlineCompact">
-                            <img 
+                            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} 
                               className="primaryImage"
                               src={user2LowestSong.img}
                               alt={user2LowestSong.name}
@@ -6768,7 +6977,9 @@ function Compare() {
       >
         <div style={{ textAlign: "center" }}>
           <h2 className="">
-            <img alt=""
+            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
               src={gptBtn}
               style={{ width: "40px", marginRight: "10px" }}
             ></img>
@@ -6810,7 +7021,9 @@ function Compare() {
                 onClick={handleConvertToImageGPT}
                 title="Download image"
               >
-                <img alt="" src={download} style={{ width: "10px" }}></img>
+                <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt="" src={download} style={{ width: "10px" }}></img>
               </button>
             </>
           )}
@@ -6984,7 +7197,9 @@ function Compare() {
       <div style={{ width: "0", height: "0", overflow: "hidden" }}>
         <div id="gptImgDiv" style={{ width: 500, padding: "20px" }}>
           <h2 className="gptModalTitle">
-            <img alt=""
+            <img
+        draggable={false}
+        onContextMenu={(event) => event.preventDefault()} alt=""
               src={gptBtn}
               style={{ width: "40px", marginRight: "10px" }}
             ></img>
