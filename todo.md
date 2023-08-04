@@ -15,6 +15,7 @@ close btn styles-gray/darken/pop/bg?
 match pie charts
 compare pie charts
 use new data for prompts, recs
+footer
 filenames
 game background blur mobile
 game modal sizing mobile

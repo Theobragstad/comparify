@@ -319,7 +319,7 @@ function Home() {
             left: "10px",
             backgroundColor: "white",
             padding: "4px",
-            borderRadius: "20px",
+            // borderRadius: "20px",
             webkitUserDrag: "none",
           }}
           title="Home"
@@ -358,7 +358,7 @@ function Home() {
             onContextMenu={(event) => event.preventDefault()}
           />
         </span>{" "}
-        <span className="primaryBtn" onClick={handleClick} title="Log in">
+        <span className="primaryBtn" onClick={handleClick} title="Authorized user login">
           authorized users{" "}
           <img
             alt=""
