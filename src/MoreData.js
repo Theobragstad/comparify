@@ -597,7 +597,7 @@ const MoreData = () => {
         >
           <div
             className="gray"
-            style={{ marginRight: "20px", fontSize: "11px" }}
+            style={{ marginRight: "20px", fontSize: "11px",fontFamily: 'gothamMedium', }}
             onClick={() =>
               navigate("/data", {
                 state: { data: location.state.data, token: token },
@@ -605,7 +605,8 @@ const MoreData = () => {
             }
             title="Your data"
           >
-             <img alt="" src={rightArrow} style={{ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back
+             <img alt="" src={rightArrow} style={{   
+width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back
           </div>
           {/* <div style={{ cursor: 'pointer', margin: '0', display: 'flex', alignItems: 'center', justifyContent: 'center'}} onClick={toggleShowInfo}> */}
           <div
@@ -615,6 +616,8 @@ const MoreData = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              fontFamily: 'gothamMedium'
+
             }}
             data-tooltip-id="tooltip1"
             onMouseOver={handleMouseOver}

@@ -239,15 +239,15 @@ function Home() {
         />
       </Link>
 
-      <Link to="/:)">
+      {/* <Link to="/:)"> */}
         <div
           className="betaIcon"
           // onClick={handleClickBETA}
-          style={{ marginLeft: "15px", top: "25px" }}
+          style={{ marginLeft: "15px", top: "25px",cursor:'default' }}
         >
           beta
         </div>
-      </Link>
+      {/* </Link> */}
 
       <div
         style={{

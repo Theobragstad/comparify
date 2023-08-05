@@ -1190,7 +1190,7 @@ function Code() {
           {!loadingDownload ? (
             <button
               onClick={downloadCode}
-              className="basicBtn downloadCodeBtnCodePage"
+              className="basicBtn downloadCodeBtnCodePage "
               // data-tooltip-id="codePageTooltip1"
               title="Download your code for sharing"
               disabled={
@@ -1203,8 +1203,9 @@ function Code() {
                 display: "flex",
                 alignItems: "center",
                 width: "fit-content",
-                padding: "2px 10px",
-                fontFamily: "gothamMedium"
+                padding: "4px",
+                fontFamily: "gothamMedium",
+            
               }}
             >
               <img
@@ -1239,7 +1240,7 @@ function Code() {
         >
           {!loadingView ? (
             <button
-              className="basicBtn"
+              className="basicBtn padded"
               // data-tooltip-id="codePageTooltip1"
               title="View your data by itself"
               disabled={
@@ -1255,7 +1256,7 @@ function Code() {
                 display: "flex",
                 alignItems: "center",
                 width: "fit-content",
-                padding: "2px 10px",
+                // padding: "2px 10px",
                 fontFamily: "gothamMedium"
               }}
             >
@@ -1360,8 +1361,8 @@ function Code() {
                 title="Submit"
                 className={
                   loadingDownload || loadingView || !file2
-                    ? "submitBtn disabled"
-                    : "submitBtn"
+                    ? "submitBtn disabled padded"
+                    : "submitBtn padded"
                 }
                 // disabled={!file2}
                 onClick={() => {
@@ -1473,8 +1474,8 @@ function Code() {
             <span
               className={
                 loadingDownload || loadingView || !file1TwoComp || !file2TwoComp
-                  ? "submitBtn disabled"
-                  : "submitBtn"
+                  ? "submitBtn disabled padded"
+                  : "submitBtn padded"
               }
               // disabled=
               onClick={() => {

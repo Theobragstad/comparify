@@ -206,8 +206,10 @@ Show pct explicit
 Fetching errors disclose
 Data ordering
 Compare page val stacking
+btn paddings
 Logo and content overlaps
 Popularity ranges?
+fonts
 logout btn/clear cookies
 tooltip styling
 while loading-instead of no data, show gray boxes/fillers where content goes

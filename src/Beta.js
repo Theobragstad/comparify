@@ -25,34 +25,75 @@ function Beta() {
   ]);
   const [submitted, setSubmitted] = useState(false);
 
+  // const handleChange = (e, index) => {
+  //   const { value } = e.target;
+  //   const updatedEmails = [...emails];
+  //   updatedEmails[index] = value;
+  //   setEmails(updatedEmails);
+
+  //   const updatedEmailValidity = [...emailValidity];
+  //   updatedEmailValidity[index] =
+  //     index === 0
+  //       ? validateEmail(value)
+  //       : value.trim() === "" || validateEmail(value);
+  //   setEmailValidity(updatedEmailValidity);
+
+  //   const isDuplicate = emails.some(
+  //     (email, i) => email !== "" && index !== i && email === value
+  //   );
+  //   if (isDuplicate) {
+  //     e.target.classList.remove("valid");
+  //   } else {
+  //     e.target.classList.add("valid");
+  //   }
+  // };
   const handleChange = (e, index) => {
     const { value } = e.target;
     const updatedEmails = [...emails];
     updatedEmails[index] = value;
     setEmails(updatedEmails);
-
+  
     const updatedEmailValidity = [...emailValidity];
-    updatedEmailValidity[index] =
-      index === 0
-        ? validateEmail(value)
-        : value.trim() === "" || validateEmail(value);
+    updatedEmailValidity[index] = value.trim() === "" || validateEmail(value);
     setEmailValidity(updatedEmailValidity);
-
-    const isDuplicate = emails.some(
-      (email, i) => email !== "" && index !== i && email === value
-    );
-    if (isDuplicate) {
-      e.target.classList.remove("valid");
-    } else {
-      e.target.classList.add("valid");
-    }
+  
+    const emailOccurrences = updatedEmails.reduce((occurrences, email) => {
+      occurrences[email] = (occurrences[email] || 0) + 1;
+      return occurrences;
+    }, {});
+  
+    updatedEmails.forEach((email, i) => {
+      const inputElement = document.getElementById(`emailInput-${i}`);
+      if (inputElement) {
+        const isDuplicate = emailOccurrences[email] > 1;
+        const isValidFormat = validateEmail(email);
+        
+        if (email.trim() !== "") {
+          if (isDuplicate || !isValidFormat) {
+            inputElement.classList.remove("valid");
+            inputElement.classList.add("invalidEmail");
+          } else {
+            inputElement.classList.remove("invalidEmail");
+            inputElement.classList.add("valid");
+          }
+        } else {
+          // Reset classes for empty fields
+          inputElement.classList.remove("invalidEmail");
+          inputElement.classList.remove("valid");
+        }
+      }
+    });
   };
+  
+  
+  
 
   const validateEmail = (email) => {
     // Regular expression to validate email format
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
     return emailRegex.test(email);
-  };
+};
+
 
   const isFormValid = () => {
     // Check for duplicates
@@ -155,7 +196,8 @@ function Beta() {
   }, []);
 
   return (
-    <div className={darkMode && "dark"} style={{height:'100vh'}}>
+    <div className={darkMode && "dark"} style={{height:'100vh',  fontFamily: 'gothamMedium',
+  }}>
       <Link to="/">
         <img draggable={false}
           alt=""
@@ -180,7 +222,7 @@ function Beta() {
           <div className="beta">waitlist</div>
           <div className="info">
             <img draggable={false} onContextMenu={(event) => event.preventDefault()} src={arrow1} className="arrow" alt="Arrow" ></img>
-            Enter up to five emails (you + family + friends)
+            Enter up to 5 emails (you + family + friends)
             <br /> <br />
             <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
             Make sure they match their Spotify accounts
@@ -219,7 +261,7 @@ function Beta() {
               <button
                 type="submit"
                 className={
-                  !isFormValid() ? "submitFormBtn disabled" : "submitFormBtn"
+                  !isFormValid() ? "submitFormBtn disabled padded" : "submitFormBtn padded"
                 }
                 disabled={!isFormValid()}
               >
@@ -240,7 +282,7 @@ function Beta() {
           )}
         </form>
       </div>
-      <span className="gray" onClick={() => navigate("/")} title="Home">
+      <span className="gray padded" onClick={() => navigate("/")} title="Home">
         <img draggable={false} src={arrow2} alt="homeArrow" className="homeArrow" onContextMenu={(event) => event.preventDefault()}/> home
       </span>
 

@@ -89,6 +89,8 @@ const Footer = () => {
       borderRadius: "10px",
       outline: "none",
       padding: "20px",
+      fontFamily: 'gothamMedium',
+
       maxHeight: "600px",
       overflowY: "auto",
       backgroundColor: "rgba(255, 255, 255, 1)",
@@ -184,7 +186,7 @@ const Footer = () => {
                     &emsp;&emsp; <img src={darkMode ? sun : moon} style={{width:'10px', verticalAlign:'middle'}} alt={darkMode ? "sun" : "moon"} className="spin"/>
 
         </span> */}
-        <Tooltip id="infoTooltip" className="tooltip2" clickable="true">
+        <Tooltip id="infoTooltip" className="infoTooltip" clickable="true">
           <div>
             comparify uses a variety of data points from multiple time spans to
             generate a code based on your Spotify
@@ -192,11 +194,12 @@ const Footer = () => {
             <div style={{ paddingTop: "10px" }}>
               Made by
               <a
-                className="link"
+                className="link darkenHover"
                 title="theobragstad.com"
                 href="https://theobragstad.com"
+                style={{backgroundColor:'white',borderRadius:'10px',color:'#1e90ff',padding:'3px 6px',marginLeft:'5px'}}
               >
-                &nbsp;&nbsp;Theo Bragstad
+                Theo Bragstad
               </a>
             </div>
           </div>

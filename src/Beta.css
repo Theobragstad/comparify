@@ -1,5 +1,6 @@
 .emailFormContainer {
   position: relative;
+  
   margin-bottom: 20px;
 }
 
@@ -9,6 +10,7 @@
   border-radius: 20px;
   width: 300px;
   margin: 0 auto;
+
 }
 
 .emailForm.dark {
@@ -34,8 +36,10 @@
 .emailInput input {
   padding: 8px;
   font-size: 14px;
+  font-family: gothamMedium !important;
+
   border-radius: 10px;
-  color: black;
+  /* color: black; */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 1s;
   border: 2px solid #f6f6f6;
@@ -72,8 +76,12 @@
   color: black;
 }
 
-.emailInput input:invalid {
-  color: gray;
+.emailInput input.invalidEmail {
+  color: gray !important;
+}
+
+.padded {
+  padding:10px !important;
 }
 
 .titleDiv {
