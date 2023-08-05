@@ -69,9 +69,9 @@ const HelpModalContent = () => {
           darkMode.darkModeOn ? "helpModalContent darkGray" : "helpModalContent"
         }
       >
-        <div className="gradientSimple" style={{fontSize:'30px',fontWeight:'bold'}}>Help</div>
-        <div style={{position:'relative',width:'10px',height:'10px',top:'-55px',left:'50px',zIndex:'0'}}>
-        <Animation/></div>
+        <div className="gradientSimple" style={{fontSize:'30px',fontWeight:'bold',marginBottom:'10px'}}>Help</div>
+        {/* <div style={{position:'relative',width:'10px',height:'10px',top:'-55px',left:'50px',zIndex:'0'}}>
+        <Animation/></div> */}
         <div style={{ fontWeight: "bold", fontSize: "13px", color: "gray" }}>
           comparify is in beta. Only select users can log in. Fill out the{" "}
           <Link

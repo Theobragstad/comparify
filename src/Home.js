@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { useNavigate, Link } from "react-router-dom";
 import Spline from "@splinetool/react-spline";
 import Animation from "./Animation";
 import Footer from "./Footer";
-// import logo from "./img/logo.png";
 import x from "./img/x.png";
 import fullLogo from "./img/fullLogo.png";
-
-// import bg from "./img/bg.png"
 
 import Cookies from "js-cookie";
 
 import rightArrow from "./img/rightArrow.png";
 
 function Home() {
+  const [isPausing, setIsPausing] = useState(false); // Add this state
+  const cookieNoticeRef = useRef(null);
+
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
@@ -68,13 +68,6 @@ function Home() {
     return new Date().getTime() > parseInt(expirationTime);
   };
 
-  // useEffect(() => {
-
-  // if (isTokenExpired()) {
-  //   logout();
-  // }
-  // }, [handleClick]);
-
   const logout = (error) => {
     if (error === "apiError") {
       // clearCookies();
@@ -94,41 +87,6 @@ function Home() {
     }
   };
 
-  // const [dim1, setDim1] = useState(false);
-  // const [dim2, setDim2] = useState(false);
-  // const [dim3, setDim3] = useState(false);
-
-  // useEffect(() => {
-  //   let timeout;
-  //   let interval;
-  //   let count = 0;
-
-  //   const startCycling = () => {
-  //     interval = setInterval(() => {
-  //       if (count % 3 === 0) {
-  //         setDim1(false);
-  //         setDim2(true);
-  //         setDim3(true);
-  //       } else if (count % 3 === 1) {
-  //         setDim1(true);
-  //         setDim2(false);
-  //         setDim3(true);
-  //       } else if (count % 3 === 2) {
-  //         setDim1(true);
-  //         setDim2(true);
-  //         setDim3(false);
-  //       }
-  //       count++;
-  //     }, 2000);
-  //   };
-
-  //   timeout = setTimeout(startCycling, 3150);
-
-  //   return () => {
-  //     clearTimeout(timeout);
-  //     clearInterval(interval);
-  //   };
-  // }, []);
   const [agreeCookieNotice, setAgreeCookieNotice] = useState(false);
   useEffect(() => {
     if (agreeCookieNotice) {
@@ -136,9 +94,19 @@ function Home() {
     }
   }, [agreeCookieNotice]);
 
+  // const handleCookieNoticeClose = () => {
+  //   setAgreeCookieNotice(true);
+  // };
   const handleCookieNoticeClose = () => {
     setAgreeCookieNotice(true);
+    setIsPausing(true);
+  
+    // Reset isPausing to false after 3 seconds
+    setTimeout(() => {
+      setIsPausing(false);
+    }, 1000); // 3000 milliseconds = 3 seconds
   };
+  
 
   const [squares, setSquares] = useState([]);
   const [gridFilled, setGridFilled] = useState(false);
@@ -146,6 +114,9 @@ function Home() {
   const maxSquares = 100; // Change the maximum number of squares as desired
 
   useEffect(() => {
+    if (isPausing) {
+      return; // If paused, do not generate squares
+    }
     const colors = ["#18d860", "#1e90ff", "#ffdf00"];
     const rows = Math.floor(window.innerHeight / squareSize);
     const columns = Math.floor(window.innerWidth / squareSize);
@@ -174,66 +145,27 @@ function Home() {
 
     let currentIndex = 0;
     const addSquaresInterval = setInterval(() => {
-      setSquares((prevSquares) => [
-        ...prevSquares,
-        {
-          id: currentIndex,
-          color: generateRandomColor(),
-          position: generateRandomCellPosition(),
-        },
-      ]);
-      currentIndex++;
+        setSquares((prevSquares) => [
+          ...prevSquares,
+          {
+            id: currentIndex,
+            color: generateRandomColor(),
+            position: generateRandomCellPosition(),
+          },
+        ]);
+        currentIndex++;
 
-      if (currentIndex >= Math.min(maxSquares, totalCells)) {
-        clearInterval(addSquaresInterval);
-        setGridFilled(true);
-      }
-    }, 100); // Change the delay as desired
+        if (currentIndex >= Math.min(maxSquares, totalCells)) {
+          clearInterval(addSquaresInterval);
+          setGridFilled(true);
+        }
+      
+    }, 100);
 
     return () => {
       clearInterval(addSquaresInterval);
     };
-  }, []);
-
-  // const [squares, setSquares] = useState([]);
-
-  // useEffect(() => {
-  //   const colors = ["#18d860", "#1e90ff", "#ffdf00"];
-
-  //   const generateRandomPosition = () => ({
-  //     top: `${Math.random() * 100}%`,
-  //     left: `${Math.random() * 100}%`,
-  //   });
-
-  //   const generateRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
-
-  //   const addRandomSquare = () => {
-  //     const newSquare = {
-  //       id: squares.length + 1,
-  //       color: generateRandomColor(),
-  //       position: generateRandomPosition(),
-  //     };
-  //     setSquares((prevSquares) => [...prevSquares, newSquare]);
-  //   };
-
-  //   const squareInterval = setInterval(addRandomSquare, 50);
-
-  //   return () => {
-  //     clearInterval(squareInterval);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   const squareTimer = setTimeout(() => {
-  //     if (squares.length > 0) {
-  //       setSquares((prevSquares) => prevSquares.slice(1));
-  //     }
-  //   }, 3000);
-
-  //   return () => {
-  //     clearTimeout(squareTimer);
-  //   };
-  // }, [squares]);
+  }, [isPausing]);
 
   const preventContextMenu = (event) => {
     event.preventDefault(); // Prevents the context menu from appearing
@@ -241,27 +173,11 @@ function Home() {
 
   console.log(location.state);
   return (
-    // <div className={darkMode ? "appHeader dark" : "appHeader"} style={{overflow:'hidden', backgroundImage: `url("${bg}") `}}  >
-    <div
-      className={darkMode ? "appHeader dark" : "appHeader"}
-      style={{ overflow: "hidden" }}
-    >
-      {/* <Animation/> */}
-
+    <div className={agreeCookieNotice ? "appHeader" : "appHeader filter"}>
       {squares.map((square) => (
         <div
           key={square.id}
           className="square"
-          // style={{
-          //   position: "absolute",
-          //   top: square.position.top,
-          //   left: square.position.left,
-          //   width: "10px",
-          //   height: "10px",
-          //   borderRadius:'2px',
-          //   backgroundColor: square.color,
-
-          // }}
           style={{
             position: "absolute",
             top: square.position.top,
@@ -271,12 +187,11 @@ function Home() {
             borderRadius: "2px",
             backgroundColor: square.color,
             opacity: "0.7",
-            // backdropFilter: 'blur(20px)'
           }}
         />
       ))}
 
-      {!Cookies.get("agreeCookieNotice") && false && (
+      {!Cookies.get("agreeCookieNotice") && (
         <div
           className={
             !Cookies.get("agreeCookieNotice") && !agreeCookieNotice
@@ -292,7 +207,12 @@ function Home() {
             className="cookieNoticeClose"
             onClick={handleCookieNoticeClose}
           >
-            <img alt="" src={x} style={{ width: "10px" }} onContextMenu={(event) => event.preventDefault()}></img>
+            <img
+              alt=""
+              src={x}
+              style={{ width: "10px" }}
+              onContextMenu={(event) => event.preventDefault()}
+            ></img>
           </button>
         </div>
       )}
@@ -312,28 +232,22 @@ function Home() {
         <img
           alt=""
           src={fullLogo}
-          style={{
-            width: "175px",
-            position: "absolute",
-            top: "10px",
-            left: "10px",
-            backgroundColor: "white",
-            padding: "4px",
-            // borderRadius: "20px",
-            webkitUserDrag: "none",
-          }}
+          style={{}}
+          className="fulllogoDiv"
           title="Home"
           onContextMenu={(event) => event.preventDefault()}
         />
       </Link>
 
-      <div
-        className="betaIcon"
-        // onClick={handleClickBETA}
-        style={{ marginLeft: "15px", top: "25px" }}
-      >
-        beta
-      </div>
+      <Link to="/:)">
+        <div
+          className="betaIcon"
+          // onClick={handleClickBETA}
+          style={{ marginLeft: "15px", top: "25px" }}
+        >
+          beta
+        </div>
+      </Link>
 
       <div
         style={{
@@ -358,7 +272,11 @@ function Home() {
             onContextMenu={(event) => event.preventDefault()}
           />
         </span>{" "}
-        <span className="primaryBtn" onClick={handleClick} title="Authorized user login">
+        <span
+          className="primaryBtn"
+          onClick={handleClick}
+          title="Authorized user login"
+        >
           authorized users{" "}
           <img
             alt=""
@@ -369,7 +287,7 @@ function Home() {
         </span>
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }

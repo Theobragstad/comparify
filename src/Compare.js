@@ -7,7 +7,7 @@ import missingImage from "./img/missingImage.png";
 import "./App.css";
 import Big from "big.js";
 import back from "./img/back.png";
-// import ScrollButton from "./ScrollButton";
+import ScrollButton from "./ScrollButton";
 // import finishSound from "./finished.mp3"
 import rightArrow from "./img/rightArrow.png";
 
@@ -17,7 +17,7 @@ import greenArrow from "./img/greenArrow.png";
 
 import fullLogo from "./img/fullLogo.png";
 
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell,Legend } from "recharts";
 
 import download from "./img/download.png";
 import Footer from "./Footer";
@@ -147,6 +147,7 @@ function Compare() {
     "artistPopStdDev[1]",
     "avgArtistFolls[1]",
     "artistFollsStdDev[1]",
+    "topGenresOnly[<=20]",
     "topGenresByArtist[<=20]",
   ];
 
@@ -175,6 +176,7 @@ function Compare() {
     artistPopStdDev: [],
     avgArtistFolls: [],
     artistFollsStdDev: [],
+    topGenresOnly: [],
     topGenresByArtist: [],
   };
 
@@ -203,6 +205,7 @@ function Compare() {
     artistPopStdDev: [],
     avgArtistFolls: [],
     artistFollsStdDev: [],
+    topGenresOnly: [],
     topGenresByArtist: [],
   };
 
@@ -361,9 +364,13 @@ function Compare() {
 
   const overlappingData = {};
 
+ 
+
+
   for (const field in arrays1) {
     if (arrays1.hasOwnProperty(field) && arrays2.hasOwnProperty(field)) {
-      if (field === "decadesAndPcts") {
+     
+      if (field === "decadesAndPcts" ) {
       }
       if (
         field === "avgSongPop" ||
@@ -469,6 +476,7 @@ function Compare() {
       }
     }
   }
+
 
   function findOverlappingElements(arr1, arr2) {
     let overlapping = [];
@@ -1371,6 +1379,7 @@ function Compare() {
       arrays2.mostLeastPopArtistIds,
       setUser2MostLeastPopArtists
     );
+
   }, [selectedTimeRange]);
 
   const features = [
@@ -1828,6 +1837,44 @@ function Compare() {
     pieData2.push({ name: `${decade}s`, value: parseFloat(percentage) });
   }
 
+
+
+
+
+
+  const pieGenreData1 = [];
+
+  for (let i = 0; i < arrays1.topGenresByArtist.length; i += 2) {
+    const genre = arrays1.topGenresByArtist[i];
+    const percentage = arrays1.topGenresByArtist[i + 1];
+    if(genre !== "other") {
+    pieGenreData1.push({ name: `${genre}`, value: parseFloat(percentage) });
+    }
+    else {
+      pieGenreData1.push({ name: 'other', value: parseFloat(percentage) });
+
+    }
+  }
+
+
+  const pieGenreData2 = [];
+
+  for (let i = 0; i < arrays2.topGenresByArtist.length; i += 2) {
+    const genre = arrays2.topGenresByArtist[i];
+    const percentage = arrays2.topGenresByArtist[i + 1];
+    if(genre !== "other") {
+    pieGenreData2.push({ name: `${genre}`, value: parseFloat(percentage) });
+    }
+    else {
+      pieGenreData2.push({ name: 'other', value: parseFloat(percentage) });
+
+    }
+  }
+
+
+
+
+
   const isTokenExpired = () => {
     const expirationTime = localStorage.getItem("expirationTime");
     if (!expirationTime) {
@@ -1970,7 +2017,7 @@ function Compare() {
 
   return (
     <div>
-      {/* <ScrollButton/> */}
+      <ScrollButton/>
       <Link to="/">
         <img
         draggable={false}
@@ -2702,16 +2749,16 @@ function Compare() {
                     <td>
                       <div className="compareCard1">
                         <div className="primaryTitle"> top genres</div>
-                        {arrays1.topGenresByArtist.filter(
+                        {arrays1.topGenresOnly.filter(
                           (item) =>
-                            !overlappingData.topGenresByArtist.includes(item)
+                            !overlappingData.topGenresOnly.includes(item)
                         ).length > 0 &&
-                        arrays1.topGenresByArtist &&
-                        arrays1.topGenresByArtist[0] !== "No data" ? (
-                          arrays1.topGenresByArtist
+                        arrays1.topGenresOnly &&
+                        arrays1.topGenresOnly[0] !== "No data" ? (
+                          arrays1.topGenresOnly
                             .filter(
                               (item) =>
-                                !overlappingData.topGenresByArtist.includes(
+                                !overlappingData.topGenresOnly.includes(
                                   item
                                 )
                             )
@@ -2722,6 +2769,16 @@ function Compare() {
                                 </div>
                               </div>
                             ))
+                        //   <>
+                        //   <PieChart width={140} height={140} style={{ marginTop: "-20px" }}>
+                        //     <Pie data={pieGenreData1} fill="#f6f6f6" dataKey="value">
+                        //       {pieGenreData1.map((entry, index) => (
+                        //         <Cell key={index} fill={index !== 5 ? colors[index % colors.length] : "#dadedf"} />
+                        //       ))}
+                        //     </Pie>
+                        //     <Legend wrapperStyle={{ fontSize: '12px' }} />
+                        //   </PieChart>
+                        // </>
                         ) : (
                           <div className="noData">No data</div>
                         )}
@@ -4095,16 +4152,16 @@ function Compare() {
                     <td>
                       <div className="compareCard3">
                         <div className="primaryTitle"> top genres</div>
-                        {arrays2.topGenresByArtist.filter(
+                        {arrays2.topGenresOnly.filter(
                           (item) =>
-                            !overlappingData.topGenresByArtist.includes(item)
+                            !overlappingData.topGenresOnly.includes(item)
                         ).length > 0 &&
-                        arrays2.topGenresByArtist &&
-                        arrays2.topGenresByArtist[0] !== "No data" ? (
-                          arrays2.topGenresByArtist
+                        arrays2.topGenresOnly &&
+                        arrays2.topGenresOnly[0] !== "No data" ? (
+                          arrays2.topGenresOnly
                             .filter(
                               (item) =>
-                                !overlappingData.topGenresByArtist.includes(
+                                !overlappingData.topGenresOnly.includes(
                                   item
                                 )
                             )
@@ -4115,6 +4172,16 @@ function Compare() {
                                 </div>
                               </div>
                             ))
+                        //   <>
+                        //   <PieChart width={140} height={140} style={{ marginTop: "-20px" }}>
+                        //     <Pie data={pieGenreData2} fill="#f6f6f6" dataKey="value">
+                        //       {pieGenreData2.map((entry, index) => (
+                        //         <Cell key={index} fill={index !== 5 ? colors[index % colors.length] : "#dadedf"} />
+                        //       ))}
+                        //     </Pie>
+                        //     <Legend wrapperStyle={{ fontSize: '12px' }} />
+                        //   </PieChart>
+                        // </>
                         ) : (
                           <div className="noData">No data</div>
                         )}
@@ -5034,15 +5101,15 @@ function Compare() {
               <td>
                 <div className="compareCard1">
                   <div className="primaryTitle"> top genres</div>
-                  {arrays1.topGenresByArtist.filter(
-                    (item) => !overlappingData.topGenresByArtist.includes(item)
+                  {arrays1.topGenresOnly.filter(
+                    (item) => !overlappingData.topGenresOnly.includes(item)
                   ).length > 0 &&
-                  arrays1.topGenresByArtist &&
-                  arrays1.topGenresByArtist[0] !== "No data" ? (
-                    arrays1.topGenresByArtist
+                  arrays1.topGenresOnly &&
+                  arrays1.topGenresOnly[0] !== "No data" ? (
+                    arrays1.topGenresOnly
                       .filter(
                         (item) =>
-                          !overlappingData.topGenresByArtist.includes(item)
+                          !overlappingData.topGenresOnly.includes(item)
                       )
                       .map((genre, index) => (
                         <div key={index} className="item">
@@ -5051,6 +5118,8 @@ function Compare() {
                           </div>
                         </div>
                       ))
+                      
+                     
                   ) : (
                     <div className="noData">No data</div>
                   )}
@@ -5062,7 +5131,7 @@ function Compare() {
                   {overlappingData.topGenresByArtist.length > 0 &&
                   overlappingData.topGenresByArtist &&
                   overlappingData.topGenresByArtist[0] !== "No data" ? (
-                    overlappingData.topGenresByArtist.map((genre, index) => (
+                    overlappingData.topGenresOnly.map((genre, index) => (
                       <div key={index} className="item">
                         <div className="primaryText">
                           <span className="primaryName">{genre}</span>
@@ -5077,15 +5146,15 @@ function Compare() {
               <td>
                 <div className="compareCard3">
                   <div className="primaryTitle"> top genres</div>
-                  {arrays2.topGenresByArtist.filter(
-                    (item) => !overlappingData.topGenresByArtist.includes(item)
+                  {arrays2.topGenresOnly.filter(
+                    (item) => !overlappingData.topGenresOnly.includes(item)
                   ).length > 0 &&
-                  arrays2.topGenresByArtist &&
-                  arrays2.topGenresByArtist[0] !== "No data" ? (
-                    arrays2.topGenresByArtist
+                  arrays2.topGenresOnly &&
+                  arrays2.topGenresOnly[0] !== "No data" ? (
+                    arrays2.topGenresOnly
                       .filter(
                         (item) =>
-                          !overlappingData.topGenresByArtist.includes(item)
+                          !overlappingData.topGenresOnly.includes(item)
                       )
                       .map((genre, index) => (
                         <div key={index} className="item">
@@ -5094,6 +5163,16 @@ function Compare() {
                           </div>
                         </div>
                       ))
+                    // <>
+                    //       <PieChart width={140} height={140} style={{ marginTop: "-20px" }}>
+                    //         <Pie data={pieGenreData2} fill="#f6f6f6" dataKey="value">
+                    //           {pieGenreData2.map((entry, index) => (
+                    //             <Cell key={index} fill={index !== 5 ? colors[index % colors.length] : "#dadedf"} />
+                    //           ))}
+                    //         </Pie>
+                    //         <Legend wrapperStyle={{ fontSize: '12px' }} />
+                    //       </PieChart>
+                    //     </>
                   ) : (
                     <div className="noData">No data</div>
                   )}

@@ -111,11 +111,13 @@
   font-weight: bold;
   border-radius: 15px;
   font-size: 16px;
-  background-color: #f6f6f6;
-  color: darkgray;
+  
   transition: opacity 0.3s;
   opacity: 1;
-}
+
+
+
+  background-color:#e8fcec; color:#17d475;}
 
 .submitted img {
   width: 15px;

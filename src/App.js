@@ -8,6 +8,8 @@ import Dashboard from "./Dashboard";
 import Data from "./Data";
 import Compare from "./Compare";
 import MoreData from "./MoreData";
+import Animation from "./Animation";
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/data" element={<Data />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/moredata" element={<MoreData />} />
+        {/* <Route path="/:)" element={<Animation />} /> */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

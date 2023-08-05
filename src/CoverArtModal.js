@@ -47,7 +47,7 @@ function CoverArtModal(props) {
         style={coverArtModalStyles}
         className="coverArtModal"
       >
-<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%',pointerEvents:'none'}}>
 
         {/* <div className="primaryCard1" style={{ margin: 'auto', backgroundColor: "white" }}> */}
 <img alt="" src={props.urlForCoverArtModal} style={{borderRadius:'10px'}}></img>

@@ -15,7 +15,7 @@ import back from "./img/back.png";
 import gptBtn from "./img/gptBtn.png";
 import html2canvas from "html2canvas";
 import Footer from "./Footer";
-// import ScrollButton from "./ScrollButton"
+import ScrollButton from "./ScrollButton";
 import AudiofeatureModal from "./AudiofeatureModal";
 import CoverArtModal from "./CoverArtModal";
 
@@ -86,8 +86,6 @@ function Data() {
 
   const timeoutRef = useRef(null);
 
-
-
   const [showAllGenres, setShowAllGenres] = useState(false);
 
   ////////////////////
@@ -146,6 +144,23 @@ function Data() {
     }
     setGptLoading(false);
   };
+
+  function getCurrentDateTime() {
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    let hours = date.getHours();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+
+    const formattedDateTime = `${month}-${day}-${year} ${hours}.${minutes}.${seconds} ${ampm}`;
+
+    return formattedDateTime;
+  }
   function handleConvertToImage() {
     setSaveGptClicked(true);
 
@@ -156,7 +171,13 @@ function Data() {
           const image = canvas.toDataURL("image/png");
 
           var fileName =
-            `comparify x ChatGPT for ` + nameIdImgurlGenerationdate[0] + ".png";
+            `comparify x ChatGPT (` +
+            nameIdImgurlGenerationdate[0] +
+            ") " +
+            selectedTimeRangeClean +
+            " " +
+            getCurrentDateTime() +
+            ".png";
           downloadPNG(image, fileName);
         });
       }
@@ -252,7 +273,6 @@ function Data() {
 
   const nameIdImgurlGenerationdate = allData?.slice(1, 5) || null;
 
-
   const [profPic, setProfPic] = useState(null);
   const fetchAndProcessImage = async () => {
     try {
@@ -266,7 +286,7 @@ function Data() {
       };
       reader.readAsDataURL(imageBlob);
     } catch (error) {
-      console.error('Error fetching or processing image:', error);
+      console.error("Error fetching or processing image:", error);
     }
   };
 
@@ -311,7 +331,6 @@ function Data() {
     "artistFollsStdDev[1]",
     "topGenresOnly[<=20]",
     "topGenresByArtist[<=20]",
-    
   ];
 
   const arrays = {
@@ -341,7 +360,6 @@ function Data() {
     artistFollsStdDev: [],
     topGenresOnly: [],
     topGenresByArtist: [],
-   
   };
 
   for (let i = 0; i < labels.length - 1; i++) {
@@ -364,22 +382,17 @@ function Data() {
     pieData.push({ name: `${decade}s`, value: parseFloat(percentage) });
   }
 
-
-
   const pieGenreData = [];
 
   for (let i = 0; i < arrays.topGenresByArtist.length; i += 2) {
     const genre = arrays.topGenresByArtist[i];
     const percentage = arrays.topGenresByArtist[i + 1];
-    if(genre !== "other") {
-    pieGenreData.push({ name: `${genre}`, value: parseFloat(percentage) });
-    }
-    else {
-      pieGenreData.push({ name: 'other', value: parseFloat(percentage) });
-
+    if (genre !== "other") {
+      pieGenreData.push({ name: `${genre}`, value: parseFloat(percentage) });
+    } else {
+      pieGenreData.push({ name: "other", value: parseFloat(percentage) });
     }
   }
-
 
   const colors = [
     "#1e90ff",
@@ -1281,10 +1294,12 @@ function Data() {
     }
   }, []);
 
-  const [cardToImgClicked, setCardToImgClicked] = useState(false);
+  const [cardsClicked, setCardClicked] = useState(new Array(25).fill(false));
 
-  const cardToImg = async (id, cardname) => {
-    setCardToImgClicked(true);
+  const cardToImg = async (index, id, cardname) => {
+    setCardClicked((prevArray) =>
+      prevArray.map((item, i) => (i === index ? true : item))
+    );
     const div = document.getElementById(id);
     if (div) {
       const options = {
@@ -1292,7 +1307,6 @@ function Data() {
         // backgroundClip: "none",
         // WebKitBackgroundClip: "none",
         // color: "black",
-
         // allowTaint : true,
         // useCors : true
         // width: 100, height: 50,
@@ -1303,21 +1317,22 @@ function Data() {
       setTimeout(async () => {
         const canvas = await html2canvas(div, options);
         const image = canvas.toDataURL("image/jpeg");
-        
 
         var anchorElement = document.createElement("a");
         anchorElement.href = image;
         anchorElement.download = cardname;
         anchorElement.click();
 
-        setCardToImgClicked(false);
+        setCardClicked((prevArray) =>
+          prevArray.map((item, i) => (i === index ? false : item))
+        );
       }, 50); // You can adjust the delay as needed.
     }
   };
 
   return (
     <div className="dataPage">
-      {/* <ScrollButton/> */}
+      <ScrollButton />
       {/* <button
         title="Back"
         className="defaultBtn"
@@ -1339,9 +1354,9 @@ function Data() {
         <h1 className="logoName">comparify</h1>
       </button> */}
 
-<Link to="/">
+      <Link to="/">
         <img
-        draggable={false}
+          draggable={false}
           alt=""
           src={fullLogo}
           style={{
@@ -1367,7 +1382,9 @@ function Data() {
         onMouseOut={closeDropdownMenu}
         onClick={toggleDropdownMenu}
       >
-        <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+        <img
+          draggable={false}
+          onContextMenu={(event) => event.preventDefault()}
           alt=""
           src={nameIdImgurlGenerationdate[2]}
           style={{
@@ -1386,7 +1403,9 @@ function Data() {
           }}
         >
           {nameIdImgurlGenerationdate[0]}
-          <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+          <img
+            draggable={false}
+            onContextMenu={(event) => event.preventDefault()}
             alt=""
             id="dropdownMenuArrow"
             src={rightArrow}
@@ -1422,7 +1441,9 @@ function Data() {
               className="darkenHover"
               title="Open your Spotify profile"
             >
-              <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+              <img
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
                 alt=""
                 src={spotifysmall}
                 style={{
@@ -1432,7 +1453,9 @@ function Data() {
                 }}
               ></img>
               Profile
-              <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+              <img
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
                 alt=""
                 src={greenArrow}
                 style={{
@@ -1450,7 +1473,9 @@ function Data() {
               className="cxgBtn"
             >
               <span className="">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={logo}
                   style={{ width: "30px", verticalAlign: "middle" }}
@@ -1459,7 +1484,9 @@ function Data() {
               </span>{" "}
               &#10799;{" "}
               <span style={{ color: "#75ac9d" }}>
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   className="spin"
                   src={gptBtn}
@@ -1500,7 +1527,9 @@ function Data() {
               title="See more data"
             >
               More data{" "}
-              <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+              <img
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
                 alt=""
                 src={rightArrow}
                 style={{ width: "10px", verticalAlign: "middle" }}
@@ -1518,7 +1547,13 @@ function Data() {
         <div className="leftNavBtnContainer">
           <Link to="/dashboard" title="Dashboard">
             <button className="leftNavBtn">
-              <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={back} style={{ width: "13px" }}></img>
+              <img
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
+                alt=""
+                src={back}
+                style={{ width: "13px" }}
+              ></img>
             </button>
           </Link>
         </div>
@@ -1597,7 +1632,9 @@ function Data() {
                     src={song?.mp3 ? song?.mp3 : ""}
                   ></audio>
 
-                  <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                  <img
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                     alt=""
                     src={song?.img ? song.img : missingImage}
                     className="primaryImage"
@@ -1654,7 +1691,9 @@ function Data() {
                       }}
                       title={"Expand cover art"}
                     >
-                      <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                      <img
+                        draggable={false}
+                        onContextMenu={(event) => event.preventDefault()}
                         alt=""
                         src={popoutIcon}
                         style={{
@@ -1683,7 +1722,13 @@ function Data() {
           ) : (
             topArtists.map((artist, index) => (
               <div key={index} className="item">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={artist.img} className="primaryImage" />
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
+                  alt=""
+                  src={artist.img}
+                  className="primaryImage"
+                />
                 <div className="primaryText">
                   <a className="link2" href={artist.url}>
                     <span className="primaryName">
@@ -1711,7 +1756,13 @@ function Data() {
           ) : (
             topAlbums.map((album, index) => (
               <div key={index} className="item">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={album?.img} className="primaryImage" />
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
+                  alt=""
+                  src={album?.img}
+                  className="primaryImage"
+                />
                 <div className="primaryText">
                   <a className="link2" href={album.url}>
                     <span className="primaryName">
@@ -1727,85 +1778,98 @@ function Data() {
           )}
         </div>
 
-
         <div className="primaryCard2">
-      {!showAllGenres ? (
-        <>
-          <div
-            className="primaryTitle"
-            
-          >
-            <span data-tooltip-id="dataPageTooltip1"
-            data-tooltip-content="Based on frequency of occurrences in top artists.">top genres</span>
-            
-            <img
-              draggable={false}
-              onContextMenu={(event) => event.preventDefault()}
-              alt=""
-              src={popoutIcon}
-              style={{
-                width: "10px",
-                marginLeft: "20px",
-                marginRight: "20px",
-                cursor: "pointer",
-                pointerEvents: "all",
-                verticalAlign: "middle",
-              }}
-              onClick={()=>setShowAllGenres(true)}
-            />
-          </div>
-          {showLoading ? (
-            <Loading length={6} type={"genre"} />
-          ) : arrays.topLabelsByAlbums && arrays.topGenresByArtist[0] === "No data" ? (
-            <div className="noData">No data</div>
+          {!showAllGenres ? (
+            <>
+              <div className="primaryTitle">
+                <span
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="Based on frequency of occurrences in top artists."
+                >
+                  top genres
+                </span>
+
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
+                  alt=""
+                  src={popoutIcon}
+                  style={{
+                    width: "10px",
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                    cursor: "pointer",
+                    pointerEvents: "all",
+                    verticalAlign: "middle",
+                  }}
+                  onClick={() => setShowAllGenres(true)}
+                />
+              </div>
+              {showLoading ? (
+                <Loading length={6} type={"genre"} />
+              ) : arrays.topLabelsByAlbums &&
+                arrays.topGenresByArtist[0] === "No data" ? (
+                <div className="noData">No data</div>
+              ) : (
+                <>
+                  <PieChart
+                    width={140}
+                    height={140}
+                    style={{ marginTop: "-20px" }}
+                  >
+                    <Pie data={pieGenreData} fill="#f6f6f6" dataKey="value">
+                      {pieGenreData.map((entry, index) => (
+                        <Cell
+                          key={index}
+                          fill={
+                            index !== 5
+                              ? colors[index % colors.length]
+                              : "#dadedf"
+                          }
+                        />
+                      ))}
+                    </Pie>
+                    <Legend wrapperStyle={{ fontSize: "12px" }} />
+                  </PieChart>
+                </>
+              )}
+            </>
           ) : (
             <>
-              <PieChart width={140} height={140} style={{ marginTop: "-20px" }}>
-                <Pie data={pieGenreData} fill="#f6f6f6" dataKey="value">
-                  {pieGenreData.map((entry, index) => (
-                    <Cell key={index} fill={index !== 5 ? colors[index % colors.length] : "#dadedf"} />
-                  ))}
-                </Pie>
-                <Legend wrapperStyle={{ fontSize: '12px' }} />
-              </PieChart>
+              <div className="primaryTitle">
+                <span
+                  data-tooltip-id="dataPageTooltip1"
+                  data-tooltip-content="Based on frequency of occurrences in top artists."
+                >
+                  all top genres
+                </span>
+
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
+                  alt=""
+                  src={x}
+                  style={{
+                    width: "10px",
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                    cursor: "pointer",
+                    pointerEvents: "all",
+                    verticalAlign: "middle",
+                  }}
+                  onClick={() => setShowAllGenres(false)}
+                />
+              </div>
+              {arrays.topGenresOnly.map((genre, index) => (
+                <div key={index} className="item">
+                  <div className="primaryText">
+                    <span className="primaryName">{genre}</span>
+                  </div>
+                </div>
+              ))}
             </>
           )}
-        </>
-      ) : (
-        <>
-        <div
-        className="primaryTitle"
-        
-      >
-        <span data-tooltip-id="dataPageTooltip1"
-        data-tooltip-content="Based on frequency of occurrences in top artists.">all top genres</span>
-        
-        <img
-          draggable={false}
-          onContextMenu={(event) => event.preventDefault()}
-          alt=""
-          src={x}
-          style={{
-            width: "10px",
-            marginLeft: "20px",
-            marginRight: "20px",
-            cursor: "pointer",
-            pointerEvents: "all",
-            verticalAlign: "middle",
-          }}
-          onClick={()=>setShowAllGenres(false)}
-        />
-      </div>
-      {arrays.topGenresOnly.map((genre, index) => (
-              <div key={index} className="item">
-                <div className="primaryText">
-                  <span className="primaryName">{genre}</span>
-                </div>
-              </div>
-            ))}
-      </>
-      )}
-    </div>
+        </div>
 
         <div className="primaryCard3">
           <div
@@ -1869,7 +1933,9 @@ function Data() {
                     src={mostLeastPopSongs[0]?.mp3}
                   ></audio>
 
-                  <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                  <img
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                     alt=""
                     src={mostLeastPopSongs[0]?.img}
                     className="primaryImage"
@@ -1925,7 +1991,9 @@ function Data() {
                     src={mostLeastPopSongs[1]?.mp3}
                   ></audio>
 
-                  <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                  <img
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                     alt=""
                     src={mostLeastPopSongs[1]?.img}
                     className="primaryImage"
@@ -1982,7 +2050,9 @@ function Data() {
                     src={oldestNewestSongs[0]?.mp3}
                   ></audio>
 
-                  <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                  <img
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                     alt=""
                     src={oldestNewestSongs[0]?.img}
                     className="primaryImage"
@@ -2035,7 +2105,9 @@ function Data() {
                     src={oldestNewestSongs[1]?.mp3}
                   ></audio>
 
-                  <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                  <img
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                     alt=""
                     src={oldestNewestSongs[1]?.img}
                     className="primaryImage"
@@ -2079,7 +2151,9 @@ function Data() {
             mostLeastPopArtists &&
             mostLeastPopArtists[0] && (
               <div className="item">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={mostLeastPopArtists[0]?.img}
                   className="primaryImage"
@@ -2113,7 +2187,9 @@ function Data() {
             mostLeastPopArtists &&
             mostLeastPopArtists[1] && (
               <div className="item">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={mostLeastPopArtists[1]?.img}
                   className="primaryImage"
@@ -2147,7 +2223,9 @@ function Data() {
             mostLeastPopAlbums &&
             mostLeastPopAlbums[0] && (
               <div className="item">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={mostLeastPopAlbums[0]?.img}
                   className="primaryImage"
@@ -2184,7 +2262,9 @@ function Data() {
             mostLeastPopAlbums &&
             mostLeastPopAlbums[1] && (
               <div className="item">
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={mostLeastPopAlbums[1]?.img}
                   className="primaryImage"
@@ -2215,20 +2295,30 @@ function Data() {
           className="primaryCard4"
           id="avgSgP"
           style={
-            cardToImgClicked
+            cardsClicked[13]
               ? { backgroundColor: "#1e90ff", color: "white" }
               : { backgroundColor: "white", color: "inherit" }
           }
         >
           <div
             className={
-              cardToImgClicked ? "primaryTitle noGrad" : "primaryTitle"
+              cardsClicked[13] ? "primaryTitle noGrad" : "primaryTitle"
             }
-            onClick={() => cardToImg("avgSgP", "average song popularity")}
+            onClick={() =>
+              cardToImg(
+                13,
+                "avgSgP",
+                `comparify - average song popularity (${
+                  nameIdImgurlGenerationdate[0]
+                }) ${getCurrentDateTime()}`
+              )
+            }
             style={{ cursor: "pointer" }}
           >
-            {cardToImgClicked && (
-              <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+            {cardsClicked[13] && (
+              <img
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
                 src={logo}
                 alt=""
                 style={{
@@ -2242,49 +2332,49 @@ function Data() {
               ></img>
             )}
             average song popularity
-            {cardToImgClicked && (
-              <div >
+            {cardsClicked[13] && (
+              <div>
                 <div
-          style={{
-            fontWeight: "bold",
-            display: "inline",
-            color:'gray',
-            backgroundColor:'white',
-            borderRadius:'15px',
-            padding:'3px 4px',
-            fontSize:'10px',
-            marginRight:'20px',
+                  style={{
+                    fontWeight: "bold",
+                    display: "inline",
+                    color: "gray",
+                    backgroundColor: "white",
+                    borderRadius: "15px",
+                    padding: "3px 4px",
+                    fontSize: "10px",
+                    marginRight: "20px",
+                  }}
+                >
+                  {selectedTimeRangeClean}
+                </div>
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
+                  alt=""
+                  src={profPic}
+                  style={{
+                    width: "15px",
+                    borderRadius: "50%",
+                    // paddingLeft: "10px",
+                    // paddingRight: "10px",
+                    marginRight: "10px",
+                    verticalAlign: "middle",
+                  }}
+                />
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    display: "inline",
+                    fontSize: "12px",
+                  }}
+                >
+                  {nameIdImgurlGenerationdate[0]}
+                </div>
 
-
-          }}
-        >
-          {selectedTimeRangeClean} 
- </div>
-                 <img draggable={false} onContextMenu={(event) => event.preventDefault()}
-          alt=""
-          src={profPic}
-          style={{
-            width: "15px",
-            borderRadius: "50%",
-            // paddingLeft: "10px",
-            // paddingRight: "10px",
-            marginRight:'10px',
-            verticalAlign: "middle"
-          }}
-        />
-        <div
-          style={{
-            fontWeight: "bold",
-            display: "inline",
-            fontSize:'12px'
-          }}
-        >
-          {nameIdImgurlGenerationdate[0]}
- </div>
-
-
- 
- <span style={{marginLeft:'20px', fontSize:'7px'}}>comparify.app</span>
+                <span style={{ marginLeft: "20px", fontSize: "7px" }}>
+                  comparify.app
+                </span>
               </div>
             )}
           </div>
@@ -2295,7 +2385,7 @@ function Data() {
                   className="primaryName2"
                   data-tooltip-id="dataPageTooltip1"
                   data-tooltip-content="0-100. Assigned by Spotify based on current trends. higher means more popular."
-                  style={cardToImgClicked ? {fontSize:'40px'}:{}}
+                  style={cardsClicked[13] ? { fontSize: "40px" } : {}}
                 >
                   {arrays.avgSongPop}
                 </span>
@@ -2306,9 +2396,10 @@ function Data() {
 
         <div className="primaryCard4" id="spsd">
           <div
-            className={cardToImgClicked ? "primaryTitle" : "primaryTitle"}
+            className={cardsClicked[14] ? "primaryTitle" : "primaryTitle"}
+
             onClick={() =>
-              cardToImg("spsd", "song popularity standard deviation")
+              cardToImg(14, "spsd", "song popularity standard deviation")
             }
             style={{ cursor: "pointer" }}
           >
@@ -2497,8 +2588,10 @@ function Data() {
           // onTouchStart={handleTapPie}
         >
           <div className="primaryTitle">
-            song release decade distribution{" "}
-            <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+            song release decades{" "}
+            <img
+              draggable={false}
+              onContextMenu={(event) => event.preventDefault()}
               alt=""
               src={rightArrow}
               style={
@@ -2526,7 +2619,7 @@ function Data() {
                   width: "inherit",
                   height: "fit-content",
                   borderRadius: "15px",
-                  zIndex:'1'
+                  zIndex: "1",
                 }}
               >
                 <Pie
@@ -2540,7 +2633,7 @@ function Data() {
                     <Cell key={index} fill={colors[index % colors.length]} />
                   ))}
                 </Pie>
-                <Legend/>
+                <Legend />
               </PieChart>
             )
           ) : null}
@@ -2564,7 +2657,9 @@ function Data() {
           onMouseOut={handleMouseOut}
         >
           audio features{" "}
-          <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+          <img
+            draggable={false}
+            onContextMenu={(event) => event.preventDefault()}
             alt=""
             id="arrow"
             src={arrowRight}
@@ -2591,7 +2686,9 @@ function Data() {
                       marginRop: "10px",
                     }}
                   >
-                    <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                    <img
+                      draggable={false}
+                      onContextMenu={(event) => event.preventDefault()}
                       alt=""
                       src={rightArrow}
                       style={{ width: "10px", verticalAlign: "middle" }}
@@ -2664,7 +2761,9 @@ function Data() {
                       }}
                       title={`Open ${feature} rankings`}
                     >
-                      <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                      <img
+                        draggable={false}
+                        onContextMenu={(event) => event.preventDefault()}
                         alt=""
                         src={popoutIcon}
                         style={{
@@ -2749,7 +2848,9 @@ function Data() {
                             src={highestSong?.mp3}
                           ></audio>
 
-                          <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                          <img
+                            draggable={false}
+                            onContextMenu={(event) => event.preventDefault()}
                             alt=""
                             src={highestSong?.img}
                             className="primaryImage"
@@ -2799,7 +2900,13 @@ function Data() {
                       }
                       data-tooltip-id="rangeTooltip"
                     >
-                      <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={range} style={{ width: "20px" }} />
+                      <img
+                        draggable={false}
+                        onContextMenu={(event) => event.preventDefault()}
+                        alt=""
+                        src={range}
+                        style={{ width: "20px" }}
+                      />
                     </span>
                   </td>
                   <td>
@@ -2821,7 +2928,9 @@ function Data() {
                             src={lowestSong?.mp3}
                           ></audio>
 
-                          <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                          <img
+                            draggable={false}
+                            onContextMenu={(event) => event.preventDefault()}
                             alt=""
                             src={lowestSong?.img}
                             className="primaryImage"
@@ -2888,7 +2997,13 @@ function Data() {
         >
           {/* <span className="gradient">comparify</span> */}
           <span>
-            <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={logo} style={{ width: "20px" }} />
+            <img
+              draggable={false}
+              onContextMenu={(event) => event.preventDefault()}
+              alt=""
+              src={logo}
+              style={{ width: "20px" }}
+            />
           </span>{" "}
           &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
         </Tooltip>
@@ -2909,7 +3024,13 @@ function Data() {
               <span className="gradient">comparify</span>
             )} */}
             <span>
-              <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={logo} style={{ width: "40px" }} />
+              <img
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
+                alt=""
+                src={logo}
+                style={{ width: "40px" }}
+              />
             </span>{" "}
             &#10799; <span style={{ color: "#75ac9d" }}>ChatGPT</span>
             <br />
@@ -2931,7 +3052,9 @@ function Data() {
             {apiResponse && (
               <>
                 <div>
-                  <img draggable={false} onContextMenu={(event) => event.preventDefault()}
+                  <img
+                    draggable={false}
+                    onContextMenu={(event) => event.preventDefault()}
                     alt=""
                     src={gptBtn}
                     style={{
@@ -2964,7 +3087,13 @@ function Data() {
                 onClick={handleConvertToImage}
                 title="Download image"
               >
-                <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={download} style={{ width: "10px" }}></img>
+                <img
+                  draggable={false}
+                  onContextMenu={(event) => event.preventDefault()}
+                  alt=""
+                  src={download}
+                  style={{ width: "10px" }}
+                ></img>
               </button>
             </div>
           </>
@@ -2979,7 +3108,14 @@ function Data() {
         className="recommendationModal"
       >
         <button className="xBtn3" onClick={closeRecModal}>
-          <img draggable={false} onContextMenu={(event) => event.preventDefault()} alt="" src={x} style={{ width: "10px" }} title="Close"></img>
+          <img
+            draggable={false}
+            onContextMenu={(event) => event.preventDefault()}
+            alt=""
+            src={x}
+            style={{ width: "10px" }}
+            title="Close"
+          ></img>
         </button>
         <h2 className="">
           Recommendations for{" "}

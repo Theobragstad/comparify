@@ -46,7 +46,7 @@ body,
   justify-content: center;
   font-size: calc(10px + 2vmin);
   /* animation: bgChg 3s ease-in-out 0ms 1 forwards; */
-
+/* background-image: url("./img/fuckk.gif"); */
 }
 
 @keyframes bgChg {
@@ -209,7 +209,7 @@ body,
   color: #1ed760;
   cursor: pointer;
   width: fit-content;
-
+  font-family: gothamMedium;
   height: 25px;
 
   font-size: 14px;
@@ -252,6 +252,17 @@ body,
   font-size: 12px !important;
   padding: 3px 7px !important;
 }
+
+.tooltipUpload {
+  border-radius: 20px !important;
+  z-index: 2 !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+  padding: 10px !important;
+  background-color: #f6f6f6 !important;
+  color:gray !important;
+  width:100px !important;
+}
 .tooltip2 {
   font-weight: bold !important;
   z-index: 2px !important;
@@ -267,12 +278,41 @@ body,
   max-width: 125px !important;
 }
 
+
+.fulllogoDiv {
+  width: 175px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  padding: 4px;
+  -webkit-user-drag: none;
+  animation: logoslide 1s ease forwards; /* Animation properties */
+
+}
+
+
+@keyframes logoslide {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .submitBtn.disabled:hover,
 .basicBtn:disabled:hover {
   transform: scale(1);
 }
 .getCodeBtn:hover {
   transform: scale(1.2);
+}
+
+.disabled {
+  -webkit-user-select: none !important;
+  user-select: none;
+  pointer-events: none !important;
 }
 
 .footer {
@@ -1059,6 +1099,7 @@ body,
 .addToSpotifyBtn:disabled {
   filter: grayscale(75%);
   cursor: default;
+  pointer-events: none;
 }
 
 .addToSpotifyBtn:disabled:hover {
@@ -1474,6 +1515,9 @@ tr:last-child td:last-child {
 .errorMessage {
   background-color: #ffd6d6;
   border: 1px solid #ff4747;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: hide 5s linear 2s 1 forwards;
+
   color: #ff4747;
   font-weight: bold;
   position: absolute;
@@ -1490,6 +1534,9 @@ tr:last-child td:last-child {
 .errorMessage2 {
   background-color: #ffd6d6;
   border: 1px solid #ff4747;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: hide 2s linear 2s 1 forwards;
+
   color: #ff4747;
   font-weight: bold;
   font-size: 12px;
@@ -1508,6 +1555,8 @@ tr:last-child td:last-child {
   color: #1e90ff;
   border: 1px solid #1e90ff;
   background-color: #e6f6fe;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
 
   font-weight: bold;
   font-size: 12px;
@@ -1795,7 +1844,7 @@ opacity: 0;
   color: white;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .appHeader,
   .footer,
   .helpModal,
@@ -1823,7 +1872,7 @@ opacity: 0;
   .openaiLogo {
     filter: invert(1);
   }
-}
+} */
 .scrollBtn {
   position: fixed;
   bottom: 5%;
@@ -1833,7 +1882,29 @@ opacity: 0;
   cursor: pointer;
   transition: transform 0.5s ease;
   z-index: 3;
+  background-color: white;
+  border-radius: 50%;
+  width:10px;
+  height:10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+
 }
+
+/* .scrollBtn img {
+  display: block; 
+  margin: auto; 
+} */
+
+.scrollBtn.hideScrollBtn {
+  background-color: inherit;
+  box-shadow: none;
+  cursor:auto;
+}
+
+
 
 .scrollBtn:hover {
   transform: translate(-50%, -50%) scale(1.2);
@@ -1879,8 +1950,6 @@ opacity: 0;
 
 .cookieNotice {
   border-radius: 10px;
-  color: black;
-  background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   text-align: left !important;
   font-size: 12px;
@@ -1888,7 +1957,7 @@ opacity: 0;
 
   padding: 4px 8px;
   width: 175px;
-  z-index: 99999;
+  z-index: 9999;
   animation: slideUp 3s forwards;
   transition: transform 5s ease;
 
@@ -1897,11 +1966,29 @@ opacity: 0;
 
   display: flex;
   align-items: center;
+
+
+  background-color: #1e90ff;
+  color:white;
 }
+
+
+
+
+/* .filter > *:not(.cookieNotice){
+  position: absolute;
+left: 0px;
+top: 0px;
+right:0px;
+bottom:0px;
+    filter: blur(3px);
+}
+ */
+
+
 
 .hide {
   animation: slideDown 3s forwards !important;
-
   z-index: 9999;
 }
 
@@ -2265,9 +2352,10 @@ opacity: 0;
 .betaIcon {
   border: none;
   border-radius: 10px;
-  cursor: auto;
+  /* cursor: auto; */
   background-color: #f6f6f6;
-
+text-decoration: none !important;
+color: black !important;
   font-weight: bold;
 
   font-style: oblique 60deg;
@@ -2278,7 +2366,22 @@ opacity: 0;
   left: 210px;
 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* cursor: url("./img/hello.png"), zoom-in */
+  animation: reveal 0.5s ease-out 1.2s 1 forwards;
+  opacity: 0;
 }
+
+@keyframes reveal {
+  0% {
+opacity:0;
+  }
+  100% {
+opacity:1
+  }
+}
+
+
+
 
 
 
@@ -2305,6 +2408,9 @@ opacity: 0;
 
 
 
+
+
+
 .gray {
   border: none;
   border-radius: 10px;
@@ -2326,6 +2432,7 @@ opacity: 0;
 .basicBtn:hover,
 .submitBtn:not(.disabled):hover {
   filter: brightness(90%);
+
 }
 
 .cellOutlineSmall {
@@ -2457,9 +2564,14 @@ opacity: 0;
 }
 
 .animation {
-  margin: 0 auto;
-  transform:scale(0.2);
-  position:absolute;
+/* transform: scale(2); */
+
+}
+.animationDiv {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media screen and (max-width: 500px) {

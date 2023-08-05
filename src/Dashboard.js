@@ -458,7 +458,7 @@ function Code() {
         );
         const pctSongsExpl =
           (explicitSongCount / explicitSongBooleans.length) * 100;
-        songCode.push("pctSongsExpl[1]", pctSongsExpl);
+        songCode.push("pctSongsExpl[1]", pctSongsExpl.toFixed(2));
 
         songCode.push((await getSongAudioFeatureData(songIds)).concat());
 
@@ -840,7 +840,7 @@ function Code() {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
 
-    const formattedDateTime = `${month}-${day}-${year} ${hours}.${minutes}.${seconds} ${ampm}`;
+    const formattedDateTime = `${month}-${day}-${year} at ${hours}.${minutes}.${seconds} ${ampm}`;
 
     return formattedDateTime;
   }
@@ -870,10 +870,10 @@ function Code() {
 
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
-    link.download = `comparify code for ${displayName.replace(
+    link.download = `comparify code (${displayName.replace(
       /[<>:"\\|?*]/g,
       ""
-    )} @ ${getCurrentDateTime()}.txt`;
+    )}) ${getCurrentDateTime()}.txt`;
     link.click();
   };
 
@@ -1113,8 +1113,8 @@ function Code() {
       )}
       {trigger && (
         <div className="errorMessage3">
-          Remember that your code contains your Spotify display name, ID,
-          profile photo, and music streaming data. Only share your code with
+          Your code contains your Spotify display name, ID,
+          profile photo, and streaming data. Only share your code with
           people you are comfortable with having that information.
         </div>
       )}
@@ -1176,8 +1176,17 @@ function Code() {
 
         <div
           className="codeDiv"
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{ display: "flex", justifyContent: "center" ,}}
+          // style={{color:'#1e90ff',marginTop:'-20px'}}
         >
+           {/* <h2
+            // className="gradient compareNameCodePage"
+            style={{ fontFamily: "gothamMedium",margin:'10px 10px' }}
+          >
+            you
+          </h2> */}
+
+
           {!loadingDownload ? (
             <button
               onClick={downloadCode}
@@ -1195,6 +1204,7 @@ function Code() {
                 alignItems: "center",
                 width: "fit-content",
                 padding: "2px 10px",
+                fontFamily: "gothamMedium"
               }}
             >
               <img
@@ -1202,7 +1212,7 @@ function Code() {
                 alt=""
                 src={downloadBlue}
                 style={{ width: "20px" }}
-                draggable={false}
+                // draggable={false}
                 onContextMenu={(event) => event.preventDefault()}
               />{" "}
               <span style={{ marginLeft: "5px" }}>save your code</span>
@@ -1224,6 +1234,7 @@ function Code() {
             display: "flex",
             justifyContent: "center",
             marginTop: "-25px",
+
           }}
         >
           {!loadingView ? (
@@ -1245,6 +1256,7 @@ function Code() {
                 alignItems: "center",
                 width: "fit-content",
                 padding: "2px 10px",
+                fontFamily: "gothamMedium"
               }}
             >
               <img
@@ -1305,7 +1317,7 @@ function Code() {
             htmlFor="input1"
             className="custom-file-upload yellow"
             id="inputLabel1"
-            data-tooltip-id="codePageTooltip1"
+            data-tooltip-id="codePageTooltip2"
             data-tooltip-content={
               filename1
                 ? filename1
@@ -1382,11 +1394,11 @@ function Code() {
             htmlFor="input2"
             className="custom-file-upload blue"
             id="inputLabel2"
-            data-tooltip-id="codePageTooltip1"
+            data-tooltip-id="codePageTooltip2"
             data-tooltip-content={
               filename2
                 ? filename2
-                : "upload the code for the first user you want to compare with"
+                : "upload the code for the first user you want to compare"
             }
           >
             {/* {!filename2 ?(
@@ -1420,11 +1432,11 @@ function Code() {
             htmlFor="input3"
             className="custom-file-upload yellow"
             id="inputLabel3"
-            data-tooltip-id="codePageTooltip1"
+            data-tooltip-id="codePageTooltip2"
             data-tooltip-content={
               filename3
                 ? filename3
-                : "upload the code for the second user you want to compare with"
+                : "upload the code for the second user you want to compare"
             }
           >
             <img
@@ -1491,6 +1503,8 @@ function Code() {
         </div>
 
         <Tooltip id="codePageTooltip1" className="tooltip1" noArrow clickable />
+        <Tooltip id="codePageTooltip2" className="tooltipUpload" noArrow clickable />
+
       </div>
       {/* <Footer /> */}
     </div>

@@ -9,13 +9,21 @@ name too long then ellipsis
 ranking modals sizing
 rankings messed up
 song infos messed up format
+on mobile no img events
 no data handling
 occasionally check if expired token and logout automat
 close btn styles-gray/darken/pop/bg?
 match pie charts
 compare pie charts
+compare rankings--more weight if high matches
 use new data for prompts, recs
 footer
+long content in cards-max width? no scroll horiz.
+homepage extra space scroll...
+footer width
+show loading when click time btn mobile
+LOADING DIVS
+scrollbtn
 filenames
 game background blur mobile
 game modal sizing mobile
@@ -90,7 +98,6 @@ Blank song in game
 Swipe music discovery, tinder-like
 Game random choosing algo
 Time of day
-First song no audio
 Replaying without asking??
 Logouts
 public logo white bg
@@ -108,7 +115,6 @@ Results padding
 Scrolling background position
 Beta tag position Beta page
 Button time range hovers
-Dashboard pfp align
 Names longer cut off 
 song paddings
 Logout btn
@@ -129,8 +135,6 @@ No songs message.
 Button styling
 Image sizing
 Compile errors/alts
-pro mode??
-careers??
 Aligning of buttons
 NaN number check
 Check wrong formatted codes
@@ -172,16 +176,14 @@ Code tagging, refactoring, reordering, variable naming
 Improve grid layout
 Time streamed
 MOBILE LOADING TIMES
-squares dont overlap. fill in like a grid
 Playlists contents
 Instructions div cut off
 Make x btn bigger
 image sizings matchings
-Game song selection
 Genre, pie chart ,popularity ranges pie charts
 Time of day listen
-legal
 accessibility
+legal
 Compare multiple users (3+)
 Top song times played
 playlist cover sizing, names, etc
@@ -207,6 +209,7 @@ Compare page val stacking
 Logo and content overlaps
 Popularity ranges?
 logout btn/clear cookies
+tooltip styling
 while loading-instead of no data, show gray boxes/fillers where content goes
 Recs, similarity algos
 scrolling
@@ -235,16 +238,16 @@ min widths
 open in new tab. func
 menu/trigger/dropdown sizing
 Animation scrolling etc
-AF rankings on compare pg too
 lazy loading
 divs adj height
 ranking modal sizing
 song title length limit ellipse
 animation sizig position
-api limits/costs,  performance, ads, approve spotify, demand adjust, security, press-articles, support
-links to artwork
+ads
+api limits/costs,  performance, ads, , demand adjust, security, press-articles
 spotify approve-branding,content, mods to content, cross branding.
 game instruction div sizing
 all audios
 card width incr height too or margins
 round values ALL
+data rounding

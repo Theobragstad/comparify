@@ -75,14 +75,14 @@ const Footer = () => {
 
   const customStyles = {
     overlay: {
-      zIndex: 9999,
+      zIndex: 9998,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     content: {
-      zIndex: 9999,
+      zIndex: 9998,
       width: "30%",
       height: "fit-content",
       margin: "auto",
