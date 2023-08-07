@@ -155,15 +155,17 @@ const Footer = () => {
     <div >
       <div className="footer">
         <span>
-          <Link to="/">
+          {/* <Link to="/">
             <img
               src={logo}
               style={{ width: 20, pointerEvents: "cursor" }}
               title="Home"
               alt="Logo"
             ></img>
-          </Link>
-          &emsp;&copy; 2023&emsp;&emsp;
+          </Link> */}
+          {/* &emsp; */}
+          &copy; 
+          2023&emsp;&emsp;
         </span>
         <span data-tooltip-id="infoTooltip" className="hoverGray">
           About

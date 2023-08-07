@@ -210,6 +210,15 @@ btn paddings
 Logo and content overlaps
 Popularity ranges?
 fonts
+support
+Modal close btns
+Genres card x on smaller screen
+No hovers on mobile
+Add backend and database
+Slow audio and loading
+More data page spacing
+Btns bigger
+center card divs
 logout btn/clear cookies
 tooltip styling
 while loading-instead of no data, show gray boxes/fillers where content goes
@@ -253,3 +262,4 @@ all audios
 card width incr height too or margins
 round values ALL
 data rounding
+Sideways turn reload for squares!!!
