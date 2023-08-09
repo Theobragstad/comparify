@@ -21,21 +21,13 @@ const HelpModalContent = () => {
   const [isHowItWorksExpanded, setIsHowItWorksExpanded] = useState(false);
   const [isPrivacyExpanded, setIsPrivacyExpanded] = useState(false);
 
-  const [isBugReportsExpanded, setIsBugReportsExpanded] = useState(false);
-  const toggleBugReports = () => {
-    setIsBugReportsExpanded(!isBugReportsExpanded);
-    setIsPrivacyExpanded(false);
-    setIsTroubleshootingExpanded(false);
-    setIsHowItWorksExpanded(false);
-    setIsHowToUseExpanded(false);
-  };
+ 
 
   const toggleHowToUse = () => {
     setIsHowToUseExpanded(!isHowToUseExpanded);
     setIsTroubleshootingExpanded(false);
     setIsHowItWorksExpanded(false);
     setIsPrivacyExpanded(false);
-    setIsBugReportsExpanded(false);
   };
 
   const toggleTroubleshooting = () => {
@@ -43,7 +35,6 @@ const HelpModalContent = () => {
     setIsHowToUseExpanded(false);
     setIsHowItWorksExpanded(false);
     setIsPrivacyExpanded(false);
-    setIsBugReportsExpanded(false);
   };
 
   const toggleHowItWorks = () => {
@@ -51,7 +42,6 @@ const HelpModalContent = () => {
     setIsTroubleshootingExpanded(false);
     setIsHowToUseExpanded(false);
     setIsPrivacyExpanded(false);
-    setIsBugReportsExpanded(false);
   };
 
   const togglePrivacy = () => {
@@ -59,7 +49,6 @@ const HelpModalContent = () => {
     setIsTroubleshootingExpanded(false);
     setIsHowItWorksExpanded(false);
     setIsHowToUseExpanded(false);
-    setIsBugReportsExpanded(false);
   };
 
   return (
@@ -190,36 +179,11 @@ const HelpModalContent = () => {
              </ul> */}
               <li>
                 comparify is primarily intended for use on a computer. You can
-                still use it on mobile, but you will have a noticeably faster and more
-                seamless experience on the desktop version.
+                still use it on mobile, but you will have a faster and more
+                enjoyable experience on a desktop computer.
               </li>
-              <li>
-                Some mobile browsers, including Chrome, require double taps to
-                activate some buttons. If a button is not pressing on the first
-                tap, try double tapping it.
-              </li>
-              <li>
-                The general fix to many issues is to clear your cookies. To get
-                them to appear for deletion in your browser's website settings
-                menu (in Chrome, the button to the left of the URL in the search
-                bar), you may have to go to the{" "}
-                <a
-                  style={{ textDecoration: "none", color: "#1e90ff" }}
-                  href="https://comparify.app/dashboard"
-                >
-                  dashboard
-                </a>
-                . Then, go to the home page and try again.
-              </li>
-              <ul>
-                <li>
-                  If this doesn't work, try a different browser or device, or
-                  try again later.
-                </li>
-                <li>
-                  Note that the Spotify login session expires after one hour.
-                </li>
-              </ul>
+             
+            
               <li>
                 If you try to log in and are redirected back home, this means
                 that your previous session has expired and you must log in
@@ -230,10 +194,10 @@ const HelpModalContent = () => {
                 computer, click the switch user button on the dashboard page.
               </li>
               <li>
-                The OpenAI API is quite rate-limited, so you may encounter
+                The OpenAI API is rate limited, so you may encounter
                 generation errors with ChatGPT. The solution is generally to
                 wait a minute or two before retrying. If the error persists, try
-                again later. The app may be overloaded by other API calls.
+                again later. The app may be overloaded by other requests.
               </li>
               <li>
                 Spotify rate limits are less strict, but the solution is the
@@ -267,13 +231,13 @@ const HelpModalContent = () => {
                 generated, there is no guarantee that the item's popularity will
                 stay the same. For example, if upon generation of the code your
                 most popular song has a popularity score of 96, then it will
-                remain this way even though its popularity may decrease, or be
+                remain listed as your most popular song at that moment in time, even though its popularity may decrease, or be
                 surpassed by another song. Therefore, such data points may
                 become inaccurate for older codes because popularity changes
                 over time (ie, if your most popular song displays a low
                 popularity score, this does not mean that it was this low when
                 the code was generated). Still, they give you a snapshot of the
-                state of your music habits at that moment in time.
+                state of your music habits when the code was generated.
               </li></ul>
             </ul>
           </div>
@@ -463,7 +427,7 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Collapse section"
           >
-            Privacy + data + policy info{" "}
+            Privacy/policy/data/cookie info{" "}
             <span>
               <img
                 src={downBtn}
@@ -479,7 +443,7 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Expand section"
           >
-            Privacy + data + policy info{" "}
+            Privacy/policy/data/cookie info{" "}
             <span>
               <img
                 src={sideArrowRight}
@@ -621,51 +585,7 @@ const HelpModalContent = () => {
           </div>
         )}
 
-        {isBugReportsExpanded ? (
-          <h5
-            className="helpSection"
-            onClick={toggleBugReports}
-            title="Collapse section"
-          >
-            Bugs + suggestions{" "}
-            <span>
-              <img
-                src={downBtn}
-                style={{ height: "10px" }}
-                alt="Collapse section button"
-                onClick={toggleBugReports}
-              ></img>
-            </span>
-          </h5>
-        ) : (
-          <h5
-            className="helpSection"
-            onClick={toggleBugReports}
-            title="Expand section"
-          >
-            Bugs + suggestions{" "}
-            <span>
-              <img
-                src={sideArrowRight}
-                style={{ width: "10px" }}
-                alt="Expand section button"
-                onClick={toggleBugReports}
-              ></img>
-            </span>
-          </h5>
-        )}
-        {isBugReportsExpanded && (
-          <div className="helpModalText">
-            <ul>
-              <li>
-                Since comparify is still in beta, you may run into bugs. We're
-                always working on improving the app, so you can send these to
-                the email below.
-              </li>
-              <li>We also welcome general suggestions for improvements.</li>
-            </ul>
-          </div>
-        )}
+        
       </div>
       <div className="helpModalFooter">
         <div style={{ fontSize: "12px", fontWeight: "bold" }}>

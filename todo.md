@@ -263,3 +263,4 @@ card width incr height too or margins
 round values ALL
 data rounding
 Sideways turn reload for squares!!!
+support page
