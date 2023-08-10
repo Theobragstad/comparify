@@ -604,12 +604,11 @@ function Code() {
         });
         // const topGenres = sortedGenres.slice(0,5);
 
-
         const totalGenres = sortedGenres.length;
 
         const topGenres = [];
         let totalPercentage = 0;
-        const topGenresCount = Math.min(5, totalGenres); 
+        const topGenresCount = Math.min(5, totalGenres);
 
         for (let i = 0; i < topGenresCount; i++) {
           const genre = sortedGenres[i];
@@ -623,16 +622,9 @@ function Code() {
 
         topGenres.push("other", (100 - totalPercentage).toFixed(2));
 
-
-
-
-
-        artistCode.push("topGenresOnly[<=20]", sortedGenres.slice(0,20));
-
-
+        artistCode.push("topGenresOnly[<=20]", sortedGenres.slice(0, 20));
 
         artistCode.push("topGenresByArtist[<=20]", topGenres);
-
       } else {
         artistCode.push(
           "artistIds[<=50]",
@@ -939,30 +931,32 @@ function Code() {
 
   const [file2, setFile2] = useState("");
 
-  const addFile2 = (event) => {
+  const addFile2 = (event, defaultMessage) => {
     const fileInput = event.target;
-    const isValid = fileInput.files.length > 0; // Check if there is at least one file selected
+    const fileExists = fileInput?.files.length > 0;
+    const fileNameIsValid =
+      fileInput?.files[0]?.name.substring(0, 14) === "comparify code";
 
     const labelElement = document.getElementById("inputLabel1");
-    if (isValid) {
+
+    if (fileExists && fileNameIsValid) {
       labelElement.classList.add("valid");
-      setFilename1(fileInput.files[0].name);
-    } else {
-      labelElement.classList.remove("valid");
-      setFilename1(null);
-    }
-
-    if (event.target.files.length === 0) {
-      setFile2(null);
-    } else {
+      setFilename1(fileInput?.files[0].name);
       const fileReader = new FileReader();
-      const { files } = event.target;
 
-      fileReader.readAsText(files[0], "UTF-8");
+      fileReader.readAsText(fileInput?.files[0], "UTF-8");
       fileReader.onload = (e) => {
         const content = e.target.result;
         setFile2(content);
       };
+    } else if (!fileNameIsValid) {
+      labelElement.classList.remove("valid");
+      setFilename1("Invalid comparify code. Try again.");
+      setFile2(null);
+    } else {
+      labelElement.classList.remove("valid");
+      setFilename1(null);
+      setFile2(null);
     }
   };
 
@@ -1113,9 +1107,9 @@ function Code() {
       )}
       {trigger && (
         <div className="errorMessage3">
-          Your code contains your Spotify display name, ID,
-          profile photo, and streaming data. Only share your code with
-          people you are comfortable with having that information.
+          Your code contains your Spotify display name, ID, profile photo, and
+          streaming data. Only share your code with people you are comfortable
+          with having that information.
         </div>
       )}
       <div className="cardOverlay" style={{ background: "white" }}>
@@ -1176,16 +1170,15 @@ function Code() {
 
         <div
           className="codeDiv"
-          style={{ display: "flex", justifyContent: "center" ,}}
+          style={{ display: "flex", justifyContent: "center" }}
           // style={{color:'#1e90ff',marginTop:'-20px'}}
         >
-           {/* <h2
+          {/* <h2
             // className="gradient compareNameCodePage"
             style={{ fontFamily: "gothamMedium",margin:'10px 10px' }}
           >
             you
           </h2> */}
-
 
           {!loadingDownload ? (
             <button
@@ -1205,7 +1198,6 @@ function Code() {
                 width: "fit-content",
                 padding: "4px",
                 fontFamily: "gothamMedium",
-            
               }}
             >
               <img
@@ -1235,7 +1227,6 @@ function Code() {
             display: "flex",
             justifyContent: "center",
             marginTop: "-25px",
-
           }}
         >
           {!loadingView ? (
@@ -1257,7 +1248,7 @@ function Code() {
                 alignItems: "center",
                 width: "fit-content",
                 // padding: "2px 10px",
-                fontFamily: "gothamMedium"
+                fontFamily: "gothamMedium",
               }}
             >
               <img
@@ -1504,8 +1495,12 @@ function Code() {
         </div>
 
         <Tooltip id="codePageTooltip1" className="tooltip1" noArrow clickable />
-        <Tooltip id="codePageTooltip2" className="tooltipUpload" noArrow clickable />
-
+        <Tooltip
+          id="codePageTooltip2"
+          className="tooltipUpload"
+          noArrow
+          clickable
+        />
       </div>
       {/* <Footer /> */}
     </div>

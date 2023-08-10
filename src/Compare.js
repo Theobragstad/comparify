@@ -1663,14 +1663,23 @@ function Compare() {
     }
 
     try {
-      const result = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: gptPrompt,
-        temperature: 1,
-        max_tokens: 700,
+      console.log(gptPrompt)
+      const response = await openai.createChatCompletion({
+        model: "gpt-4",
+        messages: [
+          {
+            "role": "user",
+            "content": gptPrompt
+          }
+        ],
+        temperature: 1.2,
+        max_tokens: 256,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
       });
-      console.log("response", result.data.choices[0].text);
-      setApiResponse(result.data.choices[0].text);
+      console.log("response", response.data.choices[0].message.content);
+      setApiResponse(response.data.choices[0].message.content);
     } catch (error) {
       console.log(error);
       setApiResponse(

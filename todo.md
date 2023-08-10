@@ -216,7 +216,16 @@ Genres card x on smaller screen
 No hovers on mobile
 Add backend and database
 Slow audio and loading
+make app keyboard accessible
+code upload validity
+demo video
+song format cards
 More data page spacing
+scroll bar on cards hide
+large screen sizing
+screenshot cards
+smaller tooltip trigger on compare page
+screenshot font custom
 Btns bigger
 center card divs
 logout btn/clear cookies

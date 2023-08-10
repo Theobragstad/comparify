@@ -127,14 +127,29 @@ function Data() {
     console.log(gptPrompt);
 
     try {
-      const result = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: gptPrompt,
+      // const result = await openai.createCompletion({
+      //   model: "text-davinci-003",
+      //   prompt: gptPrompt,
+      //   temperature: 1.2,
+      //   max_tokens: 250,
+      // });
+      const response = await openai.createChatCompletion({
+        model: "gpt-4",
+        messages: [
+          {
+            "role": "user",
+            "content": gptPrompt
+          }
+        ],
         temperature: 1.2,
-        max_tokens: 250,
+        max_tokens: 256,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        stream: true,
       });
-      console.log("response", result.data.choices[0].text);
-      setApiResponse(result.data.choices[0].text);
+      console.log("response", response.data.choices[0].message.content);
+      setApiResponse(response.data.choices[0].message.content);
     } catch (error) {
       console.log(error);
       setApiResponse(
