@@ -220,6 +220,8 @@ make app keyboard accessible
 code upload validity
 demo video
 song format cards
+terms of service
+privacy policy
 More data page spacing
 scroll bar on cards hide
 large screen sizing

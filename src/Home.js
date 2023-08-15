@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import rightArrow from "./img/rightArrow.png";
 
 function Home() {
+  document.title = "comparify - Explore, analyze, and compare your music"
   const [isPausing, setIsPausing] = useState(false); // Add this state
   const cookieNoticeRef = useRef(null);
 
@@ -38,10 +39,10 @@ function Home() {
 
   // document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/dashboard";
+  const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI || "https://comparify.app/dashboard";
 
   //
-  const REDIRECT_URI = "https://comparify.app/dashboard";
+  // const REDIRECT_URI = "https://comparify.app/dashboard";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPES =
