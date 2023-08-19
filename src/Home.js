@@ -39,7 +39,7 @@ function Home() {
 
   // document.title = "comparify | Explore and compare your music";
   const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI || "https://comparify.app/dashboard";
+  const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
 
   //
   // const REDIRECT_URI = "https://comparify.app/dashboard";
