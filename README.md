@@ -1,5 +1,3 @@
-# comparify
-
 <img src="src/img/logo.png" style="width:50px;"/>&emsp;<b>comparify</b>
 
 Explore, analyze, and compare your music
