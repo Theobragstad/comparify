@@ -217,6 +217,7 @@ No hovers on mobile
 Add backend and database
 Slow audio and loading
 make app keyboard accessible
+loading speeds, music, etcc
 code upload validity
 demo video
 song format cards

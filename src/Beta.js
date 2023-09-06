@@ -219,7 +219,7 @@ function Beta() {
 
       <div className="" style={{ overflow: "hidden" }}>
         <div className="title">
-          <div className="beta">waitlist</div>
+          <div className="beta">add emails to the waitlist</div>
           <div className="info">
             <img draggable={false} onContextMenu={(event) => event.preventDefault()} src={arrow1} className="arrow" alt="Arrow" ></img>
             Enter up to 5 emails (you + family + friends)
