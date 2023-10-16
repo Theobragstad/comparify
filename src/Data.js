@@ -148,7 +148,8 @@ function Data() {
         presence_penalty: 0,
         stream: true,
       });
-      console.log("response", response.data.choices[0].message.content);
+      //response.data.choices[0].message.content
+      console.log("response", response);
       setApiResponse(response.data.choices[0].message.content);
     } catch (error) {
       console.log(error);
