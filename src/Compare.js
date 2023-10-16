@@ -95,12 +95,12 @@ function Compare() {
   const nameIdImgurlGenerationdate1 = file1.slice(1, 5);
   const nameIdImgurlGenerationdate2 = file2.slice(1, 5);
   if (
-    // file1.indexOf("nameIdImgurlGenerationdate[4]") === -1 || 
-    // file2.indexOf("nameIdImgurlGenerationdate[4]") === -1 ||
-    // nameIdImgurlGenerationdate1.length !== 4 ||
-    // nameIdImgurlGenerationdate2.length !== 4 ||
-    // nameIdImgurlGenerationdate1[2]?.substring(0, 8) !== "https://" ||
-    // nameIdImgurlGenerationdate2[2]?.substring(0, 8) !== "https://"
+    file1.indexOf("nameIdImgurlGenerationdate[4]") === -1 || 
+    file2.indexOf("nameIdImgurlGenerationdate[4]") === -1 ||
+    nameIdImgurlGenerationdate1.length !== 4 ||
+    nameIdImgurlGenerationdate2.length !== 4 ||
+    nameIdImgurlGenerationdate1[2]?.substring(0, 8) !== "https://" ||
+    nameIdImgurlGenerationdate2[2]?.substring(0, 8) !== "https://"
   ) {
     navigate("/dashboard", { state: { error: 400 } });
   }
