@@ -131,7 +131,7 @@ function Beta() {
 
     if (isEmailsValid) {
       console.log(emails);
-      // sendEmail(emails);
+      sendEmail(emails);
       setSubmitted(true);
 
       setEmails(["", "", "", "", ""]);
