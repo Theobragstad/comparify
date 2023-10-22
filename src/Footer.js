@@ -16,15 +16,15 @@ import moon from "./img/moon.png";
 
 const Footer = () => {
 
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  // const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
 
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem('darkMode', String(newDarkMode));
-    // Dispatch a custom event to notify other components of the change
-    window.dispatchEvent(new Event('darkModeChanged'));
-  };
+  // const toggleDarkMode = () => {
+  //   const newDarkMode = !darkMode;
+  //   setDarkMode(newDarkMode);
+  //   localStorage.setItem('darkMode', String(newDarkMode));
+  //   // Dispatch a custom event to notify other components of the change
+  //   window.dispatchEvent(new Event('darkModeChanged'));
+  // };
 
 
 
@@ -210,7 +210,9 @@ const Footer = () => {
           isOpen={footerModalIsOpen}
           onRequestClose={closeFooterModal}
           contentLabel="Popup Window"
-          style={darkMode ? darkModalStyles : customStyles}
+          // style={darkMode ? darkModalStyles : customStyles}
+          style={customStyles}
+
           className="helpModal"
 
         >

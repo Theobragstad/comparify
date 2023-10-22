@@ -9,11 +9,13 @@ import Data from "./Data";
 import Compare from "./Compare";
 import MoreData from "./MoreData";
 import Animation from "./Animation";
+import DarkmodeToggle from "./DarkmodeToggle"; // Import the DarkmodeToggle component
 
 
 function App() {
   return (
     <div className="App">
+      <DarkmodeToggle />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/waitlist" element={<Beta />} />

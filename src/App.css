@@ -21,6 +21,7 @@ body,
 .appLogo {
   cursor: pointer;
   font-family: gothamMedium;
+  
 }
 .pulse {
   animation: grow 3s infinite;
@@ -119,6 +120,7 @@ body,
 .pageHeader {
   font-size: 18px;
   font-family: gothamMedium;
+
   position: absolute;
   top: 27px;
   left: 240px;
@@ -130,6 +132,7 @@ body,
   font-size: 18px;
   font-family: gothamMedium;
   position: absolute;
+
   top: 29px;
   left: 240px;
   color: gray;
@@ -296,11 +299,20 @@ body,
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: white;
+  background-color: white ;
   padding: 4px;
   -webkit-user-drag: none;
   animation: logoslide 1s ease forwards; /* Animation properties */
+  border-radius: 10px;
 
+}
+
+.darkmode--activated .fulllogoDiv {
+  background-color: black;
+}
+
+.darkmode--activated .blackbg {
+  background-color: black !important;
 }
 
 
@@ -627,6 +639,7 @@ body,
   transform: scale(0.8);
 }
 .primaryTitle {
+  isolation: isolate;
   font-family: gothamMedium;
   background: linear-gradient(
     to right,
@@ -1329,6 +1342,7 @@ body,
   padding: 5px 10px;
   width: fit-content;
   font-family: gothamMedium;
+  isolation: isolate;
 
   font-weight: bold;
   position: absolute;
@@ -1360,6 +1374,8 @@ body,
 }
 .audioFeaturesColumnLabel {
   font-family: gothamMedium;
+  isolation: isolate;
+
 
   cursor: auto;
   border-radius: 20px;
@@ -1426,6 +1442,7 @@ tr:last-child td:last-child {
   border-radius: 20px;
   padding: 5px 10px;
   width: fit-content;
+  
   display: flex;
   justify-content: center;
   align-items: center;

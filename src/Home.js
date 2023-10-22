@@ -11,29 +11,44 @@ import Cookies from "js-cookie";
 
 import rightArrow from "./img/rightArrow.png";
 
+
+
+import Darkmode from 'darkmode-js';
+// const options = {
+    
+//   time: '0.4s', // default: '0.3s'
+//   mixColor: '#fff', // default: '#fff'
+//   backgroundColor: '#fff',  // default: '#fff'
+//   buttonColorDark: '#100f2c',  // default: '#100f2c'
+//   buttonColorLight: '#fff', // default: '#fff'
+//   autoMatchOsTheme: true // default: true
+// }
+
+// const darkmode = new Darkmode(options);
+// darkmode.showWidget();
+
 function Home() {
+  
+  // const [darkmodeon, setdarkmodeon] = useState(darkmode.isActivated()); // Add this state
+
+  // useEffect(() => {
+  //   setdarkmodeon(darkmode.isActivated());
+  //   console.log(darkmode)
+  // }, [darkmode]);
+    
+
+  
   document.title = "comparify - Explore, analyze, and compare your music"
   const [isPausing, setIsPausing] = useState(false); // Add this state
   const cookieNoticeRef = useRef(null);
 
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true"
-  );
+  // const [darkMode, setDarkMode] = useState(
+  //   localStorage.getItem("darkMode") === "true"
+  // );
 
-  useEffect(() => {
-    const storedDarkMode = localStorage.getItem("darkMode") === "true";
-    setDarkMode(storedDarkMode);
 
-    const handleDarkModeChange = () => {
-      setDarkMode(localStorage.getItem("darkMode") === "true");
-    };
 
-    window.addEventListener("darkModeChanged", handleDarkModeChange);
 
-    return () => {
-      window.removeEventListener("darkModeChanged", handleDarkModeChange);
-    };
-  }, []);
 
   const navigate = useNavigate();
 
@@ -114,10 +129,13 @@ function Home() {
   const squareSize = 10; // Change the size of squares as desired
   const maxSquares = 100; // Change the maximum number of squares as desired
 
+  let squareIdCounter = 0;
+
   useEffect(() => {
     if (isPausing) {
       return; // If paused, do not generate squares
     }
+    
     const colors = ["#18d860", "#1e90ff", "#ffdf00"];
     const rows = Math.floor(window.innerHeight / squareSize);
     const columns = Math.floor(window.innerWidth / squareSize);
@@ -135,7 +153,7 @@ function Home() {
       const newSquares = Array.from(
         { length: Math.min(maxSquares, totalCells) },
         (_, index) => ({
-          id: index,
+          id: 'null',
           color: generateRandomColor(),
           position: generateRandomCellPosition(),
         })
@@ -172,7 +190,7 @@ function Home() {
     event.preventDefault(); // Prevents the context menu from appearing
   };
 
-  console.log(location.state);
+  //console.log(location.state);
   return (
     <div className={agreeCookieNotice ? "appHeader" : "appHeader filter"}>
       {squares.map((square) => (
@@ -233,7 +251,6 @@ function Home() {
         <img
           alt=""
           src={fullLogo}
-          style={{}}
           className="fulllogoDiv"
           title="Home"
           onContextMenu={(event) => event.preventDefault()}
@@ -287,6 +304,8 @@ function Home() {
           />
         </span>
       </div>
+
+      
 
       <Footer />
     </div>

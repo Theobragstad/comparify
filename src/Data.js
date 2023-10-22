@@ -149,7 +149,7 @@ function Data() {
         stream: true,
       });
       //response.data.choices[0].message.content
-      console.log("response", response);
+      console.log("response", response.data);
       setApiResponse(response.data.choices[0].message.content);
     } catch (error) {
       console.log(error);
@@ -1386,6 +1386,7 @@ function Data() {
             WebkitUserDrag: "none",
           }}
           title="Home"
+          className="blackbg"
           onContextMenu={(event) => event.preventDefault()}
         />
       </Link>
@@ -2803,6 +2804,8 @@ function Data() {
                               // border: "1px solid #ff0000",
                               backgroundColor: "#ffeded",
                               color: "#ff0000",
+                              isolation: "isolate"
+
                             }
                           : twoAudioFeaturesHighestAvgs.includes(feature) &&
                             !twoAudioFeaturesLowestAvgs.includes(feature) &&
@@ -2811,6 +2814,7 @@ function Data() {
                               // border: "1px solid #17d475",
                               backgroundColor: "#e8fcec",
                               color: "#17d475",
+                              isolation: "isolate"
                             }
                           : null
                       }
@@ -2830,6 +2834,7 @@ function Data() {
                               // border: "1px solid #ff0000",
                               backgroundColor: "#ffeded",
                               color: "#ff0000",
+                              isolation: "isolate"
                             }
                           : twoAudioFeaturesHighestStdDevs.includes(feature) &&
                             !twoAudioFeaturesLowestStdDevs.includes(feature) &&
@@ -2838,6 +2843,7 @@ function Data() {
                               // border: "1px solid #17d475",
                               backgroundColor: "#e8fcec",
                               color: "#17d475",
+                              isolation: "isolate"
                             }
                           : null
                       }
