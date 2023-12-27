@@ -1,7 +1,6 @@
 - [ ] Snap message post (info, feedback, etc)
 - [ ] Homepage scroll
 - [ ] Waitlist give more info and guidelines
-- [ ] Handle requests
 - [ ] Ensure non-verified users cannot login
 - [ ] Update help page
 - [ ] Email JS premium (anticipate demand)
