@@ -1,5 +1,8 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Analytics } from '@vercel/analytics/react';
+
+
 import "./App.css";
 
 import Home from "./Home";
@@ -26,6 +29,8 @@ function App() {
         {/* <Route path="/:)" element={<Animation />} /> */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Analytics />
+
     </div>
   );
 }
