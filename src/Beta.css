@@ -123,6 +123,8 @@
   transition: opacity 0.3s;
   opacity: 1;
 
+  margin-bottom: -50px !important;
+  margin-top: 20px !important;
 
 
   background-color:#e8fcec; color:#17d475;}
@@ -149,8 +151,8 @@
   font-weight: bold;
   color: gray;
 
-  padding: 2px 5px;
-  font-size: 14px;
+  padding: 2px 10px;
+  font-size: 32px;
   width: fit-content;
   margin: 0 auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -178,3 +180,30 @@
   width: 8px;
   margin-right: 10px;
 }
+
+
+
+.darkmode--activated .fulllogoDiv {
+  background-color: black;
+}
+
+/* 
+.info1, .info2, .info3, .info4 {
+  opacity: 0;
+}
+
+.info1 {
+  animation: fadeIn 0.25s 0.5s forwards;
+}
+
+.info2 {
+  animation: fadeIn 0.25s 1.5s forwards;
+}
+
+.info3 {
+  animation: fadeIn 0.25s 2.5s forwards;
+}
+
+.info4 {
+  animation: fadeIn 0.25s 3.5s forwards;
+} */

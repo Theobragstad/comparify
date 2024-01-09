@@ -16,8 +16,12 @@
 - [ ] Client-side code
 - [ ] Dark mode
 - [ ] Errors in console
+- [ ] Clean up code-more components, more css, better structure, delete commmenrts, refactor, algs simplify/improve
 - [ ] Fix genres spacing
 - [ ] Check logins with other users!!!
+- [ ] env variables!!!
+- [ ] Dark mode btn smaller
+- [ ] Waitlisr page submit btn padding footer etc
 - [ ] Fix song release panel
 - [ ] Fix security vulnerabilities
 - [ ] Clean up code
@@ -112,7 +116,7 @@
 - [ ] Cache opened things so no request repeated.
 - [ ] Page loadings
 - [ ] Scrolling
-- [ ] Dark mode no reload
+- [ ] Dark mode no reload, cookies issues
 - [ ] Play song loading time notice
 - [ ] Button to expand each section
 - [ ] Your data padding
@@ -123,6 +127,7 @@
 - [ ] Names longer cut off
 - [ ] Song paddings
 - [ ] Logout btn
+- [ ] Analytics speed insights
 - [ ] Tooltip can't close off
 - [ ] API costs and limits
 - [ ] Help modal tips section, add modal notice
@@ -214,6 +219,7 @@
 - [ ] Slow audio and loading
 - [ ] Loading speeds, music, etc
 - [ ] Code upload validity
+- [ ] Time period sliding selector
 - [ ] Song format cards
 - [ ] More data page spacing
 - [ ] Large screen sizing

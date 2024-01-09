@@ -30,6 +30,8 @@ import arrowDown from "./img/downBtn.png";
 import spotifysmall from "./img/spotifysmall.png";
 import greenArrow from "./img/greenArrow.png";
 import fullLogo from "./img/fullLogo.png";
+
+
 const { Configuration, OpenAIApi } = require("openai");
 
 function Data() {
@@ -154,7 +156,7 @@ function Data() {
     } catch (error) {
       console.log(error);
       setApiResponse(
-        "ChatGPT error. This is likely a rate limit. Try again in a minute or so."
+        "ChatGPT error. Try again. "
       );
       setGptLoading(false);
     }
@@ -1713,6 +1715,7 @@ function Data() {
                         onContextMenu={(event) => event.preventDefault()}
                         alt=""
                         src={popoutIcon}
+                        className="popoutIcon"
                         style={{
                           width: "10px",
                           marginLeft: "20px",
@@ -1720,6 +1723,7 @@ function Data() {
                           cursor: "ne-resize",
                           pointerEvents: "all",
                           verticalAlign: "middle",
+                          opacity: "0.5",
                         }}
                       />
                     </span>
@@ -1811,6 +1815,8 @@ function Data() {
                   onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={popoutIcon}
+                  className="popoutIcon"
+                  title="View full list"
                   style={{
                     width: "10px",
                     marginLeft: "20px",
@@ -1818,6 +1824,7 @@ function Data() {
                     cursor: "pointer",
                     pointerEvents: "all",
                     verticalAlign: "middle",
+                    opacity: "0.5",
                   }}
                   onClick={() => setShowAllGenres(true)}
                 />
@@ -1866,6 +1873,8 @@ function Data() {
                   onContextMenu={(event) => event.preventDefault()}
                   alt=""
                   src={x}
+                  className="grayHoverBlack"
+                  title="View as pie chart"
                   style={{
                     width: "10px",
                     marginLeft: "20px",
@@ -2783,11 +2792,13 @@ function Data() {
                         onContextMenu={(event) => event.preventDefault()}
                         alt=""
                         src={popoutIcon}
+                        className="popoutIcon"
                         style={{
                           width: "10px",
                           marginLeft: "10px",
                           cursor: "ne-resize",
                           pointerEvents: "all",
+                          opacity: "0.5",
                         }}
                       />
                     </span>
@@ -3097,13 +3108,30 @@ function Data() {
               </>
             )}
           </div>
+         
+         
+
+
+           
+
+
         </div>
+       
         {!gptLoading && (
           <>
+          <span>
+            <button className="gptX" onClick={closeModal}>
+              <img
+                src={x}
+                style={{ width: "15px" }}
+                alt="x"
+              ></img>
+            </button>
+          </span>
             <div style={{ marginTop: "-30px" }}>
-              <button className="closeBtn" onClick={closeModal}>
+              {/* <button className="closeBtn" onClick={closeModal}>
                 Close
-              </button>
+              </button> */}
               <button
                 className="saveImg2"
                 onClick={handleConvertToImage}
@@ -3136,7 +3164,6 @@ function Data() {
             alt=""
             src={x}
             style={{ width: "10px" }}
-            title="Close"
           ></img>
         </button>
         <h2 className="">
@@ -3222,7 +3249,9 @@ function Data() {
         isCoverArtModalOpen={isCoverArtModalOpen}
         closeCoverArtModal={closeCoverArtModal}
       />
-      {/* <Footer /> */}
+      <div style={{}}>
+      <Footer />
+      </div>
     </div>
   );
 }

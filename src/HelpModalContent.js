@@ -62,7 +62,7 @@ const HelpModalContent = () => {
         {/* <div style={{position:'relative',width:'10px',height:'10px',top:'-55px',left:'50px',zIndex:'0'}}>
         <Animation/></div> */}
         <div style={{ fontWeight: "bold", fontSize: "13px", color: "gray" }}>
-          comparify is in beta. Only select users can log in. Fill out the{" "}
+          comparify is in beta mode. Only select users can log in. Fill out the{" "}
           <Link
             to="/waitlist"
             style={{
@@ -70,11 +70,11 @@ const HelpModalContent = () => {
               fontWeight: "bold",
               color: "#1e90ff",
             }}
-            title="Request beta access"
+            title="Join the waitlist"
           >
             form
           </Link>{" "}
-          to join the waitlist.
+          to join the waitlist to be notified when space becomes available.
         </div>
         {/* <img src={logo} style={{width:'50px'}} className="pulse"/> */}
         {isHowToUseExpanded ? (
@@ -249,7 +249,7 @@ const HelpModalContent = () => {
             onClick={toggleHowItWorks}
             title="Collapse section"
           >
-            How it works + more info{" "}
+            How it works and more info{" "}
             <span>
               <img
                 src={downBtn}
@@ -264,7 +264,7 @@ const HelpModalContent = () => {
             onClick={toggleHowItWorks}
             title="Expand section"
           >
-            How it works + more info{" "}
+            How it works and more info{" "}
             <span>
               <img
                 src={sideArrowRight}
@@ -427,7 +427,7 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Collapse section"
           >
-            Privacy/policy/data/cookie info{" "}
+            Privacy, policies, data, and cookies{" "}
             <span>
               <img
                 src={downBtn}
@@ -443,7 +443,7 @@ const HelpModalContent = () => {
             onClick={togglePrivacy}
             title="Expand section"
           >
-            Privacy/policy/data/cookie info{" "}
+            Privacy, policies, data, and cookies{" "}
             <span>
               <img
                 src={sideArrowRight}

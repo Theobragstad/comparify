@@ -165,7 +165,7 @@ const Footer = () => {
           </Link> */}
           {/* &emsp; */}
           &copy; 
-          2023&emsp;&emsp;
+          2024&emsp;&emsp;
         </span>
         <span data-tooltip-id="infoTooltip" className="hoverGray">
           About
@@ -192,12 +192,11 @@ const Footer = () => {
           <div>
             comparify uses a variety of data points from multiple time spans to
             generate a code based on your Spotify
-            listening activity, which you can then use to explore and compare your music.
+            listening activity, which you can then use to explore and compare your music. See the help menu for more info.
             <div style={{ paddingTop: "10px" }}>
               Made by
               <a
                 className="link darkenHover"
-                title="theobragstad.com"
                 href="https://theobragstad.com"
                 style={{backgroundColor:'white',borderRadius:'10px',color:'#1e90ff',padding:'3px 6px',marginLeft:'5px'}}
               >
@@ -222,7 +221,6 @@ const Footer = () => {
                 src={x}
                 style={{ width: "15px" }}
                 alt="x"
-                title="Close"
               ></img>
             </button>
           </span>

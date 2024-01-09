@@ -6,6 +6,7 @@ import Animation from "./Animation";
 import Footer from "./Footer";
 import x from "./img/x.png";
 import fullLogo from "./img/fullLogo.png";
+import spotify from "./img/spotifysmall.png";
 
 import Cookies from "js-cookie";
 
@@ -192,7 +193,7 @@ function Home() {
 
   //console.log(location.state);
   return (
-    <div className={agreeCookieNotice ? "appHeader" : "appHeader filter"}>
+    <div className={agreeCookieNotice ? "appHeader" : "appHeader filter blur"}>
       {squares.map((square) => (
         <div
           key={square.id}
@@ -222,7 +223,6 @@ function Home() {
             comparify uses cookies. See the help page for more info.
           </div>
           <button
-            title="Dismiss"
             className="cookieNoticeClose"
             onClick={handleCookieNoticeClose}
           >
@@ -280,9 +280,9 @@ function Home() {
           className="primaryBtn"
           style={{ marginRight: "20px" }}
           onClick={handleClickBETA}
-          title="Join waitlist"
+          title="Join the waitlist"
         >
-          join waitlist{" "}
+          waitlist{" "}
           <img
             alt=""
             src={rightArrow}
@@ -293,9 +293,15 @@ function Home() {
         <span
           className="primaryBtn"
           onClick={handleClick}
-          title="Authorized user login"
+          title="Spotify login"
         >
-          authorized users{" "}
+          <img
+            alt=""
+            src={spotify}
+            style={{ width: "15px", verticalAlign: "middle" , backgroundColor:'white',borderRadius:'50%'}}
+            onContextMenu={(event) => event.preventDefault()}
+          />
+          {" "}login{" "}
           <img
             alt=""
             src={rightArrow}
@@ -306,8 +312,9 @@ function Home() {
       </div>
 
       
-
+<div style={{position:'absolute',bottom:'0px'}}>
       <Footer />
+      </div>
     </div>
   );
 }

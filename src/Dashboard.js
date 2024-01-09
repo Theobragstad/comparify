@@ -1094,7 +1094,6 @@ function Code() {
             borderRadius: "20px",
             WebkitUserDrag: "none",
           }}
-          title="Home"
           onContextMenu={(event) => event.preventDefault()}
           draggable={false}
         />
@@ -1115,7 +1114,6 @@ function Code() {
       <div className="cardOverlay" style={{ background: "white" }}>
         <div className="homeBtnDiv">
           <button
-            title="Home"
             className="homeBtn"
             onClick={logout}
             data-tooltip-id="codePageTooltip1"
@@ -1132,7 +1130,6 @@ function Code() {
           </button>
 
           <button
-            title="Switch user"
             className="homeBtn"
             onClick={switchUser}
             data-tooltip-id="codePageTooltip1"
@@ -1183,9 +1180,8 @@ function Code() {
           {!loadingDownload ? (
             <button
               onClick={downloadCode}
-              className="basicBtn downloadCodeBtnCodePage "
+              className="basicBtn downloadCodeBtnCodePage pop"
               // data-tooltip-id="codePageTooltip1"
-              title="Download your code for sharing"
               disabled={
                 loadingDownload ||
                 loadingView ||
@@ -1231,9 +1227,8 @@ function Code() {
         >
           {!loadingView ? (
             <button
-              className="basicBtn padded"
+              className="basicBtn padded viewdatabtn pop"
               // data-tooltip-id="codePageTooltip1"
-              title="View your data by itself"
               disabled={
                 loadingView ||
                 loadingDownload ||
@@ -1258,7 +1253,7 @@ function Code() {
                 alt=""
                 onContextMenu={(event) => event.preventDefault()}
               />
-              <span style={{ marginLeft: "5px" }}>view your data</span>
+              <span style={{ marginLeft: "5px" }} className="viewtxt">view your data</span>
             </button>
           ) : (
             <div className="loadingDots">
@@ -1349,7 +1344,6 @@ function Code() {
           <span className="codeDiv">
             {!loadingCompare1 && (
               <span
-                title="Submit"
                 className={
                   loadingDownload || loadingView || !file2
                     ? "submitBtn disabled padded"
@@ -1360,12 +1354,17 @@ function Code() {
                   toComparePage1();
                 }}
               >
-                submit &#8594;
+                submit <img
+            alt=""
+            src={arrow}
+            className="arrow"
+            style={{ width: "15px", verticalAlign: "middle" }}
+            onContextMenu={(event) => event.preventDefault()}
+          />
               </span>
             )}
             {loadingCompare1 && (
               <button
-                title="Submit"
                 className="submitBtnWhite"
                 disabled={!file2}
                 onClick={() => {
@@ -1474,7 +1473,13 @@ function Code() {
               }}
               style={{}}
             >
-              submit &#8594;
+              submit<img
+            alt=""
+            src={arrow}
+            className="arrow"
+            style={{ width: "15px", verticalAlign: "middle" }}
+            onContextMenu={(event) => event.preventDefault()}
+          />
             </span>
           )}
           {loadingCompare2 && (
@@ -1502,7 +1507,9 @@ function Code() {
           clickable
         />
       </div>
-      {/* <Footer /> */}
+      <div style={{position:'absolute', bottom:'0px', left: '50%',
+  transform: 'translateX(-50%)'}}><Footer /></div>
+      
     </div>
   );
 }

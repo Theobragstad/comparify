@@ -1,6 +1,7 @@
 body {
   margin: 0;
   z-index: 1;
+  user-select: none;
 }
 html,
 body,
@@ -12,6 +13,18 @@ body,
 .App {
   text-align: center;
 }
+
+
+.pop:hover {
+  transform: scale(1.1);
+  filter: brightness(100%) !important;
+}
+
+.pop {
+  transition: transform 0.4s
+}
+
+
 
 .viewToggle {
   border: none;
@@ -220,10 +233,13 @@ body,
   font-weight: bold;
   border: 1px solid #1ed760;
   padding: 2px 5px;
-  transition: transform 0.4s;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: filter .4s !important;
   margin-left: 2vw;
   margin-top: 2vh;
+}
+
+.submitBtn.disabled > .arrow{
+  opacity: 0.5;
 }
 .submitBtn.disabled,
 .basicBtn:disabled {
@@ -311,8 +327,19 @@ body,
   background-color: black;
 }
 
+
+/* .darkmode--activated .App {
+  filter:brightness(0.9) !important
+} */
+
+
 .darkmode--activated .blackbg {
   background-color: black !important;
+}
+
+.darkmode--activated .footer {
+  background-color: black !important;
+  color:white;
 }
 
 
@@ -340,21 +367,34 @@ body,
 }
 
 .footer {
-  /* width: 300px; */
   padding: 10px;
   font-weight: bold;
   font-family: gothamMedium;
-
+  border-radius: 10px;
   font-size: 12px;
   margin: 20px auto 5px auto;
-  /* border-radius: 20px; */
-  position: fixed;
-  bottom: 0px;
+  /* position: fixed; */
+  position: relative;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  background-color: white;
 }
+
+
+.popoutIcon:hover {
+  opacity: 1 !important;
+}
+
+
+.grayHoverBlack {
+  opacity: 0.5;
+}
+
+.grayHoverBlack:hover {
+  opacity: 1;
+}
+
 
 .basicBtn {
   background-color: #e6f6fe;
@@ -2034,16 +2074,19 @@ opacity: 0;
 
 
 
-
-/* .filter > *:not(.cookieNotice){
-  position: absolute;
-left: 0px;
-top: 0px;
-right:0px;
-bottom:0px;
-    filter: blur(3px);
+/* 
+.blur > *:not(.cookieNotice){
+ 
+    filter: blur(2px);
 }
- */
+
+.blur  .fulllogoDiv {
+  position: relative;
+
+  left:-335%;
+  top:-635%;
+} */
+
 
 
 
@@ -2111,22 +2154,54 @@ bottom:0px;
 }
 
 .xBtn {
-  border-radius: 50%;
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  height: fit-content;
-  padding: 4px;
-  background-color: white;
+  background-color: inherit;
   position: relative;
-  left: 99%;
-  top: -12px;
+  left: 95%;
+  opacity: 0.5;
+
 }
 .xBtn:hover {
-  background-color: #f3f3f3;
-  border-radius: 50%;
-  padding: 4px;
+  /* background-color: #f3f3f3; */
+  /* 
+  
+  padding: 4px; */
+  opacity: 1;
 }
+
+
+
+
+
+
+
+
+
+.gptX {
+  border: none;
+  cursor: pointer;
+  background-color: inherit;
+  position: absolute;
+  opacity: 0.5;
+  top:15px;
+  right:15px;
+
+}
+
+.gptX:hover {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
 
 .xBtn2 {
   border-radius: 10px;
@@ -2498,6 +2573,8 @@ opacity:1
   filter: brightness(90%);
 
 }
+
+
 
 .padded {
   padding:10px !important;

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import emailjs from "@emailjs/browser";
 
@@ -52,22 +52,22 @@ function Beta() {
     const updatedEmails = [...emails];
     updatedEmails[index] = value;
     setEmails(updatedEmails);
-  
+
     const updatedEmailValidity = [...emailValidity];
     updatedEmailValidity[index] = value.trim() === "" || validateEmail(value);
     setEmailValidity(updatedEmailValidity);
-  
+
     const emailOccurrences = updatedEmails.reduce((occurrences, email) => {
       occurrences[email] = (occurrences[email] || 0) + 1;
       return occurrences;
     }, {});
-  
+
     updatedEmails.forEach((email, i) => {
       const inputElement = document.getElementById(`emailInput-${i}`);
       if (inputElement) {
         const isDuplicate = emailOccurrences[email] > 1;
         const isValidFormat = validateEmail(email);
-        
+
         if (email.trim() !== "") {
           if (isDuplicate || !isValidFormat) {
             inputElement.classList.remove("valid");
@@ -84,16 +84,12 @@ function Beta() {
       }
     });
   };
-  
-  
-  
 
   const validateEmail = (email) => {
     // Regular expression to validate email format
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
     return emailRegex.test(email);
-};
-
+  };
 
   const isFormValid = () => {
     // Check for duplicates
@@ -164,10 +160,7 @@ function Beta() {
         process.env.REACT_APP_EMAILJS_SERVICE_ID,
         process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         emailObject,
-        process.env.REACT_APP_EMAILJS_KEY,
-       
-       
-        
+        process.env.REACT_APP_EMAILJS_KEY
       )
       .then(
         (result) => {},
@@ -196,10 +189,13 @@ function Beta() {
   }, []);
 
   return (
-    <div className={darkMode && "dark"} style={{height:'100vh',  fontFamily: 'gothamMedium',
-  }}>
+    <div
+      className={darkMode && "dark"}
+      style={{ height: "100vh", fontFamily: "gothamMedium" }}
+    >
       <Link to="/">
-        <img draggable={false}
+        <img
+          draggable={false}
           alt=""
           src={fullLogo}
           style={{
@@ -207,31 +203,41 @@ function Beta() {
             position: "absolute",
             top: "10px",
             left: "10px",
-            backgroundColor: "white",
+            
             padding: "4px",
             borderRadius: "20px",
             webkitUserDrag: "none",
           }}
-          title="Home"
           onContextMenu={(event) => event.preventDefault()}
         />
       </Link>
 
       <div className="" style={{ overflow: "hidden" }}>
         <div className="title">
-          <div className="beta">add emails to the waitlist</div>
+          <div className="beta">waitlist</div>
           <div className="info">
-            <img draggable={false} onContextMenu={(event) => event.preventDefault()} src={arrow1} className="arrow" alt="Arrow" ></img>
-            Enter up to 5 emails (you + family + friends)
+            <span className="info1">
+            <span style={{ fontSize: "20px" }}>1. </span>
+            enter up to 5 emails (you + family + friends)
             <br /> <br />
-            <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
-            Make sure they match their Spotify accounts
+            </span>
+
+            <span className="info2">
+            <span style={{ fontSize: "20px" }}>2. </span>
+            make sure the emails match each person's Spotify account login
             <br /> <br />
-            <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
-            Users will be added in these groups so you can try together
+            </span>
+
+            <span className="info3">
+            <span style={{ fontSize: "20px" }}>3. </span>
+            users will be added in these groups so you can try together
             <br /> <br />
-            <img draggable={false} src={arrow1} className="arrow" alt="Arrow" onContextMenu={(event) => event.preventDefault()}></img>
-            We will contact the group when it has access
+            </span>
+
+            <span className="info4">
+            <span style={{ fontSize: "20px" }}>4. </span>
+            we will contact the group when it has access
+            </span>
           </div>
         </div>
       </div>
@@ -241,7 +247,6 @@ function Beta() {
           ref={form}
           className={darkMode ? "emailForm dark" : "emailForm"}
           onSubmit={handleSubmit}
-          title="Submit"
         >
           {emails.map((email, index) => (
             <div key={index} className="emailInput">
@@ -261,32 +266,50 @@ function Beta() {
               <button
                 type="submit"
                 className={
-                  !isFormValid() ? "submitFormBtn disabled padded" : "submitFormBtn padded"
+                  !isFormValid()
+                    ? "submitFormBtn disabled padded"
+                    : "submitFormBtn padded"
                 }
                 disabled={!isFormValid()}
               >
                 submit{" "}
-                <img draggable={false} src={arrow2} className="submitArrow" alt="Submit arrow" onContextMenu={(event) => event.preventDefault()}/>
+                <img
+                  draggable={false}
+                  src={arrow2}
+                  className="submitArrow"
+                  alt="Submit arrow"
+                  onContextMenu={(event) => event.preventDefault()}
+                />
               </button>
             </div>
           ) : (
-            
-            <div style={{marginTop: '40px'}}>
-            <span className="submitted">
-            
-              <img draggable={false} src={greenCheck} alt="Green check" onContextMenu={(event) => event.preventDefault()}/>
-              <span> Submitted!</span> Notifications will be sent when access
-              becomes available.
-            </span>
+            <div style={{ marginTop: "40px" }}>
+              <span className="submitted">
+                <img
+                  draggable={false}
+                  src={greenCheck}
+                  alt="Green check"
+                  onContextMenu={(event) => event.preventDefault()}
+                />
+                <span> Submitted!</span> Notifications will be sent when access
+                becomes available.
+              </span>
             </div>
           )}
         </form>
       </div>
-      <span className="gray padded" onClick={() => navigate("/")} title="Home">
-        <img draggable={false} src={arrow2} alt="homeArrow" className="homeArrow" onContextMenu={(event) => event.preventDefault()}/> home
-      </span>
-
-      {/* <Footer /> */}
+      {/* <span className="gray padded" onClick={() => navigate("/")} >
+        <img
+          draggable={false}
+          src={arrow2}
+          alt="homeArrow"
+          className="homeArrow"
+          onContextMenu={(event) => event.preventDefault()}
+        />{" "}
+        home
+      </span> */}
+<div style={{marginTop:'29px'}}>
+      <Footer /></div>
     </div>
   );
 }
