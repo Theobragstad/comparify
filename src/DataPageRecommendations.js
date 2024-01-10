@@ -666,7 +666,6 @@ const DataPageRecommendations = (props) => {
             ) : (
               // Default content
               <button
-                title="Add to your Spotify library"
                 className="addToSpotifyBtn"
                 onClick={() =>
                   addPlaylist(
@@ -794,7 +793,6 @@ const DataPageRecommendations = (props) => {
               </span>
             ) : (
               <button
-                title="Add to your Spotify library"
                 className="addToSpotifyBtn"
                 onClick={() =>
                   addPlaylist(

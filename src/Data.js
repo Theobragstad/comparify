@@ -1387,7 +1387,6 @@ function Data() {
             borderRadius: "20px",
             WebkitUserDrag: "none",
           }}
-          title="Home"
           className="blackbg"
           onContextMenu={(event) => event.preventDefault()}
         />
@@ -1458,7 +1457,6 @@ function Data() {
                 marginLeft: "3px",
               }}
               className="darkenHover"
-              title="Open your Spotify profile"
             >
               <img
                 draggable={false}
@@ -1526,7 +1524,6 @@ function Data() {
                 marginTop: "10px",
                 marginLeft: "-3px",
               }}
-              title="Get music recommendations"
             >
               Get recommendations
             </div>
@@ -1543,7 +1540,6 @@ function Data() {
                 marginTop: "20px",
                 marginLeft: "-2px",
               }}
-              title="See more data"
             >
               More data{" "}
               <img
@@ -1564,7 +1560,7 @@ function Data() {
 
       <div className="navBtnContainer">
         <div className="leftNavBtnContainer">
-          <Link to="/dashboard" title="Dashboard">
+          <Link to="/dashboard" >
             <button className="leftNavBtn">
               <img
                 draggable={false}
@@ -3135,7 +3131,6 @@ function Data() {
               <button
                 className="saveImg2"
                 onClick={handleConvertToImage}
-                title="Download image"
               >
                 <img
                   draggable={false}

@@ -2045,7 +2045,6 @@ function Compare() {
             borderRadius: "20px",
             webkitUserDrag: "none",
           }}
-          title="Home"
          
         />
       </Link>
@@ -2447,7 +2446,6 @@ function Compare() {
               }
               style={{ textDecoration: "none", color: "#18d860" }}
               className="darkenHover"
-              title="Open your Spotify profile"
             >
               <img
         draggable={false}
@@ -2506,7 +2504,6 @@ function Compare() {
               className="recommendationsBtn"
               onClick={openRecModal}
               style={{ fontSize: "13px", marginTop: "20px" }}
-              title="Get music recommendations"
             >
               Get recommendations
             </div>
@@ -2516,7 +2513,6 @@ function Compare() {
               onClick={gameModalState.openGameModal}
     
               style={{ fontSize: "13px", marginTop: "20px" }}
-              title="See how well you know each other's music"
             >
               Play{" "}
               <img
@@ -2560,7 +2556,6 @@ function Compare() {
                         : "image viewToggle"
                     }
                     onClick={() => handleClick(1)}
-                    title="See shared view"
                     style={{}}
                   >
                     <img
@@ -7107,7 +7102,6 @@ function Compare() {
               <button
                 className="saveImg2"
                 onClick={handleConvertToImageGPT}
-                title="Download image"
               >
                 <img
         draggable={false}

@@ -584,7 +584,6 @@ const MoreData = () => {
           pointerEvents: "all",
           cursor: "pointer",
         }}
-        title="Home"
       />
         <div
           className="titleDiv"
@@ -603,7 +602,6 @@ const MoreData = () => {
                 state: { data: location.state.data, token: token },
               })
             }
-            title="Your data"
           >
              <img alt="" src={rightArrow} style={{   
 width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back

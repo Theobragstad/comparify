@@ -419,7 +419,6 @@ const [nonblendURL, setNonblendURL] = useState(false)
               </span>
             ) : (
               <button
-                title="Add to your Spotify library"
                 className="addToSpotifyBtn"
                 onClick={() =>
                   addPlaylist(
@@ -524,7 +523,6 @@ const [nonblendURL, setNonblendURL] = useState(false)
               </span>
             ) : (
               <button
-                title="Add to your Spotify library"
                 className="addToSpotifyBtn"
                 onClick={() =>
                   addPlaylist(

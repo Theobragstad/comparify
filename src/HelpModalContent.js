@@ -70,7 +70,6 @@ const HelpModalContent = () => {
               fontWeight: "bold",
               color: "#1e90ff",
             }}
-            title="Join the waitlist"
           >
             form
           </Link>{" "}
@@ -81,7 +80,6 @@ const HelpModalContent = () => {
           <h3
             className="helpSection"
             onClick={toggleHowToUse}
-            title="Collapse section"
           >
             How to use{" "}
             <span>
@@ -96,7 +94,6 @@ const HelpModalContent = () => {
           <h3
             className="helpSection"
             onClick={toggleHowToUse}
-            title="Expand section"
           >
             How to use{" "}
             <span>
@@ -134,7 +131,6 @@ const HelpModalContent = () => {
           <h5
             className="helpSection"
             onClick={toggleTroubleshooting}
-            title="Collapse section"
           >
             Troubleshooting{" "}
             <span>
@@ -149,7 +145,6 @@ const HelpModalContent = () => {
           <h5
             className="helpSection"
             onClick={toggleTroubleshooting}
-            title="Expand section"
           >
             Troubleshooting{" "}
             <span>
@@ -247,7 +242,6 @@ const HelpModalContent = () => {
           <h5
             className="helpSection"
             onClick={toggleHowItWorks}
-            title="Collapse section"
           >
             How it works and more info{" "}
             <span>
@@ -262,7 +256,6 @@ const HelpModalContent = () => {
           <h5
             className="helpSection"
             onClick={toggleHowItWorks}
-            title="Expand section"
           >
             How it works and more info{" "}
             <span>
@@ -425,7 +418,6 @@ const HelpModalContent = () => {
           <h5
             className="helpSection"
             onClick={togglePrivacy}
-            title="Collapse section"
           >
             Privacy, policies, data, and cookies{" "}
             <span>
@@ -441,7 +433,6 @@ const HelpModalContent = () => {
           <h5
             className="helpSection"
             onClick={togglePrivacy}
-            title="Expand section"
           >
             Privacy, policies, data, and cookies{" "}
             <span>
@@ -551,7 +542,7 @@ const HelpModalContent = () => {
               </li>
               <br></br>
               <li>
-                <b>Note that comparify is not affiliated with Spotify.</b>
+                <b>comparify is not affiliated with Spotify.</b>
               </li>
               <br></br>
               <h3>Cookies</h3>
@@ -592,7 +583,6 @@ const HelpModalContent = () => {
           <a
             style={{ textDecoration: "none", color: "#1e90ff" }}
             href="mailto:contact@comparify.app"
-            title="Email us"
           >
             contact@comparify.app
           </a>

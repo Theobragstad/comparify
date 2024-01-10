@@ -626,7 +626,6 @@ const Game = (props) => {
                   // onClick={() => setStartClicked(true)}
                   onClick={() => handleStartGame()}
                   className="startGameBtn"
-                  title="Start game"
                 >
                   <img
                     alt=""

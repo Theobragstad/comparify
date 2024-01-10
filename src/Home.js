@@ -187,9 +187,9 @@ function Home() {
     };
   }, [isPausing]);
 
-  const preventContextMenu = (event) => {
-    event.preventDefault(); // Prevents the context menu from appearing
-  };
+  // const preventContextMenu = (event) => {
+  //   event.preventDefault(); // Prevents the context menu from appearing
+  // };
 
   //console.log(location.state);
   return (
@@ -252,7 +252,6 @@ function Home() {
           alt=""
           src={fullLogo}
           className="fulllogoDiv"
-          title="Home"
           onContextMenu={(event) => event.preventDefault()}
         />
       </Link>
@@ -280,7 +279,6 @@ function Home() {
           className="primaryBtn"
           style={{ marginRight: "20px" }}
           onClick={handleClickBETA}
-          title="Join the waitlist"
         >
           waitlist{" "}
           <img
@@ -293,7 +291,6 @@ function Home() {
         <span
           className="primaryBtn"
           onClick={handleClick}
-          title="Spotify login"
         >
           <img
             alt=""

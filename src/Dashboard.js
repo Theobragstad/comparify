@@ -1208,7 +1208,7 @@ function Code() {
             </button>
           ) : (
             <>
-              <div style={{ height: "25px" }}></div>
+              <div style={{ height: "25px" , marginTop:'25px'}}></div>
               <div className="loadingDots">
                 <div className="loadingDots--dot"></div>
                 <div className="loadingDots--dot"></div>
@@ -1256,7 +1256,7 @@ function Code() {
               <span style={{ marginLeft: "5px" }} className="viewtxt">view your data</span>
             </button>
           ) : (
-            <div className="loadingDots">
+            <div className="loadingDots" style={{marginTop:'30px'}}>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>
               <div className="loadingDots--dot"></div>

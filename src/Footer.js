@@ -175,7 +175,6 @@ const Footer = () => {
           onClick={openFooterModal}
           style={{ cursor: "pointer" }}
           className="hoverGray"
-          title="Open help menu"
         >
           Help
         </span>

@@ -230,7 +230,7 @@ function Beta() {
 
             <span className="info3">
             <span style={{ fontSize: "20px" }}>3. </span>
-            users will be added in these groups so you can try together
+            users will be added in these groups so everyone can try together
             <br /> <br />
             </span>
 

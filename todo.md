@@ -1,9 +1,6 @@
-- [ ] Snap message post (info, feedback, etc)
 - [ ] Homepage scroll
-- [ ] Waitlist give more info and guidelines
 - [ ] Ensure non-verified users cannot login
 - [ ] Update help page
-- [ ] Email JS premium (anticipate demand)
 - [ ] Menu close buttons improve
 - [ ] Ensure API access to other users
 - [ ] Profile photo, name, actual data
@@ -13,7 +10,6 @@
 - [ ] Loading animations, actually apply
 - [ ] Fix content alignments (title and subtitle)
 - [ ] Tooltip arrows
-- [ ] Client-side code
 - [ ] Dark mode
 - [ ] Errors in console
 - [ ] Clean up code-more components, more css, better structure, delete commmenrts, refactor, algs simplify/improve
@@ -37,7 +33,6 @@
 - [ ] Fix footers on pages
 - [ ] Fix ChatGPT
 - [ ] Fix modal sizings (mobile)
-- [ ] Logout on action click if token expired - at every click
 - [ ] Reduce image outputs
 - [ ] This is for another time
 - [ ] Fix more data page spacing
@@ -86,13 +81,12 @@
 - [ ] Filename dates etc
 - [ ] Image saves use prof pic instead of names
 - [ ] 2 Day access, keep a list of those who have already tried it, send emails, what to put for names?
-- [ ] Terms of use
 - [ ] Lazy or partial loading
-- [ ] Btn sizing
 - [ ] Highlight highest in compare page
 - [ ] Ranges audio feature vals
 - [ ] App website icon in the bottom of pics
 - [ ] Padding, scrolling, zooms
+- [ ] Spotify approval
 - [ ] Album recalculation top
 - [ ] Feature modal on compare page
 - [ ] Message padding
@@ -101,14 +95,12 @@
 - [ ] Whitespace on pages below???
 - [ ] Data and compare headers spacing
 - [ ] Scrolltop for errors.
-- [ ] 3D interactive can pull apart
 - [ ] Playlist title, details size limit (100 char)
 - [ ] Blank song in the game
 - [ ] Swipe music discovery, Tinder-like
 - [ ] Game random choosing algo
 - [ ] Time of day
 - [ ] Replaying without asking??
-- [ ] Logouts
 - [ ] Public logo white bg
 - [ ] 3D interaction sizing, do not allow scroll
 - [ ] Allow permissions Spotify
@@ -188,7 +180,6 @@
 - [ ] Image sizings matchings
 - [ ] Genre, pie chart, popularity ranges pie charts
 - [ ] Time of day listen
-- [ ] Top song times played
 - [ ] Playlist cover sizing, names, etc
 - [ ] Number of streams, mins streamed
 - [ ] Compare ranges
