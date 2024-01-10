@@ -191,7 +191,7 @@ const Footer = () => {
           <div>
             comparify uses a variety of data points from multiple time spans to
             generate a code based on your Spotify
-            listening activity, which you can then use to explore and compare your music. See the help menu for more info.
+            listening activity, which you can then use to explore and compare your music. See the help page for more info.
             <div style={{ paddingTop: "10px" }}>
               Made by
               <a
