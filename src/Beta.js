@@ -309,7 +309,8 @@ function Beta() {
         home
       </span> */}
 <div style={{marginTop:'29px'}}>
-      <Footer /></div>
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }
