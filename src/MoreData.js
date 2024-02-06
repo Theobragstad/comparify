@@ -1054,7 +1054,7 @@ width: '15px', verticalAlign: 'middle',transform:'rotate(180deg)'}}/> back
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
 
 
       <Tooltip id="tooltip1" className="tooltip3" noArrow>

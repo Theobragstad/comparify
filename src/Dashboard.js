@@ -1508,7 +1508,9 @@ function Code() {
         />
       </div>
       <div style={{position:'absolute', bottom:'0px', left: '50%',
-  transform: 'translateX(-50%)'}}><Footer /></div>
+  transform: 'translateX(-50%)'}}>
+    {/* <Footer /> */}
+    </div>
       
     </div>
   );

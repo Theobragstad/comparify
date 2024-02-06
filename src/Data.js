@@ -3245,7 +3245,7 @@ function Data() {
         closeCoverArtModal={closeCoverArtModal}
       />
       <div style={{}}>
-      <Footer />
+      {/* <Footer /> */}
       </div>
     </div>
   );
